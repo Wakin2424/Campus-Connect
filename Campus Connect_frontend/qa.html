@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ask & Answer Questions - Campus Connect</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/qa.css">
+    <link rel="stylesheet" href="css/nav.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header" id="header">
+      <!--Generated dynamically by js-->  
+    </header>
+
+    <!-- Main Content -->
+    <main class="container">
+        <!-- Page Header -->
+        <div class="page-header">
+            <h1 class="page-title">Ask & Answer Questions</h1>
+            <button class="btn-ask" id="askBtn">
+                <i class="fas fa-plus"></i>
+                Ask a Question
+            </button>
+        </div>
+
+        <!-- Question Form -->
+        <div class="question-form" id="questionForm">
+            <h2 style="color: #0D1B2A; margin-bottom: 1.5rem; font-size: 1.3rem;">Submit Your Question</h2>
+            <form id="submitForm">
+                <div class="form-group">
+                    <label for="questionTitle">Question Title *</label>
+                    <input type="text" id="questionTitle" name="title" placeholder="What's your question?" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="questionDesc">Question Description *</label>
+                    <textarea id="questionDesc" name="description" placeholder="Provide more details about your question..." required></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="questionCategory">Category</label>
+                    <select id="questionCategory" name="category">
+                        <option value="">Select a category</option>
+                        <option value="academics">Academics</option>
+                        <option value="programming">Programming</option>
+                        <option value="mathematics">Mathematics</option>
+                        <option value="science">Science</option>
+                        <option value="literature">Literature</option>
+                        <option value="general">General</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="questionTags">Tags (optional)</label>
+                    <input type="text" id="questionTags" name="tags" placeholder="e.g., calculus, programming, biology">
+                </div>
+                
+                <div class="form-actions">
+                    <button type="button" class="btn-secondary" id="cancelBtn">Cancel</button>
+                    <button type="submit" class="btn-primary">Submit Question</button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Main Layout -->
+        <div class="main-layout">
+            <!-- Questions Section -->
+            <div class="questions-section">
+                <div class="filter-bar">
+                    <div class="filter-buttons">
+                        <button class="filter-btn active">Latest</button>
+                        <button class="filter-btn">Most Answered</button>
+                        <button class="filter-btn">Unanswered</button>
+                    </div>
+                    <div class="questions-count">145 questions</div>
+                </div>
+
+                <!-- Questions List -->
+                <div class="questions-list" id="questionsList">
+                    <!-- Question 1 -->
+                    <div class="question-card" data-question="1">
+                        <a href="#" class="question-title">Can someone explain the concept of Big O notation in algorithms?</a>
+                        <p class="question-preview">I'm studying for my data structures exam and I'm having trouble understanding Big O notation. Could someone explain it in simple terms with examples?</p>
+                        <div class="question-meta">
+                            <div class="question-stats">
+                                <div class="stat">
+                                    <i class="fas fa-comments"></i>
+                                    <span>5 Answers</span>
+                                </div>
+                                <div class="stat">
+                                    <i class="fas fa-eye"></i>
+                                    <span>23 Views</span>
+                                </div>
+                            </div>
+                            <div class="question-author">Asked by Sarah M. • 2 hours ago</div>
+                        </div>
+                        <div class="tags">
+                            <span class="tag">Programming</span>
+                            <span class="tag">Algorithms</span>
+                        </div>
+                    </div>
+
+                    <!-- Question 2 -->
+                    <div class="question-card" data-question="2">
+                        <a href="#" class="question-title">How do I solve integration by parts problems?</a>
+                        <p class="question-preview">I'm struggling with calculus integration by parts. What's the best approach to identify when to use this method?</p>
+                        <div class="question-meta">
+                            <div class="question-stats">
+                                <div class="stat">
+                                    <i class="fas fa-comments"></i>
+                                    <span>3 Answers</span>
+                                </div>
+                                <div class="stat">
+                                    <i class="fas fa-eye"></i>
+                                    <span>18 Views</span>
+                                </div>
+                            </div>
+                            <div class="question-author">Asked by John D. • 4 hours ago</div>
+                        </div>
+                        <div class="tags">
+                            <span class="tag">Mathematics</span>
+                            <span class="tag">Calculus</span>
+                        </div>
+                    </div>
+
+                    <!-- Question 3 -->
+                    <div class="question-card" data-question="3">
+                        <a href="#" class="question-title">What's the difference between mitosis and meiosis?</a>
+                        <p class="question-preview">I keep getting confused between these two cellular processes. Can someone break down the key differences?</p>
+                        <div class="question-meta">
+                            <div class="question-stats">
+                                <div class="stat">
+                                    <i class="fas fa-comments"></i>
+                                    <span>7 Answers</span>
+                                </div>
+                                <div class="stat">
+                                    <i class="fas fa-eye"></i>
+                                    <span>45 Views</span>
+                                </div>
+                            </div>
+                            <div class="question-author">Asked by Emma L. • 6 hours ago</div>
+                        </div>
+                        <div class="tags">
+                            <span class="tag">Biology</span>
+                            <span class="tag">Cell Biology</span>
+                        </div>
+                    </div>
+
+                    <!-- Question 4 -->
+                    <div class="question-card" data-question="4">
+                        <a href="#" class="question-title">How to write a compelling thesis statement?</a>
+                        <p class="question-preview">I'm working on my English essay and need help crafting a strong thesis statement. What makes a thesis effective?</p>
+                        <div class="question-meta">
+                            <div class="question-stats">
+                                <div class="stat">
+                                    <i class="fas fa-comments"></i>
+                                    <span>2 Answers</span>
+                                </div>
+                                <div class="stat">
+                                    <i class="fas fa-eye"></i>
+                                    <span>12 Views</span>
+                                </div>
+                            </div>
+                            <div class="question-author">Asked by Mike R. • 1 day ago</div>
+                        </div>
+                        <div class="tags">
+                            <span class="tag">Literature</span>
+                            <span class="tag">Writing</span>
+                        </div>
+                    </div>
+
+                    <!-- Question 5 -->
+                    <div class="question-card" data-question="5">
+                        <a href="#" class="question-title">Best practices for studying organic chemistry reactions?</a>
+                        <p class="question-preview">Organic chemistry has so many reactions to memorize. What are some effective study strategies?</p>
+                        <div class="question-meta">
+                            <div class="question-stats">
+                                <div class="stat">
+                                    <i class="fas fa-comments"></i>
+                                    <span>4 Answers</span>
+                                </div>
+                                <div class="stat">
+                                    <i class="fas fa-eye"></i>
+                                    <span>31 Views</span>
+                                </div>
+                            </div>
+                            <div class="question-author">Asked by Lisa K. • 1 day ago</div>
+                        </div>
+                        <div class="tags">
+                            <span class="tag">Chemistry</span>
+                            <span class="tag">Study Tips</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Load More Button -->
+                <div style="text-align: center; margin-top: 2rem;">
+                    <button class="btn-secondary" style="padding: 0.8rem 2rem;">Load More Questions</button>
+                </div>
+            </div>
+
+            <!-- Sidebar -->
+            <div class="sidebar">
+                <!-- Popular Tags -->
+                <div class="sidebar-card">
+                    <h3 class="sidebar-title">Popular Tags</h3>
+                    <div class="trending-tags">
+                        <span class="trending-tag">Programming</span>
+                        <span class="trending-tag">Mathematics</span>
+                        <span class="trending-tag">Biology</span>
+                        <span class="trending-tag">Chemistry</span>
+                        <span class="trending-tag">Literature</span>
+                        <span class="trending-tag">Physics</span>
+                        <span class="trending-tag">Study Tips</span>
+                        <span class="trending-tag">Calculus</span>
+                    </div>
+                </div>
+
+                <!-- Trending Questions -->
+                <div class="sidebar-card">
+                    <h3 class="sidebar-title">Trending Questions</h3>
+                    <div class="trending-question">
+                        <a href="#">How to prepare for final exams effectively?</a>
+                        <div class="trending-answers">8 answers</div>
+                    </div>
+                    <div class="trending-question">
+                        <a href="#">Best online resources for learning Python?</a>
+                        <div class="trending-answers">12 answers</div>
+                    </div>
+                    <div class="trending-question">
+                        <a href="#">Understanding quantum physics basics</a>
+                        <div class="trending-answers">6 answers</div>
+                    </div>
+                    <div class="trending-question">
+                        <a href="#">Tips for writing research papers</a>
+                        <div class="trending-answers">9 answers</div>
+                    </div>
+                </div>
+
+                <!-- Recent Activity -->
+                <div class="sidebar-card">
+                    <h3 class="sidebar-title">Recent Activity</h3>
+                    <div class="trending-question">
+                        <a href="#">New answer posted on "Linear Algebra help"</a>
+                        <div class="trending-answers">Just now</div>
+                    </div>
+                    <div class="trending-question">
+                        <a href="#">Question updated: "Database design principles"</a>
+                        <div class="trending-answers">5 min ago</div>
+                    </div>
+                    <div class="trending-question">
+                        <a href="#">New question: "Statistics probability"</a>
+                        <div class="trending-answers">10 min ago</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <footer class="footer" id="footer">
+        <!--Generated dynamically by js-->
+    </footer>
+
+    <!-- Question Detail Modal -->
+    <div class="question-detail" id="questionDetail">
+        <div class="detail-content">
+            <button class="close-btn" id="closeDetail">&times;</button>
+            <div id="detailBody">
+                <!-- Content will be dynamically loaded here -->
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        const nav_urls = `
+                    <li><a href="home.html">Home</a></li>
+                    <li><a href="qa.html">Ask Questions</a></li>
+                    <li><a href="market.html">Sell Books</a></li>
+                    <li><a href="notes.html">Notes</a></li>
+                    <li><a href="group.html">Groups</a></li>
+                    `
+        const login = `
+        <div class="search-container">
+                <input type="text" class="search-bar" placeholder="Search...">
+                <a href="login.html" class="btn-primary">Login</a>
+            </div>`
+        const logout = `
+            <div class="user-dropdown">
+                <div class="user-avatar">JS</div>
+                <div class="dropdown-menu">
+                    <a href="#"><i class="fas fa-user"></i> Profile</a>
+                    <a href="#"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                </div>
+            </div>
+        `
+
+
+        const footer_urls = `
+                    <a href="#">About Us</a>
+                    <a href="#">Contact</a>
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Terms of Service</a>
+                    <a href="#">Help Center</a>`
+        const footer_urls_2 = `
+                    <a href="qa.html">Ask Questions</a>
+                    <a href="market.html">Sell Books</a>
+                    <a href="notes.html">Share Notes</a>
+                    <a href="group.html">Create Groups</a>
+                    <a href="home">Campus Events</a>`
+    </script>
+    <script src="css/index.js"></script>
+    <script>
+        // Mobile menu toggle
+        const mobileToggle = document.getElementById('mobileToggle');
+        const navLinks = document.getElementById('navLinks');
+
+        mobileToggle.addEventListener('click', function() {
+            navLinks.classList.toggle('active');
+        });
+
+        // Ask question form toggle
+        const askBtn = document.getElementById('askBtn');
+        const questionForm = document.getElementById('questionForm');
+        const cancelBtn = document.getElementById('cancelBtn');
+
+        askBtn.addEventListener('click', function() {
+            questionForm.classList.add('active');
+            askBtn.style.display = 'none';
+        });
+
+        cancelBtn.addEventListener('click', function() {
+            questionForm.classList.remove('active');
+            askBtn.style.display = 'flex';
+        });
+
+        // Form submission
+        const submitForm = document.getElementById('submitForm');
+        submitForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('Question submitted successfully! (This would normally save to database)');
+            questionForm.classList.remove('active');
+            askBtn.style.display = 'flex';})
+    </script>
+</body>
+</html>

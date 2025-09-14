@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MacBook Air M1 - Campus Connect</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/product.css">
+    <link rel="stylesheet" href="css/nav.css">
+</head>
+<body>
+    <header class="header" id="header">
+      <!--Generated dynamically by js-->  
+    </header>
+    <div style="height: 10%;">-----------------------------------------</div>
+    <div style="height: 10%;">-----------------------------------------</div>
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Breadcrumb -->
+        <div class="breadcrumb">
+            <a href="#">Home</a> > <a href="#">Market</a> > <a href="#">Electronics</a> > MacBook Air M1
+        </div>
+
+        <!-- Success Message -->
+        <div class="success-message" id="successMessage">
+            Message sent successfully! The seller will contact you soon.
+        </div>
+
+        <!-- Product Detail Section -->
+        <div class="product-detail">
+            <!-- Left Column - Images -->
+            <div class="product-images">
+                <div class="main-image-container">
+                    <img src="https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=600&h=400&fit=crop" alt="MacBook Air M1" class="main-image" id="mainImage">
+                </div>
+                <div class="thumbnail-container">
+                    <img src="https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=100&h=100&fit=crop" alt="MacBook front view" class="thumbnail active" onclick="changeMainImage(this)">
+                    <img src="https://images.unsplash.com/photo-1541807084-5c52b6b3adef?w=100&h=100&fit=crop" alt="MacBook side view" class="thumbnail" onclick="changeMainImage(this)">
+                    <img src="https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=100&h=100&fit=crop" alt="MacBook keyboard" class="thumbnail" onclick="changeMainImage(this)">
+                    <img src="https://images.unsplash.com/photo-1531297484001-80022131f5a1?w=100&h=100&fit=crop" alt="MacBook screen" class="thumbnail" onclick="changeMainImage(this)">
+                </div>
+            </div>
+
+            <!-- Right Column - Product Info -->
+            <div class="product-info">
+                <h1 class="product-name">MacBook Air M1</h1>
+                <div class="product-price">$750.00</div>
+                <div class="product-condition">Used - Excellent</div>
+
+                <div class="description-section">
+                    <h3>Description</h3>
+                    <p class="short-description">Barely used MacBook Air with M1 chip, perfect for students and professionals.</p>
+                    <p class="detailed-description">
+                        This MacBook Air M1 is in excellent condition with minimal signs of use. Comes with original charger and box. Perfect for coding, design work, and everyday tasks. Battery life is still excellent, getting 15+ hours of use. No scratches on the screen and keyboard is in perfect condition. The M1 chip provides incredible performance and energy efficiency, making it ideal for students who need a reliable laptop for their studies.
+                    </p>
+                </div>
+
+                <div class="product-meta">
+                    <div class="meta-item">
+                        <div class="meta-label">Category</div>
+                        <div class="meta-value">Electronics</div>
+                    </div>
+                    <div class="meta-item">
+                        <div class="meta-label">Location</div>
+                        <div class="meta-value">Campus Dorms</div>
+                    </div>
+                    <div class="meta-item">
+                        <div class="meta-label">Posted</div>
+                        <div class="meta-value">3 days ago</div>
+                    </div>
+                    <div class="meta-item">
+                        <div class="meta-label">Views</div>
+                        <div class="meta-value">47</div>
+                    </div>
+                </div>
+
+                <!-- Seller Information -->
+                <div class="seller-info">
+                    <div class="seller-header">
+                        <div class="seller-avatar">SJ</div>
+                        <div class="seller-details">
+                            <h3>Sarah Johnson</h3>
+                            <div class="seller-rating">⭐⭐⭐⭐⭐ (4.9/5 - 23 reviews)</div>
+                        </div>
+                    </div>
+                    <div class="seller-contact">
+                        <div class="contact-item">
+                            <span>📧</span>
+                            <span>sarah.johnson@university.edu</span>
+                        </div>
+                        <div class="contact-item">
+                            <span>📱</span>
+                            <span>(555) 123-4567</span>
+                        </div>
+                        <div class="contact-item">
+                            <span>🏫</span>
+                            <span>Computer Science Major, Senior</span>
+                        </div>
+                        <div class="contact-item">
+                            <span>📍</span>
+                            <span>Available for pickup on campus</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="action-buttons">
+                    <button class="contact-seller-btn" onclick="contactSeller()">Contact Seller</button>
+                    <button class="buy-now-btn" onclick="buyNow()">Buy Now</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Related Products Section -->
+        <div class="related-products">
+            <h2 class="related-title">Related Products</h2>
+            <div class="related-grid">
+                <a href="#" class="related-card">
+                    <img src="https://images.unsplash.com/photo-1541807084-5c52b6b3adef?w=300&h=200&fit=crop" alt="MacBook Pro" class="related-image">
+                    <div class="related-info">
+                        <div class="related-name">MacBook Pro 13"</div>
+                        <div class="related-price">$1,200</div>
+                    </div>
+                </a>
+                
+                <a href="#" class="related-card">
+                    <img src="https://images.unsplash.com/photo-1527864550417-7fd91fc51a46?w=300&h=200&fit=crop" alt="iPad" class="related-image">
+                    <div class="related-info">
+                        <div class="related-name">iPad Air</div>
+                        <div class="related-price">$450</div>
+                    </div>
+                </a>
+                
+                <a href="#" class="related-card">
+                    <img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=300&h=200&fit=crop" alt="Headphones" class="related-image">
+                    <div class="related-info">
+                        <div class="related-name">Sony WH-1000XM4</div>
+                        <div class="related-price">$180</div>
+                    </div>
+                </a>
+                
+                <a href="#" class="related-card">
+                    <img src="https://images.unsplash.com/photo-1527864550417-7fd91fc51a46?w=300&h=200&fit=crop" alt="iPhone" class="related-image">
+                    <div class="related-info">
+                        <div class="related-name">iPhone 13</div>
+                        <div class="related-price">$650</div>
+                    </div>
+                </a>
+            </div>
+        </div>
+        <!-- Footer -->
+    </main>
+    <footer class="footer" id="footer">
+        <!--Generated dynamically by js-->
+    </footer>
+    <script>
+        const nav_urls = `
+                    <li><a href="home.html">Home</a></li>
+                    <li><a href="qa.html">Ask Questions</a></li>
+                    <li><a href="market.html">Sell Books</a></li>
+                    <li><a href="notes.html">Notes</a></li>
+                    <li><a href="group.html">Groups</a></li>
+                    `
+        const login = `
+        <div class="search-container">
+                <input type="text" class="search-bar" placeholder="Search...">
+                <a href="login.html" class="btn-primary">Login</a>
+            </div>`
+        const logout = `
+            <div class="user-dropdown">
+                <div class="user-avatar">JS</div>
+                <div class="dropdown-menu">
+                    <a href="#"><i class="fas fa-user"></i> Profile</a>
+                    <a href="#"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                </div>
+            </div>
+        `
+
+
+        const footer_urls = `
+                    <a href="#">About Us</a>
+                    <a href="#">Contact</a>
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Terms of Service</a>
+                    <a href="#">Help Center</a>`
+        const footer_urls_2 = `
+                    <a href="qa.html">Ask Questions</a>
+                    <a href="market.html">Sell Books</a>
+                    <a href="notes.html">Share Notes</a>
+                    <a href="group.html">Create Groups</a>
+                    <a href="home">Campus Events</a>`
+    </script>
+    <script src="css/index.js"></script>
+    <script>
+        // Change main image when thumbnail is clicked
+        function changeMainImage(thumbnail) {
+            const mainImage = document.getElementById('mainImage');
+            const allThumbnails = document.querySelectorAll('.thumbnail');
+            
+            // Update main image
+            mainImage.src = thumbnail.src.replace('w=100&h=100', 'w=600&h=400');
+            mainImage.alt = thumbnail.alt;
+            
+            // Update active thumbnail
+            allThumbnails.forEach(thumb => thumb.classList.remove('active'));
+            thumbnail.classList.add('active');
+        }
+
+        // Contact seller function
+        function contactSeller() {
+            const button = document.querySelector('.contact-seller-btn');
+            const originalText = button.textContent;
+            
+            // Add loading state
+            button.classList.add('loading');
+            button.textContent = 'Sending...';
+            button.disabled = true;
+            
+            // Simulate API call
+            setTimeout(() => {
+                // Show success message
+                document.getElementById('successMessage').style.display = 'block';
+                
+                // Reset button
+                button.classList.remove('loading');
+                button.textContent = 'Message Sent ✓';
+                button.style.backgroundColor = '#28a745';
+                
+                // Scroll to top to show message
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+                
+                // Reset button after 3 seconds
+                setTimeout(() => {
+                    button.textContent = originalText;
+                    button.style.backgroundColor = '#0D1B2A';
+                    button.disabled = false;
+                    document.getElementById('successMessage').style.display = 'none';
+                }, 3000);
+            }, 1500);
+        }
+
+        // Buy now function
+        function buyNow() {
+            const button = document.querySelector('.buy-now-btn');
+            const originalText = button.textContent;
+            
+            button.textContent = 'Processing...';
+            button.disabled = true;
+            button.style.backgroundColor = '#6c757d';
+            
+            setTimeout(() => {
+                alert('Buy Now functionality would integrate with payment system here!');
+                button.textContent = originalText;
+                button.disabled = false;
+                button.style.backgroundColor = '#1E90FF';
+            }, 1500);
+        }
+
+        // Mobile menu toggle
+        document.querySelector('.mobile-menu').addEventListener('click', function() {
+            const navLinks = document.querySelector('.nav-links');
+            if (navLinks.style.display === 'flex') {
+                navLinks.style.display = 'none';
+            } else {
+                navLinks.style.display = 'flex';
+                navLinks.style.flexDirection = 'column';
+                navLinks.style.position = 'absolute';
+                navLinks.style.top = '100%';
+                navLinks.style.left = '0';
+                navLinks.style.right = '0';
+                navLinks.style.backgroundColor = 'white';
+                navLinks.style.boxShadow = '0 4px 6px rgba(0,0,0,0.1)';
+                navLinks.style.padding = '1rem';
+            }
+        });
+
+        // Close mobile menu when clicking outside
+        document.addEventListener('click', function(e) {
+            const navLinks = document.querySelector('.nav-links');
+            const mobileMenu = document.querySelector('.mobile-menu');
+            
+            if (!mobileMenu.contains(e.target) && !navLinks.contains(e.target)) {
+                if (window.innerWidth <= 768) {
+                    navLinks.style.display = 'none';
+                }
+            }
+        });
+
+        // Handle window resize
+        window.addEventListener('resize', function() {
+            const navLinks = document.querySelector('.nav-links');
+            if (window.innerWidth > 768) {
+                navLinks.style.display = 'flex';
+                navLinks.style.flexDirection = 'row';
+                navLinks.style.position = 'static';
+                navLinks.style.backgroundColor = 'transparent';
+                navLinks.style.boxShadow = 'none';
+                navLinks.style.padding = '0';
+            } else {
+                navLinks.style.display = 'none';
+            }
+        });
+
+        // Add smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Add image loading effects
+        document.querySelectorAll('img').forEach(img => {
+            img.addEventListener('load', function() {
+                this.style.opacity = '1';
+                this.style.transition = 'opacity 0.3s ease';
+            });
+        });
+
+        // Intersection Observer for animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Observe elements for animation
+        document.querySelectorAll('.related-card').forEach(card => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(20px)';
+            card.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+            observer.observe(card);
+        });
+    </script>
+</body>
+</html>

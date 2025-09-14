@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Download & Share Notes - Campus Connect</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/notes.css">
+    <link rel="stylesheet" href="css/nav.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header" id="header">
+      <!--Generated dynamically by js-->  
+    </header>
+
+    <!-- Main Content -->
+    <main class="container">
+        <!-- Page Header -->
+        <div class="page-header">
+            <h1 class="page-title">Download & Share Notes</h1>
+            <p class="page-subtitle">Browse notes by course, subject, or author.</p>
+            <div class="action-bar">
+                <button class="btn-upload" id="uploadBtn">
+                    <i class="fas fa-upload"></i>
+                    Upload Note
+                </button>
+            </div>
+        </div>
+
+        <!-- Upload Form -->
+        <div class="upload-form" id="uploadForm">
+            <h2 style="color: #0D1B2A; margin-bottom: 1.5rem; font-size: 1.3rem;">Upload Your Note</h2>
+            <form id="noteUploadForm">
+                <div class="form-group">
+                    <label for="noteTitle">Note Title *</label>
+                    <input type="text" id="noteTitle" name="title" placeholder="Enter note title" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="noteDescription">Description *</label>
+                    <textarea id="noteDescription" name="description" placeholder="Brief description of the note content" required></textarea>
+                </div>
+                
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                    <div class="form-group">
+                        <label for="noteCourse">Course/Subject *</label>
+                        <input type="text" id="noteCourse" name="course" placeholder="e.g., Calculus II" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="noteCategory">Category</label>
+                        <select id="noteCategory" name="category">
+                            <option value="">Select category</option>
+                            <option value="lecture">Lecture Notes</option>
+                            <option value="summary">Summary</option>
+                            <option value="assignment">Assignment</option>
+                            <option value="exam">Exam Prep</option>
+                            <option value="reference">Reference Material</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="noteFile">Upload File *</label>
+                    <div class="file-input-wrapper">
+                        <input type="file" id="noteFile" name="file" class="file-input" accept=".pdf,.doc,.docx,.ppt,.pptx" required>
+                        <div class="file-input-display">
+                            <i class="fas fa-cloud-upload-alt"></i>
+                            <p><strong>Click to upload</strong> or drag and drop</p>
+                            <p style="font-size: 0.9rem; color: #666; margin-top: 0.5rem;">PDF, DOC, DOCX, PPT, PPTX (Max 50MB)</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-actions">
+                    <button type="button" class="btn-secondary" id="cancelUpload">Cancel</button>
+                    <button type="submit" class="btn-primary">Upload Note</button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Filters Section -->
+        <div class="filters-section">
+            <div class="filter-group">
+                <span class="filter-label">Sort by:</span>
+                <select class="filter-select" id="sortFilter">
+                    <option value="latest">Latest</option>
+                    <option value="popular">Most Downloaded</option>
+                    <option value="course">Course</option>
+                    <option value="author">Author</option>
+                </select>
+            </div>
+            
+            <div class="filter-group">
+                <span class="filter-label">Course:</span>
+                <select class="filter-select" id="courseFilter">
+                    <option value="">All Courses</option>
+                    <option value="calculus">Calculus</option>
+                    <option value="physics">Physics</option>
+                    <option value="chemistry">Chemistry</option>
+                    <option value="biology">Biology</option>
+                    <option value="programming">Programming</option>
+                    <option value="literature">Literature</option>
+                </select>
+            </div>
+            
+            <div class="results-count">
+                <span id="resultsCount">24 notes found</span>
+            </div>
+        </div>
+
+        <!-- Notes Grid -->
+        <div class="notes-grid" id="notesGrid">
+            <!-- Note 1 -->
+            <div class="note-card" data-note="1">
+                <div class="note-icon">
+                    <i class="fas fa-file-pdf"></i>
+                </div>
+                <a href="#" class="note-title">Calculus II - Integration Techniques</a>
+                <p class="note-description">Complete study guide covering all integration methods including substitution, by parts, partial fractions, and trigonometric integrals with solved examples.</p>
+                <div class="note-meta">
+                    <span class="note-course">Calculus II</span>
+                    <span class="note-author">by Sarah M. • 2 days ago</span>
+                </div>
+                <div class="note-stats">
+                    <div class="stat">
+                        <i class="fas fa-download"></i>
+                        <span>124</span>
+                    </div>
+                    <div class="stat">
+                        <i class="fas fa-eye"></i>
+                        <span>256</span>
+                    </div>
+                    <div class="stat">
+                        <i class="fas fa-star"></i>
+                        <span>4.8</span>
+                    </div>
+                </div>
+                <div class="note-actions">
+                    <button class="btn-download">
+                        <i class="fas fa-download"></i>
+                        Download
+                    </button>
+                    <button class="btn-preview">Preview</button>
+                </div>
+            </div>
+
+            <!-- Note 2 -->
+            <div class="note-card" data-note="2">
+                <div class="note-icon">
+                    <i class="fas fa-file-word"></i>
+                </div>
+                <a href="#" class="note-title">Organic Chemistry Reactions Summary</a>
+                <p class="note-description">Comprehensive summary of major organic chemistry reactions with mechanisms, conditions, and practice problems for exam preparation.</p>
+                <div class="note-meta">
+                    <span class="note-course">Chemistry</span>
+                    <span class="note-author">by John D. • 4 days ago</span>
+                </div>
+                <div class="note-stats">
+                    <div class="stat">
+                        <i class="fas fa-download"></i>
+                        <span>89</span>
+                    </div>
+                    <div class="stat">
+                        <i class="fas fa-eye"></i>
+                        <span>167</span>
+                    </div>
+                    <div class="stat">
+                        <i class="fas fa-star"></i>
+                        <span>4.6</span>
+                    </div>
+                </div>
+                <div class="note-actions">
+                    <button class="btn-download">
+                        <i class="fas fa-download"></i>
+                        Download
+                    </button>
+                    <button class="btn-preview">Preview</button>
+                </div>
+            </div>
+
+            <!-- Note 3 -->
+            <div class="note-card" data-note="3">
+                <div class="note-icon">
+                    <i class="fas fa-file-powerpoint"></i>
+                </div>
+                <a href="#" class="note-title">Data Structures and Algorithms</a>
+                <p class="note-description">Lecture slides covering arrays, linked lists, stacks, queues, trees, and graphs with implementation examples in Python and Java.</p>
+                <div class="note-meta">
+                    <span class="note-course">Programming</span>
+                    <span class="note-author">by Emma L. • 1 week ago</span>
+                </div>
+                <div class="note-stats">
+                    <div class="stat">
+                        <i class="fas fa-download"></i>
+                        <span>203</span>
+                    </div>
+                    <div class="stat">
+                        <i class="fas fa-eye"></i>
+                        <span>387</span>
+                    </div>
+                    <div class="stat">
+                        <i class="fas fa-star"></i>
+                        <span>4.9</span>
+                    </div>
+                </div>
+                <div class="note-actions">
+                    <button class="btn-download">
+                        <i class="fas fa-download"></i>
+                        Download
+                    </button>
+                    <button class="btn-preview">Preview</button>
+                </div>
+            </div>
+
+            <!-- Note 4 -->
+            <div class="note-card" data-note="4">
+                <div class="note-icon">
+                    <i class="fas fa-file-pdf"></i>
+                </div>
+                <a href="#" class="note-title">Physics - Quantum Mechanics Basics</a>
+                <p class="note-description">Introduction to quantum mechanics principles including wave-particle duality, Schrödinger equation, and quantum states with visual diagrams.</p>
+                <div class="note-meta">
+                    <span class="note-course">Physics</span>
+                    <span class="note-author">by Mike R. • 1 week ago</span>
+                </div>
+                <div class="note-stats">
+                    <div class="stat">
+                        <i class="fas fa-download"></i>
+                        <span>156</span>
+                    </div>
+                    <div class="stat">
+                        <i class="fas fa-eye"></i>
+                        <span>289</span>
+                    </div>
+                    <div class="stat">
+                        <i class="fas fa-star"></i>
+                        <span>4.7</span>
+                    </div>
+                </div>
+                <div class="note-actions">
+                    <button class="btn-download">
+                        <i class="fas fa-download"></i>
+                        Download
+                    </button>
+                    <button class="btn-preview">Preview</button>
+                </div>
+            </div>
+
+        </div>
+    </main>
+    <footer class="footer" id="footer">
+        <!--Generated dynamically by js-->
+    </footer>
+    <script>
+        const nav_urls = `
+                    <li><a href="home.html">Home</a></li>
+                    <li><a href="qa.html">Ask Questions</a></li>
+                    <li><a href="market.html">Sell Books</a></li>
+                    <li><a href="notes.html">Notes</a></li>
+                    <li><a href="group.html">Groups</a></li>
+                    `
+        const login = `
+        <div class="search-container">
+                <input type="text" class="search-bar" placeholder="Search...">
+                <a href="login.html" class="btn-primary">Login</a>
+            </div>`
+        const logout = `
+            <div class="user-dropdown">
+                <div class="user-avatar">JS</div>
+                <div class="dropdown-menu">
+                    <a href="#"><i class="fas fa-user"></i> Profile</a>
+                    <a href="#"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                </div>
+            </div>
+        `
+
+
+        const footer_urls = `
+                    <a href="#">About Us</a>
+                    <a href="#">Contact</a>
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Terms of Service</a>
+                    <a href="#">Help Center</a>`
+        const footer_urls_2 = `
+                    <a href="qa.html">Ask Questions</a>
+                    <a href="market.html">Sell Books</a>
+                    <a href="notes.html">Share Notes</a>
+                    <a href="group.html">Create Groups</a>
+                    <a href="home">Campus Events</a>`
+    </script>
+    <script src="css/index.js"></script>
+</body>
+</html>

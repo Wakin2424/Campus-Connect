@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Results - Campus Connect</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/search.css">
+    <link rel="stylesheet" href="css/nav.css">
+</head>
+<body>
+    <!-- Header / Navigation -->
+    <header class="header" id="header">
+      <!--Generated dynamically by js-->  
+    </header>
+    <div style="height: 10%;">-----------------------------------------</div>
+    <div style="height: 10%;">-----------------------------------------</div>
+    <!-- Main Content -->
+    <div class="container">
+        <!-- Page Header -->
+        <div class="page-header">
+            <h1 class="page-title">Search Results for: "<span class="keyword-highlight" id="searchKeyword">mathematics</span>"</h1>
+            <p class="search-summary">Showing results across Notes, Q&A, and Market</p>
+        </div>
+
+        <!-- Filter Tabs -->
+        <div class="filter-tabs">
+            <button class="filter-tab active" onclick="filterResults('all')">All</button>
+            <button class="filter-tab" onclick="filterResults('notes')">Notes</button>
+            <button class="filter-tab" onclick="filterResults('qa')">Q&A</button>
+            <button class="filter-tab" onclick="filterResults('products')">Products</button>
+        </div>
+
+        <!-- Results Section -->
+        <div class="results-section">
+            <!-- Notes Results -->
+            <div class="results-category" id="notes-category">
+                <h2 class="category-header">Notes</h2>
+                <div class="results-grid notes-grid">
+                    <div class="note-card">
+                        <a href="#" class="note-title">Advanced <span class="keyword-highlight">Mathematics</span> - Calculus I</a>
+                        <p class="note-description">Comprehensive notes covering limits, derivatives, and integration. Perfect for exam preparation with solved examples and practice problems.</p>
+                        <div class="note-meta">
+                            <span class="course-tag">MATH 101</span>
+                        </div>
+                        <button class="download-btn">Download PDF</button>
+                    </div>
+
+                    <div class="note-card">
+                        <a href="#" class="note-title">Discrete <span class="keyword-highlight">Mathematics</span> Summary</a>
+                        <p class="note-description">Key concepts in discrete math including graph theory, combinatorics, and logic. Includes visual diagrams and step-by-step solutions.</p>
+                        <div class="note-meta">
+                            <span class="course-tag">MATH 205</span>
+                        </div>
+                        <button class="download-btn">Download PDF</button>
+                    </div>
+
+                    <div class="note-card">
+                        <a href="#" class="note-title">Applied <span class="keyword-highlight">Mathematics</span> for Engineers</a>
+                        <p class="note-description">Engineering mathematics covering differential equations, Fourier transforms, and numerical methods with real-world applications.</p>
+                        <div class="note-meta">
+                            <span class="course-tag">ENG 301</span>
+                        </div>
+                        <button class="download-btn">Download PDF</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Q&A Results -->
+            <div class="results-category" id="qa-category">
+                <h2 class="category-header">Questions & Answers</h2>
+                <div class="results-grid qa-grid">
+                    <div class="qa-card">
+                        <a href="#" class="qa-title">How to solve complex <span class="keyword-highlight">mathematics</span> problems step by step?</a>
+                        <p class="qa-preview">I'm struggling with advanced calculus problems. Can someone explain the systematic approach to breaking down complex mathematical equations...</p>
+                        <div class="qa-meta">
+                            <span class="answers-count">5 answers</span>
+                            <span>Posted 2 days ago</span>
+                            <span>by John Doe</span>
+                        </div>
+                    </div>
+
+                    <div class="qa-card">
+                        <a href="#" class="qa-title">Best resources for learning <span class="keyword-highlight">mathematics</span> online?</a>
+                        <p class="qa-preview">Looking for recommendations on online platforms, textbooks, and video courses for improving mathematical skills. Particularly interested in...</p>
+                        <div class="qa-meta">
+                            <span class="answers-count">8 answers</span>
+                            <span>Posted 1 week ago</span>
+                            <span>by Sarah Smith</span>
+                        </div>
+                    </div>
+
+                    <div class="qa-card">
+                        <a href="#" class="qa-title">Understanding <span class="keyword-highlight">mathematics</span> in computer science applications</a>
+                        <p class="qa-preview">How important is advanced mathematics for software development? Which mathematical concepts are most relevant for CS students...</p>
+                        <div class="qa-meta">
+                            <span class="answers-count">12 answers</span>
+                            <span>Posted 3 days ago</span>
+                            <span>by Mike Johnson</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Products Results -->
+            <div class="results-category" id="products-category">
+                <h2 class="category-header">Products</h2>
+                <div class="results-grid products-grid">
+                    <div class="product-card">
+                        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='250' height='150' viewBox='0 0 250 150'%3E%3Crect width='250' height='150' fill='%23f0f0f0'/%3E%3Crect x='20' y='20' width='210' height='110' rx='8' fill='%230D1B2A'/%3E%3Ctext x='125' y='80' font-family='Arial' font-size='16' fill='white' text-anchor='middle'%3EMath Textbook%3C/text%3E%3C/svg%3E" alt="Mathematics Textbook" class="product-image">
+                        <h3 class="product-name">Advanced <span class="keyword-highlight">Mathematics</span> Textbook</h3>
+                        <p class="product-price">KSh 2,500</p>
+                        <button class="view-details-btn">View Details</button>
+                    </div>
+
+                    <div class="product-card">
+                        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='250' height='150' viewBox='0 0 250 150'%3E%3Crect width='250' height='150' fill='%23f0f0f0'/%3E%3Crect x='20' y='30' width='210' height='90' rx='8' fill='%231E90FF'/%3E%3Ctext x='125' y='80' font-family='Arial' font-size='14' fill='white' text-anchor='middle'%3ECalculator%3C/text%3E%3C/svg%3E" alt="Scientific Calculator" class="product-image">
+                        <h3 class="product-name">Scientific Calculator for <span class="keyword-highlight">Mathematics</span></h3>
+                        <p class="product-price">KSh 1,200</p>
+                        <button class="view-details-btn">View Details</button>
+                    </div>
+
+                    <div class="product-card">
+                        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='250' height='150' viewBox='0 0 250 150'%3E%3Crect width='250' height='150' fill='%23f0f0f0'/%3E%3Crect x='30' y='40' width='190' height='70' rx='8' fill='%234CAF50'/%3E%3Ctext x='125' y='80' font-family='Arial' font-size='14' fill='white' text-anchor='middle'%3EStudy Guide%3C/text%3E%3C/svg%3E" alt="Study Guide" class="product-image">
+                        <h3 class="product-name"><span class="keyword-highlight">Mathematics</span> Study Guide & Solutions</h3>
+                        <p class="product-price">KSh 800</p>
+                        <button class="view-details-btn">View Details</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Pagination -->
+        <div class="pagination">
+            <button class="load-more-btn" onclick="loadMoreResults()">Load More Results</button>
+        </div>
+    </div>
+
+    <footer class="footer" id="footer">
+        <!--Generated dynamically by js-->
+    </footer>
+
+    <script>
+        const nav_urls = `
+                    <li><a href="home.html">Home</a></li>
+                    <li><a href="qa.html">Ask Questions</a></li>
+                    <li><a href="market.html">Sell Books</a></li>
+                    <li><a href="notes.html">Notes</a></li>
+                    <li><a href="group.html">Groups</a></li>
+                    `
+        const login = `
+        <div class="search-container">
+                <input type="text" class="search-bar" placeholder="Search...">
+                <a href="login.html" class="btn-primary">Login</a>
+            </div>`
+        const logout = `
+            <div class="user-dropdown">
+                <div class="user-avatar">JS</div>
+                <div class="dropdown-menu">
+                    <a href="#"><i class="fas fa-user"></i> Profile</a>
+                    <a href="#"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                </div>
+            </div>
+        `
+
+
+        const footer_urls = `
+                    <a href="#">About Us</a>
+                    <a href="#">Contact</a>
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Terms of Service</a>
+                    <a href="#">Help Center</a>`
+        const footer_urls_2 = `
+                    <a href="qa.html">Ask Questions</a>
+                    <a href="market.html">Sell Books</a>
+                    <a href="notes.html">Share Notes</a>
+                    <a href="group.html">Create Groups</a>
+                    <a href="home">Campus Events</a>`
+    </script>
+    <script src="css/index.js"></script>
+    <script>
+        let currentFilter = 'all';
+        const searchKeyword = 'mathematics'; // This would be dynamic in a real app
+
+        function filterResults(filter) {
+            // Update active tab
+            document.querySelectorAll('.filter-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            event.target.classList.add('active');
+
+            // Show/hide categories based on filter
+            const categories = {
+                'notes': document.getElementById('notes-category'),
+                'qa': document.getElementById('qa-category'),
+                'products': document.getElementById('products-category')
+            };
+
+            if (filter === 'all') {
+                Object.values(categories).forEach(category => {
+                    category.classList.remove('hidden');
+                });
+            } else {
+                Object.entries(categories).forEach(([key, category]) => {
+                    if (key === filter) {
+                        category.classList.remove('hidden');
+                    } else {
+                        category.classList.add('hidden');
+                    }
+                });
+            }
+
+            currentFilter = filter;
+        }
+
+        function performSearch() {
+            const searchInput = document.getElementById('searchInput');
+            const keyword = searchInput.value.trim();
+            
+            if (keyword) {
+                // Update the search keyword display
+                document.getElementById('searchKeyword').textContent = keyword;
+                
+                // In a real application, this would trigger a new search
+                alert(`Searching for: "${keyword}"`);
+                
+                // Simulate highlighting new keyword in results
+                highlightKeyword(keyword);
+            }
+        }
+
+        function highlightKeyword(keyword) {
+            // This is a simplified version - in a real app, you'd update the actual search results
+            const highlights = document.querySelectorAll('.keyword-highlight');
+            highlights.forEach(highlight => {
+                highlight.textContent = keyword;
+            });
+        }
+
+        function loadMoreResults() {
+            // Simulate loading more results
+            const button = event.target;
+            button.textContent = 'Loading...';
+            button.disabled = true;
+            
+            setTimeout(() => {
+                button.textContent = 'Load More Results';
+                button.disabled = false;
+                alert('More results loaded!');
+            }, 2000);
+        }
+
+        // Handle Enter key in search bar
+        document.getElementById('searchInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                performSearch();
+            }
+        });
+
+        // Add click handlers for result items
+        document.querySelectorAll('.note-title, .qa-title').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                alert(`Opening: ${this.textContent}`);
+            });
+        });
+
+        document.querySelectorAll('.download-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                alert('Downloading file...');
+            });
+        });
+
+        document.querySelectorAll('.view-details-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const productName = this.parentElement.querySelector('.product-name').textContent;
+                alert(`Viewing details for: ${productName}`);
+            });
+        });
+    </script>
+</body>
+</html>
