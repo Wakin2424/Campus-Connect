@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Answer Question - Campus Connect</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #ffffff;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        /* Header Styles */
+        .header {
+            background-color: #0D1B2A;
+            padding: 1rem 0;
+            box-shadow: 0 2px 10px rgba(13, 27, 42, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: white;
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: #1E90FF;
+        }
+
+        .back-btn {
+            background-color: #0D1B2A;
+            color: white;
+            padding: 0.5rem 1rem;
+            border: 2px solid white;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .back-btn:hover {
+            background-color: white;
+            color: #0D1B2A;
+        }
+
+        /* Main Container */
+        .main-container {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+
+        /* Question Display Section */
+        .question-section {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-radius: 15px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            border-left: 5px solid #1E90FF;
+        }
+
+        .question-title {
+            color: #0D1B2A;
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .question-description {
+            color: #555;
+            font-size: 1rem;
+            margin-bottom: 1.5rem;
+            line-height: 1.7;
+        }
+
+        .question-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .tag {
+            background-color: #1E90FF;
+            color: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+
+        /* Answer Form Section */
+        .answer-section {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 4px 20px rgba(13, 27, 42, 0.1);
+            border: 1px solid #e9ecef;
+        }
+
+        .section-title {
+            color: #0D1B2A;
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .section-title::before {
+            content: "✍️";
+            font-size: 1.2rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            display: block;
+            color: #0D1B2A;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+        }
+
+        .answer-textarea {
+            width: 100%;
+            min-height: 200px;
+            padding: 1rem;
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 1rem;
+            resize: vertical;
+            transition: border-color 0.3s ease;
+        }
+
+        .answer-textarea:focus {
+            outline: none;
+            border-color: #1E90FF;
+            box-shadow: 0 0 0 3px rgba(30, 144, 255, 0.1);
+        }
+
+        .char-count {
+            text-align: right;
+            color: #666;
+            font-size: 0.85rem;
+            margin-top: 0.5rem;
+        }
+
+        /* Image Upload Section */
+        .image-upload-container {
+            border: 2px dashed #1E90FF;
+            border-radius: 10px;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .image-upload-container:hover {
+            background-color: #f8f9ff;
+        }
+
+        .upload-icon {
+            font-size: 3rem;
+            color: #1E90FF;
+            margin-bottom: 1rem;
+        }
+
+        .upload-text {
+            color: #0D1B2A;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+        }
+
+        .upload-subtext {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .file-input {
+            display: none;
+        }
+
+        /* Image Preview */
+        .image-preview {
+            margin-top: 1rem;
+            display: none;
+        }
+
+        .preview-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .preview-item {
+            position: relative;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .preview-image {
+            width: 120px;
+            height: 120px;
+            object-fit: cover;
+        }
+
+        .remove-image {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background: rgba(255, 0, 0, 0.8);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 25px;
+            height: 25px;
+            cursor: pointer;
+            font-size: 0.8rem;
+        }
+
+        /* Submit Button */
+        .submit-btn {
+            width: 100%;
+            background: linear-gradient(135deg, #0D1B2A 0%, #1E90FF 100%);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(30, 144, 255, 0.3);
+        }
+
+        .submit-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* Success Message */
+        .success-message {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+            padding: 1rem;
+            border-radius: 10px;
+            text-align: center;
+            margin-bottom: 1rem;
+            display: none;
+            animation: slideIn 0.5s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .nav-container {
+                padding: 0 1rem;
+            }
+
+            .nav-links {
+                gap: 1rem;
+            }
+
+            .nav-links a {
+                font-size: 0.9rem;
+            }
+
+            .back-btn {
+                padding: 0.4rem 0.8rem;
+                font-size: 0.9rem;
+            }
+
+            .main-container {
+                padding: 0 1rem;
+            }
+
+            .question-section,
+            .answer-section {
+                padding: 1.5rem;
+            }
+
+            .question-title {
+                font-size: 1.3rem;
+            }
+
+            .logo {
+                font-size: 1.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .nav-links {
+                display: none;
+            }
+
+            .nav-container {
+                justify-content: space-between;
+            }
+
+            .question-section,
+            .answer-section {
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header / Navigation -->
+    <header class="header">
+        <div class="nav-container">
+            <a href="#" class="logo">Campus Connect</a>
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#">Questions</a></li>
+                    <li><a href="#">Notes</a></li>
+                    <li><a href="#">Market</a></li>
+                    <li><a href="#">Groups</a></li>
+                </ul>
+            </nav>
+            <a href="#" class="back-btn">← Back to Question</a>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <div class="main-container">
+        <!-- Question Display Section -->
+        <section class="question-section">
+            <h2 class="question-title">How do I implement a binary search algorithm in Python?</h2>
+            <p class="question-description">
+                I'm struggling to understand how to implement a binary search algorithm from scratch in Python. 
+                I understand the concept but I'm having trouble with the actual implementation, especially handling 
+                the edge cases and ensuring the algorithm works correctly with different array sizes. Could someone 
+                provide a clear explanation with code examples?
+            </p>
+            <div class="question-tags">
+                <span class="tag">Programming</span>
+                <span class="tag">Python</span>
+                <span class="tag">Algorithms</span>
+                <span class="tag">Computer Science</span>
+            </div>
+        </section>
+
+        <!-- Answer Form Section -->
+        <section class="answer-section">
+            <h3 class="section-title">Your Answer</h3>
+            
+            <div class="success-message" id="successMessage">
+                🎉 Your answer has been posted successfully! Thank you for helping your fellow students.
+            </div>
+
+            <form id="answerForm">
+                <div class="form-group">
+                    <label for="answerText" class="form-label">Write your answer *</label>
+                    <textarea 
+                        id="answerText" 
+                        class="answer-textarea" 
+                        placeholder="Share your knowledge and help your fellow students..."
+                        required
+                        maxlength="5000"
+                    ></textarea>
+                    <div class="char-count">
+                        <span id="charCount">0</span>/5000 characters
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Add Images (optional)</label>
+                    <div class="image-upload-container" onclick="document.getElementById('imageUpload').click()">
+                        <div class="upload-icon">📷</div>
+                        <div class="upload-text">Click to upload images</div>
+                        <div class="upload-subtext">PNG, JPG, GIF up to 10MB each</div>
+                    </div>
+                    <input 
+                        type="file" 
+                        id="imageUpload" 
+                        class="file-input" 
+                        accept="image/*" 
+                        multiple
+                    >
+                    <div class="image-preview" id="imagePreview">
+                        <div class="preview-container" id="previewContainer"></div>
+                    </div>
+                </div>
+
+                <button type="submit" class="submit-btn" id="submitBtn">
+                    Post Your Answer
+                </button>
+            </form>
+        </section>
+    </div>
+
+    <script>
+        // Character count functionality
+        const answerTextarea = document.getElementById('answerText');
+        const charCount = document.getElementById('charCount');
+
+        answerTextarea.addEventListener('input', function() {
+            const count = this.value.length;
+            charCount.textContent = count;
+            
+            if (count > 4500) {
+                charCount.style.color = '#ff4757';
+            } else {
+                charCount.style.color = '#666';
+            }
+        });
+
+        // Image upload functionality
+        const imageUpload = document.getElementById('imageUpload');
+        const imagePreview = document.getElementById('imagePreview');
+        const previewContainer = document.getElementById('previewContainer');
+        let uploadedImages = [];
+
+        imageUpload.addEventListener('change', function(e) {
+            const files = Array.from(e.target.files);
+            
+            files.forEach((file, index) => {
+                if (file.type.startsWith('image/')) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        const imageId = Date.now() + index;
+                        uploadedImages.push({
+                            id: imageId,
+                            file: file,
+                            url: e.target.result
+                        });
+                        
+                        const previewItem = document.createElement('div');
+                        previewItem.className = 'preview-item';
+                        previewItem.innerHTML = `
+                            <img src="${e.target.result}" alt="Preview" class="preview-image">
+                            <button type="button" class="remove-image" onclick="removeImage(${imageId})">×</button>
+                        `;
+                        
+                        previewContainer.appendChild(previewItem);
+                        imagePreview.style.display = 'block';
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
+        });
+
+        // Remove image functionality
+        function removeImage(imageId) {
+            uploadedImages = uploadedImages.filter(img => img.id !== imageId);
+            const previewItems = document.querySelectorAll('.preview-item');
+            previewItems.forEach(item => {
+                const button = item.querySelector('.remove-image');
+                if (button && button.onclick.toString().includes(imageId)) {
+                    item.remove();
+                }
+            });
+            
+            if (uploadedImages.length === 0) {
+                imagePreview.style.display = 'none';
+            }
+        }
+
+        // Form submission
+        const answerForm = document.getElementById('answerForm');
+        const submitBtn = document.getElementById('submitBtn');
+        const successMessage = document.getElementById('successMessage');
+
+        answerForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const answerText = answerTextarea.value.trim();
+            
+            if (answerText.length < 10) {
+                alert('Please provide a more detailed answer (minimum 10 characters)');
+                return;
+            }
+            
+            // Simulate form submission
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Posting Your Answer...';
+            
+            setTimeout(() => {
+                successMessage.style.display = 'block';
+                answerForm.reset();
+                charCount.textContent = '0';
+                uploadedImages = [];
+                previewContainer.innerHTML = '';
+                imagePreview.style.display = 'none';
+                
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Post Your Answer';
+                
+                // Hide success message after 5 seconds
+                setTimeout(() => {
+                    successMessage.style.display = 'none';
+                }, 5000);
+                
+                // Scroll to top to show success message
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }, 1500);
+        });
+
+        // Auto-resize textarea
+        answerTextarea.addEventListener('input', function() {
+            this.style.height = 'auto';
+            this.style.height = Math.max(200, this.scrollHeight) + 'px';
+        });
+    </script>
+</body>
+</html>

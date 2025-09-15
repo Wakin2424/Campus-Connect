@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ask a Question - Campus Connect</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #ffffff;
+            color: #333;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        /* Header Styles */
+        .header {
+            background-color: #0D1B2A;
+            padding: 1rem 0;
+            box-shadow: 0 2px 10px rgba(13, 27, 42, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: white;
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: #1E90FF;
+        }
+
+        .back-btn {
+            background-color: #0D1B2A;
+            color: white;
+            padding: 0.5rem 1rem;
+            border: 2px solid white;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .back-btn:hover {
+            background-color: white;
+            color: #0D1B2A;
+        }
+
+        /* Main Container */
+        .main-container {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+
+        .page-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .page-title {
+            color: #0D1B2A;
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .page-subtitle {
+            color: #666;
+            font-size: 1.1rem;
+            font-weight: 400;
+        }
+
+        /* Success Message */
+        .success-message {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+            padding: 1.5rem;
+            border-radius: 15px;
+            text-align: center;
+            margin-bottom: 2rem;
+            display: none;
+            animation: slideIn 0.5s ease;
+        }
+
+        .success-message h3 {
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .success-message p {
+            opacity: 0.9;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Question Form Section */
+        .question-form-section {
+            background: white;
+            border-radius: 15px;
+            padding: 2.5rem;
+            box-shadow: 0 4px 20px rgba(13, 27, 42, 0.1);
+            border: 1px solid #e9ecef;
+        }
+
+        .section-title {
+            color: #0D1B2A;
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 2rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .section-title::before {
+            content: "❓";
+            font-size: 1.3rem;
+        }
+
+        .form-group {
+            margin-bottom: 2rem;
+        }
+
+        .form-label {
+            display: block;
+            color: #0D1B2A;
+            font-weight: 600;
+            margin-bottom: 0.8rem;
+            font-size: 1rem;
+        }
+
+        .required-indicator {
+            color: #e74c3c;
+            margin-left: 0.3rem;
+        }
+
+        /* Input Styles */
+        .form-input {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: #fafafa;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: #1E90FF;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(30, 144, 255, 0.1);
+        }
+
+        .form-textarea {
+            min-height: 150px;
+            resize: vertical;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .char-count {
+            text-align: right;
+            color: #666;
+            font-size: 0.85rem;
+            margin-top: 0.5rem;
+        }
+
+        /* Subject Selection */
+        .subjects-container {
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            padding: 1.5rem;
+            background: #fafafa;
+            transition: all 0.3s ease;
+        }
+
+        .subjects-container:focus-within {
+            border-color: #1E90FF;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(30, 144, 255, 0.1);
+        }
+
+        .subjects-title {
+            color: #0D1B2A;
+            font-weight: 500;
+            margin-bottom: 1rem;
+            font-size: 0.95rem;
+        }
+
+        .subjects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 0.8rem;
+        }
+
+        .subject-chip {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.8rem;
+            background: white;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            user-select: none;
+        }
+
+        .subject-chip:hover {
+            border-color: #1E90FF;
+            background: #f8f9ff;
+        }
+
+        .subject-chip.selected {
+            background: linear-gradient(135deg, #1E90FF 0%, #0D1B2A 100%);
+            color: white;
+            border-color: #1E90FF;
+        }
+
+        .subject-checkbox {
+            appearance: none;
+            width: 18px;
+            height: 18px;
+            border: 2px solid #1E90FF;
+            border-radius: 4px;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .subject-checkbox:checked {
+            background: white;
+        }
+
+        .subject-checkbox:checked::after {
+            content: "✓";
+            position: absolute;
+            top: -2px;
+            left: 2px;
+            color: #1E90FF;
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+
+        .subject-chip.selected .subject-checkbox {
+            border-color: white;
+        }
+
+        .subject-chip.selected .subject-checkbox:checked::after {
+            color: white;
+        }
+
+        .subject-label {
+            font-weight: 500;
+            cursor: pointer;
+        }
+
+        /* Submit Button */
+        .submit-btn {
+            width: 100%;
+            background: linear-gradient(135deg, #0D1B2A 0%, #1E90FF 100%);
+            color: white;
+            border: none;
+            padding: 1.2rem 2rem;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Poppins', sans-serif;
+            margin-top: 1rem;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 25px rgba(30, 144, 255, 0.3);
+        }
+
+        .submit-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* Tips Section */
+        .tips-section {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin-top: 2rem;
+            border-left: 5px solid #1E90FF;
+        }
+
+        .tips-title {
+            color: #0D1B2A;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .tips-title::before {
+            content: "💡";
+        }
+
+        .tips-list {
+            color: #555;
+            margin-left: 1rem;
+        }
+
+        .tips-list li {
+            margin-bottom: 0.5rem;
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .nav-container {
+                padding: 0 1rem;
+            }
+
+            .nav-links {
+                gap: 1rem;
+            }
+
+            .nav-links a {
+                font-size: 0.9rem;
+            }
+
+            .back-btn {
+                padding: 0.4rem 0.8rem;
+                font-size: 0.9rem;
+            }
+
+            .main-container {
+                padding: 0 1rem;
+            }
+
+            .question-form-section {
+                padding: 2rem;
+            }
+
+            .page-title {
+                font-size: 1.8rem;
+            }
+
+            .subjects-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .logo {
+                font-size: 1.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .nav-links {
+                display: none;
+            }
+
+            .question-form-section {
+                padding: 1.5rem;
+            }
+
+            .page-title {
+                font-size: 1.6rem;
+            }
+        }
+
+        /* Form Validation Styles */
+        .form-input.invalid {
+            border-color: #e74c3c;
+            background: #fdf2f2;
+        }
+
+        .error-message {
+            color: #e74c3c;
+            font-size: 0.85rem;
+            margin-top: 0.5rem;
+            display: none;
+        }
+
+        .form-input.invalid + .error-message {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header / Navigation -->
+    <header class="header">
+        <div class="nav-container">
+            <a href="#" class="logo">Campus Connect</a>
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#">Questions</a></li>
+                    <li><a href="#">Notes</a></li>
+                    <li><a href="#">Market</a></li>
+                    <li><a href="#">Groups</a></li>
+                </ul>
+            </nav>
+            <a href="#" class="back-btn">← Back to Questions</a>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <div class="main-container">
+        <!-- Page Header -->
+        <div class="page-header">
+            <h1 class="page-title">Ask a Question</h1>
+            <p class="page-subtitle">Get help from your fellow students and instructors</p>
+        </div>
+
+        <!-- Success Message -->
+        <div class="success-message" id="successMessage">
+            <h3>🎉 Question Posted Successfully!</h3>
+            <p>Your question has been published and the community will start helping you soon.</p>
+        </div>
+
+        <!-- Question Form Section -->
+        <section class="question-form-section">
+            <h2 class="section-title">Share Your Question</h2>
+            
+            <form id="questionForm">
+                <!-- Question Title -->
+                <div class="form-group">
+                    <label for="questionTitle" class="form-label">
+                        Question Title<span class="required-indicator">*</span>
+                    </label>
+                    <input 
+                        type="text" 
+                        id="questionTitle" 
+                        class="form-input" 
+                        placeholder="Enter a clear, specific question title..."
+                        required
+                        maxlength="200"
+                    >
+                    <div class="error-message">Please enter a descriptive question title (minimum 10 characters)</div>
+                </div>
+
+                <!-- Question Description -->
+                <div class="form-group">
+                    <label for="questionDescription" class="form-label">
+                        Question Description<span class="required-indicator">*</span>
+                    </label>
+                    <textarea 
+                        id="questionDescription" 
+                        class="form-input form-textarea" 
+                        placeholder="Provide more details about your question. Include what you've tried, what specific help you need, and any relevant context..."
+                        required
+                        maxlength="2000"
+                    ></textarea>
+                    <div class="char-count">
+                        <span id="charCount">0</span>/2000 characters
+                    </div>
+                    <div class="error-message">Please provide a detailed description (minimum 20 characters)</div>
+                </div>
+
+                <!-- Subject/Tags Selection -->
+                <div class="form-group">
+                    <label class="form-label">
+                        Select Relevant Subjects<span class="required-indicator">*</span>
+                    </label>
+                    <div class="subjects-container">
+                        <div class="subjects-title">Choose all subjects that relate to your question:</div>
+                        <div class="subjects-grid" id="subjectsGrid">
+                            <div class="subject-chip" onclick="toggleSubject(this)">
+                                <input type="checkbox" class="subject-checkbox" value="mathematics" id="math">
+                                <label for="math" class="subject-label">Mathematics</label>
+                            </div>
+                            <div class="subject-chip" onclick="toggleSubject(this)">
+                                <input type="checkbox" class="subject-checkbox" value="programming" id="programming">
+                                <label for="programming" class="subject-label">Programming</label>
+                            </div>
+                            <div class="subject-chip" onclick="toggleSubject(this)">
+                                <input type="checkbox" class="subject-checkbox" value="physics" id="physics">
+                                <label for="physics" class="subject-label">Physics</label>
+                            </div>
+                            <div class="subject-chip" onclick="toggleSubject(this)">
+                                <input type="checkbox" class="subject-checkbox" value="chemistry" id="chemistry">
+                                <label for="chemistry" class="subject-label">Chemistry</label>
+                            </div>
+                            <div class="subject-chip" onclick="toggleSubject(this)">
+                                <input type="checkbox" class="subject-checkbox" value="literature" id="literature">
+                                <label for="literature" class="subject-label">Literature</label>
+                            </div>
+                            <div class="subject-chip" onclick="toggleSubject(this)">
+                                <input type="checkbox" class="subject-checkbox" value="biology" id="biology">
+                                <label for="biology" class="subject-label">Biology</label>
+                            </div>
+                            <div class="subject-chip" onclick="toggleSubject(this)">
+                                <input type="checkbox" class="subject-checkbox" value="economics" id="economics">
+                                <label for="economics" class="subject-label">Economics</label>
+                            </div>
+                            <div class="subject-chip" onclick="toggleSubject(this)">
+                                <input type="checkbox" class="subject-checkbox" value="history" id="history">
+                                <label for="history" class="subject-label">History</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <button type="submit" class="submit-btn" id="submitBtn">
+                    Post Your Question
+                </button>
+            </form>
+        </section>
+
+        <!-- Tips Section -->
+        <div class="tips-section">
+            <h3 class="tips-title">Tips for Great Questions</h3>
+            <ul class="tips-list">
+                <li>Be specific and clear in your question title</li>
+                <li>Provide context and explain what you've already tried</li>
+                <li>Select relevant subjects to help others find your question</li>
+                <li>Use proper grammar and formatting for better readability</li>
+                <li>Include any error messages or specific issues you're facing</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        // Character count functionality
+        const questionDescription = document.getElementById('questionDescription');
+        const charCount = document.getElementById('charCount');
+
+        questionDescription.addEventListener('input', function() {
+            const count = this.value.length;
+            charCount.textContent = count;
+            
+            if (count > 1800) {
+                charCount.style.color = '#e74c3c';
+            } else if (count > 1500) {
+                charCount.style.color = '#f39c12';
+            } else {
+                charCount.style.color = '#666';
+            }
+        });
+
+        // Subject selection functionality
+        function toggleSubject(chipElement) {
+            const checkbox = chipElement.querySelector('.subject-checkbox');
+            checkbox.checked = !checkbox.checked;
+            
+            if (checkbox.checked) {
+                chipElement.classList.add('selected');
+            } else {
+                chipElement.classList.remove('selected');
+            }
+        }
+
+        // Form validation
+        function validateForm() {
+            let isValid = true;
+            
+            // Clear previous validation states
+            document.querySelectorAll('.form-input').forEach(input => {
+                input.classList.remove('invalid');
+            });
+
+            // Validate title
+            const title = document.getElementById('questionTitle');
+            if (title.value.trim().length < 10) {
+                title.classList.add('invalid');
+                isValid = false;
+            }
+
+            // Validate description
+            const description = document.getElementById('questionDescription');
+            if (description.value.trim().length < 20) {
+                description.classList.add('invalid');
+                isValid = false;
+            }
+
+            // Validate subjects selection
+            const selectedSubjects = document.querySelectorAll('.subject-checkbox:checked');
+            if (selectedSubjects.length === 0) {
+                alert('Please select at least one relevant subject for your question.');
+                isValid = false;
+            }
+
+            return isValid;
+        }
+
+        // Form submission
+        const questionForm = document.getElementById('questionForm');
+        const submitBtn = document.getElementById('submitBtn');
+        const successMessage = document.getElementById('successMessage');
+
+        questionForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            if (!validateForm()) {
+                return;
+            }
+            
+            // Simulate form submission
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Posting Your Question...';
+            
+            setTimeout(() => {
+                successMessage.style.display = 'block';
+                questionForm.reset();
+                charCount.textContent = '0';
+                
+                // Clear all selected subjects
+                document.querySelectorAll('.subject-chip').forEach(chip => {
+                    chip.classList.remove('selected');
+                    chip.querySelector('.subject-checkbox').checked = false;
+                });
+                
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Post Your Question';
+                
+                // Hide success message after 6 seconds
+                setTimeout(() => {
+                    successMessage.style.display = 'none';
+                }, 6000);
+                
+                // Scroll to top to show success message
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }, 1500);
+        });
+
+        // Auto-resize textarea
+        questionDescription.addEventListener('input', function() {
+            this.style.height = 'auto';
+            this.style.height = Math.max(150, this.scrollHeight) + 'px';
+        });
+
+        // Real-time validation feedback
+        document.getElementById('questionTitle').addEventListener('input', function() {
+            if (this.value.length >= 10) {
+                this.classList.remove('invalid');
+            }
+        });
+
+        document.getElementById('questionDescription').addEventListener('input', function() {
+            if (this.value.length >= 20) {
+                this.classList.remove('invalid');
+            }
+        });
+    </script>
+</body>
+</html>
