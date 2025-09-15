@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Submit Question - Campus Connect</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #ffffff;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        /* Header Styles */
+        .header {
+            background-color: #0D1B2A;
+            color: white;
+            padding: 1rem 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: white;
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: #1E90FF;
+        }
+
+        .back-button {
+            background-color: #0D1B2A;
+            color: white;
+            padding: 0.5rem 1rem;
+            border: 2px solid white;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .back-button:hover {
+            background-color: white;
+            color: #0D1B2A;
+        }
+
+        /* Main Content */
+        .main-container {
+            max-width: 800px;
+            margin: 3rem auto;
+            padding: 0 2rem;
+        }
+
+        .page-title {
+            text-align: center;
+            color: #0D1B2A;
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .page-subtitle {
+            text-align: center;
+            color: #666;
+            font-size: 1.1rem;
+            margin-bottom: 3rem;
+        }
+
+        /* Form Card */
+        .form-card {
+            background: white;
+            border-radius: 15px;
+            padding: 3rem;
+            box-shadow: 0 10px 30px rgba(13, 27, 42, 0.1);
+            border: 1px solid #f0f0f0;
+        }
+
+        .form-group {
+            margin-bottom: 2rem;
+        }
+
+        .form-label {
+            display: block;
+            font-weight: 600;
+            color: #0D1B2A;
+            margin-bottom: 0.5rem;
+            font-size: 1rem;
+        }
+
+        .form-input, .form-select, .form-textarea {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-family: inherit;
+            transition: all 0.3s ease;
+            background-color: #fafafa;
+        }
+
+        .form-input:focus, .form-select:focus, .form-textarea:focus {
+            outline: none;
+            border-color: #1E90FF;
+            background-color: white;
+            box-shadow: 0 0 0 3px rgba(30, 144, 255, 0.1);
+        }
+
+        .form-textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        /* Subjects Selection */
+        .subjects-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-top: 0.5rem;
+        }
+
+        .subject-item {
+            display: flex;
+            align-items: center;
+            padding: 0.75rem;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .subject-item:hover {
+            background-color: #e3f2fd;
+        }
+
+        .subject-item.selected {
+            background-color: #e3f2fd;
+            border-color: #1E90FF;
+        }
+
+        .subject-checkbox {
+            margin-right: 0.5rem;
+            width: 18px;
+            height: 18px;
+            accent-color: #1E90FF;
+        }
+
+        .subject-label {
+            font-weight: 500;
+            color: #333;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        /* Character Counter */
+        .char-counter {
+            text-align: right;
+            font-size: 0.9rem;
+            color: #666;
+            margin-top: 0.5rem;
+        }
+
+        .char-counter.warning {
+            color: #ff6b35;
+        }
+
+        /* Submit Button */
+        .submit-button {
+            width: 100%;
+            padding: 1.2rem;
+            background-color: #0D1B2A;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 1rem;
+        }
+
+        .submit-button:hover {
+            background-color: #1E90FF;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(30, 144, 255, 0.3);
+        }
+
+        .submit-button:active {
+            transform: translateY(0);
+        }
+
+        /* Success Message */
+        .success-message {
+            background-color: #d4edda;
+            color: #155724;
+            padding: 1rem;
+            border-radius: 8px;
+            border: 1px solid #c3e6cb;
+            margin-bottom: 2rem;
+            display: none;
+        }
+
+        /* Mobile Responsiveness */
+        @media (max-width: 768px) {
+            .nav-container {
+                padding: 0 1rem;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .main-container {
+                padding: 0 1rem;
+                margin: 2rem auto;
+            }
+
+            .page-title {
+                font-size: 2rem;
+            }
+
+            .form-card {
+                padding: 2rem 1.5rem;
+            }
+
+            .subjects-container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .form-card {
+                padding: 1.5rem 1rem;
+            }
+
+            .page-title {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="nav-container">
+            <a href="#" class="logo">Campus Connect</a>
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#">Questions</a></li>
+                    <li><a href="#">Notes</a></li>
+                    <li><a href="#">Market</a></li>
+                    <li><a href="#">Groups</a></li>
+                </ul>
+            </nav>
+            <a href="#" class="back-button">← Back to Questions</a>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-container">
+        <h1 class="page-title">Ask a Question</h1>
+        <p class="page-subtitle">Get help from your fellow students and educators</p>
+
+        <div id="successMessage" class="success-message">
+            Question submitted successfully! You'll be redirected to the questions page.
+        </div>
+
+        <div class="form-card">
+            <form id="questionForm">
+                <!-- Question Title -->
+                <div class="form-group">
+                    <label for="questionTitle" class="form-label">Question Title *</label>
+                    <input 
+                        type="text" 
+                        id="questionTitle" 
+                        name="question_title" 
+                        class="form-input" 
+                        placeholder="Enter your question" 
+                        required
+                    >
+                </div>
+
+                <!-- Course Dropdown -->
+                <div class="form-group">
+                    <label for="course" class="form-label">Course *</label>
+                    <select id="course" name="course" class="form-select" required>
+                        <option value="">Select a course</option>
+                        <option value="Computer Science">Computer Science</option>
+                        <option value="Mathematics">Mathematics</option>
+                        <option value="Engineering">Engineering</option>
+                        <option value="Business">Business</option>
+                        <option value="Literature">Literature</option>
+                        <option value="Physics">Physics</option>
+                        <option value="Chemistry">Chemistry</option>
+                        <option value="Biology">Biology</option>
+                        <option value="Psychology">Psychology</option>
+                        <option value="History">History</option>
+                        <option value="Others">Others</option>
+                    </select>
+                </div>
+
+                <!-- Subjects Selection -->
+                <div class="form-group">
+                    <label class="form-label">Related Subjects</label>
+                    <div class="subjects-container" id="subjectsContainer">
+                        <div class="subject-item">
+                            <input type="checkbox" id="algorithms" value="Algorithms" class="subject-checkbox">
+                            <label for="algorithms" class="subject-label">Algorithms</label>
+                        </div>
+                        <div class="subject-item">
+                            <input type="checkbox" id="datastructures" value="Data Structures" class="subject-checkbox">
+                            <label for="datastructures" class="subject-label">Data Structures</label>
+                        </div>
+                        <div class="subject-item">
+                            <input type="checkbox" id="calculus" value="Calculus" class="subject-checkbox">
+                            <label for="calculus" class="subject-label">Calculus</label>
+                        </div>
+                        <div class="subject-item">
+                            <input type="checkbox" id="algebra" value="Algebra" class="subject-checkbox">
+                            <label for="algebra" class="subject-label">Algebra</label>
+                        </div>
+                        <div class="subject-item">
+                            <input type="checkbox" id="statistics" value="Statistics" class="subject-checkbox">
+                            <label for="statistics" class="subject-label">Statistics</label>
+                        </div>
+                        <div class="subject-item">
+                            <input type="checkbox" id="programming" value="Programming" class="subject-checkbox">
+                            <label for="programming" class="subject-label">Programming</label>
+                        </div>
+                        <div class="subject-item">
+                            <input type="checkbox" id="databases" value="Databases" class="subject-checkbox">
+                            <label for="databases" class="subject-label">Databases</label>
+                        </div>
+                        <div class="subject-item">
+                            <input type="checkbox" id="networking" value="Networking" class="subject-checkbox">
+                            <label for="networking" class="subject-label">Networking</label>
+                        </div>
+                        <div class="subject-item">
+                            <input type="checkbox" id="webdev" value="Web Development" class="subject-checkbox">
+                            <label for="webdev" class="subject-label">Web Development</label>
+                        </div>
+                        <div class="subject-item">
+                            <input type="checkbox" id="mobile" value="Mobile Development" class="subject-checkbox">
+                            <label for="mobile" class="subject-label">Mobile Development</label>
+                        </div>
+                        <div class="subject-item">
+                            <input type="checkbox" id="ai" value="Artificial Intelligence" class="subject-checkbox">
+                            <label for="ai" class="subject-label">Artificial Intelligence</label>
+                        </div>
+                        <div class="subject-item">
+                            <input type="checkbox" id="other" value="Other" class="subject-checkbox">
+                            <label for="other" class="subject-label">Other</label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Description -->
+                <div class="form-group">
+                    <label for="description" class="form-label">Description *</label>
+                    <textarea 
+                        id="description" 
+                        name="description" 
+                        class="form-textarea" 
+                        placeholder="Describe your question in detail..." 
+                        rows="5" 
+                        maxlength="1000"
+                        required
+                    ></textarea>
+                    <div class="char-counter" id="charCounter">0 / 1000 characters</div>
+                </div>
+
+                <!-- Submit Button -->
+                <button type="submit" class="submit-button">Post Question</button>
+            </form>
+        </div>
+    </main>
+
+    <script>
+        // Character counter functionality
+        const descriptionTextarea = document.getElementById('description');
+        const charCounter = document.getElementById('charCounter');
+
+        descriptionTextarea.addEventListener('input', function() {
+            const currentLength = this.value.length;
+            const maxLength = 1000;
+            charCounter.textContent = `${currentLength} / ${maxLength} characters`;
+            
+            if (currentLength > maxLength * 0.9) {
+                charCounter.classList.add('warning');
+            } else {
+                charCounter.classList.remove('warning');
+            }
+        });
+
+        // Subject selection functionality
+        const subjectItems = document.querySelectorAll('.subject-item');
+        const subjectCheckboxes = document.querySelectorAll('.subject-checkbox');
+
+        subjectItems.forEach(item => {
+            item.addEventListener('click', function(e) {
+                if (e.target.type !== 'checkbox') {
+                    const checkbox = this.querySelector('.subject-checkbox');
+                    checkbox.checked = !checkbox.checked;
+                }
+                
+                if (this.querySelector('.subject-checkbox').checked) {
+                    this.classList.add('selected');
+                } else {
+                    this.classList.remove('selected');
+                }
+            });
+        });
+
+        subjectCheckboxes.forEach(checkbox => {
+            checkbox.addEventListener('change', function() {
+                const item = this.closest('.subject-item');
+                if (this.checked) {
+                    item.classList.add('selected');
+                } else {
+                    item.classList.remove('selected');
+                }
+            });
+        });
+
+        // Form submission functionality
+        const questionForm = document.getElementById('questionForm');
+        const successMessage = document.getElementById('successMessage');
+
+        questionForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            // Get form data
+            const formData = new FormData(this);
+            
+            // Get selected subjects
+            const selectedSubjects = [];
+            subjectCheckboxes.forEach(checkbox => {
+                if (checkbox.checked) {
+                    selectedSubjects.push(checkbox.value);
+                }
+            });
+
+            // Create the data object to be submitted
+            const questionData = {
+                question_title: formData.get('question_title'),
+                course: formData.get('course'),
+                subjects: selectedSubjects, // JSON array of selected subjects
+                description: formData.get('description'),
+                timestamp: new Date().toISOString(),
+                author: 'Current User' // This would come from authentication
+            };
+
+            // Basic validation
+            if (!questionData.question_title.trim()) {
+                alert('Please enter a question title.');
+                return;
+            }
+
+            if (!questionData.course) {
+                alert('Please select a course.');
+                return;
+            }
+
+            if (!questionData.description.trim()) {
+                alert('Please provide a description for your question.');
+                return;
+            }
+
+            // Log the data that would be sent to the server
+            console.log('Question Data to Submit:', JSON.stringify(questionData, null, 2));
+            
+            // Show success message
+            successMessage.style.display = 'block';
+            
+            // Scroll to top to show success message
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            
+            // Reset form
+            this.reset();
+            
+            // Remove selected classes from subjects
+            subjectItems.forEach(item => {
+                item.classList.remove('selected');
+            });
+            
+            // Reset character counter
+            charCounter.textContent = '0 / 1000 characters';
+            charCounter.classList.remove('warning');
+
+            // In a real application, you would send this data to your server
+            // fetch('/api/questions', {
+            //     method: 'POST',
+            //     headers: {
+            //         'Content-Type': 'application/json',
+            //     },
+            //     body: JSON.stringify(questionData)
+            // });
+
+            // Simulate redirect after 3 seconds
+            setTimeout(() => {
+                alert('Redirecting to questions page...');
+                // window.location.href = '/questions';
+            }, 3000);
+        });
+
+        // Add some interactive feedback
+        const inputs = document.querySelectorAll('.form-input, .form-select, .form-textarea');
+        inputs.forEach(input => {
+            input.addEventListener('focus', function() {
+                this.parentElement.querySelector('.form-label').style.color = '#1E90FF';
+            });
+            
+            input.addEventListener('blur', function() {
+                this.parentElement.querySelector('.form-label').style.color = '#0D1B2A';
+            });
+        });
+    </script>
+</body>
+</html>
