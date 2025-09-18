@@ -57,6 +57,7 @@ INSTALLED_APPS = [
     'Market',
     'Notes',
     'Question_Answer',
+    'Search',
     'User'
 
 ]

@@ -1,17 +1,75 @@
 const header = document.getElementById('header')
 const footer = document.getElementById('footer')
 
+// Sticky navbar on scroll
+window.addEventListener('scroll', function() {
+    const header = document.getElementById('header');
+    if (window.scrollY > 100) {
+        header.classList.add('scrolled');
+    } else {
+        header.classList.remove('scrolled');
+    }
+});
+
+// Mobile menu toggle
+const mobileToggle = document.getElementById('mobileToggle');
+const navLinks = document.getElementById('navLinks');
+
+mobileToggle.addEventListener('click', function() {
+    navLinks.classList.toggle('active');
+});
+
+// Smooth scrolling for anchor links
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+            target.scrollIntoView({
+                behavior: 'smooth',
+                block: 'start'
+            });
+        }
+    });
+});
+
+// Close mobile menu when clicking on a link
+navLinks.addEventListener('click', function(e) {
+    if (e.target.tagName === 'A') {
+        navLinks.classList.remove('active');
+    }
+});
+
+
+const searchBar = document.querySelector('.search-bar');
+searchBar.addEventListener('keypress', function(e) {
+    if (e.key === 'Enter') {
+        alert('Search functionality would be implemented here!');
+    }
+});
+
+function Search(){
+    //let url = search_btn.url
+    console.log('hello')
+}
+
+
 header.innerHTML = `
         <div class="nav-container">
-            <a href="#" class="logo">Campus Connect</a>
+            ${home}
             
             <nav>
                 <ul class="nav-links" id="navLinks">
                     ${nav_urls}
                 </ul>
             </nav>
+            <div class="search-container">
+                <input type="text" id='search-bar' class="search-bar" placeholder="Search...">
+                <button class="search-btn" id='search-btn' onClick='Search()'>🔍</button>    
+            </div>
 
-            ${login}            
+            ${login}
+                      
 
             <div class="mobile-toggle" id="mobileToggle">
                 <span></span>
@@ -60,3 +118,4 @@ footer.innerHTML = `
             </div>
         </div>
 `
+

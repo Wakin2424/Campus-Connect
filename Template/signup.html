@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up - Campus Connect</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/signup.css">
+    <link rel="stylesheet" href="css/nav.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header" id="header">
+        <!--Generated dynamically by js-->
+    </header>
+    <div class="signup-container">
+        <div class="header">
+            <div class="logo">Campus Connect</div>
+            <h1 class="signup-title">Create Your Account</h1>
+            <p class="signup-subtitle">Join our campus community today</p>
+        </div>
+
+        <form id="signupForm" onsubmit="handleSignup(event)">
+            <div class="form-container">
+                <!-- Required Information Fieldset -->
+                <fieldset>
+                    <legend>Required Information <span class="required-indicator">*</span></legend>
+                    
+                    <div class="form-group">
+                        <label class="form-label" for="firstName">
+                            First Name <span class="required">*</span>
+                        </label>
+                        <input 
+                            type="text" 
+                            id="firstName"
+                            name="firstName"
+                            class="form-input" 
+                            placeholder="Enter your first name"
+                            required
+                        >
+                        <div class="error-message" id="firstNameError"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="lastName">
+                            Last Name <span class="required">*</span>
+                        </label>
+                        <input 
+                            type="text" 
+                            id="lastName"
+                            name="lastName"
+                            class="form-input" 
+                            placeholder="Enter your last name"
+                            required
+                        >
+                        <div class="error-message" id="lastNameError"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="email">
+                            Email <span class="required">*</span>
+                        </label>
+                        <input 
+                            type="email" 
+                            id="email"
+                            name="email"
+                            class="form-input" 
+                            placeholder="Enter your email address"
+                            required
+                        >
+                        <div class="help-text">We'll use this for important notifications</div>
+                        <div class="error-message" id="emailError"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="phone">
+                            Contact Number <span class="required">*</span>
+                        </label>
+                        <input 
+                            type="tel" 
+                            id="phone"
+                            name="phone"
+                            class="form-input" 
+                            placeholder="Enter your phone number"
+                            required
+                        >
+                        <div class="help-text">Include country code (e.g., +254)</div>
+                        <div class="error-message" id="phoneError"></div>
+                    </div>
+                </fieldset>
+
+                <!-- Optional Information Fieldset -->
+                <fieldset>
+                    <legend>Optional Information</legend>
+                    
+                    <div class="form-group">
+                        <label class="form-label" for="course">Course</label>
+                        <input 
+                            type="text" 
+                            id="course"
+                            name="course"
+                            class="form-input" 
+                            placeholder="e.g., Computer Science"
+                        >
+                        <div class="help-text">Your field of study</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="yearOfStudy">Year of Study</label>
+                        <select id="yearOfStudy" name="yearOfStudy" class="form-select">
+                            <option value="">Select year</option>
+                            <option value="1st">1st Year</option>
+                            <option value="2nd">2nd Year</option>
+                            <option value="3rd">3rd Year</option>
+                            <option value="4th">4th Year</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="graduationLevel">Graduation Level</label>
+                        <select id="graduationLevel" name="graduationLevel" class="form-select">
+                            <option value="">Select level</option>
+                            <option value="certificate">Certificate</option>
+                            <option value="diploma">Diploma</option>
+                            <option value="degree">Degree</option>
+                            <option value="masters">Masters</option>
+                            <option value="phd">PhD</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <button type="button" class="more-fields-btn" onclick="toggleAdditionalFields()">
+                            <span>+ More</span>
+                        </button>
+                    </div>
+
+                    <div class="additional-fields" id="additionalFields">
+                        <div class="form-group">
+                            <label class="form-label" for="studentId">Student ID</label>
+                            <input 
+                                type="text" 
+                                id="studentId"
+                                name="studentId"
+                                class="form-input" 
+                                placeholder="Enter your student ID"
+                            >
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" for="campus">Campus</label>
+                            <input 
+                                type="text" 
+                                id="campus"
+                                name="campus"
+                                class="form-input" 
+                                placeholder="Enter your campus location"
+                            >
+                        </div>
+                    </div>
+                </fieldset>
+            </div>
+
+            <button type="submit" class="signup-btn" id="signupBtn">
+                Create Account
+            </button>
+        </form>
+
+        <div class="divider">
+            <span>or continue with</span>
+        </div>
+
+        <button class="google-btn" onclick="signupWithGoogle()">
+            <svg class="google-icon" viewBox="0 0 24 24">
+                <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+                <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+            </svg>
+            Sign up with Google
+        </button>
+
+        <div class="footer">
+            <p>Already have an account? <a href="#login">Login here</a></p>
+        </div>
+    </div>
+    <!-- Footer -->
+    <footer class="footer" id="footer">
+        <!--Generated dynamically by js-->
+    </footer>
+
+    <script>
+        const nav_urls = `
+                    <li><a href="home.html">Home</a></li>
+                    <li><a href="qa.html">Ask Questions</a></li>
+                    <li><a href="market.html">Sell Books</a></li>
+                    <li><a href="notes.html">Notes</a></li>
+                    <li><a href="group.html">Groups</a></li>
+                    `
+        const login = `
+        <div class="search-container">
+                <input type="text" class="search-bar" placeholder="Search...">
+                <a href="login.html" class="btn-primary">Login</a>
+            </div>`
+        const logout = `
+            <div class="user-dropdown">
+                <div class="user-avatar">JS</div>
+                <div class="dropdown-menu">
+                    <a href="#"><i class="fas fa-user"></i> Profile</a>
+                    <a href="#"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                </div>
+            </div>
+        `
+
+
+        const footer_urls = `
+                    <a href="#">About Us</a>
+                    <a href="#">Contact</a>
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Terms of Service</a>
+                    <a href="#">Help Center</a>`
+        const footer_urls_2 = `
+                    <a href="qa.html">Ask Questions</a>
+                    <a href="market.html">Sell Books</a>
+                    <a href="notes.html">Share Notes</a>
+                    <a href="group.html">Create Groups</a>
+                    <a href="home">Campus Events</a>`
+    </script>
+    <script src="css/index.js"></script>
+
+    <script>
+        function toggleAdditionalFields() {
+            const additionalFields = document.getElementById('additionalFields');
+            const moreBtn = document.querySelector('.more-fields-btn span');
+            
+            if (additionalFields.classList.contains('show')) {
+                additionalFields.classList.remove('show');
+                moreBtn.textContent = '+ More';
+            } else {
+                additionalFields.classList.add('show');
+                moreBtn.textContent = '- Less';
+            }
+        }
+
+        function handleSignup(event) {
+            event.preventDefault();
+            
+            const signupBtn = document.getElementById('signupBtn');
+            const formData = new FormData(document.getElementById('signupForm'));
+            
+            // Basic validation
+            if (!validateForm()) {
+                return;
+            }
+            
+            // Add loading state
+            signupBtn.classList.add('btn-loading');
+            signupBtn.disabled = true;
+            
+            // Simulate signup process
+            setTimeout(() => {
+                signupBtn.classList.remove('btn-loading');
+                signupBtn.disabled = false;
+                alert('Account created successfully!');
+                // Here you would typically redirect or handle the signup response
+            }, 2000);
+        }
+
+        function validateForm() {
+            let isValid = true;
+            
+            // Email validation
+            const email = document.getElementById('email');
+            const emailError = document.getElementById('emailError');
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            
+            if (!emailRegex.test(email.value)) {
+                email.classList.add('error');
+                emailError.textContent = 'Please enter a valid email address';
+                isValid = false;
+            } else {
+                email.classList.remove('error');
+                email.classList.add('success');
+                emailError.textContent = '';
+            }
+            
+            // Phone validation
+            const phone = document.getElementById('phone');
+            const phoneError = document.getElementById('phoneError');
+            const phoneRegex = /^\+?[\d\s\-\(\)]{10,}$/;
+            
+            if (!phoneRegex.test(phone.value)) {
+                phone.classList.add('error');
+                phoneError.textContent = 'Please enter a valid phone number';
+                isValid = false;
+            } else {
+                phone.classList.remove('error');
+                phone.classList.add('success');
+                phoneError.textContent = '';
+            }
+            
+            return isValid;
+        }
+
+        function signupWithGoogle() {
+            alert('Google signup would be implemented here');
+            // Here you would integrate with Google OAuth
+        }
+
+        // Real-time validation
+        document.getElementById('email').addEventListener('blur', function() {
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            const emailError = document.getElementById('emailError');
+            
+            if (this.value && emailRegex.test(this.value)) {
+                this.classList.add('success');
+                this.classList.remove('error');
+                emailError.textContent = '';
+            } else if (this.value) {
+                this.classList.add('error');
+                this.classList.remove('success');
+                emailError.textContent = 'Please enter a valid email address';
+            }
+        });
+
+        document.getElementById('phone').addEventListener('blur', function() {
+            const phoneRegex = /^\+?[\d\s\-\(\)]{10,}$/;
+            const phoneError = document.getElementById('phoneError');
+            
+            if (this.value && phoneRegex.test(this.value)) {
+                this.classList.add('success');
+                this.classList.remove('error');
+                phoneError.textContent = '';
+            } else if (this.value) {
+                this.classList.add('error');
+                this.classList.remove('success');
+                phoneError.textContent = 'Please enter a valid phone number';
+            }
+        });
+
+        // Add success styling for required text fields
+        ['firstName', 'lastName'].forEach(fieldId => {
+            document.getElementById(fieldId).addEventListener('input', function() {
+                if (this.value.trim().length >= 2) {
+                    this.classList.add('success');
+                    this.classList.remove('error');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
