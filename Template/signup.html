@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,8 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sign Up - Campus Connect</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="css/signup.css">
-    <link rel="stylesheet" href="css/nav.css">
+    <link rel="stylesheet" href="{%static 'CSS/signup.css'%}">
+    <link rel="stylesheet" href="{%static 'CSS/nav.css'%}">
 </head>
 <body>
     <!-- Header -->
@@ -14,13 +15,16 @@
         <!--Generated dynamically by js-->
     </header>
     <div class="signup-container">
-        <div class="header">
+        <div class="header1">
             <div class="logo">Campus Connect</div>
             <h1 class="signup-title">Create Your Account</h1>
             <p class="signup-subtitle">Join our campus community today</p>
         </div>
 
-        <form id="signupForm" onsubmit="handleSignup(event)">
+        {{error}}
+
+        <form id="signupForm" method="POST" onsubmit="handleSignup(event)">
+            {% csrf_token %}
             <div class="form-container">
                 <!-- Required Information Fieldset -->
                 <fieldset>
@@ -33,7 +37,7 @@
                         <input 
                             type="text" 
                             id="firstName"
-                            name="firstName"
+                            name="first_name"
                             class="form-input" 
                             placeholder="Enter your first name"
                             required
@@ -48,7 +52,7 @@
                         <input 
                             type="text" 
                             id="lastName"
-                            name="lastName"
+                            name="last_name"
                             class="form-input" 
                             placeholder="Enter your last name"
                             required
@@ -79,12 +83,43 @@
                         <input 
                             type="tel" 
                             id="phone"
-                            name="phone"
+                            name="contact"
                             class="form-input" 
                             placeholder="Enter your phone number"
                             required
                         >
                         <div class="help-text">Include country code (e.g., +254)</div>
+                        <div class="error-message" id="phoneError"></div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="password">
+                            password <span class="required">*</span>
+                        </label>
+                        <input 
+                            type="password" 
+                            id="password"
+                            name="password1"
+                            class="form-input" 
+                            placeholder="Enter a strong password"
+                            oninput="passwordValidate()"
+                            required
+                        >
+                        <div class="help-text">have more than 8 characters, Include A-Z, a-z, 1-9, !#%#@%</div>
+                        <div class="error-message" id="phoneError"></div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="password2">
+                            Confirm password <span class="required">*</span>
+                        </label>
+                        <input 
+                            type="password" 
+                            id="password2"
+                            name="password2"
+                            class="form-input" 
+                            placeholder="Confirm password"
+                            oninput="password2validate()"
+                            required
+                        >
                         <div class="error-message" id="phoneError"></div>
                     </div>
                 </fieldset>
@@ -94,32 +129,45 @@
                     <legend>Optional Information</legend>
                     
                     <div class="form-group">
-                        <label class="form-label" for="course">Course</label>
+                        <label class="form-label" for="career">career</label>
                         <input 
                             type="text" 
-                            id="course"
-                            name="course"
+                            id="career"
+                            name="career"
                             class="form-input" 
-                            placeholder="e.g., Computer Science"
+                            placeholder="e.g., Computer Scientist"
                         >
                         <div class="help-text">Your field of study</div>
                     </div>
 
                     <div class="form-group">
-                        <label class="form-label" for="yearOfStudy">Year of Study</label>
-                        <select id="yearOfStudy" name="yearOfStudy" class="form-select">
-                            <option value="">Select year</option>
-                            <option value="1st">1st Year</option>
-                            <option value="2nd">2nd Year</option>
-                            <option value="3rd">3rd Year</option>
-                            <option value="4th">4th Year</option>
-                            <option value="other">Other</option>
+                        <label class="form-label" for="course">course</label>
+                        <select id="course" name="course" class="form-select">
+                            <option value="">Select course</option>
+                            {% for course in courses %}
+                                <option value="{{ course.course_name}}">{{ course.course_name }}</option>
+                            {% endfor %}
+                            <option value="Other">Other</option>
+                           
                         </select>
                     </div>
 
                     <div class="form-group">
-                        <label class="form-label" for="graduationLevel">Graduation Level</label>
-                        <select id="graduationLevel" name="graduationLevel" class="form-select">
+                        <label class="form-label" for="year_of_study">Year of Study</label>
+                        <select id="year_of_study" name="year_of_study" class="form-select">
+                            <option value="">Select year</option>
+                            <option value="1">1st Year</option>
+                            <option value="2">2nd Year</option>
+                            <option value="3">3rd Year</option>
+                            <option value="4">4th Year</option>
+                            <option value="5">5th Year</option>
+                            <option value="6">6th Year</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="graduation_level">Graduation Level</label>
+                        <select id="graduation_level" name="graduation_level" class="form-select">
                             <option value="">Select level</option>
                             <option value="certificate">Certificate</option>
                             <option value="diploma">Diploma</option>
@@ -154,7 +202,17 @@
                                 id="campus"
                                 name="campus"
                                 class="form-input" 
-                                placeholder="Enter your campus location"
+                                placeholder="Enter your campus name"
+                            >
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="career_description">Career description</label>
+                            <input 
+                                type="text" 
+                                id="career_description"
+                                name="career_description"
+                                class="form-input" 
+                                placeholder="Describe about your career"
                             >
                         </div>
                     </div>
@@ -180,8 +238,8 @@
             Sign up with Google
         </button>
 
-        <div class="footer">
-            <p>Already have an account? <a href="#login">Login here</a></p>
+        <div class="footer1">
+            <p>Already have an account? <a href="{%url 'login'%}">Login here</a></p>
         </div>
     </div>
     <!-- Footer -->
@@ -189,29 +247,56 @@
         <!--Generated dynamically by js-->
     </footer>
 
+    {% if user.is_authenticated %}
     <script>
+        const home = `<a href="#" class="logo">Campus Connect</a>`
+        const search = `
+            <a href=''><button class="search-btn">🔍</button></a>
+            `
         const nav_urls = `
-                    <li><a href="home.html">Home</a></li>
                     <li><a href="qa.html">Ask Questions</a></li>
                     <li><a href="market.html">Sell Books</a></li>
                     <li><a href="notes.html">Notes</a></li>
                     <li><a href="group.html">Groups</a></li>
                     `
-        const login = `
-        <div class="search-container">
-                <input type="text" class="search-bar" placeholder="Search...">
-                <a href="login.html" class="btn-primary">Login</a>
-            </div>`
-        const logout = `
+        const login= `
             <div class="user-dropdown">
                 <div class="user-avatar">JS</div>
                 <div class="dropdown-menu">
                     <a href="#"><i class="fas fa-user"></i> Profile</a>
-                    <a href="#"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                    <a href="{%url 'logout'%}"><i class="fas fa-sign-out-alt"></i> Logout</a>
                 </div>
             </div>
         `
+        const footer_urls = `
+                    <a href="#">About Us</a>
+                    <a href="#">Contact</a>
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Terms of Service</a>
+                    <a href="#">Help Center</a>`
+        const footer_urls_2 = `
+                    <a href="qa.html">Ask Questions</a>
+                    <a href="market.html">Sell Books</a>
+                    <a href="notes.html">Share Notes</a>
+                    <a href="group.html">Create Groups</a>
+                    <a href="{%url 'home'%}">Campus Events</a>`
+    </script>
+    {% else %}
+    <script>
+        const home = `<a href="{%url 'home'%}" class="logo">Campus Connect</a>`
+        const search = `
+            <a href=''><button class="search-btn">🔍</button></a>
+            `
+        const nav_urls = `
+                    <li><a href="qa.html">Ask Questions</a></li>
+                    <li><a href="market.html">Sell Books</a></li>
+                    <li><a href="notes.html">Notes</a></li>
+                    <li><a href="group.html">Groups</a></li>
+                    `
 
+        const login = `
+                <a href="{%url 'login'%}" class="btn-primary">Login</a>
+            `
 
         const footer_urls = `
                     <a href="#">About Us</a>
@@ -224,11 +309,55 @@
                     <a href="market.html">Sell Books</a>
                     <a href="notes.html">Share Notes</a>
                     <a href="group.html">Create Groups</a>
-                    <a href="home">Campus Events</a>`
+                    <a href="{%url 'home'%}">Campus Events</a>`
     </script>
-    <script src="css/index.js"></script>
+    {% endif %}
+    <script src="{%static 'JS/index.js'%}"></script>
 
     <script>
+        const password1 = document.getElementById('password')
+        const password2 = document.getElementById('password2')
+
+        function passwordValidate(){
+            let value = password1.value
+            let valid = true
+            password.style.borderColor = "black"
+
+            strength = 0;
+
+             // Length check
+            if (value.length >= 8) strength++;
+            // Lowercase check
+            if (/[a-z]/.test(value)) strength++;
+            // Uppercase check
+            if (/[A-Z]/.test(value)) strength++;
+            // Number check
+            if (/\d/.test(value)) strength++;
+            // Special character check
+            if (/[@$!%*?&]/.test(value)) strength++;
+            if (strength === 5){
+                valid = true
+                password.style.borderColor = "#10b981"
+            }
+            else {
+                password.style.borderColor = "#ef4444"
+            }
+
+            return valid;
+        }
+
+        function password2validate(){
+
+            if (password2.value === password1.value){
+                password2.style.borderColor = "#10b981"
+                return true;
+            }
+            else{
+                password2.style.borderColor = "#ef4444"
+                return false;
+            }
+        }
+
         function toggleAdditionalFields() {
             const additionalFields = document.getElementById('additionalFields');
             const moreBtn = document.querySelector('.more-fields-btn span');
@@ -246,7 +375,7 @@
             event.preventDefault();
             
             const signupBtn = document.getElementById('signupBtn');
-            const formData = new FormData(document.getElementById('signupForm'));
+            const formData = document.getElementById('signupForm');
             
             // Basic validation
             if (!validateForm()) {
@@ -258,12 +387,7 @@
             signupBtn.disabled = true;
             
             // Simulate signup process
-            setTimeout(() => {
-                signupBtn.classList.remove('btn-loading');
-                signupBtn.disabled = false;
-                alert('Account created successfully!');
-                // Here you would typically redirect or handle the signup response
-            }, 2000);
+            formData.submit()
         }
 
         function validateForm() {
@@ -298,13 +422,20 @@
                 phone.classList.add('success');
                 phoneError.textContent = '';
             }
-            
+
+            if (passwordValidate() && password2validate()){
+                isValid = true
+            }
+
+            else{
+                isValid = false
+            }
             return isValid;
         }
 
         function signupWithGoogle() {
-            alert('Google signup would be implemented here');
             // Here you would integrate with Google OAuth
+            window.location.href = "{% url 'social:begin' 'google-oauth2' %}?next={{ request.path }}"
         }
 
         // Real-time validation

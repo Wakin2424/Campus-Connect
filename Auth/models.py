@@ -31,7 +31,7 @@ class CustomUser(AbstractUser):
     career = models.ForeignKey('career', models.DO_NOTHING, null=True, blank=True)
     year_of_study = models.IntegerField(null=True, blank=True)
     graduation_level = models.CharField(max_length=200,  null=True, blank=True)
-    verified = models.BooleanField(default=False)
+    is_verified = models.BooleanField(default=False)
     
 
     USERNAME_FIELD = 'email'         # Use email to log in
@@ -54,7 +54,7 @@ class AuthCustomuser(models.Model):
     email = models.CharField(unique=True, max_length=254)
     contact = models.CharField(max_length=15)
     graduation_level = models.CharField(max_length=200, blank=True, null=True)
-    is_verified = models.BooleanField()
+    is_verified = models.BooleanField(default=False)
     year_of_study = models.IntegerField(blank=True, null=True)
     career = models.ForeignKey('Career', models.DO_NOTHING, blank=True, null=True)
     course = models.ForeignKey('Course', models.DO_NOTHING, blank=True, null=True)

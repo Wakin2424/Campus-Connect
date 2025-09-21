@@ -36,6 +36,7 @@ CREATE TABLE qa (
     views INT DEFAULT 0,                  
     likes INT DEFAULT 0,                  
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    subjects JSONB DEFAULT '[]'
 );
 
 CREATE TABLE notes (

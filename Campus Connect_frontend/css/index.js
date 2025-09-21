@@ -3,13 +3,17 @@ const footer = document.getElementById('footer')
 
 header.innerHTML = `
         <div class="nav-container">
-            <a href="#" class="logo">Campus Connect</a>
+            ${home}
             
             <nav>
                 <ul class="nav-links" id="navLinks">
                     ${nav_urls}
                 </ul>
             </nav>
+            <div class="search-container">
+                <input type="text" class="search-bar" placeholder="Search...">
+                ${search}
+            </div>
 
             ${login}            
 

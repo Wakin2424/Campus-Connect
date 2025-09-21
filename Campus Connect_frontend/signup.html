@@ -14,7 +14,7 @@
         <!--Generated dynamically by js-->
     </header>
     <div class="signup-container">
-        <div class="header">
+        <div class="header1">
             <div class="logo">Campus Connect</div>
             <h1 class="signup-title">Create Your Account</h1>
             <p class="signup-subtitle">Join our campus community today</p>
@@ -180,7 +180,7 @@
             Sign up with Google
         </button>
 
-        <div class="footer">
+        <div class="footer1">
             <p>Already have an account? <a href="#login">Login here</a></p>
         </div>
     </div>
@@ -190,18 +190,19 @@
     </footer>
 
     <script>
+        const home = `<a href="#" class="logo">Campus Connect</a>`
+        const search = `
+            <a href=''><button class="search-btn">🔍</button></a>
+            `
         const nav_urls = `
-                    <li><a href="home.html">Home</a></li>
                     <li><a href="qa.html">Ask Questions</a></li>
                     <li><a href="market.html">Sell Books</a></li>
                     <li><a href="notes.html">Notes</a></li>
                     <li><a href="group.html">Groups</a></li>
                     `
         const login = `
-        <div class="search-container">
-                <input type="text" class="search-bar" placeholder="Search...">
-                <a href="login.html" class="btn-primary">Login</a>
-            </div>`
+                <a href="login.html" class="btn-primary">Login/Sign Up</a>
+            `
         const logout = `
             <div class="user-dropdown">
                 <div class="user-avatar">JS</div>
@@ -211,8 +212,6 @@
                 </div>
             </div>
         `
-
-
         const footer_urls = `
                     <a href="#">About Us</a>
                     <a href="#">Contact</a>
