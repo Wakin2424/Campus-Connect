@@ -92,7 +92,7 @@ class Notes(models.Model):
     likes = models.IntegerField(blank=True, null=True)
     subjects = models.TextField(blank=True, null=True)  # This field type is a guess.
     pages = models.IntegerField(blank=True, null=True)
-    uploaded_at = models.DateTimeField(blank=True, null=True)
+    uploaded_at = models.DateTimeField(blank=True, null=True, default=str(dt.datetime.now()))
 
     class Meta:
         managed = False
@@ -104,10 +104,9 @@ class Notifications(models.Model):
     user = models.ForeignKey(AuthCustomuser, models.DO_NOTHING, blank=True, null=True)
     message = models.TextField()
     is_read = models.BooleanField(blank=True, null=True)
-    created_at = models.DateTimeField(blank=True, null=True)
+    created_at = models.DateTimeField(blank=True, null=True, default=str(dt.datetime.now()))
 
     class Meta:
-        managed = False
         db_table = 'notifications'
 
 class Qa(models.Model):
@@ -120,10 +119,10 @@ class Qa(models.Model):
     answers = models.JSONField(blank=True, null=True)
     views = models.IntegerField(blank=True, null=True)
     likes = models.IntegerField(blank=True, null=True)
-    created_at = models.DateTimeField(blank=True, null=True)
+    created_at = models.DateTimeField(blank=True, default=str(dt.datetime.now()))
 
     class Meta:
-        managed = False
+
         db_table = 'qa'
 
 class StudyGroupMembers(models.Model):
