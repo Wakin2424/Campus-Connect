@@ -1,0 +1,326 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Campus Connect - Profile</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{%static 'CSS/profile.css'%}">
+    <link rel="stylesheet" href="{%static 'CSS/nav.css'%}">
+    <style>
+        
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header" id="header">
+        
+    </header>
+    <div class="container">
+        <div class="main-content">
+            <!-- Profile Header -->
+            <div class="card">
+                <div class="profile-header">
+                    <div class="profile-picture">
+                        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='50' fill='%231E90FF'/%3E%3Ctext x='50' y='60' font-family='Arial' font-size='30' fill='white' text-anchor='middle'%3EJS%3C/text%3E%3C/svg%3E" alt="Profile Picture">
+                    </div>
+                    <div class="profile-info">
+                        <h1>
+                            {{user.first_name}} {{user.last_name}}
+                            <i class="fas fa-check-circle verified-badge"></i>
+                        </h1>
+                        {%if user.is_verified %}
+                        <div class="verification-note">
+                            <i class="fas fa-shield-alt"></i> Verified Campus Member
+                        </div>
+                        {% endif %}
+                        <div class="contact-info">
+                            <p><i class="fas fa-envelope"></i> {{user.email}}</p>
+                            <p><i class="fas fa-phone"></i> {{user.contact}}</p>
+                        </div>
+                        <button class="edit-btn">
+                            <i class="fas fa-edit"></i> Edit Profile
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- User Stats -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number">25</div>
+                    <div class="stat-label">Total Uploads</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">3,500</div>
+                    <div class="stat-label">Total Views</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">★ 4.8</div>
+                    <div class="stat-label">Average Rating</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">5</div>
+                    <div class="stat-label">Groups Joined</div>
+                </div>
+            </div>
+
+            <!-- User Uploads -->
+            <div class="card">
+                <div class="tabs">
+                    <div class="tab-buttons">
+                        <button class="tab-btn active" onclick="showTab('notes')">Notes</button>
+                        <button class="tab-btn" onclick="showTab('books')">Books for Sale</button>
+                        <button class="tab-btn" onclick="showTab('other')">Other Uploads</button>
+                    </div>
+                </div>
+
+                <div id="notes" class="tab-content active">
+                    <div class="uploads-grid">
+                        <div class="upload-card">
+                            <div class="upload-title">Data Structures & Algorithms</div>
+                            <div class="upload-description">Complete notes covering binary trees, sorting algorithms, and complexity analysis.</div>
+                            <div class="upload-meta">
+                                <span><i class="fas fa-eye"></i> 456 views</span>
+                                <span class="rating"><i class="fas fa-star"></i> 4.9</span>
+                            </div>
+                            <div class="upload-meta">
+                                <span>Uploaded: March 15, 2025</span>
+                                <a href="#" class="view-link">View Details <i class="fas fa-arrow-right"></i></a>
+                            </div>
+                        </div>
+                        <div class="upload-card">
+                            <div class="upload-title">Calculus II Final Review</div>
+                            <div class="upload-description">Comprehensive review notes with practice problems and solutions.</div>
+                            <div class="upload-meta">
+                                <span><i class="fas fa-eye"></i> 623 views</span>
+                                <span class="rating"><i class="fas fa-star"></i> 4.7</span>
+                            </div>
+                            <div class="upload-meta">
+                                <span>Uploaded: February 28, 2025</span>
+                                <a href="#" class="view-link">View Details <i class="fas fa-arrow-right"></i></a>
+                            </div>
+                        </div>
+                        <div class="upload-card">
+                            <div class="upload-title">Physics Lab Reports</div>
+                            <div class="upload-description">Collection of physics lab reports with detailed analysis and conclusions.</div>
+                            <div class="upload-meta">
+                                <span><i class="fas fa-eye"></i> 234 views</span>
+                                <span class="rating"><i class="fas fa-star"></i> 4.6</span>
+                            </div>
+                            <div class="upload-meta">
+                                <span>Uploaded: February 10, 2025</span>
+                                <a href="#" class="view-link">View Details <i class="fas fa-arrow-right"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="books" class="tab-content">
+                    <div class="uploads-grid">
+                        <div class="upload-card">
+                            <div class="upload-title">Introduction to Computer Science (9th Ed.)</div>
+                            <div class="upload-description">Excellent condition textbook with minimal highlighting. Perfect for CS101.</div>
+                            <div class="upload-meta">
+                                <span><i class="fas fa-eye"></i> 89 views</span>
+                                <span class="rating"><i class="fas fa-star"></i> 5.0</span>
+                            </div>
+                            <div class="upload-meta">
+                                <span>Listed: March 1, 2025</span>
+                                <a href="#" class="view-link">View Details <i class="fas fa-arrow-right"></i></a>
+                            </div>
+                        </div>
+                        <div class="upload-card">
+                            <div class="upload-title">Organic Chemistry Textbook</div>
+                            <div class="upload-description">Complete with solution manual. Great for CHEM301 and CHEM302.</div>
+                            <div class="upload-meta">
+                                <span><i class="fas fa-eye"></i> 156 views</span>
+                                <span class="rating"><i class="fas fa-star"></i> 4.8</span>
+                            </div>
+                            <div class="upload-meta">
+                                <span>Listed: January 20, 2025</span>
+                                <a href="#" class="view-link">View Details <i class="fas fa-arrow-right"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="other" class="tab-content">
+                    <div class="uploads-grid">
+                        <div class="upload-card">
+                            <div class="upload-title">Study Group Schedule</div>
+                            <div class="upload-description">Weekly study group schedule for Computer Science students.</div>
+                            <div class="upload-meta">
+                                <span><i class="fas fa-eye"></i> 178 views</span>
+                                <span class="rating"><i class="fas fa-star"></i> 4.5</span>
+                            </div>
+                            <div class="upload-meta">
+                                <span>Posted: March 5, 2025</span>
+                                <a href="#" class="view-link">View Details <i class="fas fa-arrow-right"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <!-- Profile Completion -->
+            <div class="card progress-card">
+                <h3>Profile Completion</h3>
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 85%"></div>
+                </div>
+                <p style="color: #666; font-size: 0.9rem;">85% Complete</p>
+                <p style="color: #666; font-size: 0.8rem; margin-top: 0.5rem;">Add a bio to reach 100%</p>
+            </div>
+
+            <!-- Review Summary -->
+            <div class="card review-summary">
+                <h3>Overall Rating</h3>
+                <div class="big-rating">4.8</div>
+                <div class="rating-stars">★★★★★</div>
+                <p style="color: #666;">Based on 47 reviews</p>
+            </div>
+
+            <!-- Recent Activity -->
+            <div class="card">
+                <h3 style="color: #0D1B2A; margin-bottom: 1rem;">Recent Activity</h3>
+                <div class="activity-item">
+                    <div class="activity-icon">
+                        <i class="fas fa-file-upload"></i>
+                    </div>
+                    <div class="activity-text">
+                        <p>Uploaded new notes</p>
+                        <div class="activity-time">2 hours ago</div>
+                    </div>
+                </div>
+                <div class="activity-item">
+                    <div class="activity-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div class="activity-text">
+                        <p>Joined CS Study Group</p>
+                        <div class="activity-time">1 day ago</div>
+                    </div>
+                </div>
+                <div class="activity-item">
+                    <div class="activity-icon">
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <div class="activity-text">
+                        <p>Received 5-star review</p>
+                        <div class="activity-time">3 days ago</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer" id="footer">
+        <!--Generated dynamically by js-->
+    </footer>
+    <script>
+        const home = `<a href="{%url 'home'%}" class="logo">Campus Connect</a>`
+        const user_name = '{{ user.first_name|upper|slice:":1" }}' + '{{ user.last_name|upper|slice:":1" }}'
+        const search = `
+            <input type="text" class="search-bar" id="search-bar" placeholder="Search...">
+            <button class="search-btn" onClick="Search()">🔍</button>
+            `
+        const nav_urls = `
+                    <li><a href="{%url 'question_library'%}">Ask Questions</a></li>
+                    <li><a href="market.html">Sell Books</a></li>
+                    <li><a href="notes.html">Notes</a></li>
+                    <li><a href="group.html">Groups</a></li>
+                    `
+        const login= `
+            <button class="quick-post-btn">+ Quick Post</button>
+            <div class="user-dropdown">
+                <div class="user-avatar">${user_name}</div>
+                <div class="dropdown-menu">
+                    <a href="{%url 'logout'%}"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                </div>
+            </div>
+        `
+        const footer_urls = `
+                    <a href="#">About Us</a>
+                    <a href="#">Contact</a>
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Terms of Service</a>
+                    <a href="#">Help Center</a>`
+        const footer_urls_2 = `
+                    <a href="{%url 'question_library'%}">Ask Questions</a>
+                    <a href="market.html">Sell Books</a>
+                    <a href="notes.html">Share Notes</a>
+                    <a href="group.html">Create Groups</a>
+                    <a href="{%url 'home'%}">Campus Events</a>`
+    </script>
+    
+    <script src="{%static 'JS/index.js'%}"></script>
+    <script>
+        function Search(){
+            const search_link = "{%url 'search'%}"
+            let search_data = document.getElementById('search-bar')
+            window.location.href = search_link + `?result=${search_data.value}`
+        }
+    </script>
+
+    <script>
+        function showTab(tabName) {
+            // Hide all tab contents
+            const tabContents = document.querySelectorAll('.tab-content');
+            tabContents.forEach(content => content.classList.remove('active'));
+            
+            // Remove active class from all buttons
+            const tabButtons = document.querySelectorAll('.tab-btn');
+            tabButtons.forEach(btn => btn.classList.remove('active'));
+            
+            // Show selected tab content
+            document.getElementById(tabName).classList.add('active');
+            
+            // Add active class to clicked button
+            event.target.classList.add('active');
+        }
+
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        // Add loading animation for upload cards
+        const uploadCards = document.querySelectorAll('.upload-card');
+        uploadCards.forEach((card, index) => {
+            card.style.animationDelay = `${index * 0.1}s`;
+            card.style.animation = 'fadeInUp 0.6s ease forwards';
+        });
+
+        // CSS for fade in animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes fadeInUp {
+                from {
+                    opacity: 0;
+                    transform: translateY(20px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>

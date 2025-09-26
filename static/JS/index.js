@@ -11,7 +11,6 @@ header.innerHTML = `
                 </ul>
             </nav>
             <div class="search-container">
-                <input type="text" class="search-bar" placeholder="Search...">
                 ${search}
             </div>
 

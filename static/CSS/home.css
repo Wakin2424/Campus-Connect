@@ -11,23 +11,6 @@ body {
     line-height: 1.6;
 }
 
-.quick-post-btn {
-    background-color: #13283f;
-    color: white;
-    padding: 0.6rem 1.2rem;
-    border: none;
-    border-radius: 25px;
-    font-weight: 500;
-    cursor: pointer;
-    transition: all 0.3s ease;
-}
-
-.quick-post-btn:hover {
-    background-color: #4169E1;
-    transform: translateY(-1px);
-}
-
-
 /* Main Content */
 .main-container {
     max-width: 1400px;

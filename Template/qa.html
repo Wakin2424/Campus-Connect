@@ -21,49 +21,10 @@
         <!-- Page Header -->
         <div class="page-header">
             <h1 class="page-title">Ask & Answer Questions</h1>
-            <button class="btn-ask" id="askBtn">
+            <button class="btn-ask" id="askBtn" onclick="Askquestion()">
                 <i class="fas fa-plus"></i>
                 Ask a Question
             </button>
-        </div>
-
-        <!-- Question Form -->
-        <div class="question-form" id="questionForm">
-            <h2 style="color: #0D1B2A; margin-bottom: 1.5rem; font-size: 1.3rem;">Submit Your Question</h2>
-            <form id="submitForm">
-                <div class="form-group">
-                    <label for="questionTitle">Question Title *</label>
-                    <input type="text" id="questionTitle" name="title" placeholder="What's your question?" required>
-                </div>
-                
-                <div class="form-group">
-                    <label for="questionDesc">Question Description *</label>
-                    <textarea id="questionDesc" name="description" placeholder="Provide more details about your question..." required></textarea>
-                </div>
-                
-                <div class="form-group">
-                    <label for="questionCategory">Category</label>
-                    <select id="questionCategory" name="category">
-                        <option value="">Select a category</option>
-                        <option value="academics">Academics</option>
-                        <option value="programming">Programming</option>
-                        <option value="mathematics">Mathematics</option>
-                        <option value="science">Science</option>
-                        <option value="literature">Literature</option>
-                        <option value="general">General</option>
-                    </select>
-                </div>
-                
-                <div class="form-group">
-                    <label for="questionTags">Tags (optional)</label>
-                    <input type="text" id="questionTags" name="tags" placeholder="e.g., calculus, programming, biology">
-                </div>
-                
-                <div class="form-actions">
-                    <button type="button" class="btn-secondary" id="cancelBtn">Cancel</button>
-                    <button type="submit" class="btn-primary">Submit Question</button>
-                </div>
-            </form>
         </div>
 
         <!-- Main Layout -->
@@ -277,11 +238,10 @@
     {% if user.is_authenticated %}
     <script>
         const home = `<a href="{%url 'home'%}" class="logo">Campus Connect</a>`
-        const user_first = '{{ user.first_name|upper|slice:":1" }}'
-        const user_last = '{{ user.last_name|upper|slice:":1" }}'
-        console.log(user_first+user_last)
+        const user_name = '{{ user.first_name|upper|slice:":1" }}' + '{{ user.last_name|upper|slice:":1" }}'
         const search = `
-            <a href=''><button class="search-btn">🔍</button></a>
+            <input type="text" class="search-bar" id="search-bar" placeholder="Search...">
+            <a href="{%url 'search'%}"><button class="search-btn">🔍</button></a>
             `
         const nav_urls = `
                     <li><a href="{%url 'question_library'%}">Ask Questions</a></li>
@@ -291,9 +251,9 @@
                     `
         const login= `
             <div class="user-dropdown">
-                <div class="user-avatar"></div>
+                <div class="user-avatar">${user_name}</div>
                 <div class="dropdown-menu">
-                    <a href="#"><i class="fas fa-user"></i> Profile</a>
+                    <a href="{%url 'user' %}"><i class="fas fa-user"></i> Profile</a>
                     <a href="{%url 'logout'%}"><i class="fas fa-sign-out-alt"></i> Logout</a>
                 </div>
             </div>
@@ -315,7 +275,8 @@
     <script>
         const home = `<a href="{%url 'home'%}" class="logo">Campus Connect</a>`
         const search = `
-            <a href=''><button class="search-btn">🔍</button></a>
+            <input type="text" class="search-bar" id="search-bar" placeholder="Search...">
+            <button class="search-btn" onClick="Search()">🔍</button>
             `
         const nav_urls = `
                     <li><a href="{%url 'question_library'%}">Ask Questions</a></li>
@@ -344,6 +305,13 @@
     {% endif %}
     <script src="{%static 'JS/index.js'%}"></script>
     <script>
+        function Search(){
+            const search_link = "{%url 'search'%}"
+            let search_data = document.getElementById('search-bar')
+            window.location.href = search_link + `?result=${search_data.value}`
+        }
+    </script>
+    <script>
         // Mobile menu toggle
         const mobileToggle = document.getElementById('mobileToggle');
         const navLinks = document.getElementById('navLinks');
@@ -352,28 +320,10 @@
             navLinks.classList.toggle('active');
         });
 
-        // Ask question form toggle
-        const askBtn = document.getElementById('askBtn');
-        const questionForm = document.getElementById('questionForm');
-        const cancelBtn = document.getElementById('cancelBtn');
-
-        askBtn.addEventListener('click', function() {
-            questionForm.classList.add('active');
-            askBtn.style.display = 'none';
-        });
-
-        cancelBtn.addEventListener('click', function() {
-            questionForm.classList.remove('active');
-            askBtn.style.display = 'flex';
-        });
-
-        // Form submission
-        const submitForm = document.getElementById('submitForm');
-        submitForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            alert('Question submitted successfully! (This would normally save to database)');
-            questionForm.classList.remove('active');
-            askBtn.style.display = 'flex';})
+        Askquestion(){
+            window.location.href = "{%url 'question_form'%}"
+        }
+        
     </script>
 </body>
 </html>

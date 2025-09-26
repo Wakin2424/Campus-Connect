@@ -82,8 +82,10 @@
     {% if user.is_authenticated %}
     <script>
         const home = `<a href="{%url 'home'%}" class="logo">Campus Connect</a>`
+        const user_name = '{{ user.first_name|upper|slice:":1" }}' + '{{ user.last_name|upper|slice:":1" }}'
         const search = `
-            <a href=''><button class="search-btn">🔍</button></a>
+            <input type="text" class="search-bar" id="search-bar" placeholder="Search...">
+            <button class="search-btn" onClick="Search()">🔍</button>
             `
         const nav_urls = `
                     <li><a href="{%url 'question_library'%}">Ask Questions</a></li>
@@ -93,9 +95,9 @@
                     `
         const login= `
             <div class="user-dropdown">
-                <div class="user-avatar">JS</div>
+                <div class="user-avatar">${user_name}</div>
                 <div class="dropdown-menu">
-                    <a href="#"><i class="fas fa-user"></i> Profile</a>
+                    <a href="{%url 'user' %}"><i class="fas fa-user"></i> Profile</a>
                     <a href="{%url 'logout'%}"><i class="fas fa-sign-out-alt"></i> Logout</a>
                 </div>
             </div>
@@ -117,7 +119,8 @@
     <script>
         const home = `<a href="{%url 'home'%}" class="logo">Campus Connect</a>`
         const search = `
-            <a href=''><button class="search-btn">🔍</button></a>
+            <input type="text" class="search-bar" id="search-bar" placeholder="Search...">
+            <button class="search-btn" onClick="Search()">🔍</button>
             `
         const nav_urls = `
                     <li><a href="{%url 'question_library'%}">Ask Questions</a></li>
@@ -145,6 +148,13 @@
     </script>
     {% endif %}
     <script src="{%static 'JS/index.js'%}"></script>
+    <script>
+        function Search(){
+            const search_link = "{%url 'search'%}"
+            let search_data = document.getElementById('search-bar')
+            window.location.href = search_link + `?result=${search_data.value}`
+        }
+    </script>
 
     <script>
         // Toggle password visibility

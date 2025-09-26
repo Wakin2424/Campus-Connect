@@ -120,7 +120,8 @@
     <script>
         const home = `<a href="{%url 'home'%}" class="logo">Campus Connect</a>`
         const search = `
-            <a href="{%url 'search'%}"><button class="search-btn">🔍</button></a>
+            <input type="text" class="search-bar" id="search-bar" placeholder="Search...">
+            <button class="search-btn" onClick="Search()">🔍</button>
             `
         const nav_urls = `
                     <li><a href="{%url 'question_library'%}">Ask Questions</a></li>
@@ -146,6 +147,13 @@
                     <a href="home">Campus Events</a>`
     </script>
     <script src="{%static 'JS/index.js'%}"></script>
+    <script>
+        function Search(){
+            const search_link = "{%url 'search'%}"
+            let search_data = document.getElementById('search-bar')
+            window.location.href = search_link + `?result=${search_data.value}`
+        }
+    </script>
 
     <script>
         // Sticky navbar on scroll
