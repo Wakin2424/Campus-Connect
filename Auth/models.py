@@ -111,9 +111,9 @@ class Notifications(models.Model):
 
 class Qa(models.Model):
     qa_id = models.AutoField(primary_key=True)
+    code = models.CharField(max_length=250, unique=True)
     user = models.ForeignKey(AuthCustomuser, models.DO_NOTHING, blank=True, null=True)
     course = models.ForeignKey(Course, models.DO_NOTHING, blank=True, null=True)
-    subjects = models.JSONField(blank=True, null=True)
     question = models.TextField()
     description = models.TextField(blank=True, null=True)
     answers = models.JSONField(blank=True, null=True)
@@ -124,6 +124,13 @@ class Qa(models.Model):
     class Meta:
 
         db_table = 'qa'
+
+class Question_subjects(models.Model):
+    question = models.ForeignKey(Qa, models.DO_NOTHING)
+    course = models.ForeignKey(Course, models.DO_NOTHING, blank=True, null=True)
+
+    class Meta:
+        db_table = 'question_subjects'
 
 class StudyGroupMembers(models.Model):
     pk = models.CompositePrimaryKey('group_id', 'user_id')

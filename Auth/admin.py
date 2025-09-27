@@ -21,7 +21,7 @@ class Notification_admin(admin.ModelAdmin):
     list_display = ['notification_id', 'user__first_name', 'message', 'created_at']
 
 class Qa_admin(admin.ModelAdmin):
-    list_display = ['qa_id', 'user__first_name', 'course__course_name', 'subjects', 'views', 'likes', 'question', 'description', 'answers', 'created_at']
+    list_display = ['qa_id', 'user__first_name', 'course__course_name', 'views', 'likes', 'question', 'description', 'answers', 'created_at']
 
 admin.site.register(Market, Market_admin)
 admin.site.register(Qa, Qa_admin)

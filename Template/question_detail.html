@@ -1,0 +1,511 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Campus Connect - Question Details</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{%static 'CSS/question_detail.css'%}">
+    <link rel="stylesheet" href="{%static 'CSS/nav.css'%}">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header" id="header">
+        <!--Generated dynamically by js-->
+    </header>
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Question Details Card -->
+        <div class="question-card">
+            <h1 class="question-title">How do I implement a binary search algorithm in Python?</h1>
+            <p class="question-description">
+                I'm struggling to understand how binary search works and how to implement it efficiently in Python. 
+                I understand the concept that it divides the search space in half each time, but I'm having trouble 
+                with the actual implementation. Could someone provide a clear explanation with code examples? 
+                Also, what are the time and space complexities?
+            </p>
+            
+            <div class="course-tags">
+                <span class="tag">Data Structures</span>
+                <span class="tag">Python Programming</span>
+                <span class="tag">Algorithms</span>
+            </div>
+            
+            <div class="stats-row">
+                <div class="stat-item">
+                    <i class="fas fa-thumbs-up"></i>
+                    <span>12 likes</span>
+                </div>
+                <div class="stat-item">
+                    <i class="fas fa-eye"></i>
+                    <span>248 views</span>
+                </div>
+            </div>
+            
+            <div class="user-info">
+                <div class="avatar">JS</div>
+                <span>Asked by <strong>John Smith</strong> • 2 hours ago</span>
+            </div>
+        </div>
+
+        <!-- Answer Controls -->
+        <div class="answer-controls">
+            <button class="control-btn btn-primary" onclick="showAnswerForm()">
+                <i class="fas fa-edit"></i> Post Answer
+            </button>
+            <button class="control-btn btn-secondary" onclick="askCodinAI()">
+                <i class="fas fa-robot"></i> Ask Codin AI
+            </button>
+        </div>
+
+        <!-- Answer Form (Initially Hidden) -->
+        <div class="answer-form" id="answerForm">
+            <h3 class="section-title">Post Your Answer</h3>
+            <form onsubmit="submitAnswer(event)">
+                <div class="form-group">
+                    <label class="form-label">Your Answer</label>
+                    <textarea class="form-textarea" placeholder="Write your answer here..." required></textarea>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Upload Images (Optional)</label>
+                    <input type="file" class="file-input" accept="image/*" multiple onchange="previewImages(event)">
+                    <div class="image-preview" id="imagePreview"></div>
+                </div>
+                <button type="submit" class="control-btn btn-primary">
+                    <i class="fas fa-paper-plane"></i> Submit Answer
+                </button>
+            </form>
+        </div>
+
+        <!-- Answers Section -->
+        <div class="answers-section">
+            <h2 class="section-title">Answers (3)</h2>
+            
+            <!-- Sample Answer 1 -->
+            <div class="answer-card">
+                <div class="answer-text">
+                    Here's a clean implementation of binary search in Python:
+
+                    <pre><code>def binary_search(arr, target):
+    left, right = 0, len(arr) - 1
+    
+    while left <= right:
+        mid = (left + right) // 2
+        
+        if arr[mid] == target:
+            return mid
+        elif arr[mid] < target:
+            left = mid + 1
+        else:
+            right = mid - 1
+    
+    return -1  # Element not found</code></pre>
+
+                    The time complexity is O(log n) and space complexity is O(1) for the iterative version. The key insight is that we eliminate half of the remaining elements in each iteration.
+                </div>
+                <div class="user-info">
+                    <div class="avatar">AM</div>
+                    <span>Answered by <strong>Alex Mitchell</strong> • 1 hour ago</span>
+                </div>
+                <div class="vote-buttons">
+                    <button class="vote-btn" onclick="toggleVote(this, 'up')">
+                        <i class="fas fa-chevron-up"></i> <span>8</span>
+                    </button>
+                    <button class="vote-btn" onclick="toggleVote(this, 'down')">
+                        <i class="fas fa-chevron-down"></i> <span>0</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Sample Answer 2 -->
+            <div class="answer-card">
+                <div class="answer-text">
+                    I'd also recommend understanding the recursive approach:
+
+                    <pre><code>def binary_search_recursive(arr, target, left=0, right=None):
+    if right is None:
+        right = len(arr) - 1
+    
+    if left > right:
+        return -1
+    
+    mid = (left + right) // 2
+    
+    if arr[mid] == target:
+        return mid
+    elif arr[mid] < target:
+        return binary_search_recursive(arr, target, mid + 1, right)
+    else:
+        return binary_search_recursive(arr, target, left, mid - 1)</code></pre>
+
+                    This recursive version has O(log n) time complexity but O(log n) space complexity due to the call stack.
+                </div>
+                <div class="user-info">
+                    <div class="avatar">SK</div>
+                    <span>Answered by <strong>Sarah Kim</strong> • 45 minutes ago</span>
+                </div>
+                <div class="vote-buttons">
+                    <button class="vote-btn" onclick="toggleVote(this, 'up')">
+                        <i class="fas fa-chevron-up"></i> <span>5</span>
+                    </button>
+                    <button class="vote-btn" onclick="toggleVote(this, 'down')">
+                        <i class="fas fa-chevron-down"></i> <span>0</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- AI Window -->
+    <div class="ai-window" id="aiWindow">
+        <div class="ai-window-header">
+            <div class="ai-window-title">
+                <i class="fas fa-robot"></i>
+                Codin AI
+            </div>
+            <button class="close-ai" onclick="closeAI()">×</button>
+        </div>
+        <div class="ai-window-content" id="aiContent">
+            <div class="ai-loading" id="aiLoading">
+                <span>Generating answer...</span>
+                <div class="loading-dots">
+                    <div class="dot"></div>
+                    <div class="dot"></div>
+                    <div class="dot"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer" id="footer">
+        <!--Generated dynamically by js-->
+    </footer>
+
+    {% if user.is_authenticated %}
+    <script>
+        const home = `<a href="{%url 'home'%}" class="logo">Campus Connect</a>`
+        const user_name = '{{ user.first_name|upper|slice:":1" }}' + '{{ user.last_name|upper|slice:":1" }}'
+        const search = `
+            <input type="text" class="search-bar" id="search-bar" placeholder="Search...">
+            <button class="search-btn" onClick="Search()">🔍</button>
+            `
+        const nav_urls = `
+                    <li><a href="{%url 'question_library'%}">Ask Questions</a></li>
+                    <li><a href="market.html">Sell Books</a></li>
+                    <li><a href="notes.html">Notes</a></li>
+                    <li><a href="group.html">Groups</a></li>
+                    `
+        const login= `
+            <a href='{%url "question_form"%}'><button class="quick-post-btn">+ Quick Post</button></a>
+            <div class="user-dropdown">
+                <div class="user-avatar">${user_name}</div>
+                <div class="dropdown-menu">
+                    <a href="{%url 'user' %}"><i class="fas fa-user"></i> Profile</a>
+                    <a href="{%url 'logout'%}"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                </div>
+            </div>
+        `
+        const footer_urls = `
+                    <a href="#">About Us</a>
+                    <a href="#">Contact</a>
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Terms of Service</a>
+                    <a href="#">Help Center</a>`
+        const footer_urls_2 = `
+                    <a href="{%url 'question_library'%}">Ask Questions</a>
+                    <a href="market.html">Sell Books</a>
+                    <a href="notes.html">Share Notes</a>
+                    <a href="group.html">Create Groups</a>
+                    <a href="{%url 'home'%}">Campus Events</a>`
+    </script>
+    {% else %}
+    <script>
+        const home = `<a href="{%url 'home'%}" class="logo">Campus Connect</a>`
+        const search = `
+            <input type="text" class="search-bar" id="search-bar" placeholder="Search...">
+            <button class="search-btn" onClick="Search()">🔍</button>
+            `
+        const nav_urls = `
+                    <li><a href="{%url 'question_library'%}">Ask Questions</a></li>
+                    <li><a href="market.html">Sell Books</a></li>
+                    <li><a href="notes.html">Notes</a></li>
+                    <li><a href="group.html">Groups</a></li>
+                    `
+
+        const login = `
+                <a href='{%url "login"%}'><button class="quick-post-btn">+ Quick Post</button></a>
+                <a href="{%url 'signup'%}" class="btn-primary">Sign Up</a>
+            `
+
+        const footer_urls = `
+                    <a href="#">About Us</a>
+                    <a href="#">Contact</a>
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Terms of Service</a>
+                    <a href="#">Help Center</a>`
+        const footer_urls_2 = `
+                    <a href="{%url 'question_library'%}">Ask Questions</a>
+                    <a href="market.html">Sell Books</a>
+                    <a href="notes.html">Share Notes</a>
+                    <a href="group.html">Create Groups</a>
+                    <a href="{%url 'home'%}">Campus Events</a>`
+    </script>
+    {% endif %}
+    <script src="{%static 'JS/index.js'%}"></script>
+    <script>
+        function Search(){
+            const search_link = "{%url 'search'%}"
+            let search_data = document.getElementById('search-bar')
+            window.location.href = search_link + `?result=${search_data.value}`
+        }
+    </script>
+
+    <script>
+        function showAnswerForm() {
+            const form = document.getElementById('answerForm');
+            form.style.display = form.style.display === 'none' ? 'block' : 'block';
+            form.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function askCodinAI() {
+            const aiWindow = document.getElementById('aiWindow');
+            const aiContent = document.getElementById('aiContent');
+            const aiLoading = document.getElementById('aiLoading');
+            
+            aiWindow.classList.add('active');
+            aiLoading.style.display = 'flex';
+            
+            // Simulate AI response after 3 seconds
+            setTimeout(() => {
+                aiLoading.style.display = 'none';
+                aiContent.innerHTML = `
+                    <div class="answer-text">
+                        <strong>Binary Search Implementation:</strong><br><br>
+                        
+                        Here's a comprehensive solution with both iterative and recursive approaches:
+                        
+                        <pre><code># Iterative Binary Search
+def binary_search_iterative(arr, target):
+    left, right = 0, len(arr) - 1
+    
+    while left <= right:
+        mid = left + (right - left) // 2  # Avoid overflow
+        
+        if arr[mid] == target:
+            return mid
+        elif arr[mid] < target:
+            left = mid + 1
+        else:
+            right = mid - 1
+    
+    return -1
+
+# Example usage:
+arr = [1, 3, 5, 7, 9, 11, 13, 15]
+result = binary_search_iterative(arr, 7)
+print(f"Element found at index: {result}")  # Output: 3</code></pre>
+
+                        <strong>Key Points:</strong><br>
+                        • Time Complexity: O(log n)<br>
+                        • Space Complexity: O(1) for iterative, O(log n) for recursive<br>
+                        • Array must be sorted<br>
+                        • Use `;
+                
+                // Add AI answer to answers section after delay
+                setTimeout(() => {
+                    addAIAnswerToSection();
+                }, 1000);
+            }, 3000);
+        }
+
+        function closeAI() {
+            document.getElementById('aiWindow').classList.remove('active');
+        }
+
+        function addAIAnswerToSection() {
+            const answersSection = document.querySelector('.answers-section');
+            const aiAnswerHTML = `
+                <div class="answer-card ai-answer">
+                    <div class="ai-badge">
+                        <i class="fas fa-robot"></i> AI Answer
+                    </div>
+                    <div class="answer-text">
+                        <strong>Binary Search Implementation:</strong><br><br>
+                        
+                        Here's a comprehensive solution with both iterative and recursive approaches:
+                        
+                        <pre><code># Iterative Binary Search
+def binary_search_iterative(arr, target):
+    left, right = 0, len(arr) - 1
+    
+    while left <= right:
+        mid = left + (right - left) // 2  # Avoid overflow
+        
+        if arr[mid] == target:
+            return mid
+        elif arr[mid] < target:
+            left = mid + 1
+        else:
+            right = mid - 1
+    
+    return -1
+
+# Example usage:
+arr = [1, 3, 5, 7, 9, 11, 13, 15]
+result = binary_search_iterative(arr, 7)
+print(f"Element found at index: {result}")  # Output: 3</code></pre>
+
+                        <strong>Key Points:</strong><br>
+                        • Time Complexity: O(log n)<br>
+                        • Space Complexity: O(1) for iterative, O(log n) for recursive<br>
+                        • Array must be sorted<br>
+                        • Use <code>left + (right - left) // 2</code> to prevent integer overflow
+                    </div>
+                    <div class="user-info">
+                        <div class="avatar" style="background: linear-gradient(135deg, #1E90FF, #0D1B2A)">
+                            <i class="fas fa-robot"></i>
+                        </div>
+                        <span>Answered by <strong>Codin AI</strong> • Just now</span>
+                    </div>
+                    <div class="vote-buttons">
+                        <button class="vote-btn" onclick="toggleVote(this, 'up')">
+                            <i class="fas fa-chevron-up"></i> <span>0</span>
+                        </button>
+                        <button class="vote-btn" onclick="toggleVote(this, 'down')">
+                            <i class="fas fa-chevron-down"></i> <span>0</span>
+                        </button>
+                    </div>
+                </div>
+            `;
+            
+            answersSection.insertAdjacentHTML('beforeend', aiAnswerHTML);
+            
+            // Update answer count
+            const titleElement = document.querySelector('.section-title');
+            titleElement.textContent = 'Answers (4)';
+            
+            closeAI();
+        }
+
+        function previewImages(event) {
+            const preview = document.getElementById('imagePreview');
+            preview.innerHTML = '';
+            
+            Array.from(event.target.files).forEach(file => {
+                if (file.type.startsWith('image/')) {
+                    const img = document.createElement('img');
+                    img.src = URL.createObjectURL(file);
+                    img.className = 'preview-image';
+                    img.onload = () => URL.revokeObjectURL(img.src);
+                    preview.appendChild(img);
+                }
+            });
+        }
+
+        function submitAnswer(event) {
+            event.preventDefault();
+            const form = event.target;
+            const textarea = form.querySelector('.form-textarea');
+            const answerText = textarea.value.trim();
+            
+            if (!answerText) return;
+            
+            // Create new answer element
+            const newAnswer = document.createElement('div');
+            newAnswer.className = 'answer-card';
+            newAnswer.innerHTML = `
+                <div class="answer-text">${answerText}</div>
+                <div class="user-info">
+                    <div class="avatar">YU</div>
+                    <span>Answered by <strong>You</strong> • Just now</span>
+                </div>
+                <div class="vote-buttons">
+                    <button class="vote-btn" onclick="toggleVote(this, 'up')">
+                        <i class="fas fa-chevron-up"></i> <span>0</span>
+                    </button>
+                    <button class="vote-btn" onclick="toggleVote(this, 'down')">
+                        <i class="fas fa-chevron-down"></i> <span>0</span>
+                    </button>
+                </div>
+            `;
+            
+            // Add to answers section
+            const answersSection = document.querySelector('.answers-section');
+            answersSection.appendChild(newAnswer);
+            
+            // Update answer count
+            const currentCount = document.querySelectorAll('.answer-card').length;
+            const titleElement = document.querySelector('.section-title');
+            titleElement.textContent = `Answers (${currentCount})`;
+            
+            // Reset form and hide it
+            form.reset();
+            document.getElementById('imagePreview').innerHTML = '';
+            document.getElementById('answerForm').style.display = 'none';
+            
+            // Scroll to new answer
+            newAnswer.scrollIntoView({ behavior: 'smooth' });
+            
+            // Show success feedback
+            showNotification('Answer posted successfully!');
+        }
+
+        function toggleVote(button, type) {
+            const isActive = button.classList.contains('active');
+            const span = button.querySelector('span');
+            let count = parseInt(span.textContent);
+            
+            // Remove active class from both buttons in this answer
+            const voteButtons = button.parentNode.querySelectorAll('.vote-btn');
+            voteButtons.forEach(btn => btn.classList.remove('active'));
+            
+            if (!isActive) {
+                button.classList.add('active');
+                if (type === 'up') {
+                    span.textContent = count + 1;
+                } else {
+                    span.textContent = Math.max(0, count + 1);
+                }
+            } else {
+                if (type === 'up') {
+                    span.textContent = Math.max(0, count - 1);
+                } else {
+                    span.textContent = Math.max(0, count - 1);
+                }
+            }
+        }
+
+        function showNotification(message) {
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: #4CAF50;
+                color: white;
+                padding: 1rem 2rem;
+                border-radius: 8px;
+                box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+                z-index: 10000;
+                transform: translateX(100%);
+                transition: transform 0.3s ease;
+            `;
+            notification.textContent = message;
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.style.transform = 'translateX(0)';
+            }, 100);
+            
+            setTimeout(() => {
+                notification.style.transform = 'translateX(100%)';
+                setTimeout(() => notification.remove(), 300);
+            })
+        }
+    </script>
+</body>
+</html>
