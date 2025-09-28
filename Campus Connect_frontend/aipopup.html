@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Custom Contenteditable Editor</title>
+  <title>Submit Editor with Images</title>
   <style>
     #editor {
       border: 1px solid #ccc;
@@ -11,27 +11,12 @@
       width: 600px;
       white-space: pre-wrap;
       font-family: Arial, sans-serif;
-      color: black; /* all text black */
+      color: black;
     }
-
-    /* force images inside editor to be default 400x400 */
     #editor img {
       width: 400px;
       height: 400px;
       object-fit: contain;
-    }
-
-    /* style pasted code */
-    #editor pre, #editor code {
-      background: white !important;
-      color: black !important;
-      font-family: Consolas, "Courier New", monospace;
-      padding: 10px;
-      display: block;
-      border: 1px solid #ddd;
-      border-radius: 4px;
-      white-space: pre;
-      overflow-x: auto;
     }
   </style>
 </head>
@@ -41,10 +26,12 @@
     Type here, paste code, or drag & drop an image...
   </div>
 
+  <button id="submitBtn">Submit</button>
+
   <script>
     const editor = document.getElementById("editor");
 
-    // Handle drag & drop images
+    // Handle drag-drop of images
     editor.addEventListener("drop", function(e) {
       e.preventDefault();
       const file = e.dataTransfer.files[0];
@@ -52,35 +39,45 @@
         const reader = new FileReader();
         reader.onload = function(evt) {
           const img = document.createElement("img");
-          img.src = evt.target.result;
+          img.src = evt.target.result; // base64 string
           editor.appendChild(img);
         };
         reader.readAsDataURL(file);
       }
     });
 
-    // Handle paste (force clean text/code with white background + black text)
-    editor.addEventListener("paste", function(e) {
-      e.preventDefault();
+    // Handle submit with fetch
+    document.getElementById("submitBtn").addEventListener("click", async () => {
+      const formData = new FormData();
 
-      const text = (e.clipboardData || window.clipboardData).getData("text/plain");
+      // Collect editor text content
+      formData.append("content", editor.innerHTML);
 
-      // Detect if it's code (multi-line or contains { } ;)
-      if (text.includes("\n") || text.includes("{") || text.includes(";")) {
-        const pre = document.createElement("pre");
-        const code = document.createElement("code");
-        code.textContent = text;
-        pre.appendChild(code);
+      // Collect images separately
+      const images = editor.querySelectorAll("img");
+      images.forEach((img, index) => {
+        // convert base64 → Blob
+        const base64Data = img.src.split(",")[1];
+        const mimeType = img.src.match(/data:(.*);base64/)[1];
+        const byteChars = atob(base64Data);
+        const byteNumbers = new Array(byteChars.length);
+        for (let i = 0; i < byteChars.length; i++) {
+          byteNumbers[i] = byteChars.charCodeAt(i);
+        }
+        const byteArray = new Uint8Array(byteNumbers);
+        const blob = new Blob([byteArray], { type: mimeType });
 
-        const sel = window.getSelection();
-        if (!sel.rangeCount) return;
-        const range = sel.getRangeAt(0);
-        range.deleteContents();
-        range.insertNode(pre);
-      } else {
-        // Otherwise insert plain black text
-        document.execCommand("insertText", false, text);
-      }
+        formData.append("images[]", blob, `image_${index}.png`);
+      });
+
+      // Send via fetch
+      const response = await fetch("/upload", {
+        method: "POST",
+        body: formData
+      });
+
+      const result = await response.json();
+      console.log("Server response:", result);
     });
   </script>
 </body>
