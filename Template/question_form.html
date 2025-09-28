@@ -91,7 +91,7 @@
                 <input type="hidden" id="selectedCoursesInput" name="selectedCourses">
 
                 <!-- Submit Button -->
-                <button type="submit" class="submit-btn">
+                <button type="submit" class="submit-btn" id="submit-btn">
                     <i class="fas fa-paper-plane"></i> Post Question
                 </button>
             </form>
@@ -266,6 +266,49 @@
         });
 
         // Form submission
+        function getCookie(name){
+            let cookieValue = null;
+            if(document.cookie && document.cookie !== ''){
+                const cookies = document.cookie.split(';');
+                for(let i=0;i <cookies.length; i++){
+                    const cookie = cookies[i].trim();
+                    if (cookie.substring(0, name.length + 1) === name + '='){
+                        cookieValue = decodeURIComponent(cookie.substring(name.length+1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+
+        function FormSubmission(formData, submitButton){
+            fetch('{%url "question_form"%}', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': getCookie('csrftoken')
+                },
+                body:JSON.stringify(
+                    formData
+                )
+            })
+            .then(response => response.json())
+            .then(data => {
+                if(data.status){
+                    submitButton.style.color = 'green'
+                    submitButton.textContent = "Successful"
+                    setTimeout(() => {
+                        window.location.href = "{%url 'question_library'%}";
+                    }, 1500);
+                } else {
+                    submitButton.style.color = 'red'
+                    submitButton.textContent = "Failed! Try Again"
+                }
+            })
+        }
+
+
+
         questionForm.addEventListener('submit', function(e) {
             e.preventDefault();
             
@@ -274,12 +317,15 @@
                 description: document.getElementById('questionDescription').value,
                 courses: selectedCourses
             };
+
+            const submitButton = document.getElementById('submit-btn')
+            submitButton.style.color = 'white'
+            submitButton.textContent = "Processing Request"
+            FormSubmission(formData, submitButton)
             
-            console.log('Form submitted with data:', formData);
-            
-            // Here you would typically send the data to your backend
-            alert(`Question submitted successfully!\n\nTitle: ${formData.title}\nCourses: ${formData.courses.join(', ')}\n\nCheck the console for full details.`);
         });
+
+        
 
         // Form validation
         document.querySelectorAll('.form-input, .form-textarea').forEach(input => {

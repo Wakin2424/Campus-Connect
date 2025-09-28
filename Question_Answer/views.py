@@ -12,7 +12,8 @@ def Question_form(request):
     
     if request.method == 'POST':
         data = dict(json.loads(request.body))
-        status = False
+        print('hello' ,data)
+        status = True
         url = ''
         context = {
             'status':status,

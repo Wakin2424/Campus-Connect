@@ -1,4 +1,6 @@
 from django.shortcuts import render, redirect
+from django.http import JsonResponse
+import json
 
 # Create your views here.
 def Auth_index(request):
@@ -12,5 +14,15 @@ def Home(request):
         return Auth_index(request)
     else:
         return Unauth_index(request)
+
+def Test_page(request):
+    if request.method == 'POST':
+        data = dict(json.loads(request.body))
+        context = {
+            'status':True,
+            'data':data['data']
+        }
+        return  JsonResponse(context)
+    return render(request, 'test.html')
     
 
