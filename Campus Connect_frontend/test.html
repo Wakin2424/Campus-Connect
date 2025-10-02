@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Editor with File Upload</title>
+  <style>
+    #editor {
+      border: 1px solid #ccc;
+      padding: 10px;
+      min-height: 200px;
+      width: 600px;
+      white-space: pre-wrap;
+      font-family: Arial, sans-serif;
+      color: black;
+    }
+    #editor img {
+      width: 400px;
+      height: 400px;
+      object-fit: contain;
+      display: block;
+      margin: 10px 0;
+    }
+  </style>
+</head>
+<body>
+  <h2>Custom Editor</h2>
+  <div id="editor" contenteditable="true">
+    Drag & drop text or an image here...
+  </div>
+
+  <button id="submitBtn">Submit</button>
+
+  <script>
+    const editor = document.getElementById("editor");
+    const uploadedFiles = []; // keep actual File objects here
+
+    // Handle drag-drop
+    editor.addEventListener("drop", function(e) {
+      e.preventDefault();
+
+      for (const item of e.dataTransfer.items) {
+        if (item.kind === "string") {
+          // Dropped text
+          item.getAsString(text => {
+            document.execCommand("insertText", false, text);
+          });
+        } else if (item.kind === "file") {
+          // Dropped file (image)
+          const file = item.getAsFile();
+          if (file && file.type.startsWith("image/")) {
+            uploadedFiles.push(file); // save original File object
+
+            // show preview in editor
+            const reader = new FileReader();
+            reader.onload = function(evt) {
+              const img = document.createElement("img");
+              img.src = evt.target.result;
+              editor.appendChild(img);
+            };
+            reader.readAsDataURL(file);
+          }
+        }
+      }
+    });
+
+    // Handle submit (send FormData like input[type=file])
+    document.getElementById("submitBtn").addEventListener("click", async () => {
+      const formData = new FormData();
+
+      // Collect editor text only (excluding <img> tags)
+      const textOnly = editor.innerText;
+      formData.append("text", textOnly);
+
+      // Append image files as if from <input type="file" multiple>
+      uploadedFiles.forEach((file, index) => {
+        formData.append("images[]", file, file.name);
+      });
+
+      // Send via fetch
+      const response = await fetch("/upload", {
+        method: "POST",
+        body: formData
+      });
+
+      const result = await response.json();
+      console.log("Server response:", result);
+    });
+  </script>
+</body>
+</html>

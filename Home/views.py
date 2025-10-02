@@ -17,12 +17,16 @@ def Home(request):
 
 def Test_page(request):
     if request.method == 'POST':
-        data = dict(json.loads(request.body))
+        dataset = dict(json.loads(request.body))
+        data = dataset['dataset']
+        images = dataset['images']
+        
+        print(data, images)
         context = {
             'status':True,
-            'data':data['data']
+            'data':data
         }
-        return  JsonResponse(context)
+        return JsonResponse(context)
     return render(request, 'test.html')
     
 

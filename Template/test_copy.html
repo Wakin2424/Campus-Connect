@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Custom Contenteditable Editor</title>
+  <title>Editor with File Upload</title>
   <style>
     #editor {
       border: 1px solid #ccc;
@@ -11,37 +11,25 @@
       width: 600px;
       white-space: pre-wrap;
       font-family: Arial, sans-serif;
-      color: black; /* all text black */
+      color: black;
     }
-
-    /* force images inside editor to be default 400x400 */
     #editor img {
       width: 400px;
       height: 400px;
       object-fit: contain;
-    }
-
-    /* style pasted code */
-    #editor pre, #editor code {
-      background: white !important;
-      color: black !important;
-      font-family: Consolas, "Courier New", monospace;
-      padding: 10px;
       display: block;
-      border: 1px solid #ddd;
-      border-radius: 4px;
-      white-space: pre;
-      overflow-x: auto;
+      margin: 10px 0;
     }
   </style>
 </head>
 <body>
   <h2>Custom Editor</h2>
   <div id="editor" contenteditable="true">
-    Type here, paste code, or drag & drop an image...
+    Drag & drop text or an image here...
   </div>
-  <button id="submitBtn">Click me</button>
-  <div id='result'></div>
+
+  <button id="submitBtn">Submit</button>
+  <div id="result"></div>
   <script>
     const resultdiv = document.getElementById('result')
     function DataPrint(data){
@@ -63,7 +51,7 @@
         return cookieValue;
     }
 
-    function FormSubmission(dataset, imageset){
+    function FormSubmission(dataset, images){
         fetch('{%url "test"%}', {
             method: 'POST',
             headers: {
@@ -71,8 +59,10 @@
                 'X-CSRFToken': getCookie('csrftoken')
             },
             body:JSON.stringify(
-                {'dataset':dataset,
-                'images':imageset}
+                {
+                  'dataset':dataset, 
+                  'images':images
+                }
             )
         })
         .then(response => response.json())
@@ -83,17 +73,22 @@
     
   </script>
 
+
   <script>
     const editor = document.getElementById("editor");
-    const uploadedFiles = [];
-    
+    const uploadedFiles = []; 
 
-
-    // Handle drag & drop images
+    // Handle drag-drop
     editor.addEventListener("drop", function(e) {
       e.preventDefault();
+
       for (const item of e.dataTransfer.items) {
-        if (item.kind === "file") {
+        if (item.kind === "string") {
+          // Dropped text
+          item.getAsString(text => {
+            document.execCommand("insertText", false, text);
+          });
+        } else if (item.kind === "file") {
           // Dropped file (image)
           const file = item.getAsFile();
           if (file && file.type.startsWith("image/")) {
@@ -112,40 +107,11 @@
       }
     });
 
-    // Handle paste (force clean text/code with white background + black text)
-    editor.addEventListener("paste", function(e) {
-      e.preventDefault();
-
-      const text = (e.clipboardData || window.clipboardData).getData("text/plain");
-
-      // Detect if it's code (multi-line or contains { } ;)
-      if (text.includes("\n") || text.includes("{") || text.includes(";")) {
-        const pre = document.createElement("pre");
-        const code = document.createElement("code");
-        code.textContent = text;
-        pre.appendChild(code);
-
-        const sel = window.getSelection();
-        if (!sel.rangeCount) return;
-        const range = sel.getRangeAt(0);
-        range.deleteContents();
-        range.insertNode(pre);
-      } else {
-        // Otherwise insert plain black text
-        document.execCommand("insertText", false, text);
-      }
-
-    });
-
+    // Handle submit (send FormData like input[type=file])
     document.getElementById("submitBtn").addEventListener("click", async () => {
-      const dataset = editor.innerHTML;
+      let dataset = editor.innerHTML
       FormSubmission(dataset, uploadedFiles)
     });
-
-  
-        
-
-
   </script>
 </body>
 </html>

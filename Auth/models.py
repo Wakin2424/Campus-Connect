@@ -24,6 +24,14 @@ class Course(models.Model):
         managed = False
         db_table = 'course'
 
+class Images(models.Model):
+    image_id = models.AutoField(primary_key=True)
+    image_name = models.CharField(max_length=200)
+    image_url = models.FileField(upload_to="media/")
+
+    class Meta:
+        db_table = 'images'
+
 class CustomUser(AbstractUser):
     email = models.EmailField(_('email address'), unique=True)
     contact = models.CharField(max_length=15, blank=True)
@@ -115,7 +123,8 @@ class Qa(models.Model):
     user = models.ForeignKey(AuthCustomuser, models.DO_NOTHING, blank=True, null=True)
     course = models.ForeignKey(Course, models.DO_NOTHING, blank=True, null=True)
     question = models.TextField()
-    description = models.TextField(blank=True, null=True)
+    description = models.JSONField(blank=True, null=True)
+    image = models.ForeignKey(Images, models.DO_NOTHING, blank=True, null=True)
     answers = models.JSONField(blank=True, null=True)
     views = models.IntegerField(blank=True, null=True)
     likes = models.IntegerField(blank=True, null=True)
@@ -126,11 +135,20 @@ class Qa(models.Model):
         db_table = 'qa'
 
 class Question_subjects(models.Model):
+    reference_id = models.AutoField(primary_key=True)
     question = models.ForeignKey(Qa, models.DO_NOTHING)
     course = models.ForeignKey(Course, models.DO_NOTHING, blank=True, null=True)
 
     class Meta:
         db_table = 'question_subjects'
+
+class Image_reference(models.Model):
+    reference_id = models.AutoField(primary_key=True)
+    question = models.ForeignKey(Qa, models.DO_NOTHING)
+    image = models.ForeignKey(Images, models.DO_NOTHING)
+
+    class Meta:
+        db_table = 'image_reference'
 
 class StudyGroupMembers(models.Model):
     pk = models.CompositePrimaryKey('group_id', 'user_id')
@@ -154,3 +172,4 @@ class StudyGroups(models.Model):
     class Meta:
         managed = False
         db_table = 'study_groups'
+
