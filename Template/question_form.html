@@ -41,13 +41,7 @@
                 <!-- Question Description -->
                 <div class="form-group">
                     <label for="questionDescription" class="form-label">Question Description *</label>
-                    <textarea 
-                        id="questionDescription"
-                        class="form-textarea" 
-                        placeholder="Describe your question in detail..." 
-                        rows="5" 
-                        required
-                    ></textarea>
+                    <div id="questionDescription" contenteditable="true" style="border:1px solid #ccc; padding:10px; min-height:150px; max-width: 100%; overflow-x: auto; border-radius: 10px;"></div>
                 </div>
 
                 <!-- Course Selection -->
@@ -154,6 +148,128 @@
     </script>
 
     <script>
+    let uploadedFiles = [];   // store real File objects for submission
+    let savedSelection;
+
+    const editor = document.getElementById("questionDescription");
+    const fileInput = document.getElementById("imageInput");
+    const uploadBtn = document.getElementById("uploadBtn");
+    const submitBtn = document.getElementById("submitBtn");
+
+    // Track caret position inside editor
+    editor.addEventListener("keyup", saveSelection);
+    editor.addEventListener("mouseup", saveSelection);
+
+    function saveSelection() {
+    const selection = window.getSelection();
+    if (selection.rangeCount > 0) {
+        savedSelection = selection.getRangeAt(0);
+    }
+    }
+
+
+    editor.addEventListener("drop", function(e) {
+        e.preventDefault();
+        for (const item of e.dataTransfer.items) {
+            if (item.kind === "file") {
+            // Dropped file (image)
+            const file = item.getAsFile();
+            if (file && file.type.startsWith("image/")) {
+                uploadedFiles.push(file); // save original File object
+
+                // show preview in editor
+                const reader = new FileReader();
+                reader.onload = function(evt) {
+                const img = document.createElement("img");
+                img.src = evt.target.result;
+                img.style.width = '400px';
+                img.style.height = '400px'
+                editor.appendChild(img);
+                };
+                reader.readAsDataURL(file);
+            }
+            }
+        }
+        });
+
+        // Handle paste (force clean text/code with white background + black text)
+        editor.addEventListener("paste", function(e) {
+        e.preventDefault();
+
+        const text = (e.clipboardData || window.clipboardData).getData("text/plain");
+
+        // Detect if it's code (multi-line or contains { } ;)
+        if (text.includes("\n") || text.includes("{") || text.includes(";")) {
+            const pre = document.createElement("pre");
+            const code = document.createElement("code");
+            code.textContent = text;
+            pre.appendChild(code);
+
+            const sel = window.getSelection();
+            if (!sel.rangeCount) return;
+            const range = sel.getRangeAt(0);
+            range.deleteContents();
+            range.insertNode(pre);
+            const brDiv = document.createElement("div");
+            brDiv.innerHTML = "<br>";
+            pre.parentNode.insertBefore(brDiv, pre.nextSibling);
+
+            // ✅ Move caret into the new blank line
+            range.setStart(brDiv, 0);
+            range.setEnd(brDiv, 0);
+            sel.removeAllRanges();
+            sel.addRange(range);
+        } else {
+            // Otherwise insert plain black text
+            document.execCommand("insertText", false, text);
+        }
+
+        });
+    // Open hidden file input when clicking upload
+    uploadBtn.addEventListener("click", () => fileInput.click());
+
+
+    // Handle chosen file
+    fileInput.addEventListener("change", function() {
+    const file = this.files[0];
+    if (file) {
+        uploadedFiles.push(file); // store real file
+
+        const reader = new FileReader();
+        reader.onload = function(evt) {
+        const img = document.createElement("img");
+        img.src = evt.target.result;  // preview image
+        img.style.width = "400px";
+        img.style.height = "400px";
+
+        insertAtCursor(img);
+        };
+        reader.readAsDataURL(file);
+    }
+    this.value = ""; // reset so same file can be uploaded again // reset so same file can be uploaded again// reset so same file can be uploaded again
+    });
+
+    // Insert image (or any node) at saved cursor position
+    function insertAtCursor(node) {
+    if (savedSelection) {
+        const range = savedSelection;
+        range.deleteContents();
+        range.insertNode(node);
+
+        // Move cursor after the inserted image
+        range.setStartAfter(node);
+        range.setEndAfter(node);
+
+        const selection = window.getSelection();
+        selection.removeAllRanges();
+        selection.addRange(range);
+    } else {
+        editor.appendChild(node);
+    }
+    }
+    </script>
+
+    <script>
         // Global array to store selected courses
         let selectedCourses = [];
 
@@ -187,7 +303,7 @@
             const selectedValue = courseSelect.value;
             addCourseBtn.disabled = !selectedValue || selectedCourses.includes(selectedValue);
             
-            console.log('Selected Courses:', selectedCourses);
+            
         }
 
         // Add course chip to the UI
@@ -282,15 +398,13 @@
         }
 
         function FormSubmission(formData, submitButton){
+
             fetch('{%url "question_form"%}', {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json',
                     'X-CSRFToken': getCookie('csrftoken')
                 },
-                body:JSON.stringify(
-                    formData
-                )
+                body:formData
             })
             .then(response => response.json())
             .then(data => {
@@ -311,16 +425,45 @@
 
         questionForm.addEventListener('submit', function(e) {
             e.preventDefault();
+
+            const formData = new FormData();
+            formData.append('question', document.getElementById('questionTitle').value)
+            formData.append('courses', selectedCourses)
+            //formData.append('description', editor.innerHTML)
             
-            const formData = {
-                title: document.getElementById('questionTitle').value,
-                description: document.getElementById('questionDescription').value,
-                courses: selectedCourses
+            //formData = {}
+            //formData['question'] = document.getElementById('questionTitle').value;
+            //formData['courses'] = selectedCourses
+
+            
+
+            // Add text content (HTML from editor)
+            //formData['images'] = new FormData()
+            //formData["description"] = editor.innerHTML;
+            
+            // Add uploaded images like <input type="file" multiple>
+            uploadedFiles.forEach((file, i) => {
+                //formData['images'].append("images", file);   // Django: request.FILES['images']
+                formData.append(`image${i}`, file);
+            });
+
+
+            let f = () => {
+                let temp = document.createElement('div')
+                temp.innerHTML = editor.innerHTML;
+                let imgs = temp.getElementsByTagName('img');
+                imgs.forEach(imgsrc => {
+                    imgsrc.src = '';
+                });
+                formData.append('description', temp.innerHTML);
             };
+
+            f()
 
             const submitButton = document.getElementById('submit-btn')
             submitButton.style.color = 'white'
             submitButton.textContent = "Processing Request"
+            
             FormSubmission(formData, submitButton)
             
         });
@@ -347,7 +490,6 @@
 
         // Mobile menu toggle
         document.querySelector('.mobile-menu-btn').addEventListener('click', function() {
-            console.log('Mobile menu clicked');
         });
     </script>
 </body>

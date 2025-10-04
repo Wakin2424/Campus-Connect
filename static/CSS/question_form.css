@@ -88,10 +88,45 @@ body {
     box-shadow: 0 0 0 3px rgba(30, 144, 255, 0.1);
 }
 
-.form-textarea {
-    resize: vertical;
-    min-height: 120px;
-}
+#questionDescription {
+      border: 1px solid #ccc;
+      padding: 10px;
+      min-height: 200px;
+      width: 600px;
+      white-space: pre-wrap;
+      font-family: Arial, sans-serif;
+      color: #2f97ffef; /* all text black */
+    }
+
+    /* force images inside editor to be default 400x400 */
+    #questionDescription img {
+      width: 400px;
+      height: 400px;
+      object-fit: contain;
+    }
+
+    /* style pasted code */
+    #questionDescription pre, #questionDescription code {
+      background: white !important;
+      color: black !important;
+      font-family: Consolas, "Courier New", monospace;
+      padding: 10px;
+      display: block;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      white-space: pre;
+      overflow-x: auto;
+    }
+    #questionDescription pre {
+      margin: 0;            /* remove extra top/bottom spacing */
+      padding: 10px;        /* keep internal padding only */
+    }
+
+    #questionDescription pre code {
+      display: block;       /* make code fill pre */
+      margin: 0;            /* remove inline spacing */
+      padding: 0;           /* optional */
+    }
 
 .course-selection {
     display: flex;

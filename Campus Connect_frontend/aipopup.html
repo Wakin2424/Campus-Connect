@@ -2,83 +2,49 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Submit Editor with Images</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>question form</title>
   <style>
-    #editor {
-      border: 1px solid #ccc;
-      padding: 10px;
-      min-height: 200px;
-      width: 600px;
-      white-space: pre-wrap;
+    body{
+      align-items: center;
       font-family: Arial, sans-serif;
-      color: black;
     }
-    #editor img {
-      width: 400px;
-      height: 400px;
-      object-fit: contain;
+    #editor {
+      width: 80%;
+      min-height: 150px;
+      height: auto;
+      overflow-x: auto;
+      overflow-y: hidden;
+      border-radius: 2px;
+      border: solid;
+      border-color: black;
+
     }
   </style>
 </head>
 <body>
-  <h2>Custom Editor</h2>
-  <div id="editor" contenteditable="true">
-    Type here, paste code, or drag & drop an image...
-  </div>
-
-  <button id="submitBtn">Submit</button>
-
+  <form method='post'>
+    <label for="question">Question</label><br>
+    <input type="text" name='question'><br>
+    <label>Description</label><br>
+    <div contenteditable='true' id="editor">
+    
+    </div>
+  </form>
+  <div id="result"></div>
   <script>
-    const editor = document.getElementById("editor");
-
-    // Handle drag-drop of images
-    editor.addEventListener("drop", function(e) {
-      e.preventDefault();
-      const file = e.dataTransfer.files[0];
-      if (file && file.type.startsWith("image/")) {
-        const reader = new FileReader();
-        reader.onload = function(evt) {
-          const img = document.createElement("img");
-          img.src = evt.target.result; // base64 string
-          editor.appendChild(img);
-        };
-        reader.readAsDataURL(file);
-      }
-    });
-
-    // Handle submit with fetch
-    document.getElementById("submitBtn").addEventListener("click", async () => {
-      const formData = new FormData();
-
-      // Collect editor text content
-      formData.append("content", editor.innerHTML);
-
-      // Collect images separately
-      const images = editor.querySelectorAll("img");
-      images.forEach((img, index) => {
-        // convert base64 → Blob
-        const base64Data = img.src.split(",")[1];
-        const mimeType = img.src.match(/data:(.*);base64/)[1];
-        const byteChars = atob(base64Data);
-        const byteNumbers = new Array(byteChars.length);
-        for (let i = 0; i < byteChars.length; i++) {
-          byteNumbers[i] = byteChars.charCodeAt(i);
-        }
-        const byteArray = new Uint8Array(byteNumbers);
-        const blob = new Blob([byteArray], { type: mimeType });
-
-        formData.append("images[]", blob, `image_${index}.png`);
-      });
-
-      // Send via fetch
-      const response = await fetch("/upload", {
-        method: "POST",
-        body: formData
-      });
-
-      const result = await response.json();
-      console.log("Server response:", result);
-    });
+    const editor = document.getElementById('editor')
+    const result = document.getElementById('result')
+    editor.addEventListener('paste', function(e){
+      e.preventDefault()
+      let data = (e.clipboardData || window.clipboardData).getData("text/html");
+      let elem = editor.createElement('div')
+      elem.innerText = data
+      //result.innerText = data;
+      editor.style.color = 'black';
+      editor.style.backgroundColor = 'white';
+      document.execCommand("insertText", false, data);
+    })
   </script>
 </body>
 </html>

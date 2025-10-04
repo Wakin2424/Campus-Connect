@@ -11,7 +11,8 @@ def Question_form(request):
         raise Http404('invalid request')
     
     if request.method == 'POST':
-        data = dict(json.loads(request.body))
+        #data = dict(json.loads(request.body))
+        data = request.POST.copy()
         print('hello' ,data)
         status = True
         url = ''
