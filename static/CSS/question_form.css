@@ -95,7 +95,7 @@ body {
       width: 600px;
       white-space: pre-wrap;
       font-family: Arial, sans-serif;
-      color: #2f97ffef; /* all text black */
+      color: black; /* all text black */
     }
 
     /* force images inside editor to be default 400x400 */

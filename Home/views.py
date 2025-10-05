@@ -15,18 +15,5 @@ def Home(request):
     else:
         return Unauth_index(request)
 
-def Test_page(request):
-    if request.method == 'POST':
-        dataset = dict(json.loads(request.body))
-        data = dataset['dataset']
-        images = dataset['images']
-        
-        print(data, images)
-        context = {
-            'status':True,
-            'data':data
-        }
-        return JsonResponse(context)
-    return render(request, 'test.html')
     
 

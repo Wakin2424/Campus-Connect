@@ -1,7 +1,6 @@
 from django.db import models
-from django.utils.translation import gettext_lazy as _
+import datetime as dt
 
-# Create your models here.
 class Career(models.Model):
     career_id = models.AutoField(primary_key=True)
     career_name = models.CharField(max_length=150)
@@ -36,14 +35,32 @@ class AuthCustomuser(models.Model):
     email = models.CharField(unique=True, max_length=254)
     contact = models.CharField(max_length=15)
     graduation_level = models.CharField(max_length=200, blank=True, null=True)
-    is_verified = models.BooleanField(default=False)
     year_of_study = models.IntegerField(blank=True, null=True)
     career = models.ForeignKey('Career', models.DO_NOTHING, blank=True, null=True)
     course = models.ForeignKey('Course', models.DO_NOTHING, blank=True, null=True)
+    is_verified = models.BooleanField(blank=True, null=True)
 
     class Meta:
         managed = False
         db_table = 'Auth_customuser'
+
+class Images(models.Model):
+    image_id = models.AutoField(primary_key=True)
+    title = models.CharField(max_length=200)
+    file = models.FileField(upload_to="media/")
+
+    class Meta:
+        managed = False
+        db_table = 'images'
+
+class ImageReference(models.Model):
+    reference_id = models.AutoField(primary_key=True)
+    question = models.ForeignKey('Qa', models.DO_NOTHING)
+    image = models.ForeignKey('Images', models.DO_NOTHING)
+
+    class Meta:
+        managed = False
+        db_table = 'image_reference'
 
 class Market(models.Model):
     market_id = models.AutoField(primary_key=True)
@@ -67,7 +84,7 @@ class Notes(models.Model):
     course = models.ForeignKey(Course, models.DO_NOTHING, blank=True, null=True)
     title = models.CharField(max_length=200)
     description = models.TextField(blank=True, null=True)
-    file_url = models.FileField(upload_to='Notes/')
+    file_url = models.TextField()
     file_size = models.BigIntegerField(blank=True, null=True)
     views = models.IntegerField(blank=True, null=True)
     rating = models.DecimalField(max_digits=3, decimal_places=2, blank=True, null=True)
@@ -83,10 +100,10 @@ class Notes(models.Model):
 
 class Notifications(models.Model):
     notification_id = models.AutoField(primary_key=True)
-    user = models.ForeignKey(AuthCustomuser, models.DO_NOTHING, blank=True, null=True)
     message = models.TextField()
     is_read = models.BooleanField(blank=True, null=True)
     created_at = models.DateTimeField(blank=True, null=True)
+    user = models.ForeignKey(AuthCustomuser, models.DO_NOTHING, blank=True, null=True)
 
     class Meta:
         managed = False
@@ -94,39 +111,27 @@ class Notifications(models.Model):
 
 class Qa(models.Model):
     qa_id = models.AutoField(primary_key=True)
-    user = models.ForeignKey(AuthCustomuser, models.DO_NOTHING, blank=True, null=True)
-    course = models.ForeignKey(Course, models.DO_NOTHING, blank=True, null=True)
-    subjects = models.JSONField(blank=True, null=True)
     question = models.TextField()
     description = models.TextField(blank=True, null=True)
     answers = models.JSONField(blank=True, null=True)
-    views = models.IntegerField(blank=True, null=True)
-    likes = models.IntegerField(blank=True, null=True)
-    created_at = models.DateTimeField(blank=True, null=True)
+    views = models.IntegerField(blank=True, null=True, default=0)
+    likes = models.IntegerField(blank=True, null=True, default=0)
+    answer_len = models.IntegerField(default=0)
+    created_at = models.DateTimeField(default=dt.datetime.now())
+    user = models.ForeignKey(AuthCustomuser, models.DO_NOTHING, blank=True, null=True)
+    code = models.CharField(unique=True, max_length=250)
 
     class Meta:
         managed = False
         db_table = 'qa'
 
-class StudyGroupMembers(models.Model):
-    pk = models.CompositePrimaryKey('group_id', 'user_id')
-    group = models.ForeignKey('StudyGroups', models.DO_NOTHING)
-    user = models.ForeignKey(AuthCustomuser, models.DO_NOTHING)
-    joined_at = models.DateTimeField(blank=True, null=True)
+
+class QuestionSubjects(models.Model):
+    course = models.ForeignKey(Course, models.DO_NOTHING, blank=True, null=True)
+    question = models.ForeignKey(Qa, models.DO_NOTHING)
+    reference_id = models.AutoField(primary_key=True)
 
     class Meta:
         managed = False
-        db_table = 'study_group_members'
-        unique_together = (('group', 'user'),)
+        db_table = 'question_subjects'
 
-
-class StudyGroups(models.Model):
-    group_id = models.AutoField(primary_key=True)
-    group_name = models.CharField(max_length=150)
-    description = models.TextField(blank=True, null=True)
-    created_by = models.ForeignKey(AuthCustomuser, models.DO_NOTHING, db_column='created_by', blank=True, null=True)
-    created_at = models.DateTimeField(blank=True, null=True)
-
-    class Meta:
-        managed = False
-        db_table = 'study_groups'

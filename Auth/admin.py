@@ -21,7 +21,15 @@ class Notification_admin(admin.ModelAdmin):
     list_display = ['notification_id', 'user__first_name', 'message', 'created_at']
 
 class Qa_admin(admin.ModelAdmin):
-    list_display = ['qa_id', 'user__first_name', 'course__course_name', 'views', 'likes', 'question', 'description', 'answers', 'created_at']
+    list_display = ['qa_id', 'code', 'user__first_name', 'answer_len', 'views', 'likes', 'question', 'description', 'answers', 'created_at']
+
+class Question_subjects_admin(admin.ModelAdmin):
+    list_display = ['reference_id', 'question__question', 'course__course_name']
+
+class ImageReference_admin(admin.ModelAdmin):
+    list_display = ['reference_id', 'question__question', 'image__title']
+
+
 
 admin.site.register(Market, Market_admin)
 admin.site.register(Qa, Qa_admin)
@@ -30,3 +38,5 @@ admin.site.register(Notes, Notes_admin)
 admin.site.register(Course, Course_admin)
 admin.site.register(Career, career_admin)
 admin.site.register(CustomUser, User_admin)
+admin.site.register(Question_subjects, Question_subjects_admin)
+admin.site.register(Image_reference, ImageReference_admin)

@@ -1,4 +1,5 @@
 {% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -19,40 +20,38 @@
     <div class="container">
         <!-- Question Details Card -->
         <div class="question-card">
-            <h1 class="question-title">How do I implement a binary search algorithm in Python?</h1>
-            <p class="question-description">
-                I'm struggling to understand how binary search works and how to implement it efficiently in Python. 
-                I understand the concept that it divides the search space in half each time, but I'm having trouble 
-                with the actual implementation. Could someone provide a clear explanation with code examples? 
-                Also, what are the time and space complexities?
-            </p>
-            
+            <h1 class="question-title">{{question.question}}</h1>
+            <div class="question-description" id="question-description">
+                {{question.description|safe}}
+            </div>
             <div class="course-tags">
-                <span class="tag">Data Structures</span>
-                <span class="tag">Python Programming</span>
-                <span class="tag">Algorithms</span>
+                {% for course in courses%}
+                <span class="tag">{{course.course.course_name}}</span>
+                {% endfor %}
             </div>
             
             <div class="stats-row">
                 <div class="stat-item">
                     <i class="fas fa-thumbs-up"></i>
-                    <span>12 likes</span>
+                    <span>{{question.likes}} likes</span>
                 </div>
                 <div class="stat-item">
                     <i class="fas fa-eye"></i>
-                    <span>248 views</span>
+                    <span>{{question.views}} views</span>
                 </div>
             </div>
             
-            <div class="user-info">
-                <div class="avatar">JS</div>
-                <span>Asked by <strong>John Smith</strong> • 2 hours ago</span>
-            </div>
+            <a href="{%url 'user'%}{{seeker.username}}/" style="text-decoration: none;">
+                <div class="user-info">
+                    <div class="avatar">{{seeker.first_name|upper|slice:":1"}}{{seeker.last_name|upper|slice:":1"}}</div>
+                    <span>Asked by <strong>{{seeker.first_name}} {{seeker.last_name}}</strong> • 2 hours ago</span>
+                </div>
+            </a>
         </div>
 
         <!-- Answer Controls -->
         <div class="answer-controls">
-            <button class="control-btn btn-primary" onclick="showAnswerForm()">
+            <button class="control-btn btn-primary">
                 <i class="fas fa-edit"></i> Post Answer
             </button>
             <button class="control-btn btn-secondary" onclick="askCodinAI()">
@@ -60,28 +59,9 @@
             </button>
         </div>
 
-        <!-- Answer Form (Initially Hidden) -->
-        <div class="answer-form" id="answerForm">
-            <h3 class="section-title">Post Your Answer</h3>
-            <form onsubmit="submitAnswer(event)">
-                <div class="form-group">
-                    <label class="form-label">Your Answer</label>
-                    <textarea class="form-textarea" placeholder="Write your answer here..." required></textarea>
-                </div>
-                <div class="form-group">
-                    <label class="form-label">Upload Images (Optional)</label>
-                    <input type="file" class="file-input" accept="image/*" multiple onchange="previewImages(event)">
-                    <div class="image-preview" id="imagePreview"></div>
-                </div>
-                <button type="submit" class="control-btn btn-primary">
-                    <i class="fas fa-paper-plane"></i> Submit Answer
-                </button>
-            </form>
-        </div>
-
         <!-- Answers Section -->
         <div class="answers-section">
-            <h2 class="section-title">Answers (3)</h2>
+            <h2 class="section-title">Answers ({{question.answer_len}})</h2>
             
             <!-- Sample Answer 1 -->
             <div class="answer-card">
@@ -199,7 +179,7 @@
                     <li><a href="group.html">Groups</a></li>
                     `
         const login= `
-            <a href='{%url "question_form"%}'><button class="quick-post-btn">+ Quick Post</button></a>
+            <a href='{%url "question"%}'><button class="quick-post-btn">+ Quick Post</button></a>
             <div class="user-dropdown">
                 <div class="user-avatar">${user_name}</div>
                 <div class="dropdown-menu">
@@ -264,11 +244,16 @@
     </script>
 
     <script>
-        function showAnswerForm() {
-            const form = document.getElementById('answerForm');
-            form.style.display = form.style.display === 'none' ? 'block' : 'block';
-            form.scrollIntoView({ behavior: 'smooth' });
-        }
+        const imageUrl = {{images|safe}}['images'];
+        const questionDescription = document.getElementById('question-description')
+        const imageset = questionDescription.querySelectorAll('img')
+
+        imageset.forEach((img, index) => {
+            img.src = imageUrl[index]
+            img.style.width = '400px';
+            img.style.height = '400px'; 
+        })
+
 
         function askCodinAI() {
             const aiWindow = document.getElementById('aiWindow');

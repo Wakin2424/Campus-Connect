@@ -51,18 +51,9 @@
                         <div class="course-dropdown-container">
                             <select id="courseSelect" class="form-select">
                                 <option value="">Select a course...</option>
-                                <option value="Computer Science">Computer Science</option>
-                                <option value="Mathematics">Mathematics</option>
-                                <option value="Engineering">Engineering</option>
-                                <option value="Business Administration">Business Administration</option>
-                                <option value="Biology">Biology</option>
-                                <option value="Chemistry">Chemistry</option>
-                                <option value="Physics">Physics</option>
-                                <option value="Psychology">Psychology</option>
-                                <option value="Economics">Economics</option>
-                                <option value="Literature">Literature</option>
-                                <option value="History">History</option>
-                                <option value="Art & Design">Art & Design</option>
+                                {% for course in courses%}
+                                <option value="{{course.course_name}}">{{course.course_name}}</option>
+                                {% endfor %}
                             </select>
                         </div>
                         <button type="button" id="addCourseBtn" class="add-course-btn">
@@ -91,7 +82,7 @@
             </form>
 
             <!-- Debug Panel (for development) -->
-            <div class="debug-panel" id="debugPanel">
+            <div class="debug-panel" id="debugPanel" hidden>
                 <div class="debug-title">Selected Courses Array (Debug):</div>
                 <div class="debug-content" id="debugContent">[]</div>
             </div>
@@ -399,7 +390,7 @@
 
         function FormSubmission(formData, submitButton){
 
-            fetch('{%url "question_form"%}', {
+            fetch('{%url "question"%}', {
                 method: 'POST',
                 headers: {
                     'X-CSRFToken': getCookie('csrftoken')
@@ -412,7 +403,7 @@
                     submitButton.style.color = 'green'
                     submitButton.textContent = "Successful"
                     setTimeout(() => {
-                        window.location.href = "{%url 'question_library'%}";
+                        window.location.href = data.url;
                     }, 1500);
                 } else {
                     submitButton.style.color = 'red'
@@ -451,6 +442,7 @@
             let f = () => {
                 let temp = document.createElement('div')
                 temp.innerHTML = editor.innerHTML;
+                //temp.querySelectorAll('script').remove()
                 let imgs = temp.querySelectorAll('img');
                 imgs.forEach(imgsrc => {
                     imgsrc.src = '';

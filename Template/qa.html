@@ -22,7 +22,7 @@
         <div class="page-header">
             <h1 class="page-title">Ask & Answer Questions</h1>
             {% if user.is_authenticated %}
-            <a style="text-decoration: none;" href='{%url "question_form"%}'><button class="btn-ask" id="askBtn">
+            <a style="text-decoration: none;" href='{%url "question"%}'><button class="btn-ask" id="askBtn">
                 <i class="fas fa-plus"></i>
                 Ask a Question
             </button></a>

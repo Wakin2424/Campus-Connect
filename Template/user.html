@@ -28,21 +28,18 @@
                     </div>
                     <div class="profile-info">
                         <h1>
-                            {{user.first_name}} {{user.last_name}}
+                            {{account.first_name}} {{account.last_name}}
                             <i class="fas fa-check-circle verified-badge"></i>
                         </h1>
-                        {%if user.is_verified %}
+                        {%if account.is_verified %}
                         <div class="verification-note">
                             <i class="fas fa-shield-alt"></i> Verified Campus Member
                         </div>
                         {% endif %}
                         <div class="contact-info">
-                            <p><i class="fas fa-envelope"></i> {{user.email}}</p>
-                            <p><i class="fas fa-phone"></i> {{user.contact}}</p>
+                            <p><i class="fas fa-envelope"></i> {{account.email}}</p>
+                            <p><i class="fas fa-phone"></i> {{account.contact}}</p>
                         </div>
-                        <button class="edit-btn">
-                            <i class="fas fa-edit"></i> Edit Profile
-                        </button>
                     </div>
                 </div>
             </div>
@@ -72,6 +69,7 @@
                 <div class="tabs">
                     <div class="tab-buttons">
                         <button class="tab-btn active" onclick="showTab('notes')">Notes</button>
+                        <button class="tab-btn" onclick="showTab('questions')">Questions</button>
                         <button class="tab-btn" onclick="showTab('books')">Books for Sale</button>
                         <button class="tab-btn" onclick="showTab('other')">Other Uploads</button>
                     </div>
@@ -79,6 +77,7 @@
 
                 <div id="notes" class="tab-content active">
                     <div class="uploads-grid">
+                        {notes}
                         <div class="upload-card">
                             <div class="upload-title">Data Structures & Algorithms</div>
                             <div class="upload-description">Complete notes covering binary trees, sorting algorithms, and complexity analysis.</div>
@@ -91,35 +90,31 @@
                                 <a href="#" class="view-link">View Details <i class="fas fa-arrow-right"></i></a>
                             </div>
                         </div>
-                        <div class="upload-card">
-                            <div class="upload-title">Calculus II Final Review</div>
-                            <div class="upload-description">Comprehensive review notes with practice problems and solutions.</div>
-                            <div class="upload-meta">
-                                <span><i class="fas fa-eye"></i> 623 views</span>
-                                <span class="rating"><i class="fas fa-star"></i> 4.7</span>
+
+                    </div>
+                </div>
+
+                <div id="questions" class="tab-content">
+                    <div class="uploads-grid">
+                        {% for question in questions %}
+                            <div class="upload-card">
+                                <div class="upload-title">{{question.question}}</div>
+                                <div class="upload-meta">
+                                    <span><i class="fas fa-eye"></i> {{question.views}} views</span>
+                                    <span class="rating"><i class="fas fa-star"></i> {{question.likes}} likes</span>
+                                </div>
+                                <div class="upload-meta">
+                                    <span>Uploaded: March 15, 2025</span>
+                                    <a href="{%url 'question'%}/{{question.code}}/" class="view-link">View Details <i class="fas fa-arrow-right"></i></a>
+                                </div>
                             </div>
-                            <div class="upload-meta">
-                                <span>Uploaded: February 28, 2025</span>
-                                <a href="#" class="view-link">View Details <i class="fas fa-arrow-right"></i></a>
-                            </div>
-                        </div>
-                        <div class="upload-card">
-                            <div class="upload-title">Physics Lab Reports</div>
-                            <div class="upload-description">Collection of physics lab reports with detailed analysis and conclusions.</div>
-                            <div class="upload-meta">
-                                <span><i class="fas fa-eye"></i> 234 views</span>
-                                <span class="rating"><i class="fas fa-star"></i> 4.6</span>
-                            </div>
-                            <div class="upload-meta">
-                                <span>Uploaded: February 10, 2025</span>
-                                <a href="#" class="view-link">View Details <i class="fas fa-arrow-right"></i></a>
-                            </div>
-                        </div>
+                        {% endfor %}
                     </div>
                 </div>
 
                 <div id="books" class="tab-content">
                     <div class="uploads-grid">
+                        {books}
                         <div class="upload-card">
                             <div class="upload-title">Introduction to Computer Science (9th Ed.)</div>
                             <div class="upload-description">Excellent condition textbook with minimal highlighting. Perfect for CS101.</div>

@@ -26,8 +26,8 @@ class Course(models.Model):
 
 class Images(models.Model):
     image_id = models.AutoField(primary_key=True)
-    image_name = models.CharField(max_length=200)
-    image_url = models.FileField(upload_to="media/")
+    title = models.CharField(max_length=200)
+    file = models.FileField(upload_to="media/")
 
     class Meta:
         db_table = 'images'
@@ -121,13 +121,12 @@ class Qa(models.Model):
     qa_id = models.AutoField(primary_key=True)
     code = models.CharField(max_length=250, unique=True)
     user = models.ForeignKey(AuthCustomuser, models.DO_NOTHING, blank=True, null=True)
-    course = models.ForeignKey(Course, models.DO_NOTHING, blank=True, null=True)
     question = models.TextField()
-    description = models.JSONField(blank=True, null=True)
-    image = models.ForeignKey(Images, models.DO_NOTHING, blank=True, null=True)
+    description = models.TextField(blank=True, null=True)
     answers = models.JSONField(blank=True, null=True)
-    views = models.IntegerField(blank=True, null=True)
-    likes = models.IntegerField(blank=True, null=True)
+    views = models.IntegerField(blank=True, null=True, default=0)
+    likes = models.IntegerField(blank=True, null=True, default=0)
+    answer_len = models.IntegerField(default=0)
     created_at = models.DateTimeField(blank=True, default=str(dt.datetime.now()))
 
     class Meta:
