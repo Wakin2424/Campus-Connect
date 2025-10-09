@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Answer Question - Campus Connect</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/answer.css` ">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <div class="logo">Campus Connect</div>
+            <a href="#" class="back-btn">← Back to Question</a>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Question Display -->
+        <div class="question-card">
+            <h1 class="question-title">How do I prepare for technical interviews at top tech companies?</h1>
+            <p class="question-description">
+                I have several interviews coming up with FAANG companies and I'm feeling overwhelmed. 
+                What are the best resources for practicing coding problems? How should I structure my study plan? 
+                Any tips on behavioral interview preparation would also be greatly appreciated.
+            </p>
+        </div>
+
+        <!-- Success Message -->
+        <div class="success-message" id="successMessage">
+            ✓ Your answer has been posted successfully!
+        </div>
+
+        <!-- Answer Form -->
+        <div class="answer-card">
+            <h2 class="form-title">Write Your Answer</h2>
+            <form id="answerForm">
+                <div class="form-group">
+                    <label for="answer">Your Answer *</label>
+                    
+                    <div id="answer" contenteditable="true">
+                    </div>
+                    
+                </div>
+
+                <div class="form-group image-upload">
+                    <label>Add Image (Optional)</label>
+                    <div class="file-input-wrapper">
+                        <label for="imageUpload" class="file-input-label">
+                            📎 Choose File
+                        </label>
+                        <input 
+                            type="file" 
+                            id="imageUpload" 
+                            name="image" 
+                            accept="image/*" 
+                            class="file-input"
+                        >
+                        <span class="file-name" id="fileName">No file chosen</span>
+                    </div>
+                </div>
+
+                <button class="submit-btn">Submit Answer</button>
+            </form>
+        </div>
+    </div>
+
+    
+</body>
+</html>

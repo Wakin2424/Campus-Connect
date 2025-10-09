@@ -76,6 +76,9 @@ def Question(request, id):
     return render(request, 'question_detail.html', context)
 
 def Answer(request, id):
+    if not request.user.is_authenticated or not request.user.is_verified:
+        raise Http404('Invalid Request')
+    
     if request.method == 'POST':
         status = False
         try:
@@ -83,16 +86,24 @@ def Answer(request, id):
         except:
             return JsonResponse({'status':status})
 
+        images = []
         jsondata = {
             'username':"",
             'fullname': "",
             'acronym':"",
             'answer':"",
             'votes': 1,
+            'images':[],
             'created_at':'',
 
         }
-        url = f'{request.build_absolute_uri('answer')}/{id}'
+
+        question.answers[jsondata['usernane']] = jsondata
+        question.save()
+
+        if len(images) > 0:
+            pass
+        url = f'{request.build_absolute_uri("answer")}/{id}'
         question.answers
         pass
     pass
