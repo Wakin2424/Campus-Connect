@@ -5,5 +5,8 @@ urlpatterns = [
     path('', views.Home, name='question_library'),
     path('question', views.Question_form, name='question'),
     path('question/<str:id>/', views.Question, name='question'),
-    path('answer/<str:id>/', views.Answer, name='answer')
+    path('answer/', views.Answerhome, name='answerRedirect'),
+    path('answer/<str:id>/', views.Answer, name='answer'),
+    path('api/load/questions', views.Load_questions, name='load_questions'),
+    path('api/load/votes', views.Vote, name='vote')
 ]

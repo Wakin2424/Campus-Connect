@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Complete Your Profile - Campus Connect</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #ffffff;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        /* Navigation Bar */
+        .navbar {
+            background-color: #0D1B2A;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .logo {
+            color: #ffffff;
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: #ffffff;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: #1E90FF;
+        }
+
+        .back-btn {
+            background-color: #0D1B2A;
+            color: #ffffff;
+            padding: 0.6rem 1.5rem;
+            border: 2px solid #ffffff;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .back-btn:hover {
+            background-color: #1E90FF;
+            border-color: #1E90FF;
+        }
+
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* Page Header */
+        .page-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .page-header h1 {
+            color: #0D1B2A;
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .page-header p {
+            color: #666;
+            font-size: 1rem;
+        }
+
+        /* Progress Bar */
+        .progress-container {
+            background-color: #f0f0f0;
+            border-radius: 20px;
+            padding: 0.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .progress-bar {
+            background: linear-gradient(90deg, #0D1B2A, #1E90FF);
+            height: 25px;
+            border-radius: 15px;
+            transition: width 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #ffffff;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        /* Advantages Box */
+        .advantages-box {
+            background: linear-gradient(135deg, #E3F2FD 0%, #BBDEFB 100%);
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 15px rgba(30, 144, 255, 0.2);
+        }
+
+        .advantages-box h3 {
+            color: #0D1B2A;
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+
+        .advantages-list {
+            list-style: none;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+        }
+
+        .advantages-list li {
+            color: #0D1B2A;
+            font-size: 0.95rem;
+            padding: 0.5rem;
+            background-color: rgba(255, 255, 255, 0.7);
+            border-radius: 5px;
+        }
+
+        /* Form Styles */
+        .edit-form {
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        fieldset {
+            border: 2px solid #E3F2FD;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        legend {
+            color: #0D1B2A;
+            font-weight: 600;
+            font-size: 1.2rem;
+            padding: 0 0.5rem;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            color: #0D1B2A;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+
+        .required {
+            color: #ff4444;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="tel"],
+        select,
+        input[type="file"] {
+            padding: 0.75rem;
+            border: 2px solid #E3F2FD;
+            border-radius: 5px;
+            font-size: 1rem;
+            font-family: 'Poppins', sans-serif;
+            transition: border-color 0.3s;
+        }
+
+        input[type="text"]:focus,
+        input[type="email"]:focus,
+        input[type="tel"]:focus,
+        select:focus {
+            outline: none;
+            border-color: #1E90FF;
+        }
+
+        input.filled {
+            background-color: #E8F5E9;
+            border-color: #4CAF50;
+        }
+
+        /* Verification Notice */
+        .verification-notice {
+            background-color: #FFF3E0;
+            border-left: 4px solid #FF9800;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            border-radius: 5px;
+        }
+
+        .verification-notice p {
+            color: #0D1B2A;
+            font-weight: 500;
+        }
+
+        /* Buttons */
+        .button-group {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 1rem 2.5rem;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .btn-primary {
+            background-color: #0D1B2A;
+            color: #ffffff;
+        }
+
+        .btn-primary:hover:not(:disabled) {
+            background-color: #1E90FF;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(30, 144, 255, 0.4);
+        }
+
+        .btn-primary:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+            opacity: 0.6;
+        }
+
+        .btn-secondary {
+            background-color: #ffffff;
+            color: #0D1B2A;
+            border: 2px solid #0D1B2A;
+        }
+
+        .btn-secondary:hover {
+            background-color: #0D1B2A;
+            color: #ffffff;
+        }
+
+        /* Success Message */
+        .success-message {
+            display: none;
+            background-color: #4CAF50;
+            color: #ffffff;
+            padding: 1rem;
+            border-radius: 5px;
+            text-align: center;
+            margin-top: 1rem;
+            animation: slideIn 0.5s;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .verified-badge-preview {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background-color: #1E90FF;
+            color: #ffffff;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-top: 1rem;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .nav-links {
+                flex-direction: column;
+                gap: 0.5rem;
+                text-align: center;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .page-header h1 {
+                font-size: 1.5rem;
+            }
+
+            .advantages-list {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Tooltip */
+        .tooltip {
+            position: relative;
+            display: inline-block;
+            cursor: help;
+        }
+
+        .tooltip .tooltiptext {
+            visibility: hidden;
+            width: 200px;
+            background-color: #0D1B2A;
+            color: #fff;
+            text-align: center;
+            border-radius: 6px;
+            padding: 0.5rem;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%;
+            left: 50%;
+            margin-left: -100px;
+            opacity: 0;
+            transition: opacity 0.3s;
+            font-size: 0.85rem;
+        }
+
+        .tooltip:hover .tooltiptext {
+            visibility: visible;
+            opacity: 1;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="logo">Campus Connect</div>
+        <ul class="nav-links">
+            <li><a href="#home">Home</a></li>
+            <li><a href="#questions">Questions</a></li>
+            <li><a href="#notes">Notes</a></li>
+            <li><a href="#market">Market</a></li>
+            <li><a href="#profile">Profile</a></li>
+        </ul>
+        <button class="back-btn" onclick="window.history.back()">← Back to Profile</button>
+    </nav>
+
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Page Header -->
+        <div class="page-header">
+            <h1>Complete Your Profile to Get Verified</h1>
+            <p>Verified members enjoy more trust, visibility, and privileges within the Campus Connect community.</p>
+            <div class="verified-badge-preview">✓ Verified Member Badge Preview</div>
+        </div>
+
+        <!-- Progress Bar -->
+        <div class="progress-container">
+            <div class="progress-bar" id="progressBar" style="width: 60%">60% Complete</div>
+        </div>
+
+        <!-- Advantages Box -->
+        <div class="advantages-box">
+            <h3>🌟 Benefits of Verification</h3>
+            <ul class="advantages-list">
+                <li>✅ Increased visibility on posts and questions</li>
+                <li>🔒 Verified badge beside your name</li>
+                <li>💬 Ability to post exclusive content or host study groups</li>
+                <li>💼 Eligible for campus ambassador programs</li>
+            </ul>
+        </div>
+
+        <!-- Edit Form -->
+        <form class="edit-form" id="editForm">
+            <!-- Personal Details -->
+            <fieldset>
+                <legend>Personal Details <span class="required">*</span></legend>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="firstName">
+                            First Name <span class="required">*</span>
+                            <span class="tooltip">ℹ️
+                                <span class="tooltiptext">Your legal first name for verification</span>
+                            </span>
+                        </label>
+                        <input type="text" id="firstName" name="firstName" value="John" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="lastName">
+                            Last Name <span class="required">*</span>
+                        </label>
+                        <input type="text" id="lastName" name="lastName" value="Doe" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="email">
+                            Email <span class="required">*</span>
+                        </label>
+                        <input type="email" id="email" name="email" value="john.doe@university.edu" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="contact">
+                            Contact Number <span class="required">*</span>
+                        </label>
+                        <input type="tel" id="contact" name="contact" value="+254 712 345 678" required>
+                    </div>
+                </div>
+            </fieldset>
+
+            <!-- Academic Details -->
+            <fieldset>
+                <legend>Academic Details <span class="required">* (Required for Verification)</span></legend>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="course">
+                            Course <span class="required">*</span>
+                            <span class="tooltip">ℹ️
+                                <span class="tooltiptext">Your field of study or major</span>
+                            </span>
+                        </label>
+                        <input type="text" id="course" name="course" placeholder="e.g., Computer Science" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="year">
+                            Year of Study <span class="required">*</span>
+                        </label>
+                        <select id="year" name="year" required>
+                            <option value="">Select Year</option>
+                            <option value="1st">1st Year</option>
+                            <option value="2nd">2nd Year</option>
+                            <option value="3rd">3rd Year</option>
+                            <option value="4th">4th Year</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="level">
+                            Graduation Level <span class="required">*</span>
+                        </label>
+                        <select id="level" name="level" required>
+                            <option value="">Select Level</option>
+                            <option value="Certificate">Certificate</option>
+                            <option value="Diploma">Diploma</option>
+                            <option value="Degree">Degree</option>
+                            <option value="Masters">Masters</option>
+                            <option value="PhD">PhD</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="institution">
+                            Institution Name
+                            <span class="tooltip">ℹ️
+                                <span class="tooltiptext">Optional but recommended for verification</span>
+                            </span>
+                        </label>
+                        <input type="text" id="institution" name="institution" placeholder="e.g., University of Nairobi">
+                    </div>
+                </div>
+            </fieldset>
+
+            <!-- Profile Picture -->
+            <fieldset>
+                <legend>Profile Picture (Optional)</legend>
+                <div class="form-group">
+                    <label for="profilePic">Upload Profile Image</label>
+                    <input type="file" id="profilePic" name="profilePic" accept="image/*">
+                </div>
+            </fieldset>
+
+            <!-- Verification Notice -->
+            <div class="verification-notice">
+                <p>📢 Once your profile is complete, click "Request Verification" below to become a verified Campus Connect member. Our team will review your profile within 24-48 hours.</p>
+            </div>
+
+            <!-- Buttons -->
+            <div class="button-group">
+                <button type="button" class="btn btn-secondary" onclick="window.history.back()">Cancel</button>
+                <button type="submit" class="btn btn-secondary">Save Changes</button>
+                <button type="button" class="btn btn-primary" id="verifyBtn" disabled>Request Verification</button>
+            </div>
+
+            <div class="success-message" id="successMessage"></div>
+        </form>
+    </div>
+
+    <script>
+        // Pre-populated data simulation
+        const userData = {
+            firstName: 'John',
+            lastName: 'Doe',
+            email: 'john.doe@university.edu',
+            contact: '+254 712 345 678',
+            course: '',
+            year: '',
+            level: '',
+            institution: ''
+        };
+
+        // Track form completion
+        function checkFormCompletion() {
+            const requiredFields = [
+                'firstName', 'lastName', 'email', 'contact',
+                'course', 'year', 'level'
+            ];
+            
+            let filledCount = 0;
+            let totalRequired = requiredFields.length;
+            
+            requiredFields.forEach(fieldId => {
+                const field = document.getElementById(fieldId);
+                if (field.value.trim() !== '') {
+                    filledCount++;
+                    field.classList.add('filled');
+                } else {
+                    field.classList.remove('filled');
+                }
+            });
+            
+            // Update progress bar
+            const percentage = Math.round((filledCount / totalRequired) * 100);
+            const progressBar = document.getElementById('progressBar');
+            progressBar.style.width = percentage + '%';
+            progressBar.textContent = percentage + '% Complete';
+            
+            // Enable/disable verification button
+            const verifyBtn = document.getElementById('verifyBtn');
+            verifyBtn.disabled = percentage < 100;
+            
+            return percentage === 100;
+        }
+
+        // Add event listeners to all form inputs
+        const formInputs = document.querySelectorAll('#editForm input, #editForm select');
+        formInputs.forEach(input => {
+            input.addEventListener('input', checkFormCompletion);
+            input.addEventListener('change', checkFormCompletion);
+        });
+
+        // Initial check
+        checkFormCompletion();
+
+        // Handle form submission
+        document.getElementById('editForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const successMsg = document.getElementById('successMessage');
+            successMsg.textContent = '✓ Profile updated successfully!';
+            successMsg.style.display = 'block';
+            setTimeout(() => {
+                successMsg.style.display = 'none';
+            }, 3000);
+        });
+
+        // Handle verification request
+        document.getElementById('verifyBtn').addEventListener('click', function() {
+            if (checkFormCompletion()) {
+                const successMsg = document.getElementById('successMessage');
+                successMsg.textContent = '✓ Verification request submitted successfully! We will review your profile within 24-48 hours.';
+                successMsg.style.display = 'block';
+                
+                // Disable button after submission
+                this.disabled = true;
+                this.textContent = 'Verification Pending...';
+                
+                setTimeout(() => {
+                    successMsg.style.display = 'none';
+                }, 5000);
+            }
+        });
+    </script>
+</body>
+</html>

@@ -123,7 +123,7 @@ class Qa(models.Model):
     user = models.ForeignKey(AuthCustomuser, models.DO_NOTHING, blank=True, null=True)
     question = models.TextField()
     description = models.TextField(blank=True, null=True)
-    answers = models.JSONField(blank=True, null=True)
+    answers = models.JSONField(blank=True, null=True, default=dict)
     views = models.IntegerField(blank=True, null=True, default=0)
     likes = models.IntegerField(blank=True, null=True, default=0)
     answer_len = models.IntegerField(default=0)

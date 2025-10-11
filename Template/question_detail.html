@@ -17,7 +17,7 @@
         <!--Generated dynamically by js-->
     </header>
     <!-- Main Container -->
-    <div class="container">
+    <div class="container" id="container">
         <!-- Question Details Card -->
         <div class="question-card">
             <h1 class="question-title">{{question.question}}</h1>
@@ -33,7 +33,11 @@
             <div class="stats-row">
                 <div class="stat-item">
                     <i class="fas fa-thumbs-up"></i>
-                    <span>{{question.likes}} likes</span>
+                    {%if user.is_authenticated %}
+                    <button class="control-btn btn-secondary" onclick="Likessubmission('{{question.code}}')" id="like-valuebtn"><span id="likes-value">{{question.likes}} likes</span></button>
+                    {% else %}
+                    <span id="likes-value">{{question.likes}} likes</span>
+                    {% endif %}
                 </div>
                 <div class="stat-item">
                     <i class="fas fa-eye"></i>
@@ -51,7 +55,7 @@
 
         <!-- Answer Controls -->
         <div class="answer-controls">
-            <button class="control-btn btn-primary">
+            <button class="control-btn btn-primary" onClick = 'postAnswer()'>
                 <i class="fas fa-edit"></i> Post Answer
             </button>
             <button class="control-btn btn-secondary" onclick="askCodinAI()">
@@ -60,81 +64,9 @@
         </div>
 
         <!-- Answers Section -->
-        <div class="answers-section">
+        <div class="answers-section" id="answers-section">
             <h2 class="section-title">Answers ({{question.answer_len}})</h2>
             
-            <!-- Sample Answer 1 -->
-            <div class="answer-card">
-                <div class="answer-text">
-                    Here's a clean implementation of binary search in Python:
-
-                    <pre><code>def binary_search(arr, target):
-    left, right = 0, len(arr) - 1
-    
-    while left <= right:
-        mid = (left + right) // 2
-        
-        if arr[mid] == target:
-            return mid
-        elif arr[mid] < target:
-            left = mid + 1
-        else:
-            right = mid - 1
-    
-    return -1  # Element not found</code></pre>
-
-                    The time complexity is O(log n) and space complexity is O(1) for the iterative version. The key insight is that we eliminate half of the remaining elements in each iteration.
-                </div>
-                <div class="user-info">
-                    <div class="avatar">AM</div>
-                    <span>Answered by <strong>Alex Mitchell</strong> • 1 hour ago</span>
-                </div>
-                <div class="vote-buttons">
-                    <button class="vote-btn" onclick="toggleVote(this, 'up')">
-                        <i class="fas fa-chevron-up"></i> <span>8</span>
-                    </button>
-                    <button class="vote-btn" onclick="toggleVote(this, 'down')">
-                        <i class="fas fa-chevron-down"></i> <span>0</span>
-                    </button>
-                </div>
-            </div>
-
-            <!-- Sample Answer 2 -->
-            <div class="answer-card">
-                <div class="answer-text">
-                    I'd also recommend understanding the recursive approach:
-
-                    <pre><code>def binary_search_recursive(arr, target, left=0, right=None):
-    if right is None:
-        right = len(arr) - 1
-    
-    if left > right:
-        return -1
-    
-    mid = (left + right) // 2
-    
-    if arr[mid] == target:
-        return mid
-    elif arr[mid] < target:
-        return binary_search_recursive(arr, target, mid + 1, right)
-    else:
-        return binary_search_recursive(arr, target, left, mid - 1)</code></pre>
-
-                    This recursive version has O(log n) time complexity but O(log n) space complexity due to the call stack.
-                </div>
-                <div class="user-info">
-                    <div class="avatar">SK</div>
-                    <span>Answered by <strong>Sarah Kim</strong> • 45 minutes ago</span>
-                </div>
-                <div class="vote-buttons">
-                    <button class="vote-btn" onclick="toggleVote(this, 'up')">
-                        <i class="fas fa-chevron-up"></i> <span>5</span>
-                    </button>
-                    <button class="vote-btn" onclick="toggleVote(this, 'down')">
-                        <i class="fas fa-chevron-down"></i> <span>0</span>
-                    </button>
-                </div>
-            </div>
         </div>
     </div>
 
@@ -200,6 +132,76 @@
                     <a href="notes.html">Share Notes</a>
                     <a href="group.html">Create Groups</a>
                     <a href="{%url 'home'%}">Campus Events</a>`
+        
+        // Form submission
+        function getCookie(name){
+            let cookieValue = null;
+            if(document.cookie && document.cookie !== ''){
+                const cookies = document.cookie.split(';');
+                for(let i=0;i <cookies.length; i++){
+                    const cookie = cookies[i].trim();
+                    if (cookie.substring(0, name.length + 1) === name + '='){
+                        cookieValue = decodeURIComponent(cookie.substring(name.length+1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+
+        function Votesubmission(question, answer){
+
+            fetch('{%url "vote"%}', {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-CSRFToken": getCookie("csrftoken")  // ✅ Include CSRF token
+                },
+                body:JSON.stringify({
+                    'id': question,
+                    'answer': answer,
+                    'Type': 'answer'
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if(data.status){
+                    let elem = document.getElementById(answer)
+                    let votevalue = elem.getElementsByClassName('vote-value')[0]
+                    let voteBtn = elem.getElementsByClassName('vote-btn')[0]
+
+                    votevalue.textContent = data.vote;
+                    voteBtn.disabled = true;
+
+                } 
+            })
+        }
+
+        function Likessubmission(question){
+            fetch('{%url "vote"%}', {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-CSRFToken": getCookie("csrftoken")  // ✅ Include CSRF token
+                },
+                body:JSON.stringify({
+                    'id': question,
+                    'Type': 'question'
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if(data.status){
+                    let elem = document.getElementById('likes-value')
+                    let likebtn = document.getElementById('like-valuebtn')
+                    likebtn.disabled = true;
+                    likebtn.style.backgroundColor = '#0D1B2A';
+                    likebtn.style.color = 'white';
+                    elem.textContent = `${data.vote} likes`
+
+                } 
+            })
+        }
     </script>
     {% else %}
     <script>
@@ -232,6 +234,10 @@
                     <a href="notes.html">Share Notes</a>
                     <a href="group.html">Create Groups</a>
                     <a href="{%url 'home'%}">Campus Events</a>`
+        
+        function Votesubmission(question, answer){
+            window.location.href = '{%url "login"%}'
+        }
     </script>
     {% endif %}
     <script src="{%static 'JS/index.js'%}"></script>
@@ -241,6 +247,46 @@
             let search_data = document.getElementById('search-bar')
             window.location.href = search_link + `?result=${search_data.value}`
         }
+
+        const answers = {{answers|safe}};
+        const container = document.getElementById('answers-section')
+        function CreateAnswers(){
+            let url = `{%url 'user'%}`
+            for (const key in answers){
+                let answer = answers[key]
+                let created_at = new Date(answer.created_at)
+                let elem = document.createElement('div');
+                elem.className = 'answer-card';
+                elem.id = key;
+                elem.innerHTML = `
+                <div class="answer-text">
+                    ${answer.answer}
+                    </div>
+                    <a href="${url}${answer.username}/" style="text-decoration: none;"><div class="user-info">
+                        <div class="avatar">${answer.acronym}</div>
+                        <span>Answered by <strong>${answer.fullname}</strong> • ${created_at} ago</span>
+                    </div>
+                    </a>
+                    <div class="vote-buttons">
+                        <button class="vote-btn" onclick="Votesubmission('{{question.code}}', '${key}')">
+                            <i class="fas fa-chevron-up"></i> <span class='vote-value'>${answer.votes}</span>
+                        </button>
+                </div>
+                `
+                const imageset = elem.querySelectorAll('img')
+
+                imageset.forEach((img, index) => {
+                    img.src = answer.images[index]
+                    img.style.width = '400px';
+                    img.style.height = '400px'; 
+                })
+
+                container.appendChild(elem)
+            };
+        };
+
+        CreateAnswers();
+
     </script>
 
     <script>
@@ -254,6 +300,9 @@
             img.style.height = '400px'; 
         })
 
+        function postAnswer(){
+            window.location.href = "{%url 'answerRedirect'%}{{id}}/"
+        }
 
         function askCodinAI() {
             const aiWindow = document.getElementById('aiWindow');
@@ -273,31 +322,31 @@
                         Here's a comprehensive solution with both iterative and recursive approaches:
                         
                         <pre><code># Iterative Binary Search
-def binary_search_iterative(arr, target):
-    left, right = 0, len(arr) - 1
-    
-    while left <= right:
-        mid = left + (right - left) // 2  # Avoid overflow
-        
-        if arr[mid] == target:
-            return mid
-        elif arr[mid] < target:
-            left = mid + 1
-        else:
-            right = mid - 1
-    
-    return -1
+                        def binary_search_iterative(arr, target):
+                            left, right = 0, len(arr) - 1
+                            
+                            while left <= right:
+                                mid = left + (right - left) // 2  # Avoid overflow
+                                
+                                if arr[mid] == target:
+                                    return mid
+                                elif arr[mid] < target:
+                                    left = mid + 1
+                                else:
+                                    right = mid - 1
+                            
+                            return -1
 
-# Example usage:
-arr = [1, 3, 5, 7, 9, 11, 13, 15]
-result = binary_search_iterative(arr, 7)
-print(f"Element found at index: {result}")  # Output: 3</code></pre>
+                        # Example usage:
+                        arr = [1, 3, 5, 7, 9, 11, 13, 15]
+                        result = binary_search_iterative(arr, 7)
+                        print(f"Element found at index: {result}")  # Output: 3</code></pre>
 
-                        <strong>Key Points:</strong><br>
-                        • Time Complexity: O(log n)<br>
-                        • Space Complexity: O(1) for iterative, O(log n) for recursive<br>
-                        • Array must be sorted<br>
-                        • Use `;
+                                                <strong>Key Points:</strong><br>
+                                                • Time Complexity: O(log n)<br>
+                                                • Space Complexity: O(1) for iterative, O(log n) for recursive<br>
+                                                • Array must be sorted<br>
+                                                • Use `;
                 
                 // Add AI answer to answers section after delay
                 setTimeout(() => {
