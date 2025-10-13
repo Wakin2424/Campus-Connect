@@ -127,15 +127,24 @@ class Qa(models.Model):
     user = models.ForeignKey(AuthCustomuser, models.DO_NOTHING, blank=True, null=True)
     question = models.TextField()
     description = models.TextField(blank=True, null=True)
-    answers = models.JSONField(blank=True, null=True, default=dict)
     views = models.IntegerField(blank=True, null=True, default=0)
-    likes = models.IntegerField(blank=True, null=True, default=0)
     answer_len = models.IntegerField(default=0)
     created_at = models.DateTimeField(blank=True, default=str(dt.datetime.now()))
 
     class Meta:
 
         db_table = 'qa'
+
+class Answers(models.Model):
+    answer_id = models.AutoField(primary_key=True)
+    code = models.CharField(max_length=250, unique=True)
+    user = models.ForeignKey(AuthCustomuser, models.DO_NOTHING, blank=True, null=True)
+    question = models.ForeignKey('qa', models.DO_NOTHING, blank=True, null=True)
+    answer = models.TextField()
+    created_at = models.DateTimeField(blank=True, default=str(dt.datetime.now()))
+
+    class Meta:
+        db_table = 'answers'
 
 class Question_subjects(models.Model):
     reference_id = models.AutoField(primary_key=True)
@@ -147,7 +156,8 @@ class Question_subjects(models.Model):
 
 class Image_reference(models.Model):
     reference_id = models.AutoField(primary_key=True)
-    question = models.ForeignKey(Qa, models.DO_NOTHING)
+    question = models.ForeignKey(Qa, models.DO_NOTHING, blank=True, null=True)
+    answer = models.ForeignKey(Answers, models.DO_NOTHING, blank=True, null=True)
     image = models.ForeignKey(Images, models.DO_NOTHING)
 
     class Meta:
@@ -160,7 +170,6 @@ class StudyGroupMembers(models.Model):
     joined_at = models.DateTimeField(blank=True, null=True)
 
     class Meta:
-        managed = False
         db_table = 'study_group_members'
         unique_together = (('group', 'user'),)
 
@@ -173,6 +182,25 @@ class StudyGroups(models.Model):
     created_at = models.DateTimeField(blank=True, null=True)
 
     class Meta:
-        managed = False
         db_table = 'study_groups'
 
+class Ratings(models.Model):
+    rating_id = models.AutoField(primary_key=True)
+    user = models.ForeignKey(AuthCustomuser, models.DO_NOTHING, blank=True, null=True)
+    rating = models.IntegerField(blank=True, null=True)
+    question = models.ForeignKey(Qa, models.DO_NOTHING, blank=True, null=True)
+
+    class Meta:
+        db_table = 'ratings'
+
+
+class Likes(models.Model):
+    like_id = models.AutoField(primary_key=True)
+    user = models.ForeignKey(AuthCustomuser, models.DO_NOTHING, blank=True, null=True)
+    question = models.ForeignKey(Qa, models.DO_NOTHING, blank=True, null=True)
+    answer = models.ForeignKey(Answers, models.DO_NOTHING, blank=True, null=True)
+    likes = models.IntegerField(default=0)
+    created_at = models.DateTimeField(blank=True, null=True, default=str(dt.datetime.now()))
+    class Meta:
+        db_table = 'likes'
+        unique_together = (('user', 'question'))

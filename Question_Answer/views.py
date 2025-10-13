@@ -146,7 +146,8 @@ def Answer(request, id):
         data = request.POST.copy()
         imageset = request.FILES.items()
 
-        images = []
+        answer = models.Answers.objects.create(user=user, question=question, answer=data['answer'], code=uuid.uuid4())
+        answer.save()
 
         for key, img in imageset:
             title = uuid.uuid4()
@@ -154,24 +155,10 @@ def Answer(request, id):
             img.name = f'{title}.{ext}'
             image = models.Images.objects.create(title = title, file=img)
             image.save()
-            images.append(image.file.url)
-            image_ref = models.ImageReference.objects.create(question=question, image=image)
+
+            image_ref = models.ImageReference.objects.create(answer=answer, image=image)
             image_ref.save()
 
-        jsondata = {
-            'username':question.user.username,
-            'fullname': f"{question.user.first_name} {question.user.last_name}",
-            'acronym':f"{str(question.user.first_name).upper()[0]}{str(question.user.last_name).upper()[0]}",
-            'answer':data['answer'],
-            'votes': 1,
-            'images':images,
-            'created_at': dt.datetime.now().isoformat(),
-        }
-
-        if question.answers is None:
-            question.answers = {}
-
-        question.answers[str(uuid.uuid4())] = jsondata
         question.answer_len += 1
         question.save()
 
@@ -213,21 +200,40 @@ def Vote(request):
 
         if Type == 'question':
             question = models.Qa.objects.get(code=id)
-            question.likes += 1
-            vote = question.likes
-            question.save()
-            context['vote'] = vote
+            if len(models.Likes.objects.filter(user=request.user, question=question, answer=None)) > 0:
+                like = models.Likes.objects.get(user=request.user, question=question, answer=None)
+                like.likes += 1
+                like.save()
+            else:
+                like = models.Likes(user=request.user, question=question, answer=None, likes=1)
+                like.save()
+
+
+            context['vote'] = like.likes
 
         elif Type == 'answer':
             question = models.Qa.objects.get(code=id)
-            question.answers[data['answer']]['votes'] += 1
-            vote = question.answers[data['answer']]['votes']
-            question.save()
-            context['vote'] = vote
+            answer = models.Answers.objects.get(code=data['answer_id'])
+            if len(models.Likes.objects.filter(user=request.user, question=question, answer=answer)) > 0:
+                like = models.Likes.objects.get(user=request.user, question=question, answer=answer)
+                like.likes += 1
+                like.save()
+            else:
+                like = models.Likes(user=request.user, question=question, answer=answer, likes=1)
+                like.save() 
+            context['vote'] =  like.likes
         
         elif Type == 'rating':
             rating = int(data['rating'])
             question = models.Qa.objects.get(code=id)
+
+            if len(models.Ratings.objects.filter(user=request.user, question=question)) > 0:
+                rate = models.Ratings.objects.get(user=request.user, question=question)
+                rate.rating = rating
+                rate.save()
+            else:
+                rate = models.Ratings(user=request.user, rating=rating, question=question)
+                rate.save()
 
         return JsonResponse(context)
     return JsonResponse({'status':False})

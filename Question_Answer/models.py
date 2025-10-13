@@ -115,17 +115,27 @@ class Qa(models.Model):
     qa_id = models.AutoField(primary_key=True)
     question = models.TextField()
     description = models.TextField(blank=True, null=True)
-    answers = models.JSONField(blank=True, null=True, default=dict)
-    views = models.IntegerField(blank=True, null=True, default=0)
-    likes = models.IntegerField(blank=True, null=True, default=0)
-    answer_len = models.IntegerField(default=0)
-    created_at = models.DateTimeField(default=dt.datetime.now())
+    views = models.IntegerField(blank=True, null=True)
+    created_at = models.DateTimeField()
     user = models.ForeignKey(AuthCustomuser, models.DO_NOTHING, blank=True, null=True)
     code = models.CharField(unique=True, max_length=250)
+    answer_len = models.IntegerField()
 
     class Meta:
         managed = False
         db_table = 'qa'
+
+class Answers(models.Model):
+    answer_id = models.AutoField(primary_key=True)
+    code = models.CharField(unique=True, max_length=250)
+    answer = models.TextField()
+    created_at = models.DateTimeField()
+    question = models.ForeignKey('Qa', models.DO_NOTHING, blank=True, null=True)
+    user = models.ForeignKey(AuthCustomuser, models.DO_NOTHING, blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'answers'
 
 
 class QuestionSubjects(models.Model):
@@ -136,4 +146,25 @@ class QuestionSubjects(models.Model):
     class Meta:
         managed = False
         db_table = 'question_subjects'
+
+class Ratings(models.Model):
+    rating_id = models.AutoField(primary_key=True)
+    rating = models.IntegerField(blank=True, null=True)
+    question = models.ForeignKey(Qa, models.DO_NOTHING, blank=True, null=True)
+    user = models.ForeignKey(AuthCustomuser, models.DO_NOTHING, blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'ratings'
+
+class Likes(models.Model):
+    like_id = models.AutoField(primary_key=True)
+    answer = models.ForeignKey(Answers, models.DO_NOTHING, blank=True, null=True)
+    question = models.ForeignKey('Qa', models.DO_NOTHING, blank=True, null=True)
+    user = models.ForeignKey(AuthCustomuser, models.DO_NOTHING, blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'likes'
+        unique_together = (('user', 'question'),)
 
