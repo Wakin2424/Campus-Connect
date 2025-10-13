@@ -3,7 +3,7 @@ from .models import *
 
 # Register your models here.
 class User_admin(admin.ModelAdmin):
-    list_display = ['id', 'username','first_name', 'last_name', 'contact', 'email', 'is_active', 'graduation_level', 'year_of_study', 'career__career_name', 'course__course_name', 'date_joined',  'is_verified']
+    list_display = ['id', 'username','first_name', 'last_name', 'contact', 'email', 'is_active', 'graduation_level', 'year_of_study', 'career__career_name', 'course__course_name', 'date_joined', 'institution', 'image__title', 'is_verified']
 
 class career_admin(admin.ModelAdmin):
     list_display = ['career_id', 'career_name', 'description']

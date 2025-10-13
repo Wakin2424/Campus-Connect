@@ -8,12 +8,13 @@ class CustomUserCreationForm(UserCreationForm):
     contact = forms.CharField(max_length=15, required=True)
     graduation_level = forms.CharField(required=False)
     year_of_study = forms.IntegerField(required=False)
+    institution = forms.CharField(max_length=300, required=False)
     #career = forms.ChoiceField(required=False)
     #course = forms.ChoiceField(required=False)
     
 
     class Meta:
         model = CustomUser
-        fields = ('first_name', 'last_name', 'username', 'email', 'contact', 'password1', 'password2', 'graduation_level', 'year_of_study', 'course', 'career')
+        fields = ('first_name', 'last_name', 'username', 'email', 'contact', 'password1', 'password2', 'graduation_level', 'year_of_study', 'course', 'career', 'institution')
 
        

@@ -2,149 +2,93 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Custom Contenteditable Editor</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
   <style>
-    #editor {
-      border: 1px solid #ccc;
-      padding: 10px;
-      min-height: 200px;
-      width: 600px;
-      white-space: pre-wrap;
-      font-family: Arial, sans-serif;
-      color: black; /* all text black */
-    }
+    .batch {
+  display: none;
+}
+.batch.active {
+  display: block;
+}
+.batch-btn.active {
+  background: black;
+  color: white;
+}
 
-    /* force images inside editor to be default 400x400 */
-    #editor img {
-      width: 400px;
-      height: 400px;
-      object-fit: contain;
-    }
-
-    /* style pasted code */
-    #editor pre, #editor code {
-      background: white !important;
-      color: black !important;
-      font-family: Consolas, "Courier New", monospace;
-      padding: 10px;
-      display: block;
-      border: 1px solid #ddd;
-      border-radius: 4px;
-      white-space: pre;
-      overflow-x: auto;
-    }
   </style>
 </head>
 <body>
-  <h2>Custom Editor</h2>
-  <div id="editor" contenteditable="true">
-    Type here, paste code, or drag & drop an image...
-  </div>
-  <button id="submitBtn">Click me</button>
-  <div id='result'></div>
+    <div id="data-container"></div>
+
+<div id="buttons">
+  <button id="btn1" class="batch-btn active">1</button>
+  <button id="loadMore">More</button>
+</div>
   <script>
-    const resultdiv = document.getElementById('result')
-    function DataPrint(data){
-        resultdiv.innerHTML = data
-    }
+    const dataContainer = document.getElementById("data-container");
+const loadMoreBtn = document.getElementById("loadMore");
+const buttonsContainer = document.getElementById("buttons");
 
-    function getCookie(name){
-        let cookieValue = null;
-        if(document.cookie && document.cookie !== ''){
-            const cookies = document.cookie.split(';');
-            for(let i=0;i <cookies.length; i++){
-                const cookie = cookies[i].trim();
-                if (cookie.substring(0, name.length + 1) === name + '='){
-                    cookieValue = decodeURIComponent(cookie.substring(name.length+1));
-                    break;
-                }
-            }
-        }
-        return cookieValue;
-    }
+let batchNumber = 1;
+let batches = {}; // store each batch's div
 
-    function FormSubmission(dataset, imageset){
-        fetch('{%url "test"%}', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRFToken': getCookie('csrftoken')
-            },
-            body:JSON.stringify(
-                {'dataset':dataset,
-                'images':imageset}
-            )
-        })
-        .then(response => response.json())
-        .then(data => {
-            DataPrint(data.data)
-        })
-    }
-    
-  </script>
+// Load first batch on page load
+window.onload = () => {
+  loadBatch(1);
+  showBatch(1);
+};
 
-  <script>
-    const editor = document.getElementById("editor");
-    const uploadedFiles = [];
-    
+function loadBatch(n) {
+  // Create div container for the batch
+  const batchDiv = document.createElement("div");
+  batchDiv.classList.add("batch");
+  batchDiv.id = `batch${n}`;
 
+  // Simulated data for demo
+  for (let i = 1; i <= 5; i++) {
+    const item = document.createElement("div");
+    item.textContent = `Batch ${n} - Item ${i}`;
+    batchDiv.appendChild(item);
+  }
 
-    // Handle drag & drop images
-    editor.addEventListener("drop", function(e) {
-      e.preventDefault();
-      for (const item of e.dataTransfer.items) {
-        if (item.kind === "file") {
-          // Dropped file (image)
-          const file = item.getAsFile();
-          if (file && file.type.startsWith("image/")) {
-            uploadedFiles.push(file); // save original File object
+  // Add to DOM but hidden
+  dataContainer.appendChild(batchDiv);
+  batches[n] = batchDiv;
+}
 
-            // show preview in editor
-            const reader = new FileReader();
-            reader.onload = function(evt) {
-              const img = document.createElement("img");
-              img.src = evt.target.result;
-              editor.appendChild(img);
-            };
-            reader.readAsDataURL(file);
-          }
-        }
-      }
-    });
+function showBatch(n) {
+  // Hide all
+  for (let key in batches) {
+    batches[key].classList.remove("active");
+  }
 
-    // Handle paste (force clean text/code with white background + black text)
-    editor.addEventListener("paste", function(e) {
-      e.preventDefault();
+  // Show selected
+  batches[n].classList.add("active");
 
-      const text = (e.clipboardData || window.clipboardData).getData("text/plain");
+  // Update active button
+  document.querySelectorAll(".batch-btn").forEach(btn => btn.classList.remove("active"));
+  const activeBtn = document.getElementById(`btn${n}`);
+  if (activeBtn) activeBtn.classList.add("active");
+}
 
-      // Detect if it's code (multi-line or contains { } ;)
-      if (text.includes("\n") || text.includes("{") || text.includes(";")) {
-        const pre = document.createElement("pre");
-        const code = document.createElement("code");
-        code.textContent = text;
-        pre.appendChild(code);
+loadMoreBtn.addEventListener("click", () => {
+  batchNumber++;
+  loadBatch(batchNumber);
 
-        const sel = window.getSelection();
-        if (!sel.rangeCount) return;
-        const range = sel.getRangeAt(0);
-        range.deleteContents();
-        range.insertNode(pre);
-      } else {
-        // Otherwise insert plain black text
-        document.execCommand("insertText", false, text);
-      }
+  // Create new numbered button
+  const newBtn = document.createElement("button");
+  newBtn.textContent = batchNumber;
+  newBtn.id = `btn${batchNumber}`;
+  newBtn.classList.add("batch-btn");
+  newBtn.addEventListener("click", () => showBatch(batchNumber));
 
-    });
+  // Insert before the "More" button
+  buttonsContainer.insertBefore(newBtn, loadMoreBtn);
 
-    document.getElementById("submitBtn").addEventListener("click", async () => {
-      const dataset = editor.innerHTML;
-      FormSubmission(dataset, uploadedFiles)
-    });
-
-  
-        
-
+  // Show new batch
+  showBatch(batchNumber);
+});
 
   </script>
 </body>

@@ -39,7 +39,9 @@ class CustomUser(AbstractUser):
     career = models.ForeignKey('career', models.DO_NOTHING, null=True, blank=True)
     year_of_study = models.IntegerField(null=True, blank=True)
     graduation_level = models.CharField(max_length=200,  null=True, blank=True)
+    institution = models.CharField(max_length=300, blank=True, null=True)
     is_verified = models.BooleanField(default=False)
+    image = models.ForeignKey('Images', models.DO_NOTHING, blank=True, null=True)
     
 
     USERNAME_FIELD = 'email'         # Use email to log in
@@ -66,6 +68,8 @@ class AuthCustomuser(models.Model):
     year_of_study = models.IntegerField(blank=True, null=True)
     career = models.ForeignKey('Career', models.DO_NOTHING, blank=True, null=True)
     course = models.ForeignKey('Course', models.DO_NOTHING, blank=True, null=True)
+    image = models.ForeignKey('Images', models.DO_NOTHING, blank=True, null=True)
+    institution = models.CharField(max_length=300, blank=True, null=True)
 
     class Meta:
         managed = False

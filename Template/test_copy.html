@@ -2,207 +2,90 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Custom Contenteditable Editor</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
   <style>
-    #questionDescription {
-      border: 1px solid #ccc;
-      padding: 10px;
-      min-height: 200px;
-      width: 600px;
-      white-space: pre-wrap;
-      font-family: Arial, sans-serif;
-      color: black; /* all text black */
-    }
-
-    /* force images inside editor to be default 400x400 */
-    #questionDescription img {
-      width: 400px;
-      height: 400px;
-      object-fit: contain;
-    }
-
-    /* style pasted code */
-    #questionDescription pre, #questionDescription code {
-      background: white !important;
-      color: black !important;
-      font-family: Consolas, "Courier New", monospace;
-      padding: 10px;
-      display: block;
-      border: 1px solid #ddd;
-      border-radius: 4px;
-      white-space: pre;
-      overflow-x: auto;
-    }
-    #questionDescription pre {
-      margin: 0;            /* remove extra top/bottom spacing */
-      padding: 10px;        /* keep internal padding only */
-    }
-
-    #questionDescription pre code {
-      display: block;       /* make code fill pre */
-      margin: 0;            /* remove inline spacing */
-      padding: 0;           /* optional */
-    }
+.batch {
+  display: none;
+  margin-top: 10px;
+}
+.batch.active {
+  display: block;
+}
+.page-btn.active {
+  background: #007bff;
+  color: white;
+}
 
   </style>
 </head>
 <body>
-  <h2>Custom Editor</h2>
-<div id="questionDescription" contenteditable="true" style="border:1px solid #ccc; padding:10px; min-height:150px;">
-  Type text here, then place your cursor where you want an image...
+  <div id="batchContainer"></div>
+
+<div id="pagination">
+  <button id="page1" class="page-btn active">1</button>
+  <button id="loadMore">Load More</button>
 </div>
 
-<!-- Hidden file input -->
-<input type="file" id="imageInput" accept="image/*" style="display:none;">
-<button id="uploadBtn">Upload Image</button>
-<button id="submitBtn">Submit</button>
+  <script>
+const batchContainer = document.getElementById("batchContainer");
+const pagination = document.getElementById("pagination");
+const loadMoreBtn = document.getElementById("loadMore");
 
-<script>
-let uploadedFiles = [];   // store real File objects for submission
-let savedSelection;
+let currentPage = 1;
+let totalPages = 1;
 
-const editor = document.getElementById("questionDescription");
-const fileInput = document.getElementById("imageInput");
-const uploadBtn = document.getElementById("uploadBtn");
-const submitBtn = document.getElementById("submitBtn");
+// Create and display the first batch
+createBatch(1);
+showBatch(1);
 
-// Track caret position inside editor
-editor.addEventListener("keyup", saveSelection);
-editor.addEventListener("mouseup", saveSelection);
-
-function saveSelection() {
-  const selection = window.getSelection();
-  if (selection.rangeCount > 0) {
-    savedSelection = selection.getRangeAt(0);
-  }
-}
-
-
-editor.addEventListener("drop", function(e) {
-      e.preventDefault();
-      for (const item of e.dataTransfer.items) {
-        if (item.kind === "file") {
-          // Dropped file (image)
-          const file = item.getAsFile();
-          if (file && file.type.startsWith("image/")) {
-            uploadedFiles.push(file); // save original File object
-
-            // show preview in editor
-            const reader = new FileReader();
-            reader.onload = function(evt) {
-              const img = document.createElement("img");
-              img.src = evt.target.result;
-              img.style.width = '400px';
-              img.style.height = '400px'
-              editor.appendChild(img);
-            };
-            reader.readAsDataURL(file);
-          }
-        }
-      }
-    });
-
-    // Handle paste (force clean text/code with white background + black text)
-    editor.addEventListener("paste", function(e) {
-      e.preventDefault();
-
-      const text = (e.clipboardData || window.clipboardData).getData("text/plain");
-
-      // Detect if it's code (multi-line or contains { } ;)
-      if (text.includes("\n") || text.includes("{") || text.includes(";")) {
-        const pre = document.createElement("pre");
-        const code = document.createElement("code");
-        code.textContent = text;
-        pre.appendChild(code);
-
-        const sel = window.getSelection();
-        if (!sel.rangeCount) return;
-        const range = sel.getRangeAt(0);
-        range.deleteContents();
-        range.insertNode(pre);
-        const brDiv = document.createElement("div");
-        brDiv.innerHTML = "<br>";
-        pre.parentNode.insertBefore(brDiv, pre.nextSibling);
-
-        // ✅ Move caret into the new blank line
-        range.setStart(brDiv, 0);
-        range.setEnd(brDiv, 0);
-        sel.removeAllRanges();
-        sel.addRange(range);
-      } else {
-        // Otherwise insert plain black text
-        document.execCommand("insertText", false, text);
-      }
-
-    });
-// Open hidden file input when clicking upload
-uploadBtn.addEventListener("click", () => fileInput.click());
-
-
-// Handle chosen file
-fileInput.addEventListener("change", function() {
-  const file = this.files[0];
-  if (file) {
-    uploadedFiles.push(file); // store real file
-
-    const reader = new FileReader();
-    reader.onload = function(evt) {
-      const img = document.createElement("img");
-      img.src = evt.target.result;  // preview image
-      img.style.width = "400px";
-      img.style.height = "400px";
-
-      insertAtCursor(img);
-    };
-    reader.readAsDataURL(file);
-  }
-  this.value = ""; // reset so same file can be uploaded again // reset so same file can be uploaded again// reset so same file can be uploaded again
+loadMoreBtn.addEventListener("click", () => {
+  totalPages++;
+  createBatch(totalPages);
+  createPageButton(totalPages);
+  showBatch(totalPages);
 });
 
-// Insert image (or any node) at saved cursor position
-function insertAtCursor(node) {
-  if (savedSelection) {
-    const range = savedSelection;
-    range.deleteContents();
-    range.insertNode(node);
+// Create a batch of data as divs
+function createBatch(page) {
+  const batch = document.createElement("div");
+  batch.className = "batch";
+  batch.id = `batch${page}`;
 
-    // Move cursor after the inserted image
-    range.setStartAfter(node);
-    range.setEndAfter(node);
-
-    const selection = window.getSelection();
-    selection.removeAllRanges();
-    selection.addRange(range);
-  } else {
-    editor.appendChild(node);
+  // Example data: 5 items per batch
+  for (let i = 1; i <= 5; i++) {
+    const item = document.createElement("div");
+    item.textContent = `Batch ${page} - Item ${i}`;
+    batch.appendChild(item);
   }
+
+  batchContainer.appendChild(batch);
 }
 
-// Handle submit
-submitBtn.addEventListener("click", function() {
-  const formData = new FormData();
+// Create page navigation buttons (1, 2, 3...)
+function createPageButton(page) {
+  const btn = document.createElement("button");
+  btn.className = "page-btn";
+  btn.textContent = page;
 
-  // Add text content (HTML from editor)
-  formData.append("content", editor.innerHTML);
-
-  // Add uploaded images like <input type="file" multiple>
-  uploadedFiles.forEach((file, i) => {
-    formData.append("images", file);  // Django: request.FILES['images']
+  btn.addEventListener("click", () => {
+    showBatch(page);
   });
 
-  // Send with fetch
-  fetch("/upload/", {
-    method: "POST",
-    body: formData,
-  })
-  .then(response => response.json())
-  .then(data => {
-    console.log("Upload success:", data);
-  })
-  .catch(error => {
-    console.error("Upload error:", error);
-  });
-});
-</script>
+  pagination.insertBefore(btn, loadMoreBtn);
+}
+
+// Show specific batch and hide others
+function showBatch(page) {
+  document.querySelectorAll(".batch").forEach(b => b.classList.remove("active"));
+  document.querySelectorAll(".page-btn").forEach(b => b.classList.remove("active"));
+
+  document.getElementById(`batch${page}`).classList.add("active");
+  document.querySelector(`.page-btn:nth-of-type(${page})`).classList.add("active");
+
+  currentPage = page;
+}
+
+  </script>
 </body>
 </html>

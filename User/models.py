@@ -38,6 +38,8 @@ class AuthCustomuser(models.Model):
     year_of_study = models.IntegerField(blank=True, null=True)
     career = models.ForeignKey('Career', models.DO_NOTHING, blank=True, null=True)
     course = models.ForeignKey('Course', models.DO_NOTHING, blank=True, null=True)
+    image = models.ForeignKey('Images', models.DO_NOTHING, blank=True, null=True)
+    institution = models.CharField(max_length=300, blank=True, null=True)
     is_verified = models.BooleanField(blank=True, null=True)
 
     class Meta:

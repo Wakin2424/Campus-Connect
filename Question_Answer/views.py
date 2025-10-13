@@ -10,17 +10,20 @@ import datetime as dt
 def Home(request):
     tags = models.QuestionSubjects.objects.all().order_by()
     trending = models.Qa.objects.all()
-    trending = trending.order_by('-likes')[:4 if len(trending) >= 4 else len(trending)]
+    resents = models.Qa.objects.all()
+    resents = resents.order_by('-created_at')[:4 if len(trending) >= 4 else len(trending)]
+    trending = trending.order_by('-likes')[:3 if len(trending) >= 3 else len(trending)] 
+    
     context = {
         'trending':trending,
-        'tags':tags
+        'tags':tags,
+        'resents':resents
     }
     return render(request, 'qa.html', context)
 
 def Load_questions(request):
     try:
         page = int(request.GET.get('page'))
-        print(page)
     except:
         raise Http404('Invalid Request')
     status = True
@@ -173,7 +176,6 @@ def Answer(request, id):
         question.save()
 
         url = request.build_absolute_uri(f"/question-answer/question/{id}/")
-        print(url)  
         context = {
                 'status':status,
                 'url': url
@@ -202,21 +204,30 @@ def Answer(request, id):
 def Vote(request):
     if request.method == 'POST':
         data = json.loads(request.body)
-        print(data)
         id = data['id']
         Type = data['Type']
+
+        context = {
+            'status':True
+            }
 
         if Type == 'question':
             question = models.Qa.objects.get(code=id)
             question.likes += 1
             vote = question.likes
             question.save()
+            context['vote'] = vote
 
-        if Type == 'answer':
+        elif Type == 'answer':
             question = models.Qa.objects.get(code=id)
             question.answers[data['answer']]['votes'] += 1
             vote = question.answers[data['answer']]['votes']
             question.save()
+            context['vote'] = vote
+        
+        elif Type == 'rating':
+            rating = int(data['rating'])
+            question = models.Qa.objects.get(code=id)
 
-        return JsonResponse({'status':True, 'vote':vote})
+        return JsonResponse(context)
     return JsonResponse({'status':False})

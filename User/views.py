@@ -10,7 +10,30 @@ def Myprofile(request):
     if not request.user.is_authenticated:
         raise Http404('Invalid Request')
     
-    return render(request, 'profile.html')
+    user = models.AuthCustomuser.objects.get(id=request.user.id)
+    
+    questions = models.Qa.objects.filter(user=user).values('question', 'views', 'likes', 'code', 'created_at')
+    total_uploads = len(questions)
+    total_views = 0
+    percentage = 0
+
+    dict(user.__dict__)
+    keys = ['username', 'first_name', 'last_name', 'email', 'contact', 'graduation_level', 'year_of_study', 'career_id', 'course_id', 'institution']
+    for key in keys:
+        if user.__dict__[key]:
+            percentage += 1
+
+    for question in questions:
+        total_views += question['views']
+
+    percentage = int((percentage / len(keys)) * 100)
+    context = {
+        'questions': questions,
+        'percentage': percentage,
+        'total_uploads':total_uploads,
+        'total_views':total_views,
+    }
+    return render(request, 'profile.html', context)
 
 def Otherprofile(request, account):
     try:
@@ -21,10 +44,10 @@ def Otherprofile(request, account):
         raise Http404('There is no such account')
     
     questions = models.Qa.objects.filter(user=user).values('question', 'views', 'likes', 'code', 'created_at')
-    print(questions)
     context = {
         'account':user,
-        'questions': questions
+        'questions': questions,
+        'total_uploads': questions
     }
     return render(request, 'user.html', context)
     

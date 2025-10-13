@@ -43,6 +43,8 @@
                     <i class="fas fa-eye"></i>
                     <span>{{question.views}} views</span>
                 </div>
+                <div id="rating"></div>
+                <p id="result"></p>
             </div>
             
             <a href="{%url 'user'%}{{seeker.username}}/" style="text-decoration: none;">
@@ -202,6 +204,27 @@
                 } 
             })
         }
+
+        function Ratessubmission(question, rating){
+            fetch('{%url "vote"%}', {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-CSRFToken": getCookie("csrftoken")  // ✅ Include CSRF token
+                },
+                body:JSON.stringify({
+                    'id': question,
+                    'rating': rating,
+                    'Type': 'rating'
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if(data.status){
+       
+                } 
+            })
+        }
     </script>
     {% else %}
     <script>
@@ -247,8 +270,11 @@
             let search_data = document.getElementById('search-bar')
             window.location.href = search_link + `?result=${search_data.value}`
         }
-
+        {% if answers != None %}
         const answers = {{answers|safe}};
+        {%else%}
+        const answers = {}
+        {%endif%}
         const container = document.getElementById('answers-section')
         function CreateAnswers(){
             let url = `{%url 'user'%}`
@@ -540,6 +566,50 @@ print(f"Element found at index: {result}")  # Output: 3</code></pre>
                 setTimeout(() => notification.remove(), 300);
             })
         }
+
+        //rating
+        const ratingDiv = document.getElementById("rating");
+        const result = document.getElementById("result");
+        let currentRating = 0;
+
+        // Create 5 stars
+        for (let i = 1; i <= 5; i++) {
+            const star = document.createElement("span");
+            star.textContent = "★"; // Unicode star
+            star.dataset.value = i;
+            star.style.fontSize = "2rem";
+            star.style.cursor = "pointer";
+            star.style.color = "#ccc";
+            ratingDiv.appendChild(star);
+
+            // Highlight stars on hover
+            star.addEventListener("mouseover", () => highlightStars(i));
+            star.addEventListener("mouseout", () => highlightStars(currentRating));
+
+            // Click = set rating
+            star.addEventListener("click", () => setRating(i));
+        }
+
+        function highlightStars(rating) {
+            const stars = ratingDiv.querySelectorAll("span");
+            stars.forEach(star => {
+            star.style.color = star.dataset.value <= rating ? "gold" : "#ccc";
+            });
+        }
+
+        function setRating(value) {
+            currentRating = value;
+            highlightStars(value);
+            handleRatingChange(value); // call change handler
+        }
+
+        // Function to capture when user changes rating
+        function handleRatingChange(value) {
+            result.textContent = `You rated: ${value} star${value > 1 ? "s" : ""}`;
+            console.log("Rating changed:", value);
+            Ratessubmission('{{question.code}}', value)
+        }
+
     </script>
 </body>
 </html>

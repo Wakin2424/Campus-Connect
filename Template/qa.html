@@ -53,7 +53,7 @@
                 </div>
 
                 <!-- Load More Button -->
-                <div style="text-align: center; margin-top: 2rem;">
+                <div id="load-more-tab" style="text-align: center; margin-top: 2rem;">
                     <button onclick="Fetchdata()" class="btn-secondary" id="load-more" style="padding: 0.8rem 2rem;">Load More Questions</button>
                 </div>
             </div>
@@ -90,18 +90,12 @@
                 <!-- Recent Activity -->
                 <div class="sidebar-card">
                     <h3 class="sidebar-title">Recent Activity</h3>
+                    {% for resent in resents %}
                     <div class="trending-question">
-                        <a href="#">New answer posted on "Linear Algebra help"</a>
-                        <div class="trending-answers">Just now</div>
+                        <a href="{%url 'question' id=resent.code %}">{{resent.question}}</a>
+                        <div class="trending-answers">{{resent.created_at}}</div>
                     </div>
-                    <div class="trending-question">
-                        <a href="#">Question updated: "Database design principles"</a>
-                        <div class="trending-answers">5 min ago</div>
-                    </div>
-                    <div class="trending-question">
-                        <a href="#">New question: "Statistics probability"</a>
-                        <div class="trending-answers">10 min ago</div>
-                    </div>
+                    {% endfor %}
                 </div>
             </div>
         </div>
@@ -208,7 +202,11 @@
     </script>
     <script>
         const loadBtn = document.getElementById('load-more')
-        const container = document.getElementById('questionsList')
+        const questionlist = document.getElementById('questionsList')
+        const loadMoreTab= document.getElementById('load-more-tab')
+
+        let container = document.createElement('div')
+        container.className = 'questions-list'
         let page = 0
         let count = page * 5
 
@@ -249,6 +247,17 @@
             container.appendChild(elem)
         }
 
+        function ShowPage(id){
+            children = questionlist.children
+            Array.from(children).forEach(child => {
+                child.style.display = 'none';
+            })
+
+            let elem = document.getElementById(`question-batch-${id}`)
+            elem.style.display = 'block';
+
+        }
+
         function getCookie(name){
             let cookieValue = null;
             if(document.cookie && document.cookie !== ''){
@@ -283,12 +292,29 @@
                 }
                 page = data.page;
                 count = page * 5
-
                 let length = data.questions.length
+                //hide the rest
+                children = questionlist.children
+                Array.from(children).forEach(child => {
+                    child.style.display = 'none';
+                })
+                //create container for this batch
+                container = document.createElement('div')
+                container.className = 'questions-list'
+                container.id = `question-batch-${page}`
+                questionlist.appendChild(container)
+
+                //create batch
                 for (let key = 0; key < length; key++){
                     CreateElements(data.questions[key])
                     count += 1
                 }
+
+                let pageBtn = document.createElement('button');
+                pageBtn.innerText = `${page + 1}`;
+                pageBtn.className = 'btn-secondary';
+                pageBtn.onclick =ShowPage(page) 
+                loadMoreTab.appendChild(pageBtn)
             })
         }
 

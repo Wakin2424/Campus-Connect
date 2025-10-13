@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Profile - Campus Connect</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/edit_profile.css">
+    <link rel="stylesheet" href="css/nav.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header" id="header">
+        <!--Generated dynamically by js-->
+    </header>
+    <!-- Main Container -->
+    <div class="container">
+        <div class="page-grid">
+            <!-- Left Section -->
+            <div class="left-section">
+                <!-- Profile Image Card -->
+                <div class="profile-card">
+                    <div class="profile-image-container">
+                        <img src="https://ui-avatars.com/api/?name=John+Doe&size=200&background=1E90FF&color=fff&bold=true" 
+                             alt="Profile Picture" 
+                             class="profile-image" 
+                             id="profileImage">
+                        <label for="fileInput" class="upload-overlay" title="Change profile picture">
+                            📷
+                        </label>
+                        <input type="file" id="fileInput" accept="image/*">
+                    </div>
+                    <p class="upload-text">Click the camera icon to upload a new photo</p>
+                </div>
+
+                <!-- Benefits Card -->
+                <div class="benefits-card">
+                    <h3>🌟 Why Get Verified?</h3>
+                    <ul class="benefits-list">
+                        <li>
+                            <span class="check-icon">✓</span>
+                            <span>Gain more trust from other users</span>
+                        </li>
+                        <li>
+                            <span class="check-icon">✓</span>
+                            <span>Your questions and answers appear higher in results</span>
+                        </li>
+                        <li>
+                            <span class="check-icon">✓</span>
+                            <span>Eligible for special groups and resources</span>
+                        </li>
+                        <li>
+                            <span class="check-icon">✓</span>
+                            <span>Verified badge on your profile</span>
+                        </li>
+                    </ul>
+                    <div class="verified-badge-preview">
+                        ✓ Verified Member
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Section - Form -->
+            <div class="form-card">
+                <div class="form-header">
+                    <h2>Edit Your Profile</h2>
+                    <p>Update your information and complete your profile to become a verified member</p>
+                </div>
+
+                <!-- Progress Bar -->
+                <div class="progress-section">
+                    <div class="progress-label">
+                        <span>Profile Completion</span>
+                        <span id="progressText">60%</span>
+                    </div>
+                    <div class="progress-container">
+                        <div class="progress-bar" id="progressBar" style="width: 60%"></div>
+                    </div>
+                </div>
+
+                <!-- Form -->
+                <form id="profileForm">
+                    <!-- Personal Information -->
+                    <div class="form-section">
+                        <h3 class="section-title">Personal Information</h3>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="firstName">First Name <span class="required">*</span></label>
+                                <input type="text" id="firstName" name="firstName" value="John" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="lastName">Last Name <span class="required">*</span></label>
+                                <input type="text" id="lastName" name="lastName" value="Doe" required>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="email">Email <span class="required">*</span></label>
+                                <input type="email" id="email" name="email" value="john.doe@university.edu" readonly required>
+                            </div>
+                            <div class="form-group">
+                                <label for="contact">Contact Number <span class="required">*</span></label>
+                                <input type="tel" id="contact" name="contact" value="+254 712 345 678" required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Academic Information -->
+                    <div class="form-section">
+                        <h3 class="section-title">Academic Information</h3>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="course">Course <span class="optional">(Optional)</span></label>
+                                <input type="text" id="course" name="course" placeholder="e.g., Computer Science">
+                            </div>
+                            <div class="form-group">
+                                <label for="year">Year of Study <span class="optional">(Optional)</span></label>
+                                <select id="year" name="year">
+                                    <option value="">Select Year</option>
+                                    <option value="1st">1st Year</option>
+                                    <option value="2nd">2nd Year</option>
+                                    <option value="3rd">3rd Year</option>
+                                    <option value="4th">4th Year</option>
+                                    <option value="Other">Other</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="level">Graduation Level <span class="optional">(Optional)</span></label>
+                                <select id="level" name="level">
+                                    <option value="">Select Level</option>
+                                    <option value="Certificate">Certificate</option>
+                                    <option value="Diploma">Diploma</option>
+                                    <option value="Degree">Degree</option>
+                                    <option value="Masters">Masters</option>
+                                    <option value="PhD">PhD</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="institution">Institution Name <span class="optional">(Optional)</span></label>
+                                <input type="text" id="institution" name="institution" placeholder="e.g., University of Nairobi">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Buttons -->
+                    <div class="button-group">
+                        <button type="button" class="btn btn-secondary" onclick="window.history.back()">Cancel</button>
+                        <button type="submit" class="btn btn-primary" id="submitBtn">Submit & Verify</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- Footer -->
+    <footer class="footer" id="footer">
+        <!--Generated dynamically by js-->
+    </footer>
+
+    <!-- Success Modal -->
+    <div class="modal" id="successModal">
+        <div class="modal-content">
+            <div class="success-icon">✓</div>
+            <h3>You're Now Verified!</h3>
+            <p>Congratulations! Your profile is complete and you are now a verified member of Campus Connect.</p>
+            <div class="badge-display">
+                ✓ Verified Member Badge
+            </div>
+            <button class="btn btn-primary" onclick="closeModal()">Continue</button>
+        </div>
+    </div>
+
+    <!-- Notification -->
+    <div class="notification" id="notification"></div>
+
+    <script>
+        const home = `<a href="#" class="logo">Campus Connect</a>`
+        const search = `
+            <a href=''><button class="search-btn">🔍</button></a>
+            `
+        const nav_urls = `
+                    <li><a href="qa.html">Ask Questions</a></li>
+                    <li><a href="market.html">Sell Books</a></li>
+                    <li><a href="notes.html">Notes</a></li>
+                    <li><a href="group.html">Groups</a></li>
+                    `
+        const login = `
+                <a href="login.html" class="btn-primary">Login/Sign Up</a>
+            `
+        const logout = `
+            <div class="user-dropdown">
+                <div class="user-avatar">JS</div>
+                <div class="dropdown-menu">
+                    <a href="#"><i class="fas fa-user"></i> Profile</a>
+                    <a href="#"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                </div>
+            </div>
+        `
+        const footer_urls = `
+                    <a href="#">About Us</a>
+                    <a href="#">Contact</a>
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Terms of Service</a>
+                    <a href="#">Help Center</a>`
+        const footer_urls_2 = `
+                    <a href="qa.html">Ask Questions</a>
+                    <a href="market.html">Sell Books</a>
+                    <a href="notes.html">Share Notes</a>
+                    <a href="group.html">Create Groups</a>
+                    <a href="home">Campus Events</a>`
+    </script>
+    <script src="css/index.js"></script>
+
+
+    <script>
+        // Profile image upload preview
+        const fileInput = document.getElementById('fileInput');
+        const profileImage = document.getElementById('profileImage');
+
+        fileInput.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    profileImage.src = event.target.result;
+                    showNotification('Profile picture updated successfully!');
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // Track form completion
+        function calculateProgress() {
+            const requiredFields = ['firstName', 'lastName', 'email', 'contact'];
+            const optionalFields = ['course', 'year', 'level', 'institution'];
+            
+            let requiredFilled = 0;
+            let optionalFilled = 0;
+            
+            // Check required fields
+            requiredFields.forEach(fieldId => {
+                const field = document.getElementById(fieldId);
+                if (field.value.trim() !== '') {
+                    requiredFilled++;
+                    field.classList.add('filled');
+                } else {
+                    field.classList.remove('filled');
+                }
+            });
+            
+            // Check optional fields
+            optionalFields.forEach(fieldId => {
+                const field = document.getElementById(fieldId);
+                if (field.value.trim() !== '') {
+                    optionalFilled++;
+                    field.classList.add('filled');
+                } else {
+                    field.classList.remove('filled');
+                }
+            });
+            
+            // Calculate percentage (required fields = 60%, optional = 40%)
+            const requiredPercentage = (requiredFilled / requiredFields.length) * 60;
+            const optionalPercentage = (optionalFilled / optionalFields.length) * 40;
+            const totalPercentage = Math.round(requiredPercentage + optionalPercentage);
+            
+            // Update progress bar
+            const progressBar = document.getElementById('progressBar');
+            const progressText = document.getElementById('progressText');
+            progressBar.style.width = totalPercentage + '%';
+            progressText.textContent = totalPercentage + '%';
+            
+            // Check if all required fields are filled
+            const allRequiredFilled = requiredFilled === requiredFields.length;
+            const allFieldsFilled = allRequiredFilled && optionalFilled === optionalFields.length;
+            
+            return { allRequiredFilled, allFieldsFilled, totalPercentage };
+        }
+
+        // Add event listeners to all form inputs
+        const formInputs = document.querySelectorAll('#profileForm input, #profileForm select');
+        formInputs.forEach(input => {
+            if (input.id !== 'fileInput') {
+                input.addEventListener('input', calculateProgress);
+                input.addEventListener('change', calculateProgress);
+            }
+        });
+
+        // Initial progress calculation
+        calculateProgress();
+
+        // Form submission
+        document.getElementById('profileForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const { allRequiredFilled, allFieldsFilled, totalPercentage } = calculateProgress();
+            
+            if (allFieldsFilled) {
+                // All fields completed - show verified modal
+                document.getElementById('successModal').classList.add('active');
+            } else if (allRequiredFilled) {
+                // Required fields completed, but optional missing
+                showNotification('Profile saved! Complete all sections to become a verified member.', 'info');
+            } else {
+                // Required fields missing
+                showNotification('Please fill in all required fields to save your profile.', 'warning');
+            }
+        });
+
+        // Show notification
+        function showNotification(message, type = 'success') {
+            const notification = document.getElementById('notification');
+            notification.textContent = message;
+            notification.style.backgroundColor = type === 'success' ? '#4CAF50' : 
+                                                  type === 'info' ? '#2196F3' : '#FF9800';
+            notification.classList.add('active');
+            
+            setTimeout(() => {
+                notification.classList.remove('active');
+            }, 3000);
+        }
+
+        // Close modal
+        function closeModal() {
+            document.getElementById('successModal').classList.remove('active');
+            showNotification('Welcome to the verified community!');
+        }
+
+        // Close modal on outside click
+        document.getElementById('successModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeModal();
+            }
+        });
+    </script>
+</body>
+</html>
