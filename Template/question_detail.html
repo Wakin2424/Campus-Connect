@@ -34,9 +34,13 @@
                 <div class="stat-item">
                     <i class="fas fa-thumbs-up"></i>
                     {%if user.is_authenticated %}
-                    <button class="control-btn btn-secondary" onclick="Likessubmission('{{question.code}}')" id="like-valuebtn"><span id="likes-value">{{question.likes}} likes</span></button>
+                        {% if likes.1 %}
+                        <button class="control-btn btn-secondary"  id="like-valuebtn" style="background-color: #0D1B2A; color: white;" disabled><span id="likes-value">{{likes.0}} likes</span></button>
+                        {% else %}
+                        <button class="control-btn btn-secondary" onclick="Likessubmission('{{question.code}}')" id="like-valuebtn"><span id="likes-value">{{likes.0}} likes</span></button>
+                        {% endif %}
                     {% else %}
-                    <span id="likes-value">{{question.likes}} likes</span>
+                    <span id="likes-value">{{likes.0}} likes</span>
                     {% endif %}
                 </div>
                 <div class="stat-item">
@@ -68,7 +72,35 @@
         <!-- Answers Section -->
         <div class="answers-section" id="answers-section">
             <h2 class="section-title">Answers ({{question.answer_len}})</h2>
-            
+            {% for answer in answers %}
+            <div class="answer-text" id='{{answer.code}}' data-Images = '{{answer.images}}'>
+                {{answer.answer|safe}}
+                </div>
+                <a href="{%url 'user'%}{{answer.user__username}}/" style="text-decoration: none;"><div class="user-info">
+                    <div class="avatar">{{answer.user__first_name|upper|slice:":1" }}{{answer.user__last_name|upper|slice:":1" }}</div>
+                    <span>Answered by <strong>{{answer.user__first_name}} {{answer.user__last_name}}</strong> • {{answer.created_at}} ago</span>
+                </div>
+                </a>
+                <div class="vote-buttons">
+                    {% if user.is_authenticated %}
+                        {% if answer.like.1 %}
+                        <button class="vote-btn" id='{{answer.code}}' style="background-color:#0D1B2A ; color: white;" disabled>
+                            <i class="fas fa-chevron-up"></i> <span class='vote-value'>{{answer.like.0}}</span>
+                        </button>
+                        {% else %}
+                        <button class="vote-btn" onclick="Votesubmission('{{question.code}}', '{{answer.code}}')" id='{{answer.code}}'>
+                            <i class="fas fa-chevron-up"></i> <span class='vote-value'>{{answer.like.0}}</span>
+                        </button>
+                        {% endif %}
+                    {% else %}
+                    <a href="{%url 'login'%}" style="text-decoration: none;">
+                        <button class="vote-btn">
+                            <i class="fas fa-chevron-up"></i> <span class='vote-value'>{{answer.like}}</span>
+                        </button>
+                    </a>
+                    {% endif %}
+            </div>
+            {% endfor %}
         </div>
     </div>
 
@@ -225,6 +257,8 @@
                 } 
             })
         }
+
+
     </script>
     {% else %}
     <script>
@@ -270,45 +304,31 @@
             let search_data = document.getElementById('search-bar')
             window.location.href = search_link + `?result=${search_data.value}`
         }
-        {% if answers != None %}
-        const answers = {{answers|safe}};
-        {%else%}
-        const answers = {}
-        {%endif%}
+
+        image_urls = {{images|safe}}
+        const question_imgs = document.getElementById('question-description').querySelectorAll('img')
+        question_imgs.forEach((img, index) => {
+            img.src = image_urls[index]
+            img.style.width = '400px';
+            img.style.height = '400px'; 
+        });
+        
         const container = document.getElementById('answers-section')
         function CreateAnswers(){
-            let url = `{%url 'user'%}`
-            for (const key in answers){
-                let answer = answers[key]
-                let created_at = new Date(answer.created_at)
-                let elem = document.createElement('div');
-                elem.className = 'answer-card';
-                elem.id = key;
-                elem.innerHTML = `
-                <div class="answer-text">
-                    ${answer.answer}
-                    </div>
-                    <a href="${url}${answer.username}/" style="text-decoration: none;"><div class="user-info">
-                        <div class="avatar">${answer.acronym}</div>
-                        <span>Answered by <strong>${answer.fullname}</strong> • ${created_at} ago</span>
-                    </div>
-                    </a>
-                    <div class="vote-buttons">
-                        <button class="vote-btn" onclick="Votesubmission('{{question.code}}', '${key}')">
-                            <i class="fas fa-chevron-up"></i> <span class='vote-value'>${answer.votes}</span>
-                        </button>
-                </div>
-                `
-                const imageset = elem.querySelectorAll('img')
-
-                imageset.forEach((img, index) => {
-                    img.src = answer.images[index]
+            let answers = container.getElementsByClassName('answer-text')
+            for(let index=0; index < answers.length; index++){
+                answer = answers[index]
+                console.log(answer)
+                let images = JSON.parse(answer.dataset.images.replace(/'/g, '"'))
+                imgs = answer.getElementsByTagName('img')
+                for(let index=0; index < imgs.length; index++){
+                    img = imgs[index]
+                    img.src = images[index]
                     img.style.width = '400px';
                     img.style.height = '400px'; 
-                })
-
-                container.appendChild(elem)
-            };
+                }
+                
+            }
         };
 
         CreateAnswers();
@@ -316,15 +336,8 @@
     </script>
 
     <script>
-        const imageUrl = {{images|safe}}['images'];
         const questionDescription = document.getElementById('question-description')
         const imageset = questionDescription.querySelectorAll('img')
-
-        imageset.forEach((img, index) => {
-            img.src = imageUrl[index]
-            img.style.width = '400px';
-            img.style.height = '400px'; 
-        })
 
         function postAnswer(){
             window.location.href = "{%url 'answerRedirect'%}{{id}}/"
@@ -570,7 +583,7 @@ print(f"Element found at index: {result}")  # Output: 3</code></pre>
         //rating
         const ratingDiv = document.getElementById("rating");
         const result = document.getElementById("result");
-        let currentRating = 0;
+        let currentRating = {{rating}}; // Initial rating from backend or 0
 
         // Create 5 stars
         for (let i = 1; i <= 5; i++) {
@@ -606,7 +619,6 @@ print(f"Element found at index: {result}")  # Output: 3</code></pre>
         // Function to capture when user changes rating
         function handleRatingChange(value) {
             result.textContent = `You rated: ${value} star${value > 1 ? "s" : ""}`;
-            console.log("Rating changed:", value);
             Ratessubmission('{{question.code}}', value)
         }
 

@@ -250,6 +250,8 @@
             }
         });
 
+        const formData = new FormData();
+
         // Track form completion
         function calculateProgress() {
             const requiredFields = ['firstName', 'lastName', 'email', 'contact'];
@@ -321,7 +323,14 @@
                 document.getElementById('successModal').classList.add('active');
             } else if (allRequiredFilled) {
                 // Required fields completed, but optional missing
-                document.getElementById('profileForm').submit()
+                document.getElementById('profileForm')
+                const formData = new FormData(form);
+                if (fileInput.files[0]) {
+                    formData.append('pfp', fileInput.files[0]);
+                }
+                formData.append('pfp', fileInput.files[0]);
+                formData.submit()
+
                 showNotification('Profile saved! Complete all sections to become a verified member.', 'info');
             } else {
                 // Required fields missing
@@ -347,7 +356,8 @@
             document.getElementById('successModal').classList.remove('active');
             showNotification('Welcome to the verified community!');
             setTimeout(()=>{
-                document.getElementById('profileForm').submit()
+                formData.append('pfp', fileInput.files[0]);
+                formData.submit()
             }, 2000)
         }
 

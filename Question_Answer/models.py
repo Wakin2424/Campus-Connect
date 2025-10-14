@@ -58,6 +58,7 @@ class Images(models.Model):
 class ImageReference(models.Model):
     reference_id = models.AutoField(primary_key=True)
     question = models.ForeignKey('Qa', models.DO_NOTHING)
+    answer = models.ForeignKey('Answers', models.DO_NOTHING, blank=True, null=True)
     image = models.ForeignKey('Images', models.DO_NOTHING)
 
     class Meta:
@@ -115,11 +116,11 @@ class Qa(models.Model):
     qa_id = models.AutoField(primary_key=True)
     question = models.TextField()
     description = models.TextField(blank=True, null=True)
-    views = models.IntegerField(blank=True, null=True)
-    created_at = models.DateTimeField()
+    views = models.IntegerField(blank=True, null=True, default=0)
+    created_at = models.DateTimeField(default=str(dt.datetime.now()))
     user = models.ForeignKey(AuthCustomuser, models.DO_NOTHING, blank=True, null=True)
     code = models.CharField(unique=True, max_length=250)
-    answer_len = models.IntegerField()
+    answer_len = models.IntegerField(default=0)
 
     class Meta:
         managed = False
@@ -129,7 +130,7 @@ class Answers(models.Model):
     answer_id = models.AutoField(primary_key=True)
     code = models.CharField(unique=True, max_length=250)
     answer = models.TextField()
-    created_at = models.DateTimeField()
+    created_at = models.DateTimeField(default=str(dt.datetime.now()))
     question = models.ForeignKey('Qa', models.DO_NOTHING, blank=True, null=True)
     user = models.ForeignKey(AuthCustomuser, models.DO_NOTHING, blank=True, null=True)
 
@@ -149,9 +150,9 @@ class QuestionSubjects(models.Model):
 
 class Ratings(models.Model):
     rating_id = models.AutoField(primary_key=True)
+    user = models.ForeignKey(AuthCustomuser, models.DO_NOTHING, blank=True, null=True)
     rating = models.IntegerField(blank=True, null=True)
     question = models.ForeignKey(Qa, models.DO_NOTHING, blank=True, null=True)
-    user = models.ForeignKey(AuthCustomuser, models.DO_NOTHING, blank=True, null=True)
 
     class Meta:
         managed = False
@@ -159,9 +160,11 @@ class Ratings(models.Model):
 
 class Likes(models.Model):
     like_id = models.AutoField(primary_key=True)
-    answer = models.ForeignKey(Answers, models.DO_NOTHING, blank=True, null=True)
-    question = models.ForeignKey('Qa', models.DO_NOTHING, blank=True, null=True)
     user = models.ForeignKey(AuthCustomuser, models.DO_NOTHING, blank=True, null=True)
+    question = models.ForeignKey(Qa, models.DO_NOTHING, blank=True, null=True)
+    answer = models.ForeignKey(Answers, models.DO_NOTHING, blank=True, null=True)
+    likes = models.IntegerField(blank=True, null=True,default=0)
+    created_at = models.DateTimeField(blank=True, null=True, default=str(dt.datetime.now()))
 
     class Meta:
         managed = False

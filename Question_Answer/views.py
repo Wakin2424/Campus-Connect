@@ -2,18 +2,20 @@ from django.shortcuts import render, redirect
 from django.http import Http404, JsonResponse
 from django.shortcuts import get_object_or_404
 from django.contrib.auth import get_user_model
+from django.db.models import Count
 from . import models
 import json, os, uuid
 import datetime as dt
 
+User = get_user_model()
 # Create your views here.
 def Home(request):
-    tags = models.QuestionSubjects.objects.all().order_by()
+    tags = models.QuestionSubjects.objects.values('course__course_name').annotate(count=Count('course')).order_by('-count')
     trending = models.Qa.objects.all()
     resents = models.Qa.objects.all()
     resents = resents.order_by('-created_at')[:4 if len(trending) >= 4 else len(trending)]
     trending = trending.order_by('-likes')[:3 if len(trending) >= 3 else len(trending)] 
-    
+
     context = {
         'trending':trending,
         'tags':tags,
@@ -115,13 +117,36 @@ def Question(request, id):
 
     question.views += 1
     question.save()
+    
+    user = models.AuthCustomuser.objects.get(id=question.user.id)
+    rating = models.Ratings.objects.get(user=user, question=question).rating if request.user.is_authenticated and len(models.Ratings.objects.filter(user=user, question=question)) > 0 else 0
+
+    answers = models.Answers.objects.filter(question=question).order_by('-likes', '-created_at').values('answer', 'created_at', 'user__first_name', 'user__last_name', 'user__username', 'code', 'likes')
+
+    for answer in answers:
+        like = models.Likes.objects.filter(question=question, answer__code=answer['code'])
+        if request.user.is_authenticated:
+            answer['likes'] = [len(like), True if len(models.Likes.objects.filter(user__id=request.user.id, question=question, answer__code=answer['code'])) > 0 else False]
+        else:
+            answer['likes'] = len(like)
+
+        answer['images'] = []
+        images_list = models.ImageReference.objects.filter(answer__code=answer['code'])
+        if len(images_list) > 0:
+            for img in images_list:
+                answer['images'].append(img.image.file.url)
+    
+    question_likes = [ len(models.Likes.objects.filter( question=question, answer=None)),True if len(models.Likes.objects.filter(user=user, question=question, answer=None)) > 0 else False]
+
     context = {
         'seeker':user,
         'id':id,
         'question':question,
         'courses' :courses,
-        'images'  :json.dumps({'images':images}),
-        'answers' : question.answers
+        'images'  : images,
+        'answers' : answers,
+        'rating':rating,
+        'likes' :question_likes
 
     }
     return render(request, 'question_detail.html', context)
@@ -156,7 +181,7 @@ def Answer(request, id):
             image = models.Images.objects.create(title = title, file=img)
             image.save()
 
-            image_ref = models.ImageReference.objects.create(answer=answer, image=image)
+            image_ref = models.ImageReference.objects.create(answer=answer, question=question,image=image)
             image_ref.save()
 
         question.answer_len += 1
@@ -198,14 +223,15 @@ def Vote(request):
             'status':True
             }
 
+        user = models.AuthCustomuser.objects.get(id=request.user.id)
         if Type == 'question':
             question = models.Qa.objects.get(code=id)
-            if len(models.Likes.objects.filter(user=request.user, question=question, answer=None)) > 0:
-                like = models.Likes.objects.get(user=request.user, question=question, answer=None)
+            if len(models.Likes.objects.filter(user=user, question=question, answer=None)) > 0:
+                like = models.Likes.objects.get(user=user, question=question, answer=None)
                 like.likes += 1
                 like.save()
             else:
-                like = models.Likes(user=request.user, question=question, answer=None, likes=1)
+                like = models.Likes(user=user, question=question, answer=None, likes=1)
                 like.save()
 
 
@@ -214,12 +240,12 @@ def Vote(request):
         elif Type == 'answer':
             question = models.Qa.objects.get(code=id)
             answer = models.Answers.objects.get(code=data['answer_id'])
-            if len(models.Likes.objects.filter(user=request.user, question=question, answer=answer)) > 0:
-                like = models.Likes.objects.get(user=request.user, question=question, answer=answer)
+            if len(models.Likes.objects.filter(user=user, question=question, answer=answer)) > 0:
+                like = models.Likes.objects.get(user=user, question=question, answer=answer)
                 like.likes += 1
                 like.save()
             else:
-                like = models.Likes(user=request.user, question=question, answer=answer, likes=1)
+                like = models.Likes(user=user, question=question, answer=answer, likes=1)
                 like.save() 
             context['vote'] =  like.likes
         
@@ -227,12 +253,12 @@ def Vote(request):
             rating = int(data['rating'])
             question = models.Qa.objects.get(code=id)
 
-            if len(models.Ratings.objects.filter(user=request.user, question=question)) > 0:
-                rate = models.Ratings.objects.get(user=request.user, question=question)
+            if len(models.Ratings.objects.filter(user=user, question=question)) > 0:
+                rate = models.Ratings.objects.get(user=user, question=question)
                 rate.rating = rating
                 rate.save()
             else:
-                rate = models.Ratings(user=request.user, rating=rating, question=question)
+                rate = models.Ratings(user=user, rating=rating, question=question)
                 rate.save()
 
         return JsonResponse(context)

@@ -33,7 +33,7 @@ class Answer_admin(admin.ModelAdmin):
     list_display = ['answer_id', 'user__first_name', 'question__question', 'answer', 'created_at']
 
 class Rating_admin(admin.ModelAdmin):
-    list_display = ['rating_id', 'user__first_name', 'question__question', 'rating', 'created_at']
+    list_display = ['rating_id', 'user__first_name', 'question__question', 'rating']
 
 class Likes_admin(admin.ModelAdmin):
     list_display = ['like_id', 'user__first_name', 'question__question']

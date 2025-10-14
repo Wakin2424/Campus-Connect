@@ -441,8 +441,8 @@
                 // Remove scripts and functions and add to formData
                 let temp = document.createElement('div')
                 temp.innerHTML = editor.innerHTML;
-                temp.querySelectorAll('*')
-                temp.forEach(el => {
+                let els =temp.querySelectorAll('*')
+                els.forEach(el => {
                     if (el.tagName == 'script'){
                         el.remove()
                     }

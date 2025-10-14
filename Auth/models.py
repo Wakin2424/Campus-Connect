@@ -163,27 +163,6 @@ class Image_reference(models.Model):
     class Meta:
         db_table = 'image_reference'
 
-class StudyGroupMembers(models.Model):
-    pk = models.CompositePrimaryKey('group_id', 'user_id')
-    group = models.ForeignKey('StudyGroups', models.DO_NOTHING)
-    user = models.ForeignKey(AuthCustomuser, models.DO_NOTHING)
-    joined_at = models.DateTimeField(blank=True, null=True)
-
-    class Meta:
-        db_table = 'study_group_members'
-        unique_together = (('group', 'user'),)
-
-
-class StudyGroups(models.Model):
-    group_id = models.AutoField(primary_key=True)
-    group_name = models.CharField(max_length=150)
-    description = models.TextField(blank=True, null=True)
-    created_by = models.ForeignKey(AuthCustomuser, models.DO_NOTHING, db_column='created_by', blank=True, null=True)
-    created_at = models.DateTimeField(blank=True, null=True)
-
-    class Meta:
-        db_table = 'study_groups'
-
 class Ratings(models.Model):
     rating_id = models.AutoField(primary_key=True)
     user = models.ForeignKey(AuthCustomuser, models.DO_NOTHING, blank=True, null=True)
@@ -199,7 +178,7 @@ class Likes(models.Model):
     user = models.ForeignKey(AuthCustomuser, models.DO_NOTHING, blank=True, null=True)
     question = models.ForeignKey(Qa, models.DO_NOTHING, blank=True, null=True)
     answer = models.ForeignKey(Answers, models.DO_NOTHING, blank=True, null=True)
-    likes = models.IntegerField(default=0)
+    likes = models.IntegerField(blank=True, null=True,default=0)
     created_at = models.DateTimeField(blank=True, null=True, default=str(dt.datetime.now()))
     class Meta:
         db_table = 'likes'
