@@ -22,10 +22,18 @@
                 <!-- Profile Image Card -->
                 <div class="profile-card">
                     <div class="profile-image-container">
+                        {% if user.image != None %}
+                        <img src="{{user.image.file.url}}"
+                            alt="Profile Picture" 
+                            class="profile-image" 
+                            id="profileImage">
+                        {% else %}
                         <img src="https://ui-avatars.com/api/?name=John+Doe&size=200&background=1E90FF&color=fff&bold=true" 
                              alt="Profile Picture" 
                              class="profile-image" 
                              id="profileImage">
+                        {% endif %}
+                        
                         <label for="fileInput" class="upload-overlay" title="Change profile picture">
                             📷
                         </label>
@@ -80,7 +88,7 @@
                 </div>
 
                 <!-- Form -->
-                <form id="profileForm" method="post">
+                <form id="profileForm" method="post" enctype="multipart/form-data">
                     {% csrf_token %}
                     <!-- Personal Information -->
                     <div class="form-section">
@@ -196,7 +204,11 @@
 
     <script>
         const home = `<a href="{%url 'home'%}" class="logo">Campus Connect</a>`
-        const user_name = '{{ user.first_name|upper|slice:":1" }}' + '{{ user.last_name|upper|slice:":1" }}'
+        {% if user.image != None %}
+        const user_name = '<img class="user-avatar" src="{{user.image.file.url}}" alt="Avatar">'
+        {% else %}
+        const user_name = '<div class="user-avatar">{{ user.first_name|upper|slice:":1" }}' + '{{ user.last_name|upper|slice:":1" }}</div>'
+        {% endif %}
         const search = `
             <input type="text" class="search-bar" id="search-bar" placeholder="Search...">
             <button class="search-btn" onClick="Search()">🔍</button>
@@ -249,8 +261,6 @@
                 reader.readAsDataURL(file);
             }
         });
-
-        const formData = new FormData();
 
         // Track form completion
         function calculateProgress() {
@@ -315,6 +325,7 @@
         // Form submission
         document.getElementById('profileForm').addEventListener('submit', function(e) {
             e.preventDefault();
+            const formData = document.getElementById('profileForm')
             
             const { allRequiredFilled, allFieldsFilled, totalPercentage } = calculateProgress();
             
@@ -323,12 +334,12 @@
                 document.getElementById('successModal').classList.add('active');
             } else if (allRequiredFilled) {
                 // Required fields completed, but optional missing
-                document.getElementById('profileForm')
-                const formData = new FormData(form);
+                
+    
                 if (fileInput.files[0]) {
-                    formData.append('pfp', fileInput.files[0]);
+                    fileInput.hidden = true;
+                    formData.appendChild(fileInput);
                 }
-                formData.append('pfp', fileInput.files[0]);
                 formData.submit()
 
                 showNotification('Profile saved! Complete all sections to become a verified member.', 'info');
@@ -353,10 +364,14 @@
 
         // Close modal
         function closeModal() {
+            formData = document.getElementById('profileForm')
             document.getElementById('successModal').classList.remove('active');
             showNotification('Welcome to the verified community!');
             setTimeout(()=>{
-                formData.append('pfp', fileInput.files[0]);
+                if (fileInput.files[0]) {
+                    fileInput.hidden = true;
+                    formData.appendChild(fileInput);
+                }
                 formData.submit()
             }, 2000)
         }

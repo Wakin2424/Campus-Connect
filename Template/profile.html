@@ -24,7 +24,11 @@
             <div class="card">
                 <div class="profile-header">
                     <div class="profile-picture">
+                        {% if user.image != None %}
+                        <img src="{{user.image.file.url}}" alt="Profile Picture">
+                        {% else %}
                         <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='50' fill='%231E90FF'/%3E%3Ctext x='50' y='60' font-family='Arial' font-size='30' fill='white' text-anchor='middle'%3EJS%3C/text%3E%3C/svg%3E" alt="Profile Picture">
+                        {% endif %}
                     </div>
                     <div class="profile-info">
                         <h1>
@@ -58,7 +62,7 @@
                     <div class="stat-label">Total Views</div>
                 </div>
                 <div class="stat-card">
-                    <div class="stat-number">★ 4.8</div>
+                    <div class="stat-number">★ {{rating.0}}</div>
                     <div class="stat-label">Average Rating</div>
                 </div>
                 <div class="stat-card">
@@ -200,9 +204,9 @@
             <!-- Review Summary -->
             <div class="card review-summary">
                 <h3>Overall Rating</h3>
-                <div class="big-rating">4.8</div>
+                <div class="big-rating">{{rating.0}}</div>
                 <div class="rating-stars">★★★★★</div>
-                <p style="color: #666;">Based on 47 reviews</p>
+                <p style="color: #666;">Based on {{rating.1}} reviews</p>
             </div>
 
             <!-- Recent Activity -->
@@ -245,7 +249,11 @@
     </footer>
     <script>
         const home = `<a href="{%url 'home'%}" class="logo">Campus Connect</a>`
-        const user_name = '{{ user.first_name|upper|slice:":1" }}' + '{{ user.last_name|upper|slice:":1" }}'
+        {% if user.image != None %}
+        const user_name = '<img class="user-avatar" src="{{user.image.file.url}}" alt="Avatar">'
+        {% else %}
+        const user_name = '<div class="user-avatar">{{ user.first_name|upper|slice:":1" }}' + '{{ user.last_name|upper|slice:":1" }}</div>'
+        {% endif %}
         const search = `
             <input type="text" class="search-bar" id="search-bar" placeholder="Search...">
             <button class="search-btn" onClick="Search()">🔍</button>
@@ -259,7 +267,7 @@
         const login= `
             <a href='{%url "question"%}'><button class="quick-post-btn">+ Quick Post</button></a>
             <div class="user-dropdown">
-                <div class="user-avatar">${user_name}</div>
+                ${user_name}
                 <div class="dropdown-menu">
                     <a href="{%url 'logout'%}"><i class="fas fa-sign-out-alt"></i> Logout</a>
                 </div>

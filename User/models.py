@@ -1,6 +1,7 @@
 from django.db import models
 import datetime as dt
 
+"""
 class Career(models.Model):
     career_id = models.AutoField(primary_key=True)
     career_name = models.CharField(max_length=150)
@@ -170,3 +171,5 @@ class Likes(models.Model):
         managed = False
         db_table = 'likes'
         unique_together = (('user', 'question'),)
+
+"""

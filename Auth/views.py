@@ -71,7 +71,6 @@ def Edit(request):
     if request.method == 'POST':
         data = request.POST.copy()
         img = request.FILES.get('pfp')
-        print(request.FILES)
 
         data['username'] = str(data['first_name'] + data['last_name']).replace(' ', '')
         data['image'] = None
@@ -101,14 +100,19 @@ def Edit(request):
         if img != None:
             if request.user.image == None:
                 title = uuid.uuid4()
+                ext = os.path.splitext(img.name)[1]
+                img.name = f'{title}.{ext}'
+                image = models.Images.objects.create(title = title, file=img)
+                image.save()
             else:
                 title = request.user.image.title
                 request.user.image.file.delete()
-
-            ext = os.path.splitext(img.name)[1]
-            img.name = f'{title}.{ext}'
-            image = models.Images.objects.create(title = title, file=img)
-            image.save()
+                ext = os.path.splitext(img.name)[1]
+                img.name = f'{title}.{ext}'
+                image = models.Images.objects.get(title=title)
+                print(image, image.title)
+                image.file = img
+                image.save()
         else:
             image = request.user.image
 

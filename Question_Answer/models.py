@@ -1,6 +1,7 @@
 from django.db import models
 import datetime as dt
 
+"""
 class Career(models.Model):
     career_id = models.AutoField(primary_key=True)
     career_name = models.CharField(max_length=150)
@@ -121,6 +122,7 @@ class Qa(models.Model):
     user = models.ForeignKey(AuthCustomuser, models.DO_NOTHING, blank=True, null=True)
     code = models.CharField(unique=True, max_length=250)
     answer_len = models.IntegerField(default=0)
+    courses = models.ManyToManyField(Course, through='QuestionSubjects')
 
     class Meta:
         managed = False
@@ -171,3 +173,4 @@ class Likes(models.Model):
         db_table = 'likes'
         unique_together = (('user', 'question'),)
 
+"""

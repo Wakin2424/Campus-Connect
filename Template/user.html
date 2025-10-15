@@ -24,7 +24,11 @@
             <div class="card">
                 <div class="profile-header">
                     <div class="profile-picture">
+                        {% if account.image != None %}
+                        <img src="{{account.image.file.url}}" alt="Profile Picture">
+                        {% else %}
                         <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='50' fill='%231E90FF'/%3E%3Ctext x='50' y='60' font-family='Arial' font-size='30' fill='white' text-anchor='middle'%3EJS%3C/text%3E%3C/svg%3E" alt="Profile Picture">
+                        {% endif %}
                     </div>
                     <div class="profile-info">
                         <h1>
@@ -221,7 +225,11 @@
     </footer>
     <script>
         const home = `<a href="{%url 'home'%}" class="logo">Campus Connect</a>`
-        const user_name = '{{ user.first_name|upper|slice:":1" }}' + '{{ user.last_name|upper|slice:":1" }}'
+        {% if user.image != None %}
+        const user_name = '<img class="user-avatar" src="{{user.image.file.url}}" alt="Avatar">'
+        {% else %}
+        const user_name = '<div class="user-avatar">{{ user.first_name|upper|slice:":1" }}' + '{{ user.last_name|upper|slice:":1" }}</div>'
+        {% endif %}
         const search = `
             <input type="text" class="search-bar" id="search-bar" placeholder="Search...">
             <button class="search-btn" onClick="Search()">🔍</button>

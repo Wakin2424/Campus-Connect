@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.http import Http404
 from django.contrib.auth import get_user_model
 from django.shortcuts import get_object_or_404
-from . import models
+import Auth.models as models
 
 
 # Create your views here.
@@ -27,11 +27,19 @@ def Myprofile(request):
         total_views += question['views']
 
     percentage = int((percentage / len(keys)) * 100)
+
+    rating_sum = 0
+    for rate in models.Ratings.objects.filter(user=user):
+        rating_sum += rate.rating
+    rate = len(models.Ratings.objects.filter(user=user))
+    rating = [round(rating_sum/rate, 1) ,rate]
+
     context = {
         'questions': questions,
         'percentage': percentage,
         'total_uploads':total_uploads,
         'total_views':total_views,
+        'rating': rating,
     }
     return render(request, 'profile.html', context)
 

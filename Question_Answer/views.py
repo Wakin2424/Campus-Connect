@@ -3,34 +3,40 @@ from django.http import Http404, JsonResponse
 from django.shortcuts import get_object_or_404
 from django.contrib.auth import get_user_model
 from django.db.models import Count
-from . import models
+import Auth.models as models
 import json, os, uuid
 import datetime as dt
 
 User = get_user_model()
 # Create your views here.
 def Home(request):
-    tags = models.QuestionSubjects.objects.values('course__course_name').annotate(count=Count('course')).order_by('-count')
+    tags = models.Question_subjects.objects.values('course__course_name').annotate(count=Count('course')).order_by('-count')
     trending = models.Qa.objects.all()
     resents = models.Qa.objects.all()
     resents = resents.order_by('-created_at')[:4 if len(trending) >= 4 else len(trending)]
     trending = trending.order_by('-likes')[:3 if len(trending) >= 3 else len(trending)] 
-
+    total_questions = len(models.Qa.objects.all())
     context = {
         'trending':trending,
         'tags':tags,
-        'resents':resents
+        'resents':resents,
+        'total_questions': total_questions
     }
     return render(request, 'qa.html', context)
 
 def Load_questions(request):
-    try:
-        page = int(request.GET.get('page'))
-    except:
-        raise Http404('Invalid Request')
+    page = int(request.GET.get('page'))
+    Type = request.GET.get('request')
+
     status = True
 
-    questions = models.Qa.objects.all().values('qa_id','question', 'description', 'answer_len', 'views', 'user__first_name', 'code','created_at')
+    if Type == 'tag':
+        tag = request.GET.get('tag')
+        course = models.Course.objects.get(course_name=tag)
+        questions = models.Qa.objects.filter(courses=course).values('qa_id','question', 'description', 'answer_len', 'views', 'user__first_name', 'code','created_at')
+
+    else:
+        questions = models.Qa.objects.all().values('qa_id','question', 'description', 'answer_len', 'views', 'user__first_name', 'code','created_at')
     length = len(questions)
 
     if page+1 < int(length/5):
@@ -47,7 +53,7 @@ def Load_questions(request):
     for question in questions:
         question['courses'] = []
         quiz = models.Qa.objects.get(qa_id=question['qa_id'])
-        courses = list(models.QuestionSubjects.objects.filter(question=quiz).values('course__course_name'))
+        courses = list(models.Question_subjects.objects.filter(question=quiz).values('course__course_name'))
         for course in courses:
             question['courses'].append(course['course__course_name'])
 
@@ -58,6 +64,7 @@ def Load_questions(request):
         'page':page,
         'questions':questions
     }
+
     return JsonResponse(context)
 
 def Question_form(request):
@@ -75,7 +82,7 @@ def Question_form(request):
         for courseData in courseDataset:
             if len(models.Course.objects.filter(course_name=courseData)) > 0:
                 course = models.Course.objects.get(course_name=courseData)
-                subject = models.QuestionSubjects(course=course, question=question)
+                subject = models.Question_subjects(course=course, question=question)
                 subject.save()
 
 
@@ -85,7 +92,7 @@ def Question_form(request):
             img.name = f'{title}.{ext}'
             image = models.Images.objects.create(title = title, file=img)
             image.save()
-            image_ref = models.ImageReference.objects.create(question=question, image=image)
+            image_ref = models.Image_reference.objects.create(question=question, image=image)
             image_ref.save()
             
         status = True
@@ -107,8 +114,8 @@ def Question(request, id):
     question = get_object_or_404(models.Qa, code=id)
     User = get_user_model()
     user = User.objects.get(id=question.user.id)
-    courses = models.QuestionSubjects.objects.filter(question=question)
-    images_list = models.ImageReference.objects.filter(question=question)
+    courses = models.Question_subjects.objects.filter(question=question)
+    images_list = models.Image_reference.objects.filter(question=question)
     images = []
     if len(images_list) > 0:
         for img in images_list:
@@ -131,7 +138,7 @@ def Question(request, id):
             answer['likes'] = len(like)
 
         answer['images'] = []
-        images_list = models.ImageReference.objects.filter(answer__code=answer['code'])
+        images_list = models.Image_reference.objects.filter(answer__code=answer['code'])
         if len(images_list) > 0:
             for img in images_list:
                 answer['images'].append(img.image.file.url)
@@ -181,7 +188,7 @@ def Answer(request, id):
             image = models.Images.objects.create(title = title, file=img)
             image.save()
 
-            image_ref = models.ImageReference.objects.create(answer=answer, question=question,image=image)
+            image_ref = models.Image_reference.objects.create(answer=answer, question=question,image=image)
             image_ref.save()
 
         question.answer_len += 1
@@ -201,7 +208,7 @@ def Answer(request, id):
         except:
             raise Http404("There is no such question")
         
-        images_list = models.ImageReference.objects.filter(question=question)
+        images_list = models.Image_reference.objects.filter(question=question)
         images = []
         if len(images_list) > 0:
             for img in images_list:

@@ -130,6 +130,7 @@ class Qa(models.Model):
     views = models.IntegerField(blank=True, null=True, default=0)
     answer_len = models.IntegerField(default=0)
     created_at = models.DateTimeField(blank=True, default=str(dt.datetime.now()))
+    courses = models.ManyToManyField(Course, through='Question_subjects')
 
     class Meta:
 

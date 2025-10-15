@@ -38,6 +38,9 @@ class Rating_admin(admin.ModelAdmin):
 class Likes_admin(admin.ModelAdmin):
     list_display = ['like_id', 'user__first_name', 'question__question']
 
+class Images_admin(admin.ModelAdmin):
+    list_display = ['image_id', 'title', 'file']
+
 admin.site.register(Market, Market_admin)
 admin.site.register(Qa, Qa_admin)
 admin.site.register(Notifications, Notification_admin)
@@ -50,3 +53,4 @@ admin.site.register(Image_reference, ImageReference_admin)
 admin.site.register(Answers, Answer_admin)
 admin.site.register(Ratings, Rating_admin)
 admin.site.register(Likes, Likes_admin)
+admin.site.register(Images, Images_admin)

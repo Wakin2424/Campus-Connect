@@ -82,7 +82,11 @@
     {% if user.is_authenticated %}
     <script>
         const home = `<a href="{%url 'home'%}" class="logo">Campus Connect</a>`
-        const user_name = '{{ user.first_name|upper|slice:":1" }}' + '{{ user.last_name|upper|slice:":1" }}'
+        {% if user.image != None %}
+        const user_name = '<img class="user-avatar" src="{{user.image.file.url}}" alt="Avatar">'
+        {% else %}
+        const user_name = '<div class="user-avatar">{{ user.first_name|upper|slice:":1" }}' + '{{ user.last_name|upper|slice:":1" }}</div>'
+        {% endif %}
         const search = `
             <input type="text" class="search-bar" id="search-bar" placeholder="Search...">
             <button class="search-btn" onClick="Search()">🔍</button>

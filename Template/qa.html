@@ -44,7 +44,7 @@
                         <button class="filter-btn">Most Answered</button>
                         <button class="filter-btn">Unanswered</button>
                     </div>
-                    <div class="questions-count">145 questions</div>
+                    <div class="questions-count">{{total_questions}} questions</div>
                 </div>
 
                 <!-- Questions List -->
@@ -64,14 +64,9 @@
                 <div class="sidebar-card">
                     <h3 class="sidebar-title">Popular Tags</h3>
                     <div class="trending-tags">
-                        <span class="trending-tag">Programming</span>
-                        <span class="trending-tag">Mathematics</span>
-                        <span class="trending-tag">Biology</span>
-                        <span class="trending-tag">Chemistry</span>
-                        <span class="trending-tag">Literature</span>
-                        <span class="trending-tag">Physics</span>
-                        <span class="trending-tag">Study Tips</span>
-                        <span class="trending-tag">Calculus</span>
+                        {% for tag in tags %}
+                        <span class="trending-tag" data-id="{{tag.course__course_name}}" onclick="tagClick('{{tag.course__course_name}}')">{{tag.course__course_name}}</span>
+                        {% endfor %}
                     </div>
                 </div>
 
@@ -117,7 +112,11 @@
     {% if user.is_authenticated %}
     <script>
         const home = `<a href="{%url 'home'%}" class="logo">Campus Connect</a>`
-        const user_name = '{{ user.first_name|upper|slice:":1" }}' + '{{ user.last_name|upper|slice:":1" }}'
+        {% if user.image != None %}
+        const user_name = '<img class="user-avatar" src="{{user.image.file.url}}" alt="Avatar">'
+        {% else %}
+        const user_name = '<div class="user-avatar">{{ user.first_name|upper|slice:":1" }}' + '{{ user.last_name|upper|slice:":1" }}</div>'
+        {% endif %}
         const search = `
             <input type="text" class="search-bar" id="search-bar" placeholder="Search...">
             <button class="search-btn" onClick="Search()">🔍</button>
@@ -209,6 +208,7 @@
         container.className = 'questions-list'
         let page = 0
         let count = page * 5
+        let query = `page=${page}`
 
         function CreateElements(data){
             let url = "{%url 'question'%}"
@@ -274,8 +274,7 @@
         }
 
         function Fetchdata(){
-
-            fetch(`{%url "load_questions"%}?page=${page}`, {
+            fetch(`{%url "load_questions"%}?${query}`, {
                 method: 'GET',
                 headers: {
                     'X-CSRFToken': getCookie('csrftoken')
@@ -319,6 +318,30 @@
         }
 
         Fetchdata()
+
+    </script>
+
+    <script>
+    function DeletePageTabs(){
+        let loadMoreTab= document.getElementById('load-more-tab')
+        let questiontabs = questionlist.querySelectorAll('.questions-list')
+        Array.from(questiontabs).forEach(tab => {
+            tab.remove()
+        });
+        let buttons = loadMoreTab.querySelectorAll('button')
+        buttons.forEach(button => {
+            if(button.innerText != 'Load More Questions'){
+                button.remove()
+            }
+        });
+    }
+
+    function tagClick(tag){
+        DeletePageTabs()
+        page = 0
+        query = `page=${page}&request=tag&tag=${tag}`
+        Fetchdata()
+    }
     </script>
 </body>
 </html>
