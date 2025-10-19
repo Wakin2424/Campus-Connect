@@ -36,7 +36,7 @@ class Rating_admin(admin.ModelAdmin):
     list_display = ['rating_id', 'user__first_name', 'question__question', 'rating']
 
 class Likes_admin(admin.ModelAdmin):
-    list_display = ['like_id', 'user__first_name', 'question__question']
+    list_display = ['like_id', 'user__first_name', 'question__question', 'answer__answer']
 
 class Images_admin(admin.ModelAdmin):
     list_display = ['image_id', 'title', 'file']

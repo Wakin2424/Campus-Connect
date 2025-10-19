@@ -32,7 +32,7 @@ def Myprofile(request):
     for rate in models.Ratings.objects.filter(user=user):
         rating_sum += rate.rating
     rate = len(models.Ratings.objects.filter(user=user))
-    rating = [round(rating_sum/rate, 1) ,rate]
+    rating = [round(rating_sum/rate if rate != 0 else 1, 1) ,rate]
 
     context = {
         'questions': questions,

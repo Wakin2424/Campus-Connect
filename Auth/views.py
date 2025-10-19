@@ -132,7 +132,6 @@ def Edit(request):
         user.institution = data['institution']
         user.image = data['image']
         
-        print(data)
         del data['image']
         for key, value in data.items():
             if value == '' or value == None:

@@ -53,7 +53,11 @@
             
             <a href="{%url 'user'%}{{seeker.username}}/" style="text-decoration: none;">
                 <div class="user-info">
+                    {% if seeker.image != None %}
+                    <img class="avatar" src="{{seeker.image.file.url}}" alt="Avatar">
+                    {% else %}
                     <div class="avatar">{{seeker.first_name|upper|slice:":1"}}{{seeker.last_name|upper|slice:":1"}}</div>
+                    {% endif %}
                     <span>Asked by <strong>{{seeker.first_name}} {{seeker.last_name}}</strong> • 2 hours ago</span>
                 </div>
             </a>
@@ -73,22 +77,26 @@
         <div class="answers-section" id="answers-section">
             <h2 class="section-title">Answers ({{question.answer_len}})</h2>
             {% for answer in answers %}
-            <div class="answer-text" id='{{answer.code}}' data-Images = '{{answer.images}}'>
+                <div class="answer-text" id='{{answer.code}}' data-Images = '{{answer.images}}'>
                 {{answer.answer|safe}}
                 </div>
                 <a href="{%url 'user'%}{{answer.user__username}}/" style="text-decoration: none;"><div class="user-info">
+                    {% if answer.user__image != None %}
+                    <img class="avatar" src="{{answer.user__image.file.url}}" alt="Avatar">
+                    {% else %}
                     <div class="avatar">{{answer.user__first_name|upper|slice:":1" }}{{answer.user__last_name|upper|slice:":1" }}</div>
+                    {% endif %}
                     <span>Answered by <strong>{{answer.user__first_name}} {{answer.user__last_name}}</strong> • {{answer.created_at}} ago</span>
                 </div>
                 </a>
                 <div class="vote-buttons">
                     {% if user.is_authenticated %}
-                        {% if answer.like.1 %}
-                        <button class="vote-btn" id='{{answer.code}}' style="background-color:#0D1B2A ; color: white;" disabled>
+                        {% if answer.likes.1 %}
+                        <button class="vote-btn" id='like-btn-{{answer.code}}' style="background-color:#0D1B2A ; color: white;" disabled>
                             <i class="fas fa-chevron-up"></i> <span class='vote-value'>{{answer.like.0}}</span>
                         </button>
                         {% else %}
-                        <button class="vote-btn" onclick="Votesubmission('{{question.code}}', '{{answer.code}}')" id='{{answer.code}}'>
+                        <button class="vote-btn" onclick="Votesubmission('{{question.code}}', '{{answer.code}}')" id='like-btn-{{answer.code}}'>
                             <i class="fas fa-chevron-up"></i> <span class='vote-value'>{{answer.like.0}}</span>
                         </button>
                         {% endif %}
@@ -204,11 +212,10 @@
             .then(response => response.json())
             .then(data => {
                 if(data.status){
-                    let elem = document.getElementById(answer)
-                    let votevalue = elem.getElementsByClassName('vote-value')[0]
-                    let voteBtn = elem.getElementsByClassName('vote-btn')[0]
-
-                    votevalue.textContent = data.vote;
+                    let voteBtn = document.getElementById(`like-btn-${answer}`)
+                    
+                    voteBtn.style.backgroundColor = '#0D1B2A';
+                    voteBtn.style.color = 'white';
                     voteBtn.disabled = true;
 
                 } 

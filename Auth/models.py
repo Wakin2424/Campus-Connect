@@ -87,7 +87,6 @@ class Market(models.Model):
     created_at = models.DateTimeField(blank=True, null=True)
 
     class Meta:
-        managed = False
         db_table = 'market'
 
 
@@ -107,7 +106,6 @@ class Notes(models.Model):
     uploaded_at = models.DateTimeField(blank=True, null=True, default=str(dt.datetime.now()))
 
     class Meta:
-        managed = False
         db_table = 'notes'
 
 
@@ -131,6 +129,7 @@ class Qa(models.Model):
     answer_len = models.IntegerField(default=0)
     created_at = models.DateTimeField(blank=True, default=str(dt.datetime.now()))
     courses = models.ManyToManyField(Course, through='Question_subjects')
+
 
     class Meta:
 
@@ -169,6 +168,9 @@ class Ratings(models.Model):
     user = models.ForeignKey(AuthCustomuser, models.DO_NOTHING, blank=True, null=True)
     rating = models.IntegerField(blank=True, null=True)
     question = models.ForeignKey(Qa, models.DO_NOTHING, blank=True, null=True)
+    note = models.ForeignKey(Notes, models.DO_NOTHING, blank=True, null=True)
+    book = models.ForeignKey(Market, models.DO_NOTHING, blank=True, null=True)
+    description = models.TextField(blank=True, null=True, default='')
 
     class Meta:
         db_table = 'ratings'
@@ -183,4 +185,4 @@ class Likes(models.Model):
     created_at = models.DateTimeField(blank=True, null=True, default=str(dt.datetime.now()))
     class Meta:
         db_table = 'likes'
-        unique_together = (('user', 'question'))
+        unique_together = (('user', 'question', 'answer'))

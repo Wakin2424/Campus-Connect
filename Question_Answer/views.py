@@ -10,11 +10,21 @@ import datetime as dt
 User = get_user_model()
 # Create your views here.
 def Home(request):
+    trend_tag = request.GET.get('tag')
     tags = models.Question_subjects.objects.values('course__course_name').annotate(count=Count('course')).order_by('-count')
+    tags = tags[:6 if len(models.Question_subjects.objects.values('course__course_name').annotate(count=Count('course'))) >= 6 else len(models.Question_subjects.objects.values('course__course_name').annotate(count=Count('course')))]
+    
     trending = models.Qa.objects.all()
+    trending = trending.order_by('-likes')[:3 if len(trending) >= 3 else len(trending)] 
     resents = models.Qa.objects.all()
     resents = resents.order_by('-created_at')[:4 if len(trending) >= 4 else len(trending)]
-    trending = trending.order_by('-likes')[:3 if len(trending) >= 3 else len(trending)] 
+
+    if trend_tag != 'trending':
+        trending = models.Qa.objects.all()
+        trending = trending.order_by('-likes')[:3 if len(trending) >= 3 else len(trending)] 
+    else:
+        trending = None
+    
     total_questions = len(models.Qa.objects.all())
     context = {
         'trending':trending,
@@ -22,7 +32,7 @@ def Home(request):
         'resents':resents,
         'total_questions': total_questions
     }
-    return render(request, 'qa.html', context)
+    return render(request, 'qa.html', context) 
 
 def Load_questions(request):
     page = int(request.GET.get('page'))
@@ -34,7 +44,12 @@ def Load_questions(request):
         tag = request.GET.get('tag')
         course = models.Course.objects.get(course_name=tag)
         questions = models.Qa.objects.filter(courses=course).values('qa_id','question', 'description', 'answer_len', 'views', 'user__first_name', 'code','created_at')
-
+    
+    elif Type == 'trending':
+        rating = models.Ratings.objects.filter(note=None, book=None).values('question').annotate(avg_rating=Count('rating')).order_by('-avg_rating')
+        question_ids = [item['question'] for item in rating]
+        questions = models.Qa.objects.filter(qa_id__in=question_ids).order_by('-likes').values('qa_id','question', 'description', 'answer_len', 'views', 'user__first_name', 'code','created_at')
+        questions = question | models.Qa.objects.exclude(qa_id__in=question_ids).order_by('-likes').values('qa_id','question', 'description', 'answer_len', 'views', 'user__first_name', 'code','created_at')
     else:
         questions = models.Qa.objects.all().values('qa_id','question', 'description', 'answer_len', 'views', 'user__first_name', 'code','created_at')
     length = len(questions)
@@ -128,7 +143,7 @@ def Question(request, id):
     user = models.AuthCustomuser.objects.get(id=question.user.id)
     rating = models.Ratings.objects.get(user=user, question=question).rating if request.user.is_authenticated and len(models.Ratings.objects.filter(user=user, question=question)) > 0 else 0
 
-    answers = models.Answers.objects.filter(question=question).order_by('-likes', '-created_at').values('answer', 'created_at', 'user__first_name', 'user__last_name', 'user__username', 'code', 'likes')
+    answers = models.Answers.objects.filter(question=question).order_by('-likes', '-created_at').values('answer', 'created_at', 'user__first_name', 'user__last_name', 'user__username', 'code', 'likes', 'user__image')
 
     for answer in answers:
         like = models.Likes.objects.filter(question=question, answer__code=answer['code'])
@@ -136,7 +151,9 @@ def Question(request, id):
             answer['likes'] = [len(like), True if len(models.Likes.objects.filter(user__id=request.user.id, question=question, answer__code=answer['code'])) > 0 else False]
         else:
             answer['likes'] = len(like)
-
+        
+        answer['user__image'] = models.Images.objects.get(image_id=answer['user__image']) if answer['user__image'] != None else answer['user__image']
+    
         answer['images'] = []
         images_list = models.Image_reference.objects.filter(answer__code=answer['code'])
         if len(images_list) > 0:
@@ -221,13 +238,14 @@ def Answer(request, id):
         return render(request, 'answer.html', context)
 
 def Vote(request):
-    if request.method == 'POST':
+    if request.method == 'POST' and request.user.is_authenticated:
         data = json.loads(request.body)
         id = data['id']
         Type = data['Type']
 
         context = {
-            'status':True
+            'status':True,
+            'vote':0
             }
 
         user = models.AuthCustomuser.objects.get(id=request.user.id)
@@ -246,15 +264,13 @@ def Vote(request):
 
         elif Type == 'answer':
             question = models.Qa.objects.get(code=id)
-            answer = models.Answers.objects.get(code=data['answer_id'])
-            if len(models.Likes.objects.filter(user=user, question=question, answer=answer)) > 0:
-                like = models.Likes.objects.get(user=user, question=question, answer=answer)
-                like.likes += 1
-                like.save()
-            else:
+            answer = models.Answers.objects.get(code=data['answer'])
+
+            if len(models.Likes.objects.filter(user=user, question=question, answer=answer)) == 0:
                 like = models.Likes(user=user, question=question, answer=answer, likes=1)
                 like.save() 
-            context['vote'] =  like.likes
+                
+                context['vote'] =  like.likes
         
         elif Type == 'rating':
             rating = int(data['rating'])

@@ -145,10 +145,15 @@
                             </div>
                             <div class="form-group">
                                 <label for="career">career <span class="optional">(Optional)</span></label>
-                                <input type="text" id="career" name="career" placeholder="e.g., Computer Science" value="{% if user.career != None %}{{user.career.career_name}}{% endif %}">
+                                <input list="career-list" type="text" id="career" name="career" placeholder="e.g., Computer Science" value="{% if user.career != None %}{{user.career.career_name}}{% endif %}">
+                                <datalist id="career-list">
+                                    {% for career in careers %}
+                                        <option value="{{ career.career_name }}">
+                                    {% endfor %}
+                                </datalist>
                             </div>
                             <div class="form-group">
-                                <label for="career">career description</label>
+                                <label for="career">career description (Optional)</label>
                                 <input type="text" id="career-description" name="career_description" value="{% if user.career != None %}{{user.career.description}}{% endif %}">
                             </div>
                             

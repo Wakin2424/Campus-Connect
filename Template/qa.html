@@ -70,6 +70,7 @@
                     </div>
                 </div>
 
+                {% if trending != None %}
                 <!-- Trending Questions -->
                 <div class="sidebar-card">
                     <h3 class="sidebar-title">Trending Questions</h3>
@@ -81,6 +82,7 @@
                     {% endfor %}
                     
                 </div>
+                {% endif %}
 
                 <!-- Recent Activity -->
                 <div class="sidebar-card">
@@ -208,7 +210,11 @@
         container.className = 'questions-list'
         let page = 0
         let count = page * 5
+        {% if trending == None %}
+        let query = `page=${page}&tag=trending`
+        {% else %}
         let query = `page=${page}`
+        {% endif %}
 
         function CreateElements(data){
             let url = "{%url 'question'%}"
