@@ -1,9 +1,10 @@
 from django.shortcuts import render
+from Auth import models
 
 # Create your views here.
 def Search(request):
     result=request.GET['result']
-    questions = None
+    questions = models.Qa.objects.filter(question__icontains=result) | models.Qa.objects.filter(description__icontains=result)
     notes = None
     products = None
     context = {

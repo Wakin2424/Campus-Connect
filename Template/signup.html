@@ -136,7 +136,13 @@
                             name="career"
                             class="form-input" 
                             placeholder="e.g., Computer Scientist"
+                            list="career-list"
                         >
+                        <datalist id="career-list">
+                            {% for career in careers %}
+                                <option value="{{ career.career_name }}">
+                            {% endfor %}
+                        </datalist>
                         <div class="help-text">Your field of study</div>
                     </div>
 
@@ -178,6 +184,17 @@
                     </div>
 
                     <div class="form-group">
+                        <label class="form-label" for="institution">institution</label>
+                        <input 
+                            type="text" 
+                            id="campus"
+                            name="institution"
+                            class="form-input" 
+                            placeholder="Enter your institution name"
+                        >
+                    </div>
+
+                    <div class="form-group">
                         <button type="button" class="more-fields-btn" onclick="toggleAdditionalFields()">
                             <span>+ More</span>
                         </button>
@@ -195,16 +212,6 @@
                             >
                         </div>
 
-                        <div class="form-group">
-                            <label class="form-label" for="institution">institution</label>
-                            <input 
-                                type="text" 
-                                id="campus"
-                                name="institution"
-                                class="form-input" 
-                                placeholder="Enter your institution name"
-                            >
-                        </div>
                         <div class="form-group">
                             <label class="form-label" for="career_description">Career description</label>
                             <input 

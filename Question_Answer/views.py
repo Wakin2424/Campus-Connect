@@ -37,8 +37,8 @@ def Home(request):
 def Load_questions(request):
     page = int(request.GET.get('page'))
     Type = request.GET.get('request')
-
     status = True
+    print(page)
 
     if Type == 'tag':
         tag = request.GET.get('tag')
@@ -48,13 +48,13 @@ def Load_questions(request):
     elif Type == 'trending':
         rating = models.Ratings.objects.filter(note=None, book=None).values('question').annotate(avg_rating=Count('rating')).order_by('-avg_rating')
         question_ids = [item['question'] for item in rating]
-        questions = models.Qa.objects.filter(qa_id__in=question_ids).order_by('-likes').values('qa_id','question', 'description', 'answer_len', 'views', 'user__first_name', 'code','created_at')
+        questions = models.Qa.objects.filter(qa_id__in=question_ids).order_by('likes').order_by('views').values('qa_id','question', 'description', 'answer_len', 'views', 'user__first_name', 'code','created_at')
         questions = question | models.Qa.objects.exclude(qa_id__in=question_ids).order_by('-likes').values('qa_id','question', 'description', 'answer_len', 'views', 'user__first_name', 'code','created_at')
     else:
         questions = models.Qa.objects.all().values('qa_id','question', 'description', 'answer_len', 'views', 'user__first_name', 'code','created_at')
     length = len(questions)
 
-    if page+1 < int(length/5):
+    if page+1 < length/5:
         start = page * 5
         end = start + 5
         page = int(end/5)
@@ -62,7 +62,9 @@ def Load_questions(request):
 
     else:
         status = False
-        questions = questions[length-5 if length >= 5 else 0:]
+        remaining = length % 5
+        questions = questions[length - remaining:]
+        page = page + 1
 
     questions = list(questions)
     for question in questions:
@@ -73,7 +75,7 @@ def Load_questions(request):
             question['courses'].append(course['course__course_name'])
 
         del question['qa_id']
-        
+    print(status, page, length, length/5, int(length/5))
     context = {
         'status':status,
         'page':page,
@@ -148,7 +150,7 @@ def Question(request, id):
     for answer in answers:
         like = models.Likes.objects.filter(question=question, answer__code=answer['code'])
         if request.user.is_authenticated:
-            answer['likes'] = [len(like), True if len(models.Likes.objects.filter(user__id=request.user.id, question=question, answer__code=answer['code'])) > 0 else False]
+            answer['likes'] = [len(like), True if len(models.Likes.objects.filter(user=models.AuthCustomuser.objects.get(id=request.user.id), question=question, answer__code=answer['code'])) > 0 else False]
         else:
             answer['likes'] = len(like)
         
@@ -160,8 +162,10 @@ def Question(request, id):
             for img in images_list:
                 answer['images'].append(img.image.file.url)
     
-    question_likes = [ len(models.Likes.objects.filter( question=question, answer=None)),True if len(models.Likes.objects.filter(user=user, question=question, answer=None)) > 0 else False]
-
+    if request.user.is_authenticated:
+        question_likes = [ len(models.Likes.objects.filter( question=question, answer=None)),True if len(models.Likes.objects.filter(user=models.AuthCustomuser.objects.get(id=request.user.id), question=question, answer=None)) > 0 else False]
+    else:
+        question_likes = len(models.Likes.objects.filter( question=question, answer=None))
     context = {
         'seeker':user,
         'id':id,

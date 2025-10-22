@@ -78,35 +78,17 @@
                 <h2 class="category-header">Questions & Answers</h2>
                 <div class="results-grid qa-grid">
                     {% if questions != None %}
-                    <div class="qa-card">
-                        <a href="#" class="qa-title">How to solve complex <span class="keyword-highlight">mathematics</span> problems step by step?</a>
-                        <p class="qa-preview">I'm struggling with advanced calculus problems. Can someone explain the systematic approach to breaking down complex mathematical equations...</p>
-                        <div class="qa-meta">
-                            <span class="answers-count">5 answers</span>
-                            <span>Posted 2 days ago</span>
-                            <span>by John Doe</span>
+                    {%for question in questions %}
+                        <div class="qa-card">
+                            <a href="{%url 'question'%}/{{question.code}}" class="qa-title">{{question.question}}</a>
+                            <p class="qa-preview"></p>
+                            <div class="qa-meta">
+                                <span class="answers-count">{{question.answer_len}} answers</span>
+                                <span>Posted <span class="created_at">{{question.created_at}}</span> ago</span>
+                                <span>by {{question.user.first_name}} {{question.user.last_name}}</span>
+                            </div>
                         </div>
-                    </div>
-
-                    <div class="qa-card">
-                        <a href="#" class="qa-title">Best resources for learning <span class="keyword-highlight">mathematics</span> online?</a>
-                        <p class="qa-preview">Looking for recommendations on online platforms, textbooks, and video courses for improving mathematical skills. Particularly interested in...</p>
-                        <div class="qa-meta">
-                            <span class="answers-count">8 answers</span>
-                            <span>Posted 1 week ago</span>
-                            <span>by Sarah Smith</span>
-                        </div>
-                    </div>
-
-                    <div class="qa-card">
-                        <a href="#" class="qa-title">Understanding <span class="keyword-highlight">mathematics</span> in computer science applications</a>
-                        <p class="qa-preview">How important is advanced mathematics for software development? Which mathematical concepts are most relevant for CS students...</p>
-                        <div class="qa-meta">
-                            <span class="answers-count">12 answers</span>
-                            <span>Posted 3 days ago</span>
-                            <span>by Mike Johnson</span>
-                        </div>
-                    </div>
+                    {%endfor %}
                     {% else %}
                     <div class="container">
                         <h3>

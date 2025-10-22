@@ -211,7 +211,7 @@
         let page = 0
         let count = page * 5
         {% if trending == None %}
-        let query = `page=${page}&tag=trending`
+        let query = `tag=trending&page=${page}`
         {% else %}
         let query = `page=${page}`
         {% endif %}
@@ -239,7 +239,7 @@
                         <span>${data.views} Views</span>
                     </div>
                 </div>
-                <div class="question-author">Asked by ${data.user__first_name}. • 1 day ago</div>
+                <div class="question-author">Asked by ${data.user__first_name}. • ${data.created_at} ago</div>
             </div>
             <div class="tags">
                 ${courses}
@@ -254,6 +254,7 @@
         }
 
         function ShowPage(id){
+            console.log(id)
             children = questionlist.children
             Array.from(children).forEach(child => {
                 child.style.display = 'none';
@@ -280,6 +281,8 @@
         }
 
         function Fetchdata(){
+            
+            console.log(query)
             fetch(`{%url "load_questions"%}?${query}`, {
                 method: 'GET',
                 headers: {
@@ -288,14 +291,13 @@
             })
             .then(response => response.json())
             .then(data => {
-                if(data.status){
-                    page = data.page;
-                    count = page * 5
+                if(data.status){  
+                    
                 } else {
-
                     loadBtn.style.display = 'none';
                 }
                 page = data.page;
+                query = query.replace(/page=\d+/, `page=${page}`)
                 count = page * 5
                 let length = data.questions.length
                 //hide the rest
@@ -315,10 +317,12 @@
                     count += 1
                 }
 
+                //create page button
                 let pageBtn = document.createElement('button');
-                pageBtn.innerText = `${page + 1}`;
+                pageBtn.innerText = `${page}`;
                 pageBtn.className = 'btn-secondary';
-                pageBtn.onclick =ShowPage(page) 
+                let pg = page;
+                pageBtn.onclick = () => ShowPage(pg) 
                 loadMoreTab.appendChild(pageBtn)
             })
         }
@@ -345,7 +349,7 @@
     function tagClick(tag){
         DeletePageTabs()
         page = 0
-        query = `page=${page}&request=tag&tag=${tag}`
+        query = `request=tag&tag=${tag}&page=${page}`
         Fetchdata()
     }
     </script>
