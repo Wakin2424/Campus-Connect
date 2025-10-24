@@ -40,9 +40,9 @@
             <div class="questions-section">
                 <div class="filter-bar">
                     <div class="filter-buttons">
-                        <button class="filter-btn active">Latest</button>
-                        <button class="filter-btn">Most Answered</button>
-                        <button class="filter-btn">Unanswered</button>
+                        <button class="filter-btn active" id="" onclick="TopicClick('')">Latest</button>
+                        <button class="filter-btn" id="answered" onclick="TopicClick('answered')">Most Answered</button>
+                        <button class="filter-btn" id="unanswered" onclick="TopicClick('unanswered')">Unanswered</button>
                     </div>
                     <div class="questions-count">{{total_questions}} questions</div>
                 </div>
@@ -254,7 +254,6 @@
         }
 
         function ShowPage(id){
-            console.log(id)
             children = questionlist.children
             Array.from(children).forEach(child => {
                 child.style.display = 'none';
@@ -282,7 +281,6 @@
 
         function Fetchdata(){
             
-            console.log(query)
             fetch(`{%url "load_questions"%}?${query}`, {
                 method: 'GET',
                 headers: {
@@ -292,7 +290,7 @@
             .then(response => response.json())
             .then(data => {
                 if(data.status){  
-                    
+                    loadBtn.style.display = 'inline-block';
                 } else {
                     loadBtn.style.display = 'none';
                 }
@@ -350,6 +348,29 @@
         DeletePageTabs()
         page = 0
         query = `request=tag&tag=${tag}&page=${page}`
+        Fetchdata()
+    }
+
+    function TopicClick(topic){
+        let topicBtns = document.querySelectorAll('.filter-btn')
+        topicBtns.forEach(btn => {
+            btn.classList.remove('active')
+            btn.disabled = false;
+            if(btn.id == topic){
+                btn.classList.add('active')
+                btn.disabled = true;
+            }
+        });
+
+        DeletePageTabs()
+        page = 0
+        if (topic == ''){
+            query = `page=${page}`
+        }
+        else{
+            query = `request=${topic}&page=${page}`
+        }
+        
         Fetchdata()
     }
     </script>

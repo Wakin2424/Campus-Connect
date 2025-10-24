@@ -38,7 +38,6 @@ def Load_questions(request):
     page = int(request.GET.get('page'))
     Type = request.GET.get('request')
     status = True
-    print(page)
 
     if Type == 'tag':
         tag = request.GET.get('tag')
@@ -50,10 +49,17 @@ def Load_questions(request):
         question_ids = [item['question'] for item in rating]
         questions = models.Qa.objects.filter(qa_id__in=question_ids).order_by('likes').order_by('views').values('qa_id','question', 'description', 'answer_len', 'views', 'user__first_name', 'code','created_at')
         questions = question | models.Qa.objects.exclude(qa_id__in=question_ids).order_by('-likes').values('qa_id','question', 'description', 'answer_len', 'views', 'user__first_name', 'code','created_at')
+    
+    elif Type == 'answered':
+        questions = models.Qa.objects.all().order_by('-answer_len').values('qa_id','question', 'description', 'answer_len', 'views', 'user__first_name', 'code','created_at')
+
+    elif Type == 'unanswered':
+        questions = models.Qa.objects.filter(answer_len=0).values('qa_id','question', 'description', 'answer_len', 'views', 'user__first_name', 'code','created_at')
+    
     else:
         questions = models.Qa.objects.all().values('qa_id','question', 'description', 'answer_len', 'views', 'user__first_name', 'code','created_at')
-    length = len(questions)
 
+    length = len(questions)
     if page+1 < length/5:
         start = page * 5
         end = start + 5
@@ -62,7 +68,7 @@ def Load_questions(request):
 
     else:
         status = False
-        remaining = length % 5
+        remaining = length % 5 if length % 5 != 0 else 5
         questions = questions[length - remaining:]
         page = page + 1
 
@@ -75,7 +81,8 @@ def Load_questions(request):
             question['courses'].append(course['course__course_name'])
 
         del question['qa_id']
-    print(status, page, length, length/5, int(length/5))
+    
+    
     context = {
         'status':status,
         'page':page,
@@ -143,14 +150,14 @@ def Question(request, id):
     question.save()
     
     user = models.AuthCustomuser.objects.get(id=question.user.id)
-    rating = models.Ratings.objects.get(user=user, question=question).rating if request.user.is_authenticated and len(models.Ratings.objects.filter(user=user, question=question)) > 0 else 0
-
+    me = models.AuthCustomuser.objects.get(id=request.user.id)
+    rating = models.Ratings.objects.get(user=me, question=question).rating if request.user.is_authenticated and len(models.Ratings.objects.filter(user=me, question=question)) > 0 else 0
     answers = models.Answers.objects.filter(question=question).order_by('-likes', '-created_at').values('answer', 'created_at', 'user__first_name', 'user__last_name', 'user__username', 'code', 'likes', 'user__image')
 
     for answer in answers:
         like = models.Likes.objects.filter(question=question, answer__code=answer['code'])
         if request.user.is_authenticated:
-            answer['likes'] = [len(like), True if len(models.Likes.objects.filter(user=models.AuthCustomuser.objects.get(id=request.user.id), question=question, answer__code=answer['code'])) > 0 else False]
+            answer['likes'] = [len(like), True if len(models.Likes.objects.filter(user=me, question=question, answer__code=answer['code'])) > 0 else False]
         else:
             answer['likes'] = len(like)
         
@@ -163,7 +170,7 @@ def Question(request, id):
                 answer['images'].append(img.image.file.url)
     
     if request.user.is_authenticated:
-        question_likes = [ len(models.Likes.objects.filter( question=question, answer=None)),True if len(models.Likes.objects.filter(user=models.AuthCustomuser.objects.get(id=request.user.id), question=question, answer=None)) > 0 else False]
+        question_likes = [ len(models.Likes.objects.filter( question=question, answer=None)),True if len(models.Likes.objects.filter(user=me, question=question, answer=None)) > 0 else False]
     else:
         question_likes = len(models.Likes.objects.filter( question=question, answer=None))
     context = {

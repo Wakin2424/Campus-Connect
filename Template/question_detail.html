@@ -49,8 +49,8 @@
                 </div>
                 <div id="rating"></div>
                 <p id="result"></p>
-            </div>
-            
+                </div>
+
             <a href="{%url 'user'%}{{seeker.username}}/" style="text-decoration: none;">
                 <div class="user-info">
                     {% if seeker.image != None %}
@@ -247,7 +247,7 @@
                 } 
             })
         }
-
+        {% if user.is_authenticated and user.is_verified %}
         function Ratessubmission(question, rating){
             fetch('{%url "vote"%}', {
                 method: "POST",
@@ -269,7 +269,7 @@
             })
         }
 
-
+        {% endif %}
     </script>
     {% else %}
     <script>
@@ -329,7 +329,7 @@
             let answers = container.getElementsByClassName('answer-text')
             for(let index=0; index < answers.length; index++){
                 answer = answers[index]
-                console.log(answer)
+
                 let images = JSON.parse(answer.dataset.images.replace(/'/g, '"'))
                 imgs = answer.getElementsByTagName('img')
                 for(let index=0; index < imgs.length; index++){
@@ -590,7 +590,7 @@ print(f"Element found at index: {result}")  # Output: 3</code></pre>
                 setTimeout(() => notification.remove(), 300);
             })
         }
-
+        
         //rating
         const ratingDiv = document.getElementById("rating");
         const result = document.getElementById("result");
@@ -606,32 +606,40 @@ print(f"Element found at index: {result}")  # Output: 3</code></pre>
             star.style.color = "#ccc";
             ratingDiv.appendChild(star);
 
+            {% if user.is_authenticated and user.is_verified %}
             // Highlight stars on hover
             star.addEventListener("mouseover", () => highlightStars(i));
             star.addEventListener("mouseout", () => highlightStars(currentRating));
 
+            
             // Click = set rating
             star.addEventListener("click", () => setRating(i));
+            {% endif %}
         }
 
         function highlightStars(rating) {
+            
             const stars = ratingDiv.querySelectorAll("span");
             stars.forEach(star => {
-            star.style.color = star.dataset.value <= rating ? "gold" : "#ccc";
+                console.log(rating)
+                star.style.color = star.dataset.value <= rating ? "gold" : "#ccc";
             });
         }
-
+        {% if user.is_authenticated and user.is_verified %}
         function setRating(value) {
             currentRating = value;
             highlightStars(value);
             handleRatingChange(value); // call change handler
         }
-
+        
         // Function to capture when user changes rating
         function handleRatingChange(value) {
             result.textContent = `You rated: ${value} star${value > 1 ? "s" : ""}`;
             Ratessubmission('{{question.code}}', value)
         }
+
+        {% endif %}
+        highlightStars(currentRating); // Initial highlight
 
     </script>
 </body>

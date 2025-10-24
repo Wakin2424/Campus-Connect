@@ -1,0 +1,837 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notes Library - Campus Connect</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #ffffff;
+            color: #0D1B2A;
+            line-height: 1.6;
+        }
+
+        /* Header / Navigation */
+        header {
+            background-color: #0D1B2A;
+            padding: 1rem 2rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #ffffff;
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: #ffffff;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: #1E90FF;
+        }
+
+        .upload-btn {
+            background-color: #1E90FF;
+            color: #ffffff;
+            padding: 0.6rem 1.5rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+        }
+
+        .upload-btn:hover {
+            background-color: #4169E1;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(30, 144, 255, 0.3);
+        }
+
+        /* Main Container */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* Page Title Section */
+        .page-header {
+            margin-bottom: 2rem;
+        }
+
+        .page-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #0D1B2A;
+            margin-bottom: 1.5rem;
+        }
+
+        /* Sorting & Filtering Bar */
+        .filter-bar {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            align-items: center;
+            background-color: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .filter-group label {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #0D1B2A;
+        }
+
+        .filter-group select {
+            padding: 0.7rem 1rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 1rem;
+            color: #0D1B2A;
+            background-color: #ffffff;
+            cursor: pointer;
+            transition: all 0.3s;
+            min-width: 180px;
+        }
+
+        .filter-group select:hover {
+            border-color: #1E90FF;
+        }
+
+        .filter-group select:focus {
+            outline: none;
+            border-color: #1E90FF;
+            box-shadow: 0 0 0 3px rgba(30, 144, 255, 0.1);
+        }
+
+        /* Search Bar */
+        .search-bar {
+            flex: 1;
+            min-width: 250px;
+        }
+
+        .search-bar input {
+            width: 100%;
+            padding: 0.7rem 1rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+
+        .search-bar input:focus {
+            outline: none;
+            border-color: #1E90FF;
+            box-shadow: 0 0 0 3px rgba(30, 144, 255, 0.1);
+        }
+
+        /* Notes Grid */
+        .notes-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            margin-bottom: 3rem;
+            min-height: 400px;
+        }
+
+        .note-card {
+            background-color: #ffffff;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            transition: all 0.3s;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .note-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+        }
+
+        .note-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #1E90FF, #0D1B2A);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .note-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #0D1B2A;
+            margin-bottom: 0.5rem;
+        }
+
+        .note-description {
+            font-size: 0.95rem;
+            color: #666;
+            margin-bottom: 1rem;
+            flex-grow: 1;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .course-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .tag {
+            background-color: #e3f2fd;
+            color: #1E90FF;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+
+        .uploader-info {
+            font-size: 0.85rem;
+            color: #888;
+            margin-bottom: 1rem;
+        }
+
+        .uploader-info strong {
+            color: #0D1B2A;
+        }
+
+        .stats-row {
+            display: flex;
+            justify-content: space-between;
+            padding-top: 1rem;
+            border-top: 1px solid #e0e0e0;
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .stat-item {
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+
+        /* Pagination */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: 2rem;
+        }
+
+        .page-btn {
+            padding: 0.7rem 1.2rem;
+            border: 2px solid #e0e0e0;
+            background-color: #ffffff;
+            color: #0D1B2A;
+            border-radius: 8px;
+            cursor: pointer;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .page-btn:hover {
+            border-color: #1E90FF;
+            color: #1E90FF;
+        }
+
+        .page-btn.active {
+            background-color: #0D1B2A;
+            color: #ffffff;
+            border-color: #0D1B2A;
+        }
+
+        .page-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* Loading Spinner */
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 3rem;
+        }
+
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #1E90FF;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* No Results Message */
+        .no-results {
+            display: none;
+            text-align: center;
+            padding: 4rem 2rem;
+            color: #666;
+        }
+
+        .no-results h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: #0D1B2A;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .notes-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                gap: 1rem;
+            }
+
+            .notes-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .page-title {
+                font-size: 2rem;
+            }
+
+            .filter-bar {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .filter-group select,
+            .search-bar input {
+                width: 100%;
+            }
+        }
+
+        @media (max-width: 480px) {
+            header {
+                padding: 1rem;
+            }
+
+            .logo {
+                font-size: 1.2rem;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .upload-btn {
+                padding: 0.5rem 1rem;
+                font-size: 0.9rem;
+            }
+
+            .container {
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header / Navigation -->
+    <header>
+        <nav>
+            <a href="#" class="logo">Campus Connect</a>
+            <div class="nav-links">
+                <a href="#">Home</a>
+                <a href="#">Questions</a>
+                <a href="#">Market</a>
+                <a href="#">Groups</a>
+                <a href="upload-notes.html" class="upload-btn">Upload Notes</a>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Page Header -->
+        <div class="page-header">
+            <h1 class="page-title">Notes Library</h1>
+        </div>
+
+        <!-- Filter Bar -->
+        <div class="filter-bar">
+            <div class="filter-group">
+                <label for="sortBy">Sort By</label>
+                <select id="sortBy">
+                    <option value="latest">Latest</option>
+                    <option value="downloads">Most Downloads</option>
+                    <option value="course">Course</option>
+                </select>
+            </div>
+
+            <div class="filter-group">
+                <label for="courseFilter">Course</label>
+                <select id="courseFilter">
+                    <option value="all">All Courses</option>
+                    <option value="Computer Science">Computer Science</option>
+                    <option value="Mathematics">Mathematics</option>
+                    <option value="Engineering">Engineering</option>
+                    <option value="Business">Business</option>
+                    <option value="Literature">Literature</option>
+                </select>
+            </div>
+
+            <div class="filter-group search-bar">
+                <label for="searchInput">Search Notes</label>
+                <input type="text" id="searchInput" placeholder="Search by title or keyword...">
+            </div>
+        </div>
+
+        <!-- Loading Spinner -->
+        <div class="loading" id="loading">
+            <div class="spinner"></div>
+            <p>Loading notes...</p>
+        </div>
+
+        <!-- No Results Message -->
+        <div class="no-results" id="noResults">
+            <h3>No notes found</h3>
+            <p>Try adjusting your filters or search terms.</p>
+        </div>
+
+        <!-- Notes Grid -->
+        <div class="notes-grid" id="notesGrid"></div>
+
+        <!-- Pagination -->
+        <div class="pagination" id="pagination"></div>
+    </div>
+
+    <script>
+        // Sample notes data
+        const notesData = [
+            {
+                id: 1,
+                title: "Introduction to Data Structures",
+                description: "Comprehensive notes covering arrays, linked lists, stacks, queues, and their implementations with examples.",
+                course: "Computer Science",
+                uploader: "John Doe",
+                date: "2024-10-20",
+                downloads: 245,
+                views: 1250,
+                rating: 4.8
+            },
+            {
+                id: 2,
+                title: "Calculus I: Limits and Derivatives",
+                description: "Complete guide to understanding limits, continuity, and derivative calculations with practice problems.",
+                course: "Mathematics",
+                uploader: "Sarah Smith",
+                date: "2024-10-19",
+                downloads: 189,
+                views: 980,
+                rating: 4.6
+            },
+            {
+                id: 3,
+                title: "Thermodynamics Fundamentals",
+                description: "Key concepts in thermodynamics including laws, heat transfer, and entropy with real-world applications.",
+                course: "Engineering",
+                uploader: "Mike Johnson",
+                date: "2024-10-18",
+                downloads: 156,
+                views: 750,
+                rating: 4.5
+            },
+            {
+                id: 4,
+                title: "Marketing Strategy Basics",
+                description: "Essential marketing concepts including market analysis, segmentation, targeting, and positioning strategies.",
+                course: "Business",
+                uploader: "Emily Chen",
+                date: "2024-10-17",
+                downloads: 201,
+                views: 1100,
+                rating: 4.7
+            },
+            {
+                id: 5,
+                title: "Shakespeare's Tragedies Analysis",
+                description: "In-depth analysis of Hamlet, Macbeth, and Othello with themes, characters, and literary devices.",
+                course: "Literature",
+                uploader: "David Williams",
+                date: "2024-10-16",
+                downloads: 134,
+                views: 620,
+                rating: 4.4
+            },
+            {
+                id: 6,
+                title: "Object-Oriented Programming in Java",
+                description: "Complete OOP concepts including classes, objects, inheritance, polymorphism, and encapsulation.",
+                course: "Computer Science",
+                uploader: "Alex Kumar",
+                date: "2024-10-15",
+                downloads: 298,
+                views: 1450,
+                rating: 4.9
+            },
+            {
+                id: 7,
+                title: "Linear Algebra Essentials",
+                description: "Matrices, vectors, eigenvalues, and vector spaces explained with practical applications.",
+                course: "Mathematics",
+                uploader: "Rachel Green",
+                date: "2024-10-14",
+                downloads: 167,
+                views: 890,
+                rating: 4.5
+            },
+            {
+                id: 8,
+                title: "Circuit Analysis and Design",
+                description: "DC and AC circuit analysis, Kirchhoff's laws, Thevenin's theorem, and circuit design principles.",
+                course: "Engineering",
+                uploader: "Tom Anderson",
+                date: "2024-10-13",
+                downloads: 143,
+                views: 710,
+                rating: 4.3
+            },
+            {
+                id: 9,
+                title: "Financial Accounting Principles",
+                description: "Balance sheets, income statements, cash flows, and fundamental accounting equation explained.",
+                course: "Business",
+                uploader: "Lisa Brown",
+                date: "2024-10-12",
+                downloads: 223,
+                views: 1180,
+                rating: 4.6
+            },
+            {
+                id: 10,
+                title: "Modern Poetry Analysis",
+                description: "Study of 20th century poets including T.S. Eliot, Frost, and Plath with thematic analysis.",
+                course: "Literature",
+                uploader: "James Wilson",
+                date: "2024-10-11",
+                downloads: 98,
+                views: 540,
+                rating: 4.2
+            },
+            {
+                id: 11,
+                title: "Database Management Systems",
+                description: "SQL fundamentals, normalization, ER diagrams, and database design best practices.",
+                course: "Computer Science",
+                uploader: "Nina Patel",
+                date: "2024-10-10",
+                downloads: 276,
+                views: 1320,
+                rating: 4.8
+            },
+            {
+                id: 12,
+                title: "Statistics and Probability",
+                description: "Descriptive statistics, probability distributions, hypothesis testing, and confidence intervals.",
+                course: "Mathematics",
+                uploader: "Chris Martin",
+                date: "2024-10-09",
+                downloads: 192,
+                views: 1050,
+                rating: 4.7
+            },
+            {
+                id: 13,
+                title: "Fluid Mechanics Overview",
+                description: "Fluid properties, fluid statics, dynamics, Bernoulli's equation, and flow measurement.",
+                course: "Engineering",
+                uploader: "Kevin Lee",
+                date: "2024-10-08",
+                downloads: 128,
+                views: 680,
+                rating: 4.4
+            },
+            {
+                id: 14,
+                title: "Operations Management",
+                description: "Process optimization, supply chain management, inventory control, and quality management.",
+                course: "Business",
+                uploader: "Amanda Taylor",
+                date: "2024-10-07",
+                downloads: 187,
+                views: 970,
+                rating: 4.5
+            },
+            {
+                id: 15,
+                title: "Victorian Literature Guide",
+                description: "Exploration of Victorian era authors, social themes, and literary movements of the 19th century.",
+                course: "Literature",
+                uploader: "Robert Davis",
+                date: "2024-10-06",
+                downloads: 112,
+                views: 590,
+                rating: 4.3
+            }
+        ];
+
+        // State variables
+        let currentPage = 1;
+        const notesPerPage = 6;
+        let filteredNotes = [...notesData];
+
+        // Get DOM elements
+        const notesGrid = document.getElementById('notesGrid');
+        const pagination = document.getElementById('pagination');
+        const sortBy = document.getElementById('sortBy');
+        const courseFilter = document.getElementById('courseFilter');
+        const searchInput = document.getElementById('searchInput');
+        const loading = document.getElementById('loading');
+        const noResults = document.getElementById('noResults');
+
+        // Format date
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            const now = new Date();
+            const diffTime = Math.abs(now - date);
+            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+            
+            if (diffDays === 1) return 'Yesterday';
+            if (diffDays < 7) return `${diffDays} days ago`;
+            return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+        }
+
+        // Create note card
+        function createNoteCard(note) {
+            return `
+                <div class="note-card" onclick="openNoteDetails(${note.id})">
+                    <div class="note-icon">📄</div>
+                    <h3 class="note-title">${note.title}</h3>
+                    <p class="note-description">${note.description}</p>
+                    <div class="course-tags">
+                        <span class="tag">${note.course}</span>
+                    </div>
+                    <div class="uploader-info">
+                        Uploaded by <strong>${note.uploader}</strong> • ${formatDate(note.date)}
+                    </div>
+                    <div class="stats-row">
+                        <div class="stat-item">⬇ ${note.downloads}</div>
+                        <div class="stat-item">👁 ${note.views}</div>
+                        <div class="stat-item">⭐ ${note.rating}</div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Render notes
+        function renderNotes() {
+            const startIndex = (currentPage - 1) * notesPerPage;
+            const endIndex = startIndex + notesPerPage;
+            const notesToShow = filteredNotes.slice(startIndex, endIndex);
+
+            if (filteredNotes.length === 0) {
+                notesGrid.style.display = 'none';
+                noResults.style.display = 'block';
+                pagination.style.display = 'none';
+            } else {
+                notesGrid.style.display = 'grid';
+                noResults.style.display = 'none';
+                pagination.style.display = 'flex';
+                notesGrid.innerHTML = notesToShow.map(createNoteCard).join('');
+            }
+
+            renderPagination();
+        }
+
+        // Render pagination
+        function renderPagination() {
+            const totalPages = Math.ceil(filteredNotes.length / notesPerPage);
+            let paginationHTML = '';
+
+            // Previous button
+            paginationHTML += `<button class="page-btn" onclick="changePage(${currentPage - 1})" ${currentPage === 1 ? 'disabled' : ''}>‹ Prev</button>`;
+
+            // Page numbers
+            for (let i = 1; i <= Math.min(totalPages, 5); i++) {
+                paginationHTML += `<button class="page-btn ${i === currentPage ? 'active' : ''}" onclick="changePage(${i})">${i}</button>`;
+            }
+
+            // More button
+            if (totalPages > 5) {
+                paginationHTML += `<button class="page-btn">More...</button>`;
+            }
+
+            // Next button
+            paginationHTML += `<button class="page-btn" onclick="changePage(${currentPage + 1})" ${currentPage === totalPages ? 'disabled' : ''}>Next ›</button>`;
+
+            pagination.innerHTML = paginationHTML;
+        }
+
+        // Change page
+        function changePage(page) {
+            const totalPages = Math.ceil(filteredNotes.length / notesPerPage);
+            if (page < 1 || page > totalPages) return;
+            
+            currentPage = page;
+            showLoading();
+            setTimeout(() => {
+                hideLoading();
+                renderNotes();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }, 300);
+        }
+
+        // Show loading
+        function showLoading() {
+            loading.style.display = 'block';
+            notesGrid.style.display = 'none';
+        }
+
+        // Hide loading
+        function hideLoading() {
+            loading.style.display = 'none';
+        }
+
+        // Apply filters and sorting
+        function applyFiltersAndSort() {
+            let result = [...notesData];
+
+            // Apply course filter
+            const selectedCourse = courseFilter.value;
+            if (selectedCourse !== 'all') {
+                result = result.filter(note => note.course === selectedCourse);
+            }
+
+            // Apply search
+            const searchTerm = searchInput.value.toLowerCase().trim();
+            if (searchTerm) {
+                result = result.filter(note => 
+                    note.title.toLowerCase().includes(searchTerm) ||
+                    note.description.toLowerCase().includes(searchTerm) ||
+                    note.course.toLowerCase().includes(searchTerm)
+                );
+            }
+
+            // Apply sorting
+            const sortOption = sortBy.value;
+            switch (sortOption) {
+                case 'latest':
+                    result.sort((a, b) => new Date(b.date) - new Date(a.date));
+                    break;
+                case 'downloads':
+                    result.sort((a, b) => b.downloads - a.downloads);
+                    break;
+                case 'course':
+                    result.sort((a, b) => a.course.localeCompare(b.course));
+                    break;
+            }
+
+            filteredNotes = result;
+            currentPage = 1;
+            renderNotes();
+        }
+
+        // Event listeners
+        sortBy.addEventListener('change', () => {
+            showLoading();
+            setTimeout(() => {
+                hideLoading();
+                applyFiltersAndSort();
+            }, 300);
+        });
+
+        courseFilter.addEventListener('change', () => {
+            showLoading();
+            setTimeout(() => {
+                hideLoading();
+                applyFiltersAndSort();
+            }, 300);
+        });
+
+        searchInput.addEventListener('input', () => {
+            showLoading();
+            setTimeout(() => {
+                hideLoading();
+                applyFiltersAndSort();
+            }, 300);
+        });
+
+        // Open note details
+        function openNoteDetails(noteId) {
+            alert(`Opening details for note ID: ${noteId}\n\nThis would redirect to a Note Details Page in the full application.`);
+        }
+
+        // Initialize
+        renderNotes();
+    </script>
+</body>
+</html>
