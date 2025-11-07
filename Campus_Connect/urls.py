@@ -27,6 +27,7 @@ urlpatterns = [
     path('user/', include('User.urls')),
     path('search/', include('Search.urls')),
     path('question-answer/', include('Question_Answer.urls')),
+    path('notes/', include('Notes.urls')),
 ]
 
 

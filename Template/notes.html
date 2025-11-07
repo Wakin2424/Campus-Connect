@@ -1,3 +1,4 @@
+{% load static%}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,8 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Notes Library - Campus Connect</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="css/notes.css">
-    <link rel="stylesheet" href="css/nav.css">
+    <link rel="stylesheet" href="{%static 'CSS/notes.css'%}">
+    <link rel="stylesheet" href="{%static 'CSS/nav.css'%}">
 </head>
 <body>
     <!-- Header -->
@@ -61,7 +62,7 @@
 
         <!-- Notes Grid -->
         <div class="notes-grid" id="notesGrid"></div>
-
+            
         <!-- Pagination -->
         <div class="pagination" id="pagination"></div>
     </div>
@@ -70,19 +71,62 @@
         <!--Generated dynamically by js-->
     </footer>
 
+    {% if user.is_authenticated %}
     <script>
-        const home = `<a href="#" class="logo">Campus Connect</a>`
+        const home = `<a href="{%url 'home'%}" class="logo">Campus Connect</a>`
+        {% if user.image != None %}
+        const user_name = '<img class="user-avatar" src="{{user.image.file.url}}" alt="Avatar">'
+        {% else %}
+        const user_name = '<div class="user-avatar">{{ user.first_name|upper|slice:":1" }}' + '{{ user.last_name|upper|slice:":1" }}</div>'
+        {% endif %}
         const search = `
-            <a href=''><button class="search-btn">🔍</button></a>
+            <input type="text" class="search-bar" id="search-bar" placeholder="Search...">
+            <button class="search-btn" onClick="Search()">🔍</button>
             `
         const nav_urls = `
-                    <li><a href="qa.html">Ask Questions</a></li>
+                    <li><a href="{%url 'question_library'%}">Ask Questions</a></li>
                     <li><a href="market.html">Sell Books</a></li>
-                    <li><a href="notes.html">Notes</a></li>
+                    <li><a href="#">Notes</a></li>
                     <li><a href="group.html">Groups</a></li>
                     `
+        const login= `
+            <div class="user-dropdown">
+                <div class="user-avatar">${user_name}</div>
+                <div class="dropdown-menu">
+                    <a href="{%url 'user' %}"><i class="fas fa-user"></i> Profile</a>
+                    <a href="{%url 'logout'%}"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                </div>
+            </div>
+        `
+        const footer_urls = `
+                    <a href="#">About Us</a>
+                    <a href="#">Contact</a>
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Terms of Service</a>
+                    <a href="#">Help Center</a>`
+        const footer_urls_2 = `
+                    <a href="{%url 'question_library'%}">Ask Questions</a>
+                    <a href="market.html">Sell Books</a>
+                    <a href="#">Share Notes</a>
+                    <a href="group.html">Create Groups</a>
+                    <a href="{%url 'home'%}">Campus Events</a>`
+    </script>
+    {% else %}
+    <script>
+        const home = `<a href="{%url 'home'%}" class="logo">Campus Connect</a>`
+        const search = `
+            <input type="text" class="search-bar" id="search-bar" placeholder="Search...">
+            <button class="search-btn" onClick="Search()">🔍</button>
+            `
+        const nav_urls = `
+                    <li><a href="{%url 'question_library'%}">Ask Questions</a></li>
+                    <li><a href="market.html">Sell Books</a></li>
+                    <li><a href="#">Notes</a></li>
+                    <li><a href="group.html">Groups</a></li>
+                    `
+
         const login = `
-                <a href="login.html" class="btn-primary">Login/Sign Up</a>
+                <a href="{%url 'login'%}" class="btn-primary">Login/Sign Up</a>
             `
 
         const footer_urls = `
@@ -92,13 +136,14 @@
                     <a href="#">Terms of Service</a>
                     <a href="#">Help Center</a>`
         const footer_urls_2 = `
-                    <a href="qa.html">Ask Questions</a>
+                    <a href="{%url 'question_library'%}">Ask Questions</a>
                     <a href="market.html">Sell Books</a>
-                    <a href="notes.html">Share Notes</a>
+                    <a href="#">Share Notes</a>
                     <a href="group.html">Create Groups</a>
-                    <a href="home">Campus Events</a>`
+                    <a href="{%url 'home'%}">Campus Events</a>`
     </script>
-    <script src="css/index.js"></script>
+    {% endif %}
+    <script src="{%static 'JS/index.js'%}"></script>
 
     <script>
         // Sample notes data
@@ -114,160 +159,7 @@
                 views: 1250,
                 rating: 4.8
             },
-            {
-                id: 2,
-                title: "Calculus I: Limits and Derivatives",
-                description: "Complete guide to understanding limits, continuity, and derivative calculations with practice problems.",
-                course: "Mathematics",
-                uploader: "Sarah Smith",
-                date: "2024-10-19",
-                downloads: 189,
-                views: 980,
-                rating: 4.6
-            },
-            {
-                id: 3,
-                title: "Thermodynamics Fundamentals",
-                description: "Key concepts in thermodynamics including laws, heat transfer, and entropy with real-world applications.",
-                course: "Engineering",
-                uploader: "Mike Johnson",
-                date: "2024-10-18",
-                downloads: 156,
-                views: 750,
-                rating: 4.5
-            },
-            {
-                id: 4,
-                title: "Marketing Strategy Basics",
-                description: "Essential marketing concepts including market analysis, segmentation, targeting, and positioning strategies.",
-                course: "Business",
-                uploader: "Emily Chen",
-                date: "2024-10-17",
-                downloads: 201,
-                views: 1100,
-                rating: 4.7
-            },
-            {
-                id: 5,
-                title: "Shakespeare's Tragedies Analysis",
-                description: "In-depth analysis of Hamlet, Macbeth, and Othello with themes, characters, and literary devices.",
-                course: "Literature",
-                uploader: "David Williams",
-                date: "2024-10-16",
-                downloads: 134,
-                views: 620,
-                rating: 4.4
-            },
-            {
-                id: 6,
-                title: "Object-Oriented Programming in Java",
-                description: "Complete OOP concepts including classes, objects, inheritance, polymorphism, and encapsulation.",
-                course: "Computer Science",
-                uploader: "Alex Kumar",
-                date: "2024-10-15",
-                downloads: 298,
-                views: 1450,
-                rating: 4.9
-            },
-            {
-                id: 7,
-                title: "Linear Algebra Essentials",
-                description: "Matrices, vectors, eigenvalues, and vector spaces explained with practical applications.",
-                course: "Mathematics",
-                uploader: "Rachel Green",
-                date: "2024-10-14",
-                downloads: 167,
-                views: 890,
-                rating: 4.5
-            },
-            {
-                id: 8,
-                title: "Circuit Analysis and Design",
-                description: "DC and AC circuit analysis, Kirchhoff's laws, Thevenin's theorem, and circuit design principles.",
-                course: "Engineering",
-                uploader: "Tom Anderson",
-                date: "2024-10-13",
-                downloads: 143,
-                views: 710,
-                rating: 4.3
-            },
-            {
-                id: 9,
-                title: "Financial Accounting Principles",
-                description: "Balance sheets, income statements, cash flows, and fundamental accounting equation explained.",
-                course: "Business",
-                uploader: "Lisa Brown",
-                date: "2024-10-12",
-                downloads: 223,
-                views: 1180,
-                rating: 4.6
-            },
-            {
-                id: 10,
-                title: "Modern Poetry Analysis",
-                description: "Study of 20th century poets including T.S. Eliot, Frost, and Plath with thematic analysis.",
-                course: "Literature",
-                uploader: "James Wilson",
-                date: "2024-10-11",
-                downloads: 98,
-                views: 540,
-                rating: 4.2
-            },
-            {
-                id: 11,
-                title: "Database Management Systems",
-                description: "SQL fundamentals, normalization, ER diagrams, and database design best practices.",
-                course: "Computer Science",
-                uploader: "Nina Patel",
-                date: "2024-10-10",
-                downloads: 276,
-                views: 1320,
-                rating: 4.8
-            },
-            {
-                id: 12,
-                title: "Statistics and Probability",
-                description: "Descriptive statistics, probability distributions, hypothesis testing, and confidence intervals.",
-                course: "Mathematics",
-                uploader: "Chris Martin",
-                date: "2024-10-09",
-                downloads: 192,
-                views: 1050,
-                rating: 4.7
-            },
-            {
-                id: 13,
-                title: "Fluid Mechanics Overview",
-                description: "Fluid properties, fluid statics, dynamics, Bernoulli's equation, and flow measurement.",
-                course: "Engineering",
-                uploader: "Kevin Lee",
-                date: "2024-10-08",
-                downloads: 128,
-                views: 680,
-                rating: 4.4
-            },
-            {
-                id: 14,
-                title: "Operations Management",
-                description: "Process optimization, supply chain management, inventory control, and quality management.",
-                course: "Business",
-                uploader: "Amanda Taylor",
-                date: "2024-10-07",
-                downloads: 187,
-                views: 970,
-                rating: 4.5
-            },
-            {
-                id: 15,
-                title: "Victorian Literature Guide",
-                description: "Exploration of Victorian era authors, social themes, and literary movements of the 19th century.",
-                course: "Literature",
-                uploader: "Robert Davis",
-                date: "2024-10-06",
-                downloads: 112,
-                views: 590,
-                rating: 4.3
-            }
+            
         ];
 
         // State variables
