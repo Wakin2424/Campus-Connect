@@ -171,6 +171,35 @@ body {
     box-shadow: 0 5px 15px rgba(30, 144, 255, 0.3);
 }
 
+.page-btn {
+    padding: 0.7rem 1.2rem;
+    border: 2px solid #e0e0e0;
+    background-color: #ffffff;
+    color: #0D1B2A;
+    border-radius: 8px;
+    cursor: pointer;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    transition: all 0.3s;
+}
+
+.page-btn:hover {
+    border-color: #1E90FF;
+    color: #1E90FF;
+}
+
+.page-btn.active {
+    background-color: #0D1B2A;
+    color: #ffffff;
+    border-color: #0D1B2A;
+}
+
+.page-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+
 /* Question Form */
 .question-form {
     background: white;

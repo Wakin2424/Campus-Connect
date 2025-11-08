@@ -54,7 +54,7 @@
 
                 <!-- Load More Button -->
                 <div id="load-more-tab" style="text-align: center; margin-top: 2rem;">
-                    <button onclick="Fetchdata()" class="btn-secondary" id="load-more" style="padding: 0.8rem 2rem;">Load More Questions</button>
+                    <button onclick="Fetchdata()" class="page-btn" id="load-more" style="padding: 0.8rem 2rem;">More</button>
                 </div>
             </div>
 
@@ -130,6 +130,13 @@
                     <li><a href="group.html">Groups</a></li>
                     `
         const login= `
+            <div class="user-dropdown">
+                <div class="quick-post-btn">Post +</div>
+                <div class="dropdown-menu">
+                    <a href="{%url "question"%}"><i class="fas fa-user"></i> Post Question</a>
+                    <a href="{%url 'note_upload'%}"><i class="fas fa-sign-out-alt"></i> Upload Notes</a>
+                </div>
+            </div>
             <div class="user-dropdown">
                 <div class="user-avatar">${user_name}</div>
                 <div class="dropdown-menu">
@@ -253,7 +260,18 @@
             container.appendChild(elem)
         }
 
+        function Activepagebtn(id){
+            let pagebtn = document.getElementById(`page-${id}`)
+            let pagebtncls = document.getElementsByClassName('page-btn')
+            console.log(pagebtncls)
+            Array.from(pagebtncls).forEach(pgbtn => {
+                pgbtn.className = 'page-btn';
+            })
+            pagebtn.className = 'page-btn active'
+        }
+
         function ShowPage(id){
+            Activepagebtn(id)
             children = questionlist.children
             Array.from(children).forEach(child => {
                 child.style.display = 'none';
@@ -277,6 +295,19 @@
                 }
             }
             return cookieValue;
+        }
+
+        //create page button
+        function Createpagebtn(page){
+            let pageBtn = document.createElement('button');
+            pageBtn.innerText = `${page}`;
+            pageBtn.id = `page-${page}`
+            pageBtn.className = 'page-btn';
+            let pg = page;
+            pageBtn.onclick = () => ShowPage(pg) 
+            loadMoreTab.appendChild(pageBtn)
+            loadMoreTab.appendChild(loadBtn)
+            Activepagebtn(page)
         }
 
         function Fetchdata(){
@@ -316,12 +347,7 @@
                 }
 
                 //create page button
-                let pageBtn = document.createElement('button');
-                pageBtn.innerText = `${page}`;
-                pageBtn.className = 'btn-secondary';
-                let pg = page;
-                pageBtn.onclick = () => ShowPage(pg) 
-                loadMoreTab.appendChild(pageBtn)
+                Createpagebtn(page)
             })
         }
 

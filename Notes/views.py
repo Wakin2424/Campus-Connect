@@ -8,3 +8,9 @@ def Home(request):
 
 def LoadHomeData(request):
     return
+
+def Note_Detail(request, id):
+    return render(request, 'notes_details.html')
+
+def Note_Upload(request):
+    pass
