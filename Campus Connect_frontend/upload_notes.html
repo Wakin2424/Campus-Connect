@@ -5,381 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Upload Notes - Campus Connect</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Poppins', sans-serif;
-            background: #ffffff;
-            color: #333;
-            line-height: 1.6;
-        }
-
-        /* Header */
-        header {
-            background: #0D1B2A;
-            color: white;
-            padding: 1rem 0;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-
-        .header-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 2rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 1rem;
-        }
-
-        .logo {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: #1E90FF;
-        }
-
-        nav {
-            display: flex;
-            gap: 2rem;
-            align-items: center;
-            flex-wrap: wrap;
-        }
-
-        nav a {
-            color: white;
-            text-decoration: none;
-            font-weight: 500;
-            transition: color 0.3s;
-        }
-
-        nav a:hover {
-            color: #1E90FF;
-        }
-
-        .back-btn {
-            background: #0D1B2A;
-            color: white;
-            border: 2px solid #1E90FF;
-            padding: 0.5rem 1.5rem;
-            border-radius: 25px;
-            cursor: pointer;
-            font-weight: 600;
-            transition: all 0.3s;
-            text-decoration: none;
-        }
-
-        .back-btn:hover {
-            background: #1E90FF;
-            border-color: #1E90FF;
-        }
-
-        /* Main Content */
-        main {
-            max-width: 800px;
-            margin: 3rem auto;
-            padding: 0 2rem;
-        }
-
-        .page-title {
-            text-align: center;
-            color: #0D1B2A;
-            font-size: 2rem;
-            margin-bottom: 2rem;
-            font-weight: 700;
-        }
-
-        .form-card {
-            background: white;
-            border-radius: 15px;
-            padding: 2.5rem;
-            box-shadow: 0 5px 20px rgba(13, 27, 42, 0.1);
-        }
-
-        .form-group {
-            margin-bottom: 1.5rem;
-        }
-
-        label {
-            display: block;
-            margin-bottom: 0.5rem;
-            font-weight: 600;
-            color: #0D1B2A;
-            font-size: 0.95rem;
-        }
-
-        .label-icon {
-            margin-right: 0.5rem;
-        }
-
-        input[type="text"],
-        textarea,
-        select {
-            width: 100%;
-            padding: 0.75rem 1rem;
-            border: 2px solid #e0e0e0;
-            border-radius: 8px;
-            font-family: 'Poppins', sans-serif;
-            font-size: 0.95rem;
-            transition: border-color 0.3s;
-        }
-
-        input[type="text"]:focus,
-        textarea:focus,
-        select:focus {
-            outline: none;
-            border-color: #1E90FF;
-        }
-
-        textarea {
-            resize: vertical;
-            min-height: 120px;
-        }
-
-        /* Course Selection */
-        .course-dropdown {
-            position: relative;
-        }
-
-        #courseSelect {
-            cursor: pointer;
-        }
-
-        .selected-courses {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.5rem;
-            margin-top: 0.75rem;
-            min-height: 40px;
-        }
-
-        .course-chip {
-            background: #E3F2FD;
-            color: #0D1B2A;
-            padding: 0.5rem 1rem;
-            border-radius: 20px;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            font-size: 0.9rem;
-            font-weight: 500;
-            animation: slideIn 0.3s ease;
-        }
-
-        @keyframes slideIn {
-            from {
-                opacity: 0;
-                transform: translateY(-10px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .remove-chip {
-            background: none;
-            border: none;
-            color: #0D1B2A;
-            font-size: 1.2rem;
-            cursor: pointer;
-            padding: 0;
-            line-height: 1;
-            transition: color 0.3s;
-        }
-
-        .remove-chip:hover {
-            color: #d32f2f;
-        }
-
-        /* File Upload */
-        .file-input-wrapper {
-            position: relative;
-            overflow: hidden;
-            display: inline-block;
-            width: 100%;
-        }
-
-        .file-input-wrapper input[type="file"] {
-            position: absolute;
-            left: -9999px;
-        }
-
-        .file-input-label {
-            display: block;
-            padding: 1rem;
-            background: #f5f5f5;
-            border: 2px dashed #1E90FF;
-            border-radius: 8px;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .file-input-label:hover {
-            background: #E3F2FD;
-            border-color: #0D1B2A;
-        }
-
-        .file-input-label.dragging {
-            background: #E3F2FD;
-            border-color: #0D1B2A;
-        }
-
-        .file-preview {
-            margin-top: 1rem;
-            padding: 1rem;
-            background: #E3F2FD;
-            border-radius: 8px;
-            display: none;
-        }
-
-        .file-preview.show {
-            display: block;
-            animation: slideIn 0.3s ease;
-        }
-
-        .file-info {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 0.5rem;
-        }
-
-        .file-name {
-            font-weight: 600;
-            color: #0D1B2A;
-        }
-
-        .file-size {
-            color: #666;
-            font-size: 0.9rem;
-        }
-
-        .remove-file {
-            background: none;
-            border: none;
-            color: #d32f2f;
-            cursor: pointer;
-            font-weight: 600;
-            text-decoration: underline;
-        }
-
-        /* Submit Button */
-        .submit-btn {
-            width: 100%;
-            padding: 1rem;
-            background: #0D1B2A;
-            color: white;
-            border: none;
-            border-radius: 8px;
-            font-size: 1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: background 0.3s;
-            margin-top: 1rem;
-        }
-
-        .submit-btn:hover {
-            background: #1E90FF;
-        }
-
-        .submit-btn:disabled {
-            background: #ccc;
-            cursor: not-allowed;
-        }
-
-        /* Progress Bar */
-        .progress-container {
-            display: none;
-            margin-top: 1rem;
-        }
-
-        .progress-container.show {
-            display: block;
-            animation: slideIn 0.3s ease;
-        }
-
-        .progress-bar {
-            width: 100%;
-            height: 8px;
-            background: #e0e0e0;
-            border-radius: 10px;
-            overflow: hidden;
-        }
-
-        .progress-fill {
-            height: 100%;
-            background: linear-gradient(90deg, #0D1B2A, #1E90FF);
-            width: 0%;
-            transition: width 0.3s;
-        }
-
-        /* Success Message */
-        .success-message {
-            display: none;
-            padding: 1rem;
-            background: #4CAF50;
-            color: white;
-            border-radius: 8px;
-            text-align: center;
-            margin-top: 1rem;
-            font-weight: 600;
-        }
-
-        .success-message.show {
-            display: block;
-            animation: slideIn 0.3s ease;
-        }
-
-        /* Responsive */
-        @media (max-width: 768px) {
-            .header-container {
-                padding: 0 1rem;
-            }
-
-            nav {
-                gap: 1rem;
-                font-size: 0.9rem;
-            }
-
-            .page-title {
-                font-size: 1.5rem;
-            }
-
-            .form-card {
-                padding: 1.5rem;
-            }
-
-            main {
-                margin: 2rem auto;
-                padding: 0 1rem;
-            }
-        }
-    </style>
+    <link rel="stylesheet" href="{%static 'CSS/answer.css'%}">
+    <link rel="stylesheet" href="{%static 'CSS/nav.css'%}">
 </head>
 <body>
-    <header>
-        <div class="header-container">
-            <div class="logo">Campus Connect</div>
-            <nav>
-                <a href="#home">Home</a>
-                <a href="#notes">Notes</a>
-                <a href="#questions">Questions</a>
-                <a href="#market">Market</a>
-                <a href="#groups">Groups</a>
-                <a href="#notes" class="back-btn">Back to Notes</a>
-            </nav>
-        </div>
+    <!-- Header / Navigation -->
+    <header class="header" id="header">
+      <!--Generated dynamically by js-->  
     </header>
 
     <main>
@@ -467,6 +99,51 @@
             </form>
         </div>
     </main>
+
+    <footer class="footer" id="footer">
+        <!--Generated dynamically by js-->
+    </footer>
+
+    <script>
+        const home = `<a href="{%url 'home'%}" class="logo">Campus Connect</a>`
+        {% if user.image != None %}
+        const user_name = '<img class="user-avatar" src="{{user.image.file.url}}" alt="Avatar">'
+        {% else %}
+        const user_name = '<div class="user-avatar">{{ user.first_name|upper|slice:":1" }}' + '{{ user.last_name|upper|slice:":1" }}</div>'
+        {% endif %}
+        const search = `
+            <input type="text" class="search-bar" id="search-bar" placeholder="Search...">
+            <button class="search-btn" onClick="Search()">🔍</button>
+            `
+        const nav_urls = `
+                    <li><a href="{%url 'question_library'%}">Ask Questions</a></li>
+                    <li><a href="market.html">Sell Books</a></li>
+                    <li><a href="{%url 'notes'%}">Notes</a></li>
+                    <li><a href="group.html">Groups</a></li>
+                    `
+        const login= `
+            <div class="user-dropdown">
+                <div class="user-avatar">${user_name}</div>
+                <div class="dropdown-menu">
+                    <a href="{%url 'user' %}"><i class="fas fa-user"></i> Profile</a>
+                    <a href="{%url 'logout'%}"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                </div>
+            </div>
+        `
+        const footer_urls = `
+                    <a href="#">About Us</a>
+                    <a href="#">Contact</a>
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Terms of Service</a>
+                    <a href="#">Help Center</a>`
+        const footer_urls_2 = `
+                    <a href="{%url 'question_library'%}">Ask Questions</a>
+                    <a href="market.html">Sell Books</a>
+                    <a href="{%url 'notes'%}">Share Notes</a>
+                    <a href="group.html">Create Groups</a>
+                    <a href="{%url 'home'%}">Campus Events</a>`
+    </script>
+    <script src="{%static 'JS/index.js'%}"></script>
 
     <script>
         const selectedCoursesArray = [];

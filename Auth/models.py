@@ -93,15 +93,12 @@ class Market(models.Model):
 class Notes(models.Model):
     note_id = models.AutoField(primary_key=True)
     user = models.ForeignKey(AuthCustomuser, models.DO_NOTHING, blank=True, null=True)
-    course = models.ForeignKey(Course, models.DO_NOTHING, blank=True, null=True)
+    courses = models.ManyToManyField(Course, through='Question_subjects')
     title = models.CharField(max_length=200)
     description = models.TextField(blank=True, null=True)
     file_url = models.FileField(upload_to='Notes/')
     file_size = models.BigIntegerField(blank=True, null=True)
     views = models.IntegerField(blank=True, null=True)
-    rating = models.DecimalField(max_digits=3, decimal_places=2, blank=True, null=True)
-    likes = models.IntegerField(blank=True, null=True)
-    subjects = models.TextField(blank=True, null=True)  # This field type is a guess.
     pages = models.IntegerField(blank=True, null=True)
     uploaded_at = models.DateTimeField(blank=True, null=True, default=str(dt.datetime.now()))
 
@@ -148,7 +145,8 @@ class Answers(models.Model):
 
 class Question_subjects(models.Model):
     reference_id = models.AutoField(primary_key=True)
-    question = models.ForeignKey(Qa, models.DO_NOTHING)
+    question = models.ForeignKey(Qa, models.DO_NOTHING, blank=True, null=True)
+    note = models.ForeignKey(Notes, models.DO_NOTHING, blank=True, null=True)
     course = models.ForeignKey(Course, models.DO_NOTHING, blank=True, null=True)
 
     class Meta:
@@ -181,6 +179,7 @@ class Likes(models.Model):
     user = models.ForeignKey(AuthCustomuser, models.DO_NOTHING, blank=True, null=True)
     question = models.ForeignKey(Qa, models.DO_NOTHING, blank=True, null=True)
     answer = models.ForeignKey(Answers, models.DO_NOTHING, blank=True, null=True)
+    note = models.ForeignKey(Notes, models.DO_NOTHING, blank=True, null=True)
     likes = models.IntegerField(blank=True, null=True,default=0)
     created_at = models.DateTimeField(blank=True, null=True, default=str(dt.datetime.now()))
     class Meta:

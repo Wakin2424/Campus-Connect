@@ -5,7 +5,7 @@ header.innerHTML = `
         <div class="nav-container">
             ${home}
             
-            <nav>
+            <nav id="navMenu">
                 <ul class="nav-links" id="navLinks">
                     ${nav_urls}
                 </ul>
@@ -15,7 +15,7 @@ header.innerHTML = `
                 ${search}
             </div>
 
-            ${login}            
+            ${login}
 
             <div class="mobile-toggle" id="mobileToggle">
                 <span></span>
@@ -64,3 +64,11 @@ footer.innerHTML = `
             </div>
         </div>
 `
+
+const mobileToggle = document.getElementById('mobileToggle');
+  const navContainer = document.querySelector('.nav-container');
+
+  mobileToggle.addEventListener('click', () => {
+    navContainer.classList.toggle('active');
+    mobileToggle.classList.toggle('active');
+  });
