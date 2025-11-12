@@ -341,5 +341,95 @@
         // Initialize
         renderNotes();
     </script>
+
+    <script>
+        page=0
+        let query = `tag=trending&page=${page}`
+
+        function Activepagebtn(id){
+            let pagebtn = document.getElementById(`page-${id}`)
+            let pagebtncls = document.getElementsByClassName('page-btn')
+            console.log(pagebtncls)
+            Array.from(pagebtncls).forEach(pgbtn => {
+                pgbtn.className = 'page-btn';
+            })
+            pagebtn.className = 'page-btn active'
+        }
+
+        function ShowPage(id){
+            Activepagebtn(id)
+            children = questionlist.children
+            Array.from(children).forEach(child => {
+                child.style.display = 'none';
+            })
+
+            let elem = document.getElementById(`question-batch-${id}`)
+            elem.style.display = 'block';
+
+        }
+
+        function getCookie(name){
+            let cookieValue = null;
+            if(document.cookie && document.cookie !== ''){
+                const cookies = document.cookie.split(';');
+                for(let i=0;i <cookies.length; i++){
+                    const cookie = cookies[i].trim();
+                    if (cookie.substring(0, name.length + 1) === name + '='){
+                        cookieValue = decodeURIComponent(cookie.substring(name.length+1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+
+        //create page button
+        function Createpagebtn(page){
+            let pageBtn = document.createElement('button');
+            pageBtn.innerText = `${page}`;
+            pageBtn.id = `page-${page}`
+            pageBtn.className = 'page-btn';
+            let pg = page;
+            pageBtn.onclick = () => ShowPage(pg) 
+            loadMoreTab.appendChild(pageBtn)
+            loadMoreTab.appendChild(loadBtn)
+            Activepagebtn(page)
+        }
+
+        
+        function Fetchdata(){
+            
+            fetch(`{%url "load_questions"%}?${query}`, {
+                method: 'GET',
+                headers: {
+                    'X-CSRFToken': getCookie('csrftoken')
+                },
+            })
+            .then(response => response.json())
+            .then(data => {
+                if(data.status){  
+                    loadBtn.style.display = 'inline-block';
+                } else {
+
+                }
+                page = data.page;
+                query = query.replace(/page=\d+/, `page=${page}`)
+                let notes = data.notes
+                let notesDataLength = notesData.length + 1
+                Array.from(notes).forEach(note =>{
+                    let array_data = {
+                        id: notesDataLength,
+                        title: note.title,
+                        description: note.description,
+                        course: note.courses
+                        
+                    }
+                })
+            })
+        }
+
+        Fetchdata()
+
+    </script>
 </body>
 </html>

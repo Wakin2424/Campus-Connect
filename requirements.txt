@@ -12,4 +12,7 @@ paypalrestsdk==1.13.3
 social-auth-app-django==5.4.3
 social-auth-core==4.6.1
 whitenoise==6.10.0
+PyPDF2==3.0.1
+python-docx==1.2.0
+docx2pdf==0.1.8
 gunicorn

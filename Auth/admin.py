@@ -15,7 +15,7 @@ class Market_admin(admin.ModelAdmin):
     list_display = ['market_id', 'user__first_name', 'title', 'slug', 'description', 'price', 'status', 'amount', 'created_at']
 
 class Notes_admin(admin.ModelAdmin):
-    list_display = ['note_id', 'user__first_name', 'course__course_name', 'title', 'description', 'file_size', 'views', 'rating', 'likes', 'subjects', 'pages', 'uploaded_at']
+    list_display = ['note_id', 'user__first_name', 'title', 'description', 'file_size', 'views', 'pages', 'uploaded_at']
 
 class Notification_admin(admin.ModelAdmin):
     list_display = ['notification_id', 'user__first_name', 'message', 'created_at']
@@ -24,7 +24,7 @@ class Qa_admin(admin.ModelAdmin):
     list_display = ['qa_id', 'code', 'user__first_name', 'answer_len', 'views', 'question', 'description', 'created_at']
 
 class Question_subjects_admin(admin.ModelAdmin):
-    list_display = ['reference_id', 'question__question', 'course__course_name']
+    list_display = ['reference_id', 'question__question', 'note__title', 'course__course_name']
 
 class ImageReference_admin(admin.ModelAdmin):
     list_display = ['reference_id', 'question__question', 'image__title']

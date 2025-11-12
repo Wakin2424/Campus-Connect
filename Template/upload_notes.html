@@ -43,14 +43,9 @@
                     </label>
                     <select id="courseSelect" class="course-dropdown">
                         <option value="">Select a course...</option>
-                        <option value="Computer Science">Computer Science</option>
-                        <option value="Mathematics">Mathematics</option>
-                        <option value="Engineering">Engineering</option>
-                        <option value="Business">Business</option>
-                        <option value="Literature">Literature</option>
-                        <option value="Physics">Physics</option>
-                        <option value="Chemistry">Chemistry</option>
-                        <option value="Biology">Biology</option>
+                        {% for course in courses %}
+                        <option value="{{course.course_name}}">{{course.course_name}}</option>
+                        {% endfor %}
                     </select>
                     <div class="selected-courses" id="selectedCourses"></div>
                 </div>
@@ -280,7 +275,7 @@
                 } else {
                     submitButton.disabled = false;
                     submitButton.style.color = 'red'
-                    submitButton.textContent = "Failed! Try Again"
+                    submitButton.textContent = data.error
                 }
             })
         }

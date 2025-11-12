@@ -31,39 +31,43 @@
         <div class="note-header">
             <div class="note-header-content">
                 <div class="note-info">
-                    <h1>Integration Techniques - Complete Study Guide</h1>
+                    <h1>{{note.title}}</h1>
                     <p class="note-description">
-                        A comprehensive study guide covering all major integration methods including substitution, integration by parts, partial fractions, and trigonometric integrals. This document includes step-by-step explanations, solved examples, and practice problems to help students master integration techniques for their calculus exams.
+                        {{note.description}}
                     </p>
                     
                     <div class="note-meta">
                         <div class="meta-item">
                             <i class="fas fa-user"></i>
-                            <span>Uploaded by <strong>Sarah Mitchell</strong></span>
+                            {% if note.user.username == user.username %}
+                            <span>Uploaded by <a href="{%url 'user'%}" style="text-decoration: none;"><strong>{{note.user.first_name}} {{note.user.last_name}}</strong></a></span>
+                            {% else %}
+                            <span>Uploaded by <a href="{%url 'user'%}{{note.user.username}}/" style="text-decoration: none;"><strong>{{note.user.first_name}} {{note.user.last_name}}</strong></a></span>
+                            {% endif %}
                         </div>
                         <div class="meta-item">
                             <i class="fas fa-calendar"></i>
-                            <span><strong>February 20, 2025</strong></span>
+                            <span><strong>{{note.created_at}}</strong></span>
                         </div>
                         <div class="meta-item">
                             <i class="fas fa-file-pdf"></i>
-                            <span>PDF • <strong>2.3 MB</strong></span>
+                            <span>{{note.file_type|upper}} • <strong>{{size}} MB</strong></span>
                         </div>
                         <div class="meta-item">
                             <i class="fas fa-clock"></i>
-                            <span><strong>24 pages</strong></span>
+                            <span><strong>{{note.pages}} pages</strong></span>
                         </div>
                     </div>
 
                     <div class="note-stats">
                         <div class="stat-item">
                             <i class="fas fa-download"></i>
-                            <span class="stat-number">124</span>
+                            <span class="stat-number">{{note.downloads}}</span>
                             <span>Downloads</span>
                         </div>
                         <div class="stat-item">
                             <i class="fas fa-eye"></i>
-                            <span class="stat-number">256</span>
+                            <span class="stat-number">{{note.views}}</span>
                             <span>Views</span>
                         </div>
                         <div class="stat-item">
@@ -73,25 +77,25 @@
                         </div>
                         <div class="stat-item">
                             <i class="fas fa-heart"></i>
-                            <span class="stat-number">45</span>
+                            <span class="stat-number">{{likes.0}}</span>
                             <span>Likes</span>
                         </div>
                     </div>
 
                     <div class="tags">
-                        <span class="tag">Mathematics</span>
-                        <span class="tag">Calculus</span>
-                        <span class="tag">Integration</span>
-                        <span class="tag">Study Guide</span>
-                        <span class="tag">Exam Prep</span>
+                        {% for course in courses %}
+                            <span class="tag">{{course.course.course_name}}</span>
+                        {% endfor %}
                     </div>
                 </div>
 
                 <div class="note-actions">
-                    <button class="btn-download" id="downloadBtn">
+                    <a href="{{note.file_url.url}}" style="text-decoration: none;">
+                        <button class="btn-download" id="downloadBtn">
                         <i class="fas fa-download"></i>
                         Download Note
                     </button>
+                    </a>
                     
                 </div>
             </div>
@@ -100,7 +104,7 @@
         <!-- Note Preview Section -->
         <div class="note-preview">
             <div class="preview-header">
-                <h2 class="preview-title">Note Preview</h2>
+                <h2 class="preview-title">Note Preview {{note.file_type}}</h2>
                 <div class="preview-actions">
                     <button class="btn-fullscreen" id="fullscreenBtn">
                         <i class="fas fa-expand"></i>
@@ -110,11 +114,15 @@
             </div>
             <div class="preview-content">
                 <!-- PDF Preview -->
-                <iframe 
+                <iframe
                     class="pdf-viewer" 
+                    {% if note.file_type == '.pdf'%}
+                    src="{{note.file_url.url}}" 
+                    {% else %}
                     src="data:application/pdf;base64,JVBERi0xLjQKMSAwIG9iago8PAovVHlwZSAvQ2F0YWxvZwovUGFnZXMgMiAwIFIKPj4KZW5kb2JqCjIgMCBvYmoKPDwKL1R5cGUgL1BhZ2VzCi9LaWRzIFszIDAgUl0KL0NvdW50IDEKL01lZGlhQm94IFswIDAgNjEyIDc5Ml0KPj4KZW5kb2JqCjMgMCBvYmoKPDwKL1R5cGUgL1BhZ2UKL1BhcmVudCAyIDAgUgovUmVzb3VyY2VzIDw8Ci9Gb250IDw8Ci9GMS9UaW1lcy1Sb21hbiA8PAovVHlwZSAvRm9udAovU3VidHlwZSAvVHlwZTEKL0Jhc2VGb250IC9UaW1lcy1Sb21hbgo+Pgo+Pgo+PgovQ29udGVudHMgNCAwIFIKPj4KZW5kb2JqCjQgMCBvYmoKPDwKL0xlbmd0aCAxMDkKPj4Kc3RyZWFtCkJUCi9GMSA3MiBUZgo1MCA3NTAgVGQKKENhbGN1bHVzIElJIC0gSW50ZWdyYXRpb24gVGVjaG5pcXVlcykgVGoKRVQKQlQKL0YxIDEyIFRmCjUwIDcwMCBUZAooVGhpcyBpcyBhIHNhbXBsZSBQREYgcHJldmlldyBmb3IgZGVtb25zdHJhdGlvbi4pIFRqCkVUCkJUCi9GMSA5IFRmCjUwIDY4MCBUZA==" 
+                    {% endif %}
                     title="Note Preview">
-                </iframe>
+            </iframe>
                 
                 <!-- Fallback for when PDF can't be displayed -->
                 <div class="preview-placeholder" style="display: none;">
@@ -125,36 +133,6 @@
                         <i class="fas fa-download"></i>
                         Download to View
                     </button>
-                </div>
-            </div>
-        </div>
-
-        <!-- Author Information -->
-        <div class="author-info">
-            <div class="author-header">
-                <div class="author-avatar">SM</div>
-                <div class="author-details">
-                    <h3>Sarah Mitchell</h3>
-                    <p>Mathematics Student • Senior Year</p>
-                    <p>Joined Campus Connect in September 2023</p>
-                </div>
-            </div>
-            <div class="author-stats">
-                <div class="author-stat">
-                    <div class="number">15</div>
-                    <div class="label">Notes Shared</div>
-                </div>
-                <div class="author-stat">
-                    <div class="number">1.2K</div>
-                    <div class="label">Downloads</div>
-                </div>
-                <div class="author-stat">
-                    <div class="number">4.9</div>
-                    <div class="label">Avg Rating</div>
-                </div>
-                <div class="author-stat">
-                    <div class="number">89</div>
-                    <div class="label">Helpful Votes</div>
                 </div>
             </div>
         </div>

@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 import datetime as dt
 from django.utils.translation import gettext_lazy as _
+import uuid
 
 # Create your models here.
 class Career(models.Model):
@@ -92,14 +93,17 @@ class Market(models.Model):
 
 class Notes(models.Model):
     note_id = models.AutoField(primary_key=True)
+    code = models.CharField(max_length=250, unique=True, default=uuid.uuid4())
     user = models.ForeignKey(AuthCustomuser, models.DO_NOTHING, blank=True, null=True)
     courses = models.ManyToManyField(Course, through='Question_subjects')
     title = models.CharField(max_length=200)
     description = models.TextField(blank=True, null=True)
     file_url = models.FileField(upload_to='Notes/')
     file_size = models.BigIntegerField(blank=True, null=True)
-    views = models.IntegerField(blank=True, null=True)
-    pages = models.IntegerField(blank=True, null=True)
+    file_type = models.CharField(max_length=10, default='.pdf')
+    views = models.IntegerField(blank=True, null=True, default=0)
+    pages = models.IntegerField(blank=True, null=True, default=1)
+    downloads = models.IntegerField(blank=True, null=True, default=0)
     uploaded_at = models.DateTimeField(blank=True, null=True, default=str(dt.datetime.now()))
 
     class Meta:
