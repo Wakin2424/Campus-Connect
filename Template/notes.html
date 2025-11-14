@@ -166,7 +166,8 @@
                 date: "2024-10-20",
                 downloads: 245,
                 views: 1250,
-                rating: 4.8
+                rating: 4.8,
+                username:"johnDoe"
             },
             
         ];
@@ -335,7 +336,7 @@
 
         // Open note details
         function openNoteDetails(noteId) {
-            alert(`Opening details for note ID: ${noteId}\n\nThis would redirect to a Note Details Page in the full application.`);
+            window.location.href = `{%url 'user'%}${noteId}/`
         }
 
         // Initialize
@@ -344,7 +345,7 @@
 
     <script>
         page=0
-        let query = `tag=trending&page=${page}`
+        let query = `page=${page}`
 
         function Activepagebtn(id){
             let pagebtn = document.getElementById(`page-${id}`)
@@ -399,7 +400,7 @@
         
         function Fetchdata(){
             
-            fetch(`{%url "load_questions"%}?${query}`, {
+            fetch(`{%url "note_upload"%}?${query}`, {
                 method: 'GET',
                 headers: {
                     'X-CSRFToken': getCookie('csrftoken')
@@ -408,22 +409,29 @@
             .then(response => response.json())
             .then(data => {
                 if(data.status){  
-                    loadBtn.style.display = 'inline-block';
+                    //loadBtn.style.display = 'inline-block';
                 } else {
 
                 }
+                console.log(note)
                 page = data.page;
                 query = query.replace(/page=\d+/, `page=${page}`)
                 let notes = data.notes
                 let notesDataLength = notesData.length + 1
                 Array.from(notes).forEach(note =>{
                     let array_data = {
-                        id: notesDataLength,
+                        id: note.code,
                         title: note.title,
                         description: note.description,
-                        course: note.courses
-                        
+                        course: note.courses,
+                        uploader: `${note.first_name} ${note.last_name}`,
+                        username:note.username,
+                        date: note.createdat,
+                        downloads: note.downloads,
+                        views:note.views,
+                        rating:1
                     }
+                    createNoteCard(array_data)
                 })
             })
         }
