@@ -157,18 +157,6 @@
     <script>
         // Sample notes data
         const notesData = [
-            {
-                id: 1,
-                title: "Introduction to Data Structures",
-                description: "Comprehensive notes covering arrays, linked lists, stacks, queues, and their implementations with examples.",
-                course: "Computer Science",
-                uploader: "John Doe",
-                date: "2024-10-20",
-                downloads: 245,
-                views: 1250,
-                rating: 4.8,
-                username:"johnDoe"
-            },
             
         ];
 
@@ -199,14 +187,20 @@
 
         // Create note card
         function createNoteCard(note) {
+            let course = ""
+            if(note.courses.length > 0){
+                course = `
+                <div class="course-tags">
+                    <span class="tag">${note.courses[0]}</span>
+                </div>
+                `
+            }
             return `
-                <div class="note-card" onclick="openNoteDetails(${note.id})">
+                <div class="note-card" onclick="openNoteDetails('${note.id}')">
                     <div class="note-icon">📄</div>
                     <h3 class="note-title">${note.title}</h3>
                     <p class="note-description">${note.description}</p>
-                    <div class="course-tags">
-                        <span class="tag">${note.course}</span>
-                    </div>
+                        ${course}
                     <div class="uploader-info">
                         Uploaded by <strong>${note.uploader}</strong> • ${formatDate(note.date)}
                     </div>
@@ -336,7 +330,7 @@
 
         // Open note details
         function openNoteDetails(noteId) {
-            window.location.href = `{%url 'user'%}${noteId}/`
+            window.location.href = `{%url 'notes'%}${noteId}`
         }
 
         // Initialize
@@ -400,7 +394,7 @@
         
         function Fetchdata(){
             
-            fetch(`{%url "note_upload"%}?${query}`, {
+            fetch(`{%url "load_notes"%}?${query}`, {
                 method: 'GET',
                 headers: {
                     'X-CSRFToken': getCookie('csrftoken')
@@ -413,26 +407,28 @@
                 } else {
 
                 }
-                console.log(note)
                 page = data.page;
                 query = query.replace(/page=\d+/, `page=${page}`)
-                let notes = data.notes
                 let notesDataLength = notesData.length + 1
-                Array.from(notes).forEach(note =>{
+
+                Array.from(data.notes).forEach(note =>{
                     let array_data = {
                         id: note.code,
                         title: note.title,
                         description: note.description,
-                        course: note.courses,
-                        uploader: `${note.first_name} ${note.last_name}`,
-                        username:note.username,
-                        date: note.createdat,
+                        courses: note.courses,
+                        uploader: `${note.user__first_name} ${note.user__last_name}`,
+                        username:note.user__username,
+                        date: note.uploaded_at,
                         downloads: note.downloads,
                         views:note.views,
                         rating:1
                     }
-                    createNoteCard(array_data)
+
+                    filteredNotes.push(array_data)
+                    
                 })
+                renderNotes()
             })
         }
 

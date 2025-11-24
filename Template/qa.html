@@ -248,7 +248,7 @@
                         <span>${data.views} Views</span>
                     </div>
                 </div>
-                <div class="question-author">Asked by ${data.user__first_name}. • ${data.created_at} ago</div>
+                <div class="question-author">Asked by ${data.user__first_name}. • ${formatDate(data.created_at)} ago</div>
             </div>
             <div class="tags">
                 ${courses}

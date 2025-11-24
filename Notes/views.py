@@ -40,7 +40,6 @@ def get_uploaded_file_metadata(uploaded_file):
 def Home(request):
     return render(request, 'notes.html')
 
-
 def LoadHomeData(request):
     page = int(request.GET.get('page'))
     Type = request.GET.get('request')
@@ -49,12 +48,12 @@ def LoadHomeData(request):
     if Type == 'tag':
         tag = request.GET.get('tag')
         course = models.Course.objects.get(course_name=tag)
-        notes = models.Notes.objects.filter(courses=course).values('note_id', 'code', 'user__first_name', 'user__last_name', 'title', 'description', 'views', 'downloads', 'created_at')
+        notes = models.Notes.objects.filter(courses=course).values('note_id', 'code', 'user__first_name', 'user__last_name', 'title', 'description', 'views', 'downloads', 'uploaded_at')
     
     elif Type == 'Most Download':
-        notes = models.Notes.objects.all().order_by('downloads').values('note_id', 'code', 'user__first_name', 'user__last_name', 'title', 'description', 'views', 'downloads', 'created_at')
+        notes = models.Notes.objects.all().order_by('downloads').values('note_id', 'code', 'user__first_name', 'user__last_name', 'title', 'description', 'views', 'downloads', 'uploaded_at')
     else:
-        notes = models.Notes.objects.all().values('note_id', 'code', 'user__first_name', 'user__last_name', 'title', 'description', 'views', 'downloads', 'created_at')
+        notes = models.Notes.objects.all().values('note_id', 'code', 'user__first_name', 'user__last_name', 'title', 'description', 'views', 'downloads', 'uploaded_at')
 
     length = len(notes)
     if page+1 < length/5:
@@ -72,8 +71,8 @@ def LoadHomeData(request):
     notes = list(notes)
     for note in notes:
         note['courses'] = []
-        quiz = models.Qa.objects.get(qa_id=note['qa_id'])
-        courses = list(models.Question_subjects.objects.filter(note=quiz).values('course__course_name'))
+        note_data = models.Notes.objects.get(note_id=note['note_id'])
+        courses = list(models.Question_subjects.objects.filter(note=note_data).values('course__course_name'))
         for course in courses:
             note['courses'].append(course['course__course_name'])
 
@@ -84,7 +83,6 @@ def LoadHomeData(request):
         'page':page,
         'notes':notes
     }
-
     return JsonResponse(context)
 
 def Note_Detail(request, id):

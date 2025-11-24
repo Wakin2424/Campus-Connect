@@ -81,20 +81,20 @@
 
                 <div id="notes" class="tab-content active">
                     <div class="uploads-grid">
-                        {notes}
+                        {% for note in notes %}
                         <div class="upload-card">
-                            <div class="upload-title">Data Structures & Algorithms</div>
-                            <div class="upload-description">Complete notes covering binary trees, sorting algorithms, and complexity analysis.</div>
+                            <div class="upload-title">{{note.title}}</div>
+                            <div class="upload-description">{{note.description}}</div>
                             <div class="upload-meta">
-                                <span><i class="fas fa-eye"></i> 456 views</span>
+                                <span><i class="fas fa-eye"></i> {{note.views}} views</span>
                                 <span class="rating"><i class="fas fa-star"></i> 4.9</span>
                             </div>
                             <div class="upload-meta">
                                 <span>Uploaded: March 15, 2025</span>
-                                <a href="#" class="view-link">View Details <i class="fas fa-arrow-right"></i></a>
+                                <a href="{%url 'note_detail' id='note.code' %}" class="view-link">View Details <i class="fas fa-arrow-right"></i></a>
                             </div>
                         </div>
-
+                        {% endfor %}
                     </div>
                 </div>
 

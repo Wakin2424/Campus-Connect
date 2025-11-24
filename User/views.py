@@ -13,7 +13,8 @@ def Myprofile(request):
     user = models.AuthCustomuser.objects.get(id=request.user.id)
     
     questions = models.Qa.objects.filter(user=user).values('question', 'views', 'likes', 'code', 'created_at')
-    total_uploads = len(questions)
+    notes = models.Notes.objects.filter(user=user).values('code', 'title', 'description', 'views', 'uploaded_at')
+    total_uploads = len(questions) + len(notes)
     total_views = 0
     percentage = 0
 
@@ -25,6 +26,9 @@ def Myprofile(request):
 
     for question in questions:
         total_views += question['views']
+    
+    for note in notes:
+        total_views += note['views']
 
     percentage = int((percentage / len(keys)) * 100)
 
@@ -35,6 +39,7 @@ def Myprofile(request):
     rating = [round(rating_sum/rate if rate != 0 else 1, 1) ,rate]
 
     context = {
+        'notes': notes,
         'questions': questions,
         'percentage': percentage,
         'total_uploads':total_uploads,
@@ -51,9 +56,12 @@ def Otherprofile(request, account):
     except:
         raise Http404('There is no such account')
     
+    notes = models.Notes.objects.filter(user=user).values('code', 'title', 'description', 'views', 'uploaded_at')
     questions = models.Qa.objects.filter(user=user).values('question', 'views', 'likes', 'code', 'created_at')
+
     context = {
         'account':user,
+        'notes': notes,
         'questions': questions,
         'total_uploads': questions
     }
