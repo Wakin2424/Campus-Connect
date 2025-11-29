@@ -150,8 +150,17 @@ def Question(request, id):
     question.save()
     
     user = models.AuthCustomuser.objects.get(id=question.user.id)
-    me = models.AuthCustomuser.objects.get(id=request.user.id)
-    rating = models.Ratings.objects.get(user=me, question=question).rating if request.user.is_authenticated and len(models.Ratings.objects.filter(user=me, question=question)) > 0 else 0
+    if request.user.is_authenticated:
+        me = models.AuthCustomuser.objects.get(id=request.user.id)
+        rating = models.Ratings.objects.get(user=me, question=question).rating if len(models.Ratings.objects.filter(user=me, question=question)) > 0 else 0
+    
+    else:
+        rating = 0
+        ratings = models.Ratings.objects.filter(question=question)
+        for rate in ratings:
+            rating += rate.rating
+        rating = rating/(len(ratings) if len(ratings) != 0 else 1)
+
     answers = models.Answers.objects.filter(question=question).order_by('-likes', '-created_at').values('answer', 'created_at', 'user__first_name', 'user__last_name', 'user__username', 'code', 'likes', 'user__image')
 
     for answer in answers:

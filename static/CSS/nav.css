@@ -1,4 +1,9 @@
 /* Header Styles */
+.header * {
+    all: unset;
+    all: revert;
+}
+
 .header {
     background: #FFFFFF;
     box-shadow: 0 2px 10px rgba(13, 27, 42, 0.1);

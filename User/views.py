@@ -66,4 +66,3 @@ def Otherprofile(request, account):
         'total_uploads': questions
     }
     return render(request, 'user.html', context)
-    

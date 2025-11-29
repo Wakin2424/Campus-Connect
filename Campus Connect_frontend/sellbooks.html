@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Campus Market - Books & Study Materials | Campus Connect</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #ffffff;
+            color: #0D1B2A;
+        }
+
+        /* Header Styles */
+        header {
+            background-color: #ffffff;
+            box-shadow: 0 2px 10px rgba(13, 27, 42, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        nav {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #0D1B2A;
+            text-decoration: none;
+        }
+
+        .logo span {
+            color: #1E90FF;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: #0D1B2A;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: #1E90FF;
+        }
+
+        .sell-btn {
+            background-color: #0D1B2A;
+            color: white;
+            padding: 0.7rem 1.5rem;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .sell-btn:hover {
+            background-color: #1E90FF;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(30, 144, 255, 0.3);
+        }
+
+        .mobile-menu {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: #0D1B2A;
+            cursor: pointer;
+        }
+
+        /* Page Title Section */
+        .page-title {
+            max-width: 1400px;
+            margin: 3rem auto 2rem;
+            padding: 0 2rem;
+            text-align: center;
+        }
+
+        .page-title h1 {
+            font-size: 2.5rem;
+            color: #0D1B2A;
+            margin-bottom: 0.5rem;
+        }
+
+        .page-title p {
+            font-size: 1.1rem;
+            color: #5a6c7d;
+        }
+
+        /* Filters Section */
+        .filters {
+            max-width: 1400px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .filter-item {
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .filter-item input,
+        .filter-item select {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            border: 2px solid #0D1B2A;
+            border-radius: 25px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.95rem;
+            color: #0D1B2A;
+            background-color: white;
+            transition: all 0.3s;
+        }
+
+        .filter-item input:focus,
+        .filter-item select:focus {
+            outline: none;
+            border-color: #1E90FF;
+            box-shadow: 0 0 0 3px rgba(30, 144, 255, 0.1);
+        }
+
+        /* Grid Section */
+        .books-container {
+            max-width: 1400px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+
+        .books-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        /* Book Card */
+        .book-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(13, 27, 42, 0.1);
+            transition: all 0.3s;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .book-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 10px 30px rgba(13, 27, 42, 0.2);
+        }
+
+        .badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            z-index: 10;
+        }
+
+        .badge.discount {
+            background-color: #ff4757;
+            color: white;
+        }
+
+        .badge.new {
+            background-color: #1E90FF;
+            color: white;
+        }
+
+        .badge.top-seller {
+            background-color: #ffd700;
+            color: #0D1B2A;
+        }
+
+        .book-image {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 3rem;
+        }
+
+        .book-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .book-info {
+            padding: 1.5rem;
+        }
+
+        .book-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #0D1B2A;
+            margin-bottom: 0.5rem;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .book-author {
+            font-size: 0.9rem;
+            color: #5a6c7d;
+            margin-bottom: 1rem;
+        }
+
+        .price-section {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .price {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #0D1B2A;
+        }
+
+        .old-price {
+            font-size: 1rem;
+            color: #999;
+            text-decoration: line-through;
+        }
+
+        .rating {
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+            margin-bottom: 1rem;
+            color: #ffd700;
+        }
+
+        .view-details-btn {
+            width: 100%;
+            padding: 0.8rem;
+            background-color: #0D1B2A;
+            color: white;
+            border: none;
+            border-radius: 25px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .view-details-btn:hover {
+            background-color: #1E90FF;
+            transform: scale(1.02);
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 4rem 2rem;
+        }
+
+        .empty-state h2 {
+            font-size: 2rem;
+            color: #0D1B2A;
+            margin-bottom: 1rem;
+        }
+
+        .empty-state p {
+            font-size: 1.1rem;
+            color: #5a6c7d;
+            margin-bottom: 2rem;
+        }
+
+        /* Pagination */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 0.5rem;
+            margin: 3rem 0;
+        }
+
+        .page-btn {
+            padding: 0.7rem 1.2rem;
+            background-color: white;
+            color: #0D1B2A;
+            border: 2px solid #0D1B2A;
+            border-radius: 25px;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .page-btn:hover {
+            background-color: #0D1B2A;
+            color: white;
+        }
+
+        .page-btn.active {
+            background-color: #0D1B2A;
+            color: white;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: white;
+                flex-direction: column;
+                padding: 1rem;
+                box-shadow: 0 5px 10px rgba(13, 27, 42, 0.1);
+            }
+
+            .nav-links.active {
+                display: flex;
+            }
+
+            .mobile-menu {
+                display: block;
+            }
+
+            .page-title h1 {
+                font-size: 1.8rem;
+            }
+
+            .books-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .filters {
+                flex-direction: column;
+            }
+
+            .filter-item {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <nav>
+            <a href="#" class="logo">Campus<span>Connect</span></a>
+            <button class="mobile-menu" onclick="toggleMenu()">☰</button>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="#">Home</a></li>
+                <li><a href="#">Notes</a></li>
+                <li><a href="#">Market</a></li>
+                <li><a href="#">Questions</a></li>
+                <li><a href="#">Groups</a></li>
+                <li><a href="#" class="sell-btn">+ Sell Item</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Page Title -->
+    <section class="page-title">
+        <h1>Campus Market — Books & Study Materials</h1>
+        <p>Buy and sell academic resources effortlessly.</p>
+    </section>
+
+    <!-- Filters -->
+    <section class="filters">
+        <div class="filter-item">
+            <input type="text" id="searchInput" placeholder="🔍 Search by title or author..." onkeyup="filterBooks()">
+        </div>
+        <div class="filter-item">
+            <select id="categoryFilter" onchange="filterBooks()">
+                <option value="all">All Categories</option>
+                <option value="books">Books</option>
+                <option value="handouts">Handouts</option>
+                <option value="notes">Notes</option>
+                <option value="past-papers">Past Papers</option>
+                <option value="guides">Guides</option>
+            </select>
+        </div>
+        <div class="filter-item">
+            <select id="sortFilter" onchange="sortBooks()">
+                <option value="latest">Latest</option>
+                <option value="price-low">Price: Low → High</option>
+                <option value="price-high">Price: High → Low</option>
+                <option value="discount">Highest Discount</option>
+            </select>
+        </div>
+    </section>
+
+    <!-- Books Grid -->
+    <section class="books-container">
+        <div class="books-grid" id="booksGrid">
+            <!-- Books will be populated here by JavaScript -->
+        </div>
+
+        <!-- Empty State (hidden by default) -->
+        <div class="empty-state" id="emptyState" style="display: none;">
+            <h2>📚 No reading materials available yet</h2>
+            <p>Be the first to sell something!</p>
+            <a href="#" class="sell-btn">+ Sell Item</a>
+        </div>
+
+        <!-- Pagination -->
+        <div class="pagination" id="pagination">
+            <button class="page-btn active" onclick="changePage(1)">1</button>
+            <button class="page-btn" onclick="changePage(2)">2</button>
+            <button class="page-btn" onclick="changePage(3)">3</button>
+            <button class="page-btn" onclick="loadMore()">More</button>
+        </div>
+    </section>
+
+    <script>
+        // Sample data
+        let booksData = [
+            {
+                id: 1,
+                title: "Data Structures and Algorithms",
+                author: "Thomas H. Cormen",
+                price: 1200,
+                oldPrice: 1500,
+                discount: 20,
+                category: "books",
+                rating: 4.5,
+                badge: "top-seller",
+                image: "📘"
+            },
+            {
+                id: 2,
+                title: "Engineering Mathematics Notes",
+                author: "Class of 2024",
+                price: 300,
+                category: "notes",
+                rating: 4.2,
+                badge: "new",
+                image: "📝"
+            },
+            {
+                id: 3,
+                title: "Physics Past Papers (2020-2023)",
+                author: "Various",
+                price: 450,
+                oldPrice: 600,
+                discount: 25,
+                category: "past-papers",
+                rating: 4.8,
+                image: "📋"
+            },
+            {
+                id: 4,
+                title: "Operating Systems Concepts",
+                author: "Abraham Silberschatz",
+                price: 1800,
+                category: "books",
+                rating: 4.7,
+                badge: "new",
+                image: "💻"
+            },
+            {
+                id: 5,
+                title: "Chemistry Lab Handouts",
+                author: "Dr. Smith",
+                price: 200,
+                category: "handouts",
+                rating: 4.0,
+                image: "🧪"
+            },
+            {
+                id: 6,
+                title: "Business Studies Guide",
+                author: "Prof. Johnson",
+                price: 850,
+                oldPrice: 1000,
+                discount: 15,
+                category: "guides",
+                rating: 4.4,
+                image: "📊"
+            },
+            {
+                id: 7,
+                title: "Computer Networks",
+                author: "Andrew Tanenbaum",
+                price: 1500,
+                category: "books",
+                rating: 4.6,
+                badge: "top-seller",
+                image: "🌐"
+            },
+            {
+                id: 8,
+                title: "Calculus Complete Notes",
+                author: "Math Department",
+                price: 400,
+                category: "notes",
+                rating: 4.3,
+                image: "📐"
+            },
+            {
+                id: 9,
+                title: "Database Management Systems",
+                author: "Raghu Ramakrishnan",
+                price: 1350,
+                oldPrice: 1800,
+                discount: 25,
+                category: "books",
+                rating: 4.5,
+                badge: "top-seller",
+                image: "🗄️"
+            }
+        ];
+
+        let filteredBooks = [...booksData];
+        let currentPage = 1;
+
+        function renderBooks() {
+            const grid = document.getElementById('booksGrid');
+            const emptyState = document.getElementById('emptyState');
+            
+            if (filteredBooks.length === 0) {
+                grid.style.display = 'none';
+                emptyState.style.display = 'block';
+                document.getElementById('pagination').style.display = 'none';
+                return;
+            }
+
+            grid.style.display = 'grid';
+            emptyState.style.display = 'none';
+            document.getElementById('pagination').style.display = 'flex';
+
+            grid.innerHTML = filteredBooks.map(book => `
+                <div class="book-card" onclick="viewDetails(${book.id})">
+                    ${book.badge ? `<span class="badge ${book.badge}">${book.badge === 'new' ? 'NEW' : book.badge === 'top-seller' ? '⭐ TOP' : ''}</span>` : ''}
+                    ${book.discount ? `<span class="badge discount">-${book.discount}%</span>` : ''}
+                    <div class="book-image">${book.image}</div>
+                    <div class="book-info">
+                        <h3 class="book-title">${book.title}</h3>
+                        <p class="book-author">${book.author}</p>
+                        <div class="rating">
+                            ${'★'.repeat(Math.floor(book.rating))}${'☆'.repeat(5 - Math.floor(book.rating))}
+                            <span style="color: #5a6c7d; margin-left: 5px;">(${book.rating})</span>
+                        </div>
+                        <div class="price-section">
+                            <span class="price">KES ${book.price}</span>
+                            ${book.oldPrice ? `<span class="old-price">KES ${book.oldPrice}</span>` : ''}
+                        </div>
+                        <button class="view-details-btn">View Details</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function filterBooks() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const category = document.getElementById('categoryFilter').value;
+
+            filteredBooks = booksData.filter(book => {
+                const matchesSearch = book.title.toLowerCase().includes(searchTerm) || 
+                                    book.author.toLowerCase().includes(searchTerm);
+                const matchesCategory = category === 'all' || book.category === category;
+                return matchesSearch && matchesCategory;
+            });
+
+            sortBooks();
+        }
+
+        function sortBooks() {
+            const sortBy = document.getElementById('sortFilter').value;
+
+            switch(sortBy) {
+                case 'price-low':
+                    filteredBooks.sort((a, b) => a.price - b.price);
+                    break;
+                case 'price-high':
+                    filteredBooks.sort((a, b) => b.price - a.price);
+                    break;
+                case 'discount':
+                    filteredBooks.sort((a, b) => (b.discount || 0) - (a.discount || 0));
+                    break;
+                default:
+                    filteredBooks.sort((a, b) => b.id - a.id);
+            }
+
+            renderBooks();
+        }
+
+        function viewDetails(id) {
+            alert(`Viewing details for book ID: ${id}\n\nThis would navigate to the product details page.`);
+        }
+
+        function changePage(page) {
+            currentPage = page;
+            document.querySelectorAll('.page-btn').forEach((btn, idx) => {
+                btn.classList.toggle('active', idx + 1 === page);
+            });
+            alert(`Navigating to page ${page}`);
+        }
+
+        function loadMore() {
+            alert('Loading more items...\n\nThis would fetch additional items from the backend.');
+        }
+
+        function toggleMenu() {
+            document.getElementById('navLinks').classList.toggle('active');
+        }
+
+        // Initialize
+        renderBooks();
+    </script>
+</body>
+</html>

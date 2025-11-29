@@ -77,7 +77,7 @@ function formatDate(dateString) {
 }
 
 
-dateELems = document.getElementsByClassName('date-upload')
+dateELems = document.getElementsByClassName('datetime')
 console.log(dateELems)
 for(i=0; i<dateELems.length; i++) {
     let dateElem = dateELems[i]

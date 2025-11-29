@@ -294,7 +294,6 @@
                     `
 
         const login = `
-                <a href='{%url "login"%}'><button class="quick-post-btn">+ Quick Post</button></a>
                 <a href="{%url 'login'%}" class="btn-primary">Login/Sign Up</a>
             `
 
@@ -359,7 +358,11 @@
         const imageset = questionDescription.querySelectorAll('img')
 
         function postAnswer(){
+            {% if user.is_authenticated %}
             window.location.href = "{%url 'answerRedirect'%}{{id}}/"
+            {% else %}
+            window.location.href = "{%url 'login'%}"
+            {% endif %}
         }
 
         function askCodinAI() {

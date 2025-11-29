@@ -64,7 +64,7 @@ def Signup(request):
         }
         return render(request, 'signup.html', context)
     
-def Edit(request):
+def EditProfile(request):
     if not request.user.is_authenticated:
         return redirect('login')
     
@@ -164,3 +164,6 @@ def Edit(request):
             'error': ''
         }
         return render(request, 'edit_profile.html', context)
+
+def forgotPassword(request):
+    pass

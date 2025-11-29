@@ -37,32 +37,19 @@
                 <h2 class="category-header">Notes</h2>
                 <div class="results-grid notes-grid">
                     {% if notes != None %}
+                    {% for note in notes %}
                     <div class="note-card">
-                        <a href="#" class="note-title">Advanced <span class="keyword-highlight">Mathematics</span> - Calculus I</a>
-                        <p class="note-description">Comprehensive notes covering limits, derivatives, and integration. Perfect for exam preparation with solved examples and practice problems.</p>
+                        <a href="{%url 'notes'%}{{note.code}}" class="note-title">{{note.title}}</a>
+                        <p class="note-description">{{note.description}}</p>
                         <div class="note-meta">
-                            <span class="course-tag">MATH 101</span>
+                            {% if note.courses != None %}
+                            {% for course in note.courses %}
+                            <span class="course-tag">{{course.}}</span>
+                            {% endfor %}
+                            {% endif %}
                         </div>
-                        <button class="download-btn">Download PDF</button>
                     </div>
-
-                    <div class="note-card">
-                        <a href="#" class="note-title">Discrete <span class="keyword-highlight">Mathematics</span> Summary</a>
-                        <p class="note-description">Key concepts in discrete math including graph theory, combinatorics, and logic. Includes visual diagrams and step-by-step solutions.</p>
-                        <div class="note-meta">
-                            <span class="course-tag">MATH 205</span>
-                        </div>
-                        <button class="download-btn">Download PDF</button>
-                    </div>
-
-                    <div class="note-card">
-                        <a href="#" class="note-title">Applied <span class="keyword-highlight">Mathematics</span> for Engineers</a>
-                        <p class="note-description">Engineering mathematics covering differential equations, Fourier transforms, and numerical methods with real-world applications.</p>
-                        <div class="note-meta">
-                            <span class="course-tag">ENG 301</span>
-                        </div>
-                        <button class="download-btn">Download PDF</button>
-                    </div>
+                    {% endfor %}
                     {% else %}
                     <div class="container">
                         <h3>

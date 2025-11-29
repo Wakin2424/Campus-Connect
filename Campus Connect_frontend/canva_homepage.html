@@ -1,0 +1,792 @@
+<!doctype html>
+<html lang="en">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Campus Connect - Home</title>
+  <script src="/_sdk/element_sdk.js"></script>
+  <style>
+    body {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      width: 100%;
+      height: 100%;
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    html {
+      height: 100%;
+      width: 100%;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    .page-wrapper {
+      width: 100%;
+      min-height: 100%;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Header Styles */
+    .header {
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid;
+      gap: 2rem;
+      flex-wrap: wrap;
+    }
+
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+    }
+
+    .logo {
+      font-size: 1.5rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    .logo-icon {
+      width: 32px;
+      height: 32px;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 1.5rem;
+      align-items: center;
+    }
+
+    .nav-link {
+      text-decoration: none;
+      font-weight: 500;
+      cursor: pointer;
+      transition: opacity 0.3s ease;
+      white-space: nowrap;
+    }
+
+    .nav-link:hover {
+      opacity: 0.7;
+    }
+
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-left: auto;
+    }
+
+    .search-container {
+      position: relative;
+    }
+
+    .search-input {
+      padding: 0.6rem 1rem 0.6rem 2.5rem;
+      border-radius: 20px;
+      border: 1px solid;
+      background: transparent;
+      font-size: 0.9rem;
+      min-width: 200px;
+      transition: all 0.3s ease;
+    }
+
+    .search-input:focus {
+      outline: none;
+      min-width: 250px;
+    }
+
+    .search-icon {
+      position: absolute;
+      left: 0.8rem;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 16px;
+      height: 16px;
+      pointer-events: none;
+    }
+
+    .theme-toggle {
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      padding: 0.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      transition: background 0.3s ease;
+    }
+
+    .theme-toggle:hover {
+      background: rgba(128, 128, 128, 0.2);
+    }
+
+    .theme-icon {
+      width: 24px;
+      height: 24px;
+    }
+
+    .nav-buttons {
+      display: flex;
+      gap: 1rem;
+    }
+
+    .profile-container {
+      position: relative;
+    }
+
+    .profile-pic {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      cursor: pointer;
+      border: 2px solid;
+      transition: transform 0.3s ease;
+    }
+
+    .profile-pic:hover {
+      transform: scale(1.05);
+    }
+
+    .profile-dropdown {
+      position: absolute;
+      top: calc(100% + 0.5rem);
+      right: 0;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      min-width: 150px;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(-10px);
+      transition: all 0.3s ease;
+      z-index: 1000;
+      border: 1px solid;
+    }
+
+    .profile-container:hover .profile-dropdown {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+
+    .dropdown-item {
+      padding: 0.8rem 1.2rem;
+      cursor: pointer;
+      transition: background 0.2s ease;
+      border-bottom: 1px solid;
+      font-weight: 500;
+    }
+
+    .dropdown-item:last-child {
+      border-bottom: none;
+    }
+
+    .dropdown-item:hover {
+      opacity: 0.8;
+    }
+
+    .btn {
+      padding: 0.75rem 1.5rem;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      border: none;
+      font-size: 1rem;
+    }
+
+    .btn-secondary {
+      background: transparent;
+      border: 2px solid currentColor;
+    }
+
+    .btn-secondary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+      opacity: 0.9;
+    }
+
+    /* Hero Section */
+    .hero {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 4rem 2rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-content {
+      max-width: 800px;
+      z-index: 1;
+    }
+
+    .hero h1 {
+      font-size: 3.5rem;
+      font-weight: 800;
+      margin: 0 0 1rem 0;
+      line-height: 1.2;
+    }
+
+    .hero p {
+      font-size: 1.25rem;
+      margin: 0 0 2rem 0;
+      opacity: 0.9;
+      line-height: 1.6;
+    }
+
+    .hero .btn-primary {
+      font-size: 1.1rem;
+      padding: 1rem 2.5rem;
+    }
+
+    /* Features Section */
+    .features {
+      padding: 4rem 2rem;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    .feature-card {
+      padding: 2rem;
+      border-radius: 16px;
+      text-align: center;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      border: 2px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .feature-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+    }
+
+    .feature-icon {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+    }
+
+    .feature-card h3 {
+      font-size: 1.5rem;
+      margin: 0 0 0.75rem 0;
+      font-weight: 700;
+    }
+
+    .feature-card p {
+      margin: 0;
+      opacity: 0.8;
+      line-height: 1.6;
+    }
+
+    /* Footer */
+    .footer {
+      padding: 2rem;
+      text-align: center;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      margin-top: auto;
+    }
+
+    .footer p {
+      margin: 0;
+      opacity: 0.7;
+    }
+
+    /* Decorative Background Elements */
+    .bg-decoration {
+      position: absolute;
+      border-radius: 50%;
+      opacity: 0.1;
+      pointer-events: none;
+    }
+
+    .bg-circle-1 {
+      width: 400px;
+      height: 400px;
+      top: -100px;
+      right: -100px;
+    }
+
+    .bg-circle-2 {
+      width: 300px;
+      height: 300px;
+      bottom: -50px;
+      left: -50px;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 1024px) {
+      .nav-links {
+        display: none;
+      }
+
+      .search-input {
+        min-width: 150px;
+      }
+
+      .search-input:focus {
+        min-width: 180px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .hero h1 {
+        font-size: 2.5rem;
+      }
+
+      .hero p {
+        font-size: 1.1rem;
+      }
+
+      .header {
+        padding: 1rem;
+      }
+
+      .header-left {
+        gap: 1rem;
+      }
+
+      .nav-buttons {
+        flex-direction: column;
+        gap: 0.5rem;
+      }
+
+      .features {
+        grid-template-columns: 1fr;
+      }
+
+      .search-input {
+        min-width: 120px;
+        font-size: 0.85rem;
+      }
+
+      .search-input:focus {
+        min-width: 150px;
+      }
+    }
+
+    /* Theme: Light Mode */
+    body.light-theme {
+      background: #ffffff;
+      color: #1e293b;
+    }
+
+    body.light-theme .header {
+      background: #ffffff;
+      border-bottom-color: #e2e8f0;
+    }
+
+    body.light-theme .features {
+      background: #f8fafc;
+    }
+
+    body.light-theme .feature-card {
+      background: #ffffff;
+      border-color: #e2e8f0;
+    }
+
+    body.light-theme .search-input {
+      border-color: #cbd5e1;
+      color: #1e293b;
+    }
+
+    body.light-theme .profile-dropdown {
+      background: #ffffff;
+      border-color: #e2e8f0;
+    }
+
+    body.light-theme .dropdown-item {
+      border-bottom-color: #e2e8f0;
+    }
+
+    body.light-theme .bg-decoration {
+      opacity: 0.05;
+    }
+  </style>
+  <style>@view-transition { navigation: auto; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+  <script src="https://cdn.tailwindcss.com" type="text/javascript"></script>
+ </head>
+ <body>
+  <div class="page-wrapper"><!-- Header -->
+   <header class="header">
+    <div class="header-left">
+     <div class="logo">
+      <svg class="logo-icon" viewbox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="4" y="8" width="24" height="20" rx="2" stroke="currentColor" stroke-width="2" /> <path d="M8 4 L16 8 L24 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" /> <line x1="12" y1="14" x2="20" y2="14" stroke="currentColor" stroke-width="2" stroke-linecap="round" /> <line x1="12" y1="18" x2="20" y2="18" stroke="currentColor" stroke-width="2" stroke-linecap="round" /> <line x1="12" y1="22" x2="16" y2="22" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+      </svg><span id="site-title">Campus Connect</span>
+     </div>
+     <nav class="nav-links"><a href="#questions" class="nav-link">Ask Question</a> <a href="#books" class="nav-link">Sell Books</a> <a href="#notes" class="nav-link">Notes</a> <a href="#groups" class="nav-link">Groups</a>
+     </nav>
+    </div>
+    <div class="header-right">
+     <div class="search-container">
+      <svg class="search-icon" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8" /> <path d="m21 21-4.35-4.35" />
+      </svg><input type="text" class="search-input" placeholder="Search..." id="search-input">
+     </div><button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">
+      <svg class="theme-icon" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" id="theme-icon"><circle cx="12" cy="12" r="5" /> <line x1="12" y1="1" x2="12" y2="3" /> <line x1="12" y1="21" x2="12" y2="23" /> <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" /> <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" /> <line x1="1" y1="12" x2="3" y2="12" /> <line x1="21" y1="12" x2="23" y2="12" /> <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" /> <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
+      </svg></button> <!-- Logged Out State -->
+     <nav class="nav-buttons" id="auth-buttons"><button class="btn btn-secondary" id="login-btn">Login</button> <button class="btn btn-primary" id="signup-btn">Sign Up</button>
+     </nav><!-- Logged In State -->
+     <div class="profile-container" id="profile-container" style="display: none;">
+      <svg class="profile-pic" viewbox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><circle cx="50" cy="50" r="48" fill="#3b82f6" /> <circle cx="50" cy="40" r="18" fill="#ffffff" /> <path d="M 20 85 Q 20 60 50 60 Q 80 60 80 85" fill="#ffffff" />
+      </svg>
+      <div class="profile-dropdown">
+       <div class="dropdown-item" id="profile-link">
+        Profile
+       </div>
+       <div class="dropdown-item" id="logout-btn">
+        Logout
+       </div>
+      </div>
+     </div>
+    </div>
+   </header><!-- Hero Section -->
+   <main class="hero">
+    <div class="bg-decoration bg-circle-1"></div>
+    <div class="bg-decoration bg-circle-2"></div>
+    <div class="hero-content">
+     <h1 id="hero-headline">Your Campus Learning Hub</h1>
+     <p id="hero-subtext">Connect, learn, and share with your campus community. Ask questions, share notes, and find the best deals on books—all in one place.</p><button class="btn btn-primary" id="cta-button">Get Started</button>
+    </div>
+   </main><!-- Features Section -->
+   <section class="features">
+    <div class="feature-card">
+     <div class="feature-icon">
+      💬
+     </div>
+     <h3 id="feature-1-title">Ask &amp; Answer</h3>
+     <p id="feature-1-desc">Post questions and get answers from verified students. Everyone can ask, verified students can respond.</p>
+    </div>
+    <div class="feature-card">
+     <div class="feature-icon">
+      📚
+     </div>
+     <h3 id="feature-2-title">Share Notes</h3>
+     <p id="feature-2-desc">Access and share study materials. View community notes or unlock answers as a verified student.</p>
+    </div>
+    <div class="feature-card">
+     <div class="feature-icon">
+      🛒
+     </div>
+     <h3 id="feature-3-title">Buy &amp; Sell Books</h3>
+     <p id="feature-3-desc">Find affordable textbooks and reading materials from fellow students. List your own books to help others.</p>
+    </div>
+   </section><!-- Footer -->
+   <footer class="footer">
+    <p id="footer-text">© 2024 Campus Connect. All rights reserved.</p>
+   </footer>
+  </div>
+  <script>
+    const defaultConfig = {
+      background_color: "#0f172a",
+      surface_color: "#1e293b",
+      text_color: "#f1f5f9",
+      primary_action_color: "#3b82f6",
+      secondary_action_color: "#64748b",
+      site_title: "Campus Connect",
+      hero_headline: "Your Campus Learning Hub",
+      hero_subtext: "Connect, learn, and share with your campus community. Ask questions, share notes, and find the best deals on books—all in one place.",
+      cta_button: "Get Started",
+      feature_1_title: "Ask & Answer",
+      feature_1_desc: "Post questions and get answers from verified students. Everyone can ask, verified students can respond.",
+      feature_2_title: "Share Notes",
+      feature_2_desc: "Access and share study materials. View community notes or unlock answers as a verified student.",
+      feature_3_title: "Buy & Sell Books",
+      feature_3_desc: "Find affordable textbooks and reading materials from fellow students. List your own books to help others.",
+      footer_text: "© 2024 Campus Connect. All rights reserved.",
+      font_family: "Inter",
+      font_size: 16
+    };
+
+    let config = {};
+
+    async function onConfigChange(newConfig) {
+      config = newConfig;
+
+      const baseFont = config.font_family || defaultConfig.font_family;
+      const baseFontStack = `${baseFont}, 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif`;
+      const baseSize = config.font_size || defaultConfig.font_size;
+
+      // Apply colors
+      document.body.style.background = config.background_color || defaultConfig.background_color;
+      document.body.style.color = config.text_color || defaultConfig.text_color;
+      
+      document.querySelector('.header').style.background = config.background_color || defaultConfig.background_color;
+      document.querySelector('.header').style.color = config.text_color || defaultConfig.text_color;
+      
+      document.querySelector('.hero').style.background = config.background_color || defaultConfig.background_color;
+      document.querySelector('.hero').style.color = config.text_color || defaultConfig.text_color;
+      
+      document.querySelector('.features').style.background = config.surface_color || defaultConfig.surface_color;
+      
+      const featureCards = document.querySelectorAll('.feature-card');
+      featureCards.forEach(card => {
+        card.style.background = config.background_color || defaultConfig.background_color;
+        card.style.color = config.text_color || defaultConfig.text_color;
+      });
+      
+      document.querySelector('.footer').style.background = config.background_color || defaultConfig.background_color;
+      document.querySelector('.footer').style.color = config.text_color || defaultConfig.text_color;
+      
+      const primaryButtons = document.querySelectorAll('.btn-primary');
+      primaryButtons.forEach(btn => {
+        btn.style.background = config.primary_action_color || defaultConfig.primary_action_color;
+        btn.style.color = config.text_color || defaultConfig.text_color;
+      });
+      
+      const secondaryButtons = document.querySelectorAll('.btn-secondary');
+      secondaryButtons.forEach(btn => {
+        btn.style.color = config.secondary_action_color || defaultConfig.secondary_action_color;
+        btn.style.borderColor = config.secondary_action_color || defaultConfig.secondary_action_color;
+      });
+      
+      const bgCircles = document.querySelectorAll('.bg-decoration');
+      bgCircles.forEach(circle => {
+        circle.style.background = config.primary_action_color || defaultConfig.primary_action_color;
+      });
+
+      // Apply fonts
+      document.body.style.fontFamily = baseFontStack;
+
+      // Apply font sizes
+      document.querySelector('.logo').style.fontSize = `${baseSize * 1.5}px`;
+      document.querySelector('.hero h1').style.fontSize = `${baseSize * 3.5}px`;
+      document.querySelector('.hero p').style.fontSize = `${baseSize * 1.25}px`;
+      document.querySelectorAll('.btn').forEach(btn => {
+        btn.style.fontSize = `${baseSize}px`;
+      });
+      document.querySelector('.hero .btn-primary').style.fontSize = `${baseSize * 1.1}px`;
+      document.querySelectorAll('.feature-card h3').forEach(h3 => {
+        h3.style.fontSize = `${baseSize * 1.5}px`;
+      });
+      document.querySelectorAll('.feature-card p').forEach(p => {
+        p.style.fontSize = `${baseSize}px`;
+      });
+      document.querySelectorAll('.feature-icon').forEach(icon => {
+        icon.style.fontSize = `${baseSize * 3}px`;
+      });
+
+      // Apply text content
+      document.getElementById('site-title').textContent = config.site_title || defaultConfig.site_title;
+      document.getElementById('hero-headline').textContent = config.hero_headline || defaultConfig.hero_headline;
+      document.getElementById('hero-subtext').textContent = config.hero_subtext || defaultConfig.hero_subtext;
+      document.getElementById('cta-button').textContent = config.cta_button || defaultConfig.cta_button;
+      document.getElementById('feature-1-title').textContent = config.feature_1_title || defaultConfig.feature_1_title;
+      document.getElementById('feature-1-desc').textContent = config.feature_1_desc || defaultConfig.feature_1_desc;
+      document.getElementById('feature-2-title').textContent = config.feature_2_title || defaultConfig.feature_2_title;
+      document.getElementById('feature-2-desc').textContent = config.feature_2_desc || defaultConfig.feature_2_desc;
+      document.getElementById('feature-3-title').textContent = config.feature_3_title || defaultConfig.feature_3_title;
+      document.getElementById('feature-3-desc').textContent = config.feature_3_desc || defaultConfig.feature_3_desc;
+      document.getElementById('footer-text').textContent = config.footer_text || defaultConfig.footer_text;
+    }
+
+    function mapToCapabilities(config) {
+      return {
+        recolorables: [
+          {
+            get: () => config.background_color || defaultConfig.background_color,
+            set: (value) => {
+              config.background_color = value;
+              if (window.elementSdk) {
+                window.elementSdk.setConfig({ background_color: value });
+              }
+            }
+          },
+          {
+            get: () => config.surface_color || defaultConfig.surface_color,
+            set: (value) => {
+              config.surface_color = value;
+              if (window.elementSdk) {
+                window.elementSdk.setConfig({ surface_color: value });
+              }
+            }
+          },
+          {
+            get: () => config.text_color || defaultConfig.text_color,
+            set: (value) => {
+              config.text_color = value;
+              if (window.elementSdk) {
+                window.elementSdk.setConfig({ text_color: value });
+              }
+            }
+          },
+          {
+            get: () => config.primary_action_color || defaultConfig.primary_action_color,
+            set: (value) => {
+              config.primary_action_color = value;
+              if (window.elementSdk) {
+                window.elementSdk.setConfig({ primary_action_color: value });
+              }
+            }
+          },
+          {
+            get: () => config.secondary_action_color || defaultConfig.secondary_action_color,
+            set: (value) => {
+              config.secondary_action_color = value;
+              if (window.elementSdk) {
+                window.elementSdk.setConfig({ secondary_action_color: value });
+              }
+            }
+          }
+        ],
+        borderables: [],
+        fontEditable: {
+          get: () => config.font_family || defaultConfig.font_family,
+          set: (value) => {
+            config.font_family = value;
+            if (window.elementSdk) {
+              window.elementSdk.setConfig({ font_family: value });
+            }
+          }
+        },
+        fontSizeable: {
+          get: () => config.font_size || defaultConfig.font_size,
+          set: (value) => {
+            config.font_size = value;
+            if (window.elementSdk) {
+              window.elementSdk.setConfig({ font_size: value });
+            }
+          }
+        }
+      };
+    }
+
+    function mapToEditPanelValues(config) {
+      return new Map([
+        ["site_title", config.site_title || defaultConfig.site_title],
+        ["hero_headline", config.hero_headline || defaultConfig.hero_headline],
+        ["hero_subtext", config.hero_subtext || defaultConfig.hero_subtext],
+        ["cta_button", config.cta_button || defaultConfig.cta_button],
+        ["feature_1_title", config.feature_1_title || defaultConfig.feature_1_title],
+        ["feature_1_desc", config.feature_1_desc || defaultConfig.feature_1_desc],
+        ["feature_2_title", config.feature_2_title || defaultConfig.feature_2_title],
+        ["feature_2_desc", config.feature_2_desc || defaultConfig.feature_2_desc],
+        ["feature_3_title", config.feature_3_title || defaultConfig.feature_3_title],
+        ["feature_3_desc", config.feature_3_desc || defaultConfig.feature_3_desc],
+        ["footer_text", config.footer_text || defaultConfig.footer_text]
+      ]);
+    }
+
+    // Initialize SDK
+    if (window.elementSdk) {
+      window.elementSdk.init({
+        defaultConfig,
+        onConfigChange,
+        mapToCapabilities,
+        mapToEditPanelValues
+      });
+    }
+
+    // Theme toggle functionality
+    let isDarkTheme = true;
+    const themeToggle = document.getElementById('theme-toggle');
+    const themeIcon = document.getElementById('theme-icon');
+
+    themeToggle.addEventListener('click', () => {
+      isDarkTheme = !isDarkTheme;
+      
+      if (isDarkTheme) {
+        document.body.classList.remove('light-theme');
+        // Sun icon (for dark mode - clicking shows light)
+        themeIcon.innerHTML = `
+          <circle cx="12" cy="12" r="5"></circle>
+          <line x1="12" y1="1" x2="12" y2="3"></line>
+          <line x1="12" y1="21" x2="12" y2="23"></line>
+          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+          <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+          <line x1="1" y1="12" x2="3" y2="12"></line>
+          <line x1="21" y1="12" x2="23" y2="12"></line>
+          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+          <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+        `;
+      } else {
+        document.body.classList.add('light-theme');
+        // Moon icon (for light mode - clicking shows dark)
+        themeIcon.innerHTML = `
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+        `;
+      }
+    });
+
+    // Login state management
+    let isLoggedIn = false;
+    const authButtons = document.getElementById('auth-buttons');
+    const profileContainer = document.getElementById('profile-container');
+    const loginBtn = document.getElementById('login-btn');
+    const signupBtn = document.getElementById('signup-btn');
+    const logoutBtn = document.getElementById('logout-btn');
+    const profileLink = document.getElementById('profile-link');
+
+    function toggleLoginState() {
+      isLoggedIn = !isLoggedIn;
+      
+      if (isLoggedIn) {
+        authButtons.style.display = 'none';
+        profileContainer.style.display = 'block';
+      } else {
+        authButtons.style.display = 'flex';
+        profileContainer.style.display = 'none';
+      }
+    }
+
+    // Button interactions
+    loginBtn.addEventListener('click', () => {
+      toggleLoginState();
+    });
+
+    signupBtn.addEventListener('click', () => {
+      toggleLoginState();
+    });
+
+    logoutBtn.addEventListener('click', () => {
+      toggleLoginState();
+    });
+
+    profileLink.addEventListener('click', () => {
+      console.log('Navigate to profile page');
+    });
+
+    document.getElementById('cta-button').addEventListener('click', () => {
+      console.log('Get Started clicked - future functionality');
+    });
+
+    // Search functionality
+    document.getElementById('search-input').addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') {
+        console.log('Search for:', e.target.value);
+      }
+    });
+
+    // Navigation links
+    document.querySelectorAll('.nav-link').forEach(link => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        console.log('Navigate to:', link.textContent);
+      });
+    });
+  </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9a4021ea145da32b',t:'MTc2NDA2MzA4MC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>

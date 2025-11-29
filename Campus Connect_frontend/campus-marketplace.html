@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Campus Connect - Buy & Sell Study Materials</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #ffffff;
+            color: #0D1B2A;
+        }
+
+        /* Header */
+        header {
+            background: #ffffff;
+            padding: 1.2rem 5%;
+            box-shadow: 0 2px 10px rgba(13, 27, 42, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #0D1B2A;
+        }
+
+        .logo span {
+            color: #1E90FF;
+        }
+
+        nav {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        nav a {
+            color: #0D1B2A;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        nav a:hover {
+            color: #1E90FF;
+        }
+
+        .profile-icon {
+            width: 40px;
+            height: 40px;
+            background: #0D1B2A;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        /* Hero Section with Sliding Carousel */
+        .hero {
+            position: relative;
+            height: 500px;
+            overflow: hidden;
+            background: linear-gradient(135deg, #0D1B2A 0%, #1a2f4a 100%);
+            margin-bottom: 4rem;
+        }
+
+        .hero-overlay {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            z-index: 10;
+            color: white;
+            width: 90%;
+        }
+
+        .hero-overlay h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 10px rgba(0,0,0,0.3);
+        }
+
+        .hero-overlay p {
+            font-size: 1.3rem;
+            opacity: 0.95;
+        }
+
+        .carousel-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            animation: slide 20s linear infinite;
+        }
+
+        @keyframes slide {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        .carousel-item {
+            min-width: 300px;
+            height: 100%;
+            margin: 0 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0.3;
+        }
+
+        .carousel-item img {
+            width: 200px;
+            height: 280px;
+            object-fit: cover;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        /* Category Navigation */
+        .category-nav {
+            max-width: 1400px;
+            margin: 0 auto 3rem;
+            padding: 0 5%;
+        }
+
+        .category-nav h2 {
+            font-size: 2.5rem;
+            color: #0D1B2A;
+            margin-bottom: 1.5rem;
+            font-weight: 700;
+        }
+
+        .category-links {
+            display: flex;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .category-links a {
+            padding: 0.8rem 1.8rem;
+            background: #ffffff;
+            color: #0D1B2A;
+            text-decoration: none;
+            border-radius: 30px;
+            border: 2px solid #0D1B2A;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .category-links a:hover {
+            background: #0D1B2A;
+            color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(13, 27, 42, 0.3);
+        }
+
+        /* Product Sections */
+        .product-section {
+            max-width: 1400px;
+            margin: 0 auto 4rem;
+            padding: 0 5%;
+            scroll-margin-top: 100px;
+        }
+
+        .section-title {
+            font-size: 2.2rem;
+            color: #0D1B2A;
+            margin-bottom: 2rem;
+            font-weight: 700;
+            border-left: 5px solid #1E90FF;
+            padding-left: 1rem;
+        }
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .product-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(13, 27, 42, 0.1);
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .product-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 10px 30px rgba(13, 27, 42, 0.2);
+        }
+
+        .product-image {
+            position: relative;
+            width: 100%;
+            height: 280px;
+            overflow: hidden;
+            background: #f5f5f5;
+        }
+
+        .product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .discount-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: #ff4757;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .product-info {
+            padding: 1.5rem;
+        }
+
+        .product-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #0D1B2A;
+            margin-bottom: 0.8rem;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            min-height: 2.6rem;
+        }
+
+        .product-price {
+            font-size: 1.5rem;
+            color: #1E90FF;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .view-details-btn {
+            width: 100%;
+            padding: 0.9rem;
+            background: #0D1B2A;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .view-details-btn:hover {
+            background: #1E90FF;
+            transform: scale(1.02);
+        }
+
+        /* Footer */
+        footer {
+            background: #0D1B2A;
+            color: white;
+            padding: 3rem 5%;
+            margin-top: 5rem;
+        }
+
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .footer-section h3 {
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            color: #1E90FF;
+        }
+
+        .footer-section a {
+            display: block;
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            margin-bottom: 0.5rem;
+            transition: color 0.3s;
+        }
+
+        .footer-section a:hover {
+            color: #1E90FF;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            nav {
+                gap: 1rem;
+                font-size: 0.9rem;
+            }
+
+            .hero-overlay h1 {
+                font-size: 2rem;
+            }
+
+            .hero-overlay p {
+                font-size: 1rem;
+            }
+
+            .category-nav h2 {
+                font-size: 1.8rem;
+            }
+
+            .section-title {
+                font-size: 1.6rem;
+            }
+
+            .product-grid {
+                grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+                gap: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="header-content">
+            <div class="logo">Campus<span>Connect</span></div>
+            <nav>
+                <a href="#home">Home</a>
+                <a href="#market">Market</a>
+                <a href="#notes">Notes</a>
+                <a href="#questions">Questions</a>
+                <a href="#groups">Groups</a>
+            </nav>
+            <div class="profile-icon">P</div>
+        </div>
+    </header>
+
+    <!-- Hero Section with Sliding Carousel -->
+    <section class="hero">
+        <div class="carousel-container">
+            <!-- First set of items -->
+            <div class="carousel-item"><img src="https://images.unsplash.com/photo-1544947950-fa07a98d237f?w=400" alt="Book 1"></div>
+            <div class="carousel-item"><img src="https://images.unsplash.com/photo-1495446815901-a7297e633e8d?w=400" alt="Book 2"></div>
+            <div class="carousel-item"><img src="https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=400" alt="Book 3"></div>
+            <div class="carousel-item"><img src="https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?w=400" alt="Book 4"></div>
+            <div class="carousel-item"><img src="https://images.unsplash.com/photo-1512820790803-83ca734da794?w=400" alt="Book 5"></div>
+            <div class="carousel-item"><img src="https://images.unsplash.com/photo-1476275466078-4007374efbbe?w=400" alt="Book 6"></div>
+            <!-- Duplicate set for seamless loop -->
+            <div class="carousel-item"><img src="https://images.unsplash.com/photo-1544947950-fa07a98d237f?w=400" alt="Book 1"></div>
+            <div class="carousel-item"><img src="https://images.unsplash.com/photo-1495446815901-a7297e633e8d?w=400" alt="Book 2"></div>
+            <div class="carousel-item"><img src="https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=400" alt="Book 3"></div>
+            <div class="carousel-item"><img src="https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?w=400" alt="Book 4"></div>
+            <div class="carousel-item"><img src="https://images.unsplash.com/photo-1512820790803-83ca734da794?w=400" alt="Book 5"></div>
+            <div class="carousel-item"><img src="https://images.unsplash.com/photo-1476275466078-4007374efbbe?w=400" alt="Book 6"></div>
+        </div>
+        <div class="hero-overlay">
+            <h1>Buy and Sell Academic Resources Easily</h1>
+            <p>Books, notes, past papers, guides, and more...</p>
+        </div>
+    </section>
+
+    <!-- Category Navigation -->
+    <div class="category-nav">
+        <h2>Available Study Materials</h2>
+        <div class="category-links">
+            <a href="#books">Books</a>
+            <a href="#notes">Notes & Handouts</a>
+            <a href="#papers">Past Papers</a>
+            <a href="#guides">Study Guides</a>
+            <a href="#others">Others</a>
+        </div>
+    </div>
+
+    <!-- Books Section -->
+    <section id="books" class="product-section">
+        <h2 class="section-title">Books</h2>
+        <div class="product-grid">
+            <div class="product-card">
+                <div class="product-image">
+                    <img src="https://images.unsplash.com/photo-1544947950-fa07a98d237f?w=400" alt="Calculus Textbook">
+                    <div class="discount-badge">-20%</div>
+                </div>
+                <div class="product-info">
+                    <h3 class="product-title">Advanced Calculus - 12th Edition</h3>
+                    <div class="product-price">KSh 2,400</div>
+                    <button class="view-details-btn">View Details</button>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <div class="product-image">
+                    <img src="https://images.unsplash.com/photo-1495446815901-a7297e633e8d?w=400" alt="Physics Book">
+                </div>
+                <div class="product-info">
+                    <h3 class="product-title">Principles of Physics</h3>
+                    <div class="product-price">KSh 3,200</div>
+                    <button class="view-details-btn">View Details</button>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <div class="product-image">
+                    <img src="https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=400" alt="Programming Book">
+                    <div class="discount-badge">-15%</div>
+                </div>
+                <div class="product-info">
+                    <h3 class="product-title">Data Structures & Algorithms in Java</h3>
+                    <div class="product-price">KSh 2,800</div>
+                    <button class="view-details-btn">View Details</button>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <div class="product-image">
+                    <img src="https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?w=400" alt="Chemistry Book">
+                </div>
+                <div class="product-info">
+                    <h3 class="product-title">Organic Chemistry Fundamentals</h3>
+                    <div class="product-price">KSh 2,600</div>
+                    <button class="view-details-btn">View Details</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Notes & Handouts Section -->
+    <section id="notes" class="product-section">
+        <h2 class="section-title">Notes & Handouts</h2>
+        <div class="product-grid">
+            <div class="product-card">
+                <div class="product-image">
+                    <img src="https://images.unsplash.com/photo-1434030216411-0b793f4b4173?w=400" alt="Lecture Notes">
+                    <div class="discount-badge">-25%</div>
+                </div>
+                <div class="product-info">
+                    <h3 class="product-title">Engineering Mathematics Complete Notes</h3>
+                    <div class="product-price">KSh 800</div>
+                    <button class="view-details-btn">View Details</button>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <div class="product-image">
+                    <img src="https://images.unsplash.com/photo-1455390582262-044cdead277a?w=400" alt="Study Notes">
+                </div>
+                <div class="product-info">
+                    <h3 class="product-title">Business Statistics Handouts</h3>
+                    <div class="product-price">KSh 600</div>
+                    <button class="view-details-btn">View Details</button>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <div class="product-image">
+                    <img src="https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?w=400" alt="Notes">
+                </div>
+                <div class="product-info">
+                    <h3 class="product-title">Computer Networks - Semester Notes</h3>
+                    <div class="product-price">KSh 900</div>
+                    <button class="view-details-btn">View Details</button>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <div class="product-image">
+                    <img src="https://images.unsplash.com/photo-1450101499163-c8848c66ca85?w=400" alt="Study Material">
+                    <div class="discount-badge">-10%</div>
+                </div>
+                <div class="product-info">
+                    <h3 class="product-title">Financial Accounting Summary Notes</h3>
+                    <div class="product-price">KSh 700</div>
+                    <button class="view-details-btn">View Details</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Past Papers Section -->
+    <section id="papers" class="product-section">
+        <h2 class="section-title">Past Papers</h2>
+        <div class="product-grid">
+            <div class="product-card">
+                <div class="product-image">
+                    <img src="https://images.unsplash.com/photo-1586281380349-632531db7ed4?w=400" alt="Exam Papers">
+                </div>
+                <div class="product-info">
+                    <h3 class="product-title">MAT 301 Past Papers (2018-2023)</h3>
+                    <div class="product-price">KSh 500</div>
+                    <button class="view-details-btn">View Details</button>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <div class="product-image">
+                    <img src="https://images.unsplash.com/photo-1554224311-beee415c201f?w=400" alt="Papers">
+                    <div class="discount-badge">-30%</div>
+                </div>
+                <div class="product-info">
+                    <h3 class="product-title">Physics Past Exams with Solutions</h3>
+                    <div class="product-price">KSh 600</div>
+                    <button class="view-details-btn">View Details</button>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <div class="product-image">
+                    <img src="https://images.unsplash.com/photo-1488190211105-8b0e65b80b4e?w=400" alt="Test Papers">
+                </div>
+                <div class="product-info">
+                    <h3 class="product-title">CS 201 Final Exam Papers Bundle</h3>
+                    <div class="product-price">KSh 750</div>
+                    <button class="view-details-btn">View Details</button>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <div class="product-image">
+                    <img src="https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=400" alt="Exam Bundle">
+                </div>
+                <div class="product-info">
+                    <h3 class="product-title">Economics CAT & Exam Papers Set</h3>
+                    <div class="product-price">KSh 550</div>
+                    <button class="view-details-btn">View Details</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Study Guides Section -->
+    <section id="guides" class="product-section">
+        <h2 class="section-title">Study Guides</h2>
+        <div class="product-grid">
+            <div class="product-card">
+                <div class="product-image">
+                    <img src="https://images.unsplash.com/photo-1497633762265-9d179a990aa6?w=400" alt="Study Guide">
+                    <div class="discount-badge">-20%</div>
+                </div>
+                <div class="product-info">
+                    <h3 class="product-title">Complete Python Programming Guide</h3>
+                    <div class="product-price">KSh 1,200</div>
+                    <button class="view-details-btn">View Details</button>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <div class="product-image">
+                    <img src="https://images.unsplash.com/photo-1532012197267-da84d127e765?w=400" alt="Tutorial">
+                </div>
+                <div class="product-info">
+                    <h3 class="product-title">Database Design Step-by-Step Guide</h3>
+                    <div class="product-price">KSh 1,000</div>
+                    <button class="view-details-btn">View Details</button>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <div class="product-image">
+                    <img src="https://images.unsplash.com/photo-1531297484001-80022131f5a1?w=400" alt="Guide Book">
+                </div>
+                <div class="product-info">
+                    <h3 class="product-title">Research Methods & Thesis Writing</h3>
+                    <div class="product-price">KSh 1,500</div>
+                    <button class="view-details-btn">View Details</button>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <div class="product-image">
+                    <img src="https://images.unsplash.com/photo-1457369804613-52c61a468e7d?w=400" alt="Reference Guide">
+                    <div class="discount-badge">-15%</div>
+                </div>
+                <div class="product-info">
+                    <h3 class="product-title">Engineering Drawing Quick Reference</h3>
+                    <div class="product-price">KSh 850</div>
+                    <button class="view-details-btn">View Details</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Others Section -->
+    <section id="others" class="product-section">
+        <h2 class="section-title">Others</h2>
+        <div class="product-grid">
+            <div class="product-card">
+                <div class="product-image">
+                    <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=400" alt="Lab Manual">
+                </div>
+                <div class="product-info">
+                    <h3 class="product-title">Chemistry Lab Manual & Reports</h3>
+                    <div class="product-price">KSh 950</div>
+                    <button class="view-details-btn">View Details</button>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <div class="product-image">
+                    <img src="https://images.unsplash.com/photo-1513258496099-48168024aec0?w=400" alt="Project">
+                    <div class="discount-badge">-35%</div>
+                </div>
+                <div class="product-info">
+                    <h3 class="product-title">Final Year Project Templates</h3>
+                    <div class="product-price">KSh 1,300</div>
+                    <button class="view-details-btn">View Details</button>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <div class="product-image">
+                    <img src="https://images.unsplash.com/photo-1472173148041-00294f0814a2?w=400" alt="Calculator">
+                </div>
+                <div class="product-info">
+                    <h3 class="product-title">Scientific Calculator - Casio FX-991</h3>
+                    <div class="product-price">KSh 1,800</div>
+                    <button class="view-details-btn">View Details</button>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <div class="product-image">
+                    <img src="https://images.unsplash.com/photo-1487700160041-babef9c3cb55?w=400" alt="Laptop">
+                </div>
+                <div class="product-info">
+                    <h3 class="product-title">Used Laptop - Dell Latitude E5470</h3>
+                    <div class="product-price">KSh 28,000</div>
+                    <button class="view-details-btn">View Details</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Campus Connect</h3>
+                <p>Your one-stop platform for buying and selling academic resources within the campus community.</p>
+            </div>
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <a href="#home">Home</a>
+                <a href="#market">Market</a>
+                <a href="#notes">Notes</a>
+                <a href="#questions">Questions</a>
+            </div>
+            <div class="footer-section">
+                <h3>Categories</h3>
+                <a href="#books">Books</a>
+                <a href="#notes">Notes & Handouts</a>
+                <a href="#papers">Past Papers</a>
+                <a href="#guides">Study Guides</a>
+            </div>
+            <div class="footer-section">
+                <h3>Support</h3>
+                <a href="#help">Help Center</a>
+                <a href="#contact">Contact Us</a>
+                <a href="#terms">Terms of Service</a>
+                <a href="#privacy">Privacy Policy</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 Campus Connect. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>

@@ -33,14 +33,17 @@
                     <a href="{%url 'question_library'%}" class="view-all-btn">View All Questions →</a>
                 </div>
                 <div class="questions-list">
+                    {% for latest_question in latest_questions %}
                     <div class="question-item">
-                        <a href="#" class="question-title">How to implement binary search in Python?</a>
+                        <a href="{%url 'question' id=latest_question.code %}" class="question-title">{{latest_question.question}}</a>
+                        <!--<div class="question-snippet">{{latest_question.description}}</div>-->
                         <div class="question-meta">
-                            <span>Posted by Alex Chen • 2h ago</span>
-                            <span>3 answers</span>
+                            <span>Posted by {{latest_question.user.first_name}} {{latest_question.user.last_name}}• <span class="datetime">{{latest_question.created_at}}</span></span>
+                            <span>{{latest_question.answer_len}} answers</span>
                         </div>
-                        <div class="question-snippet">I'm having trouble understanding the recursive approach for binary search. Can someone explain...</div>
+                        
                     </div>
+                    {% endfor %}
                     
                 </div>
             </div>
@@ -52,30 +55,17 @@
                     <a href="{%url 'question_library'%}?tag=trending" class="view-all-btn">View All →</a>
                 </div>
                 <div class="questions-list">
+                    {% for trending_question in trending_questions %}
                     <div class="question-item">
-                        <a href="#" class="question-title">Best practices for REST API design</a>
+                        <a href="{%url 'question' id=trending_question.code %}" class="question-title">{{trending_question.question}}</a>
+                        <!--<div class="question-snippet">{{trending_question.description}}</div>-->
                         <div class="question-meta">
-                            <span>Posted by David Kim • 1 day ago</span>
-                            <span>24 answers</span>
+                            <span>Posted by {{trending_question.user.first_name}} {{trending_question.user.last_name}} • <span class="datetime">{{trending_question.created_at}}</span></span>
+                            <span>{{trending_question.answer_len}} answers</span>
                         </div>
-                        <div class="question-snippet">What are the industry standards for designing RESTful APIs? Status codes, naming conventions...</div>
+                        
                     </div>
-                    <div class="question-item">
-                        <a href="#" class="question-title">Machine Learning algorithms comparison</a>
-                        <div class="question-meta">
-                            <span>Posted by Lisa Wang • 2 days ago</span>
-                            <span>18 answers</span>
-                        </div>
-                        <div class="question-snippet">When to use SVM vs Random Forest vs Neural Networks? Looking for practical guidance...</div>
-                    </div>
-                    <div class="question-item">
-                        <a href="#" class="question-title">Understanding Big O notation</a>
-                        <div class="question-meta">
-                            <span>Posted by James Wilson • 3 days ago</span>
-                            <span>31 answers</span>
-                        </div>
-                        <div class="question-snippet">Can someone explain Big O notation in simple terms with real-world examples?</div>
-                    </div>
+                    {% endfor %}
                 </div>
             </div>
         </div>
