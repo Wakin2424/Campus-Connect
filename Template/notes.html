@@ -37,11 +37,9 @@
                 <label for="courseFilter">Course</label>
                 <select id="courseFilter">
                     <option value="all">All Courses</option>
-                    <option value="Computer Science">Computer Science</option>
-                    <option value="Mathematics">Mathematics</option>
-                    <option value="Engineering">Engineering</option>
-                    <option value="Business">Business</option>
-                    <option value="Literature">Literature</option>
+                    {% for course in courses %}
+                    <option value="{{course.course_name}}">{{course.course_name}}</option>
+                    {% endfor %}
                 </select>
             </div>
 
@@ -85,7 +83,7 @@
             `
         const nav_urls = `
                     <li><a href="{%url 'question_library'%}">Ask Questions</a></li>
-                    <li><a href="market.html">Sell Books</a></li>
+                    <li><a href="market.html">Market</a></li>
                     <li><a href="#">Notes</a></li>
                     <li><a href="group.html">Groups</a></li>
                     `
@@ -115,7 +113,7 @@
                     <a href="#">Help Center</a>`
         const footer_urls_2 = `
                     <a href="{%url 'question_library'%}">Ask Questions</a>
-                    <a href="market.html">Sell Books</a>
+                    <a href="market.html">Market</a>
                     <a href="#">Share Notes</a>
                     <a href="group.html">Create Groups</a>
                     <a href="{%url 'home'%}">Campus Events</a>`
@@ -129,7 +127,7 @@
             `
         const nav_urls = `
                     <li><a href="{%url 'question_library'%}">Ask Questions</a></li>
-                    <li><a href="market.html">Sell Books</a></li>
+                    <li><a href="market.html">Market</a></li>
                     <li><a href="#">Notes</a></li>
                     <li><a href="group.html">Groups</a></li>
                     `
@@ -146,7 +144,7 @@
                     <a href="#">Help Center</a>`
         const footer_urls_2 = `
                     <a href="{%url 'question_library'%}">Ask Questions</a>
-                    <a href="market.html">Sell Books</a>
+                    <a href="market.html">Market</a>
                     <a href="#">Share Notes</a>
                     <a href="group.html">Create Groups</a>
                     <a href="{%url 'home'%}">Campus Events</a>`
@@ -172,6 +170,8 @@
         const courseFilter = document.getElementById('courseFilter');
         const loading = document.getElementById('loading');
         const noResults = document.getElementById('noResults');
+        let courseQuery = '';
+        let typeQuery = '';
 
         // Format date
         function formatDate(dateString) {
@@ -234,12 +234,9 @@
         }
 
         // Render pagination
-        function renderPagination() {
+        function renderPagination(morepages=false) {
             const totalPages = Math.ceil(filteredNotes.length / notesPerPage);
             let paginationHTML = '';
-
-            // Previous button
-            paginationHTML += `<button class="page-btn" onclick="changePage(${currentPage - 1})" ${currentPage === 1 ? 'disabled' : ''}>‹ Prev</button>`;
 
             // Page numbers
             for (let i = 1; i <= Math.min(totalPages, 5); i++) {
@@ -252,8 +249,7 @@
             }
 
             // Next button
-            paginationHTML += `<button class="page-btn" onclick="changePage(${currentPage + 1})" ${currentPage === totalPages ? 'disabled' : ''}>Next ›</button>`;
-
+            paginationHTML += currentPage !== totalPages || morepages ? `<button class="page-btn" onclick="changePage(${currentPage + 1})">more ›</button> `  : '';
             pagination.innerHTML = paginationHTML;
         }
 
@@ -289,20 +285,20 @@
             // Apply course filter
             const selectedCourse = courseFilter.value;
             if (selectedCourse !== 'all') {
-                result = result.filter(note => note.course === selectedCourse);
+                sortFetch('course', selectedCourse);
+            }
+            else{
+                sortFetch('course', 'all')
             }
 
             // Apply sorting
             const sortOption = sortBy.value;
             switch (sortOption) {
                 case 'latest':
-                    result.sort((a, b) => new Date(b.date) - new Date(a.date));
+                    sortFetch('request', 'latest');
                     break;
                 case 'downloads':
-                    result.sort((a, b) => b.downloads - a.downloads);
-                    break;
-                case 'course':
-                    result.sort((a, b) => a.course.localeCompare(b.course));
+                    sortFetch('request', 'downloads');
                     break;
             }
 
@@ -344,7 +340,6 @@
         function Activepagebtn(id){
             let pagebtn = document.getElementById(`page-${id}`)
             let pagebtncls = document.getElementsByClassName('page-btn')
-            console.log(pagebtncls)
             Array.from(pagebtncls).forEach(pgbtn => {
                 pgbtn.className = 'page-btn';
             })
@@ -405,11 +400,16 @@
                 if(data.status){  
                     //loadBtn.style.display = 'inline-block';
                 } else {
+                    if(data.notes === null){
+                        return
+                    }
 
                 }
                 page = data.page;
                 query = query.replace(/page=\d+/, `page=${page}`)
                 let notesDataLength = notesData.length + 1
+                
+                console.log("length of input: ",data.notes.length)
 
                 Array.from(data.notes).forEach(note =>{
                     let array_data = {
@@ -430,6 +430,37 @@
                 })
                 renderNotes()
             })
+        }
+
+        function sortFetch(Type ,id){
+            if (Type === 'request'){
+                if(id === 'all'){
+                    typeQuery = ''
+                }
+                else{
+                    typeQuery = `type=${id}`
+                }
+            }
+            if (Type === 'course'){
+                if(id === 'all'){
+                    courseQuery = ''
+                }
+                else{
+                    courseQuery = `course=${id}`
+                }
+            }
+
+            let cards = document.getElementsByClassName('note-card')
+            while (cards.length > 0) {
+                cards[0].remove(); 
+            }
+            
+            filteredNotes.length = 0
+            console.log(filteredNotes)
+            console.log()
+            page=0
+            query = `page=${page}&${typeQuery}&${courseQuery}`
+            Fetchdata()
         }
 
         Fetchdata()

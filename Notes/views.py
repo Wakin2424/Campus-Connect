@@ -38,45 +38,54 @@ def get_uploaded_file_metadata(uploaded_file):
 
 # Create your views here.
 def Home(request):
-    return render(request, 'notes.html')
+    courses = models.Course.objects.all()
+    context = {
+        'courses':courses
+    }
+    return render(request, 'notes.html', context)
 
 def LoadHomeData(request):
     page = int(request.GET.get('page'))
     Type = request.GET.get('request')
+    course_request = request.GET.get('course')
     status = True
 
-    if Type == 'tag':
-        tag = request.GET.get('tag')
-        course = models.Course.objects.get(course_name=tag)
-        notes = models.Notes.objects.filter(courses=course).values('note_id', 'code', 'user__first_name', 'user__last_name', 'title', 'description', 'views', 'downloads', 'uploaded_at')
-    
-    elif Type == 'Most Download':
+    if Type == 'downloads':
         notes = models.Notes.objects.all().order_by('downloads').values('note_id', 'code', 'user__first_name', 'user__last_name', 'title', 'description', 'views', 'downloads', 'uploaded_at')
     else:
         notes = models.Notes.objects.all().values('note_id', 'code', 'user__first_name', 'user__last_name', 'title', 'description', 'views', 'downloads', 'uploaded_at')
 
-    length = len(notes)
-    if page+1 < length/5:
-        start = page * 5
-        end = start + 5
-        page = int(end/5)
-        notes = notes[start:end]
+    if course_request != None:
+        tag = request.GET.get('course')
+        course = models.Course.objects.get(course_name=tag)
+        notes = notes.filter(courses=course).values('note_id', 'code', 'user__first_name', 'user__last_name', 'title', 'description', 'views', 'downloads', 'uploaded_at')
 
+    length = len(notes)
+    if length != 0:
+        if page+1 < length/5:
+            start = page * 5
+            end = start + 5
+            page = int(end/5)
+            notes = notes[start:end]
+
+        else:
+            status = False
+            remaining = length % 5 if length % 5 != 0 else 5
+            notes = notes[length - remaining:]
+            page = page + 1
+
+        notes = list(notes)
+        for note in notes:
+            note['courses'] = []
+            note_data = models.Notes.objects.get(note_id=note['note_id'])
+            courses = list(models.Question_subjects.objects.filter(note=note_data).values('course__course_name'))
+            for course in courses:
+                note['courses'].append(course['course__course_name'])
+
+            del note['note_id']
     else:
         status = False
-        remaining = length % 5 if length % 5 != 0 else 5
-        notes = notes[length - remaining:]
-        page = page + 1
-
-    notes = list(notes)
-    for note in notes:
-        note['courses'] = []
-        note_data = models.Notes.objects.get(note_id=note['note_id'])
-        courses = list(models.Question_subjects.objects.filter(note=note_data).values('course__course_name'))
-        for course in courses:
-            note['courses'].append(course['course__course_name'])
-
-        del note['note_id']
+        notes = None
     
     context = {
         'status':status,
