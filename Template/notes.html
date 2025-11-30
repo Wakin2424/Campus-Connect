@@ -220,7 +220,7 @@
 
             if (filteredNotes.length === 0) {
                 notesGrid.style.display = 'none';
-                noResults.style.display = 'block';
+                //noResults.style.display = 'block';
                 pagination.style.display = 'none';
             } else {
                 notesGrid.style.display = 'grid';
@@ -305,19 +305,12 @@
 
         // Event listeners
         sortBy.addEventListener('change', () => {
-            showLoading();
-            setTimeout(() => {
-                hideLoading();
-                applyFiltersAndSort();
-            }, 300);
+            applyFiltersAndSort();
         });
 
         courseFilter.addEventListener('change', () => {
-            showLoading();
-            setTimeout(() => {
-                hideLoading();
-                applyFiltersAndSort();
-            }, 300);
+            applyFiltersAndSort();
+
         });
 
         // Open note details
@@ -384,7 +377,8 @@
 
         
         function Fetchdata(){
-            
+            showLoading()
+            noResults.style.display = 'none';
             fetch(`{%url "load_notes"%}?${query}`, {
                 method: 'GET',
                 headers: {
@@ -393,10 +387,12 @@
             })
             .then(response => response.json())
             .then(data => {
+                hideLoading()
                 if(data.status){  
                     //loadBtn.style.display = 'inline-block';
                 } else {
                     if(data.notes === null){
+                        noResults.style.display = 'block';;
                         return
                     }
 
@@ -405,8 +401,6 @@
                 query = query.replace(/page=\d+/, `page=${page}`)
                 let notesDataLength = notesData.length + 1
                 
-                console.log("length of input: ",data.notes.length)
-
                 Array.from(data.notes).forEach(note =>{
                     let array_data = {
                         id: note.code,
