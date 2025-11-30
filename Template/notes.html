@@ -29,7 +29,6 @@
                 <select id="sortBy">
                     <option value="latest">Latest</option>
                     <option value="downloads">Most Downloads</option>
-                    <option value="course">Course</option>
                 </select>
             </div>
 
@@ -284,23 +283,20 @@
 
             // Apply course filter
             const selectedCourse = courseFilter.value;
-            if (selectedCourse !== 'all') {
-                sortFetch('course', selectedCourse);
-            }
-            else{
-                sortFetch('course', 'all')
-            }
+            let request = 'latest'
 
             // Apply sorting
             const sortOption = sortBy.value;
             switch (sortOption) {
                 case 'latest':
-                    sortFetch('request', 'latest');
+                    request = 'latest';
                     break;
                 case 'downloads':
-                    sortFetch('request', 'downloads');
+                    request = 'downloads';
                     break;
             }
+
+            sortFetch(request, selectedCourse)
 
             filteredNotes = result;
             currentPage = 1;
@@ -432,32 +428,31 @@
             })
         }
 
-        function sortFetch(Type ,id){
-            if (Type === 'request'){
-                if(id === 'all'){
-                    typeQuery = ''
-                }
-                else{
-                    typeQuery = `type=${id}`
-                }
+        function sortFetch(request ,selectedCourse){
+            //sort request
+            if(request === 'latest'){
+                typeQuery = ''
             }
-            if (Type === 'course'){
-                if(id === 'all'){
-                    courseQuery = ''
-                }
-                else{
-                    courseQuery = `course=${id}`
-                }
+            else{
+                typeQuery = `type=${request}`
             }
+            
+            //sort course
+            if(selectedCourse === 'all'){
+                courseQuery = ''
+            }
+            else{
+                courseQuery = `course=${selectedCourse}`
+            }
+            
 
-            let cards = document.getElementsByClassName('note-card')
-            while (cards.length > 0) {
-                cards[0].remove(); 
+            let cards = notesGrid.getElementsByClassName('note-card')
+
+            for(let i=0; i < cards.length; i++){
+                notesGrid.removeChild(cards[0])
             }
             
             filteredNotes.length = 0
-            console.log(filteredNotes)
-            console.log()
             page=0
             query = `page=${page}&${typeQuery}&${courseQuery}`
             Fetchdata()

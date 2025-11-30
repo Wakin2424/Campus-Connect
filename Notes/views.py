@@ -57,6 +57,7 @@ def LoadHomeData(request):
 
     if course_request != None:
         tag = request.GET.get('course')
+        print(tag)
         course = models.Course.objects.get(course_name=tag)
         notes = notes.filter(courses=course).values('note_id', 'code', 'user__first_name', 'user__last_name', 'title', 'description', 'views', 'downloads', 'uploaded_at')
 
