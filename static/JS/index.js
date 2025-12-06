@@ -69,11 +69,40 @@ function formatDate(dateString) {
     const date = new Date(dateString);
     const now = new Date();
     const diffTime = Math.abs(now - date);
-    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    const time = Math.ceil(diffTime / (1000));
+    let result = ''
+
+    if(time < 60){
+        result = "few seconds ago";
+    }
+
+    else if(time < 3600){
+        if (Math.ceil(time/60) == 1){
+            result = `a minute ago`;
+        }
+        else{
+            result = `${time/60} minutes ago`;
+        }
+        
+        }
+
+    else if(time < (3600 * 24)){
+        result = `${Math.ceil(time/(3600))} hours ago`;
+    }
+        
+    else if(time < (3600 * 24 * 30)){ //current month
+        result = `${Math.ceil(time/(3600 * 24))} days ago`;
+        }
     
-    if (diffDays === 1) return 'Yesterday';
-    if (diffDays < 7) return `${diffDays} days ago`;
-    return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+    else if(time < (3600 * 24 * 30 * 12)){
+        result = `${Math.ceil(time/(3600 * 24 * 30))} months ago`
+    }
+        
+    else{
+        result = `${Math.ceil(time/(3600 * 24 * 30 * 12))} years ago`
+    }
+    
+    return result
 }
 
 

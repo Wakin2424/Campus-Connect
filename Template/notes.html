@@ -82,7 +82,7 @@
             `
         const nav_urls = `
                     <li><a href="{%url 'question_library'%}">Ask Questions</a></li>
-                    <li><a href="market.html">Market</a></li>
+                    <li><a href="{%url 'market'%}">Market</a></li>
                     <li><a href="#">Notes</a></li>
                     <li><a href="group.html">Groups</a></li>
                     `
@@ -112,7 +112,7 @@
                     <a href="#">Help Center</a>`
         const footer_urls_2 = `
                     <a href="{%url 'question_library'%}">Ask Questions</a>
-                    <a href="market.html">Market</a>
+                    <a href="{%url 'market'%}">Market</a>
                     <a href="#">Share Notes</a>
                     <a href="group.html">Create Groups</a>
                     <a href="{%url 'home'%}">Campus Events</a>`
@@ -126,7 +126,7 @@
             `
         const nav_urls = `
                     <li><a href="{%url 'question_library'%}">Ask Questions</a></li>
-                    <li><a href="market.html">Market</a></li>
+                    <li><a href="{%url 'market'%}">Market</a></li>
                     <li><a href="#">Notes</a></li>
                     <li><a href="group.html">Groups</a></li>
                     `
@@ -143,7 +143,7 @@
                     <a href="#">Help Center</a>`
         const footer_urls_2 = `
                     <a href="{%url 'question_library'%}">Ask Questions</a>
-                    <a href="market.html">Market</a>
+                    <a href="{%url 'market'%}">Market</a>
                     <a href="#">Share Notes</a>
                     <a href="group.html">Create Groups</a>
                     <a href="{%url 'home'%}">Campus Events</a>`
@@ -172,17 +172,6 @@
         let courseQuery = '';
         let typeQuery = '';
 
-        // Format date
-        function formatDate(dateString) {
-            const date = new Date(dateString);
-            const now = new Date();
-            const diffTime = Math.abs(now - date);
-            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-            
-            if (diffDays === 1) return 'Yesterday';
-            if (diffDays < 7) return `${diffDays} days ago`;
-            return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
-        }
 
         // Create note card
         function createNoteCard(note) {

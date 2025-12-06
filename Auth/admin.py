@@ -11,9 +11,6 @@ class career_admin(admin.ModelAdmin):
 class Course_admin(admin.ModelAdmin):
     list_display = ['course_id', 'course_name', 'course_code', 'description']
 
-class Market_admin(admin.ModelAdmin):
-    list_display = ['market_id', 'user__first_name', 'title', 'slug', 'description', 'price', 'status', 'amount', 'created_at']
-
 class Notes_admin(admin.ModelAdmin):
     list_display = ['note_id', 'user__first_name', 'title', 'description', 'file_size', 'views', 'pages', 'uploaded_at']
 
@@ -41,7 +38,6 @@ class Likes_admin(admin.ModelAdmin):
 class Images_admin(admin.ModelAdmin):
     list_display = ['image_id', 'title', 'file']
 
-admin.site.register(Market, Market_admin)
 admin.site.register(Qa, Qa_admin)
 admin.site.register(Notifications, Notification_admin)
 admin.site.register(Notes, Notes_admin)

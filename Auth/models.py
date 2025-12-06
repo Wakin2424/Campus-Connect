@@ -76,19 +76,33 @@ class AuthCustomuser(models.Model):
         managed = False
         db_table = 'Auth_customuser'
 
-class Market(models.Model):
-    market_id = models.AutoField(primary_key=True)
-    user = models.ForeignKey(AuthCustomuser, models.DO_NOTHING, blank=True, null=True)
-    title = models.CharField(max_length=200)
-    slug = models.CharField(unique=True, max_length=200)
+class Category(models.Model):
+    category_id = models.AutoField(primary_key=True)
+    name = models.CharField(max_length=200)
+    slug = models.CharField(max_length=200, unique=True)
     description = models.TextField(blank=True, null=True)
-    price = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
-    status = models.BooleanField(blank=True, null=True)
-    amount = models.IntegerField(blank=True, null=True)
-    created_at = models.DateTimeField(blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
-        db_table = 'market'
+        db_table = 'category'
+
+
+class Product(models.Model):
+    product_id = models.AutoField(primary_key=True)
+    user = models.ForeignKey(AuthCustomuser, on_delete=models.DO_NOTHING, null=True, blank=True)
+    name = models.CharField(max_length=200)
+    category = models.ForeignKey(Category, on_delete=models.DO_NOTHING)
+    courses = models.ManyToManyField(Course, through='Question_subjects')
+    slug = models.CharField(max_length=200, unique=True)
+    code = models.CharField(max_length=200)
+    description = models.TextField(blank=True, null=True)
+    price = models.DecimalField(max_digits=10, decimal_places=2)
+    discount = models.DecimalField(max_digits=10, decimal_places=2, default=0)
+    status = models.BooleanField(default=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        db_table = 'product'
 
 
 class Notes(models.Model):
@@ -131,7 +145,6 @@ class Qa(models.Model):
     created_at = models.DateTimeField(blank=True, default=str(dt.datetime.now()))
     courses = models.ManyToManyField(Course, through='Question_subjects')
 
-
     class Meta:
 
         db_table = 'qa'
@@ -152,6 +165,7 @@ class Question_subjects(models.Model):
     question = models.ForeignKey(Qa, models.DO_NOTHING, blank=True, null=True)
     note = models.ForeignKey(Notes, models.DO_NOTHING, blank=True, null=True)
     course = models.ForeignKey(Course, models.DO_NOTHING, blank=True, null=True)
+    product = models.ForeignKey(Product, models.DO_NOTHING, blank=True, null=True)
 
     class Meta:
         db_table = 'question_subjects'
@@ -160,6 +174,7 @@ class Image_reference(models.Model):
     reference_id = models.AutoField(primary_key=True)
     question = models.ForeignKey(Qa, models.DO_NOTHING, blank=True, null=True)
     answer = models.ForeignKey(Answers, models.DO_NOTHING, blank=True, null=True)
+    product = models.ForeignKey(Product, models.DO_NOTHING, blank=True, null=True)
     image = models.ForeignKey(Images, models.DO_NOTHING)
 
     class Meta:
@@ -171,8 +186,8 @@ class Ratings(models.Model):
     rating = models.IntegerField(blank=True, null=True)
     question = models.ForeignKey(Qa, models.DO_NOTHING, blank=True, null=True)
     note = models.ForeignKey(Notes, models.DO_NOTHING, blank=True, null=True)
-    book = models.ForeignKey(Market, models.DO_NOTHING, blank=True, null=True)
-    description = models.TextField(blank=True, null=True, default='')
+    product = models.ForeignKey(Product, models.DO_NOTHING, blank=True, null=True)
+    description = models.TextField(blank=True, null=True)
 
     class Meta:
         db_table = 'ratings'

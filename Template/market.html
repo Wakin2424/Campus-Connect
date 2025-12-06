@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,8 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Campus Connect - Sell Books & Reading Materials</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="css/market.css">
-    <link rel="stylesheet" href="css/nav.css">
+    <link rel="stylesheet" href="{%static 'CSS/market.css'%}">
+    <link rel="stylesheet" href="{%static 'CSS/nav.css'%}">
 </head>
 <body>
     <!-- Header -->
@@ -275,19 +276,71 @@
         <!--Generated dynamically by js-->
     </footer>
 
-     <script>
-        const home = `<a href="#" class="logo">Campus Connect</a>`
+     {% if user.is_authenticated %}
+    <script>
+        const home = `<a href="{%url 'home'%}" class="logo">Campus Connect</a>`
+        {% if user.image != None %}
+        const user_name = '<img class="user-avatar" src="{{user.image.file.url}}" alt="Avatar">'
+        {% else %}
+        const user_name = '<div class="user-avatar">{{ user.first_name|upper|slice:":1" }}' + '{{ user.last_name|upper|slice:":1" }}</div>'
+        {% endif %}
         const search = `
-            <a href=''><button class="search-btn">🔍</button></a>
+            <input type="text" class="search-bar" id="search-bar" placeholder="Search...">
+            <button class="search-btn" onClick="Search()">🔍</button>
             `
         const nav_urls = `
-                    <li><a href="qa.html">Ask Questions</a></li>
-                    <li><a href="market.html">Sell Books</a></li>
-                    <li><a href="notes.html">Notes</a></li>
+                    <li><a href="{%url 'question_library'%}">Ask Questions</a></li>
+                    <li><a href="{%url 'market'%}">Market</a></li>
+                    <li><a href="{%url 'notes'%}">Notes</a></li>
                     <li><a href="group.html">Groups</a></li>
                     `
+        const login= `
+            <div class="user-dropdown">
+                <div class="quick-post-btn">Post +</div>
+                <div class="dropdown-menu">
+                    <a href="{%url "question"%}"><i class="fas"></i> Post Question</a>
+                    {% if user.is_verified %}
+                    <a href="{%url 'note_upload'%}"><i class="fas"></i> Upload Notes</a>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="user-dropdown">
+                <div class="user-avatar">${user_name}</div>
+                <div class="dropdown-menu">
+                    <a href="{%url 'user' %}"><i class="fas fa-user"></i> Profile</a>
+                    <a href="{%url 'logout'%}"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                </div>
+            </div>
+        `
+        const footer_urls = `
+                    <a href="#">About Us</a>
+                    <a href="#">Contact</a>
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Terms of Service</a>
+                    <a href="#">Help Center</a>`
+        const footer_urls_2 = `
+                    <a href="{%url 'question_library'%}">Ask Questions</a>
+                    <a href="{%url 'market'%}">Market</a>
+                    <a href="{%url 'notes'%}">Share Notes</a>
+                    <a href="group.html">Create Groups</a>
+                    <a href="{%url 'home'%}">Campus Events</a>`
+    </script>
+    {% else %}
+    <script>
+        const home = `<a href="{%url 'home'%}" class="logo">Campus Connect</a>`
+        const search = `
+            <input type="text" class="search-bar" id="search-bar" placeholder="Search...">
+            <button class="search-btn" onClick="Search()">🔍</button>
+            `
+        const nav_urls = `
+                    <li><a href="{%url 'question_library'%}">Ask Questions</a></li>
+                    <li><a href="{%url 'market'%}">Market</a></li>
+                    <li><a href="{%url 'notes'%}">Notes</a></li>
+                    <li><a href="group.html">Groups</a></li>
+                    `
+
         const login = `
-                <a href="login.html" class="btn-primary">Login/Sign Up</a>
+                <a href="{%url 'login'%}" class="btn-primary">Login/Sign Up</a>
             `
 
         const footer_urls = `
@@ -297,12 +350,13 @@
                     <a href="#">Terms of Service</a>
                     <a href="#">Help Center</a>`
         const footer_urls_2 = `
-                    <a href="qa.html">Ask Questions</a>
-                    <a href="market.html">Sell Books</a>
-                    <a href="notes.html">Share Notes</a>
+                    <a href="{%url 'question_library'%}">Ask Questions</a>
+                    <a href="{%url 'market'%}">Market</a>
+                    <a href="{%url 'notes'%}">Share Notes</a>
                     <a href="group.html">Create Groups</a>
-                    <a href="home">Campus Events</a>`
+                    <a href="{%url 'home'%}">Campus Events</a>`
     </script>
-    <script src="css/index.js"></script>
+    {% endif %}
+    <script src="{%static 'JS/index.js'%}"></script>
 </body>
 </html>

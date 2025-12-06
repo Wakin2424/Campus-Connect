@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Product - Campus Connect</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f5f7fa;
+            color: #0D1B2A;
+        }
+
+        /* Header */
+        header {
+            background-color: white;
+            padding: 1rem 2rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #0D1B2A;
+        }
+
+        nav {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: #0D1B2A;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        nav a:hover {
+            color: #1E90FF;
+        }
+
+        .profile-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #0D1B2A;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        /* Main Content */
+        .main-content {
+            max-width: 800px;
+            margin: 3rem auto;
+            padding: 0 1rem;
+        }
+
+        .page-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .page-header h1 {
+            font-size: 2.5rem;
+            color: #0D1B2A;
+            margin-bottom: 0.5rem;
+        }
+
+        .page-header p {
+            color: #6c757d;
+            font-size: 1rem;
+        }
+
+        /* Form Card */
+        .form-card {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+        }
+
+        .form-group {
+            margin-bottom: 2rem;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #0D1B2A;
+        }
+
+        .form-group input[type="text"],
+        .form-group input[type="number"],
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.875rem;
+            border: 2px solid #e1e8ed;
+            border-radius: 8px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #1E90FF;
+        }
+
+        /* Image Upload */
+        .image-upload-container {
+            border: 2px dashed #e1e8ed;
+            border-radius: 8px;
+            padding: 2rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .image-upload-container:hover {
+            border-color: #1E90FF;
+            background-color: #f8f9fa;
+        }
+
+        .image-upload-container.has-image {
+            border-style: solid;
+            padding: 1rem;
+        }
+
+        #imageInput {
+            display: none;
+        }
+
+        .upload-icon {
+            font-size: 3rem;
+            color: #6c757d;
+            margin-bottom: 1rem;
+        }
+
+        .image-preview {
+            max-width: 100%;
+            border-radius: 8px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            display: none;
+        }
+
+        .image-preview.show {
+            display: block;
+        }
+
+        /* Rich Text Toolbar */
+        .text-toolbar {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 0.5rem;
+            padding: 0.5rem;
+            background-color: #f8f9fa;
+            border-radius: 8px 8px 0 0;
+            border: 2px solid #e1e8ed;
+            border-bottom: none;
+        }
+
+        .text-toolbar button {
+            padding: 0.5rem 1rem;
+            border: none;
+            background-color: white;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .text-toolbar button:hover {
+            background-color: #1E90FF;
+            color: white;
+        }
+
+        .form-group textarea {
+            border-radius: 0 0 8px 8px;
+            min-height: 150px;
+            resize: vertical;
+        }
+
+        /* Course Tags */
+        .course-selector {
+            margin-bottom: 1rem;
+        }
+
+        .course-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+        }
+
+        .course-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background-color: #0D1B2A;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.875rem;
+        }
+
+        .course-tag .remove {
+            cursor: pointer;
+            font-weight: 700;
+            font-size: 1.2rem;
+            line-height: 1;
+        }
+
+        /* Submit Button */
+        .submit-btn {
+            width: 100%;
+            padding: 1rem;
+            background-color: #0D1B2A;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .submit-btn:hover {
+            background-color: #1E90FF;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(30, 144, 255, 0.3);
+        }
+
+        /* Success Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.show {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            text-align: center;
+            max-width: 400px;
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateY(-50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .modal-content h2 {
+            color: #0D1B2A;
+            margin-bottom: 1rem;
+        }
+
+        .modal-content p {
+            color: #6c757d;
+            margin-bottom: 1.5rem;
+        }
+
+        .modal-btn {
+            padding: 0.75rem 2rem;
+            background-color: #1E90FF;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            nav {
+                gap: 1rem;
+            }
+
+            nav a {
+                font-size: 0.9rem;
+            }
+
+            .page-header h1 {
+                font-size: 2rem;
+            }
+
+            .form-card {
+                padding: 1.5rem;
+            }
+
+            .text-toolbar {
+                flex-wrap: wrap;
+            }
+        }
+
+        @media (max-width: 480px) {
+            header {
+                padding: 1rem;
+            }
+
+            nav a {
+                display: none;
+            }
+
+            nav a:first-child {
+                display: block;
+            }
+
+            .page-header h1 {
+                font-size: 1.75rem;
+            }
+
+            .form-card {
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="header-container">
+            <div class="logo">Campus Connect</div>
+            <nav>
+                <a href="#home">Home</a>
+                <a href="#market">Market</a>
+                <a href="#notes">Notes</a>
+                <a href="#questions">Questions</a>
+                <a href="#groups">Groups</a>
+                <div class="profile-icon">U</div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="page-header">
+            <h1>Upload a Product</h1>
+            <p>Provide details about your product to sell it on Campus Connect</p>
+        </div>
+
+        <div class="form-card">
+            <form id="productForm">
+                <!-- Image Upload -->
+                <div class="form-group">
+                    <label>📸 Product Image *</label>
+                    <div class="image-upload-container" id="imageUploadContainer">
+                        <input type="file" id="imageInput" accept="image/*" required>
+                        <div class="upload-placeholder">
+                            <div class="upload-icon">📷</div>
+                            <p>Click to upload product image</p>
+                        </div>
+                        <img id="imagePreview" class="image-preview" alt="Product preview">
+                    </div>
+                </div>
+
+                <!-- Product Name -->
+                <div class="form-group">
+                    <label for="productName">🏷 Product Name *</label>
+                    <input type="text" id="productName" placeholder="Enter product name" required>
+                </div>
+
+                <!-- Category -->
+                <div class="form-group">
+                    <label for="category">🗂 Product Category *</label>
+                    <select id="category" required>
+                        <option value="">Select a category</option>
+                        <option value="books">Books</option>
+                        <option value="handouts">Handouts</option>
+                        <option value="past-papers">Past Papers</option>
+                        <option value="notes">Notes</option>
+                        <option value="guides">Guides</option>
+                        <option value="stationery">Stationery</option>
+                        <option value="electronics">Electronics</option>
+                        <option value="others">Others</option>
+                    </select>
+                </div>
+
+                <!-- Course Related -->
+                <div class="form-group">
+                    <label for="courseSelect">🎓 Course Related (Optional)</label>
+                    <select id="courseSelect" class="course-selector">
+                        <option value="">Select courses (optional)</option>
+                        <option value="Computer Science">Computer Science</option>
+                        <option value="Mathematics">Mathematics</option>
+                        <option value="Engineering">Engineering</option>
+                        <option value="Business">Business</option>
+                        <option value="Literature">Literature</option>
+                        <option value="Physics">Physics</option>
+                        <option value="Chemistry">Chemistry</option>
+                        <option value="Biology">Biology</option>
+                        <option value="Economics">Economics</option>
+                        <option value="Others">Others</option>
+                    </select>
+                    <div class="course-tags" id="courseTags"></div>
+                </div>
+
+                <!-- Description -->
+                <div class="form-group">
+                    <label for="description">📝 Product Description *</label>
+                    <div class="text-toolbar">
+                        <button type="button" onclick="formatText('bold')"><b>B</b></button>
+                        <button type="button" onclick="formatText('italic')"><i>I</i></button>
+                        <button type="button" onclick="formatText('bullet')">• List</button>
+                    </div>
+                    <textarea id="description" placeholder="Describe your product..." required></textarea>
+                </div>
+
+                <!-- Price -->
+                <div class="form-group">
+                    <label for="price">💵 Price (KSh) *</label>
+                    <input type="number" id="price" placeholder="Enter price" min="0" step="0.01" required>
+                </div>
+
+                <!-- Discount -->
+                <div class="form-group">
+                    <label for="discount">🔖 Discount (%) *</label>
+                    <input type="number" id="discount" placeholder="Enter discount (0 if none)" value="0" min="0" max="100" required>
+                </div>
+
+                <!-- Submit Button -->
+                <button type="submit" class="submit-btn">Upload Product</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Success Modal -->
+    <div class="modal" id="successModal">
+        <div class="modal-content">
+            <h2>✅ Product Uploaded Successfully!</h2>
+            <p>Your product has been listed on Campus Connect Marketplace.</p>
+            <button class="modal-btn" onclick="closeModal()">Continue</button>
+        </div>
+    </div>
+
+    <script>
+        // Selected courses array
+        let selectedCourses = [];
+
+        // Image Upload Preview
+        const imageInput = document.getElementById('imageInput');
+        const imagePreview = document.getElementById('imagePreview');
+        const imageUploadContainer = document.getElementById('imageUploadContainer');
+
+        imageUploadContainer.addEventListener('click', () => {
+            imageInput.click();
+        });
+
+        imageInput.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    imagePreview.src = e.target.result;
+                    imagePreview.classList.add('show');
+                    imageUploadContainer.classList.add('has-image');
+                    imageUploadContainer.querySelector('.upload-placeholder').style.display = 'none';
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // Course Selection
+        const courseSelect = document.getElementById('courseSelect');
+        const courseTags = document.getElementById('courseTags');
+
+        courseSelect.addEventListener('change', (e) => {
+            const course = e.target.value;
+            if (course && !selectedCourses.includes(course)) {
+                selectedCourses.push(course);
+                renderCourseTags();
+                e.target.value = '';
+            }
+        });
+
+        function renderCourseTags() {
+            courseTags.innerHTML = '';
+            selectedCourses.forEach((course, index) => {
+                const tag = document.createElement('div');
+                tag.className = 'course-tag';
+                tag.innerHTML = `
+                    ${course}
+                    <span class="remove" onclick="removeCourse(${index})">×</span>
+                `;
+                courseTags.appendChild(tag);
+            });
+        }
+
+        function removeCourse(index) {
+            selectedCourses.splice(index, 1);
+            renderCourseTags();
+        }
+
+        // Text Formatting
+        function formatText(type) {
+            const textarea = document.getElementById('description');
+            const start = textarea.selectionStart;
+            const end = textarea.selectionEnd;
+            const selectedText = textarea.value.substring(start, end);
+            let formattedText = '';
+
+            if (type === 'bold') {
+                formattedText = `**${selectedText}**`;
+            } else if (type === 'italic') {
+                formattedText = `*${selectedText}*`;
+            } else if (type === 'bullet') {
+                formattedText = `• ${selectedText}`;
+            }
+
+            textarea.value = textarea.value.substring(0, start) + formattedText + textarea.value.substring(end);
+            textarea.focus();
+        }
+
+        // Form Submission
+        const productForm = document.getElementById('productForm');
+        const successModal = document.getElementById('successModal');
+
+        productForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+
+            // Validate required fields
+            if (!imageInput.files[0]) {
+                alert('Please upload a product image');
+                return;
+            }
+
+            const productData = {
+                name: document.getElementById('productName').value,
+                category: document.getElementById('category').value,
+                courses: selectedCourses,
+                description: document.getElementById('description').value,
+                price: parseFloat(document.getElementById('price').value),
+                discount: parseInt(document.getElementById('discount').value) || 0,
+                image: imagePreview.src
+            };
+
+            console.log('Product Data:', productData);
+
+            // Show success modal
+            successModal.classList.add('show');
+
+            // Reset form
+            productForm.reset();
+            imagePreview.classList.remove('show');
+            imageUploadContainer.classList.remove('has-image');
+            imageUploadContainer.querySelector('.upload-placeholder').style.display = 'block';
+            selectedCourses = [];
+            renderCourseTags();
+        });
+
+        function closeModal() {
+            successModal.classList.remove('show');
+        }
+    </script>
+</body>
+</html>
