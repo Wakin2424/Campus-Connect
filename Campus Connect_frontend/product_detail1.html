@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Details - Campus Connect</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/product_upload.css">
+    <link rel="stylesheet" href="css/nav.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header" id="header">
+        <!--Generated dynamically by js-->
+    </header>
+
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Product Section -->
+        <div class="product-section">
+            <!-- Left Column - Image -->
+            <div class="product-image-wrapper">
+                <img src="https://images.unsplash.com/photo-1544947950-fa07a98d237f?w=800" alt="Data Structures Book" class="product-image">
+                <div class="wishlist-icon" onclick="toggleWishlist(this)">♡</div>
+            </div>
+
+            <!-- Right Column - Details -->
+            <div class="product-info">
+                <h1>Data Structures & Algorithms Complete Guide</h1>
+                
+                <div class="product-rating">
+                    <div class="stars">★★★★★</div>
+                    <span class="rating-count">(4.9 / 5 - 47 reviews)</span>
+                </div>
+
+                <p class="product-description">
+                    This comprehensive guide covers all fundamental data structures and algorithms essential for computer science students. Includes detailed explanations, code implementations in multiple programming languages (Python, Java, C++), practice problems, and real-world applications. Perfect condition with no markings. Ideal for exam preparation and interview practice.
+                </p>
+
+                <div class="price-container">
+                    <div class="discount-badge">-20% OFF</div>
+                    <div class="price-details">
+                        <span class="original-price">KSh 2,500</span>
+                        <span class="current-price">KSh 2,000</span>
+                    </div>
+                    <div class="savings">💰 You save KSh 500!</div>
+                </div>
+
+                <div class="action-buttons">
+                    <button class="btn btn-buy" onclick="buyNow()">🛒 Buy Now</button>
+                    <button class="btn btn-contact" onclick="openModal()">💬 Contact Seller</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Related Products Section -->
+        <div class="related-section">
+            <h2>Related Books & Materials</h2>
+            <div class="related-grid">
+                <div class="product-card" onclick="loadProduct(1)">
+                    <img src="https://images.unsplash.com/photo-1532012197267-da84d127e765?w=400" alt="Python Book" class="card-image">
+                    <div class="card-content">
+                        <div class="card-title">Python Programming Complete Course</div>
+                        <div class="card-price-section">
+                            <span class="card-price">KSh 1,800</span>
+                            <span class="card-discount">-15%</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="product-card" onclick="loadProduct(2)">
+                    <img src="https://images.unsplash.com/photo-1509021436665-8f07dbf5bf1d?w=400" alt="ML Notes" class="card-image">
+                    <div class="card-content">
+                        <div class="card-title">Machine Learning Study Notes</div>
+                        <div class="card-price-section">
+                            <span class="card-price">KSh 1,200</span>
+                            <span class="card-discount">-10%</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="product-card" onclick="loadProduct(3)">
+                    <img src="https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?w=400" alt="Calculus" class="card-image">
+                    <div class="card-content">
+                        <div class="card-title">Calculus II Complete Study Guide</div>
+                        <div class="card-price-section">
+                            <span class="card-price">KSh 1,500</span>
+                            <span class="card-discount">-20%</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="product-card" onclick="loadProduct(4)">
+                    <img src="https://images.unsplash.com/photo-1497633762265-9d179a990aa6?w=400" alt="Database" class="card-image">
+                    <div class="card-content">
+                        <div class="card-title">Database Systems Handbook</div>
+                        <div class="card-price-section">
+                            <span class="card-price">KSh 2,200</span>
+                            <span class="card-discount">-25%</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="product-card" onclick="loadProduct(5)">
+                    <img src="https://images.unsplash.com/photo-1516979187457-637abb4f9353?w=400" alt="Web Dev" class="card-image">
+                    <div class="card-content">
+                        <div class="card-title">Web Development Fundamentals</div>
+                        <div class="card-price-section">
+                            <span class="card-price">KSh 1,600</span>
+                            <span class="card-discount">-18%</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="product-card" onclick="loadProduct(6)">
+                    <img src="https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?w=400" alt="Statistics" class="card-image">
+                    <div class="card-content">
+                        <div class="card-title">Statistics & Probability Notes</div>
+                        <div class="card-price-section">
+                            <span class="card-price">KSh 1,400</span>
+                            <span class="card-discount">-12%</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Contact Seller Modal -->
+    <div class="modal-overlay" id="modalOverlay" onclick="closeModalOnOutside(event)">
+        <div class="modal">
+            <button class="modal-close" onclick="closeModal()">×</button>
+            
+            <!-- Left Side - Profile -->
+            <div class="modal-profile">
+                <div class="seller-avatar">SK</div>
+                <h3 style="color: white; margin-bottom: 0.5rem; font-size: 1.5rem;">Sarah Kioko</h3>
+                <div class="verified-badge">
+                    <span>✓</span>
+                    <span>Verified Seller</span>
+                </div>
+            </div>
+
+            <!-- Right Side - Contact Details -->
+            <div class="modal-details">
+                <h2>Contact Information</h2>
+                
+                <div class="contact-info">
+                    <div class="info-item">
+                        <span class="info-icon">👤</span>
+                        <span class="info-text">Sarah Kioko</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-icon">📧</span>
+                        <span class="info-text">sarah.kioko@student.edu</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-icon">📱</span>
+                        <span class="info-text">+254 723 456 789</span>
+                    </div>
+                </div>
+
+                <div class="contact-actions">
+                    <button class="contact-btn btn-email" onclick="emailSeller()">
+                        📧 Email
+                    </button>
+                    <button class="contact-btn btn-whatsapp" onclick="whatsappSeller()">
+                        💬 WhatsApp
+                    </button>
+                    <button class="contact-btn btn-call" onclick="callSeller()">
+                        📞 Call
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer" id="footer">
+        <!--Generated dynamically by js-->
+    </footer>
+
+    <script>
+        const home = `<a href="#" class="logo">Campus Connect</a>`
+        const search = `
+            <a href=''><button class="search-btn">🔍</button></a>
+            `
+        const nav_urls = `
+                    <li><a href="qa.html">Ask Questions</a></li>
+                    <li><a href="market.html">Sell Books</a></li>
+                    <li><a href="notes.html">Notes</a></li>
+                    <li><a href="group.html">Groups</a></li>
+                    `
+        const login = `
+                <a href="login.html" class="btn-primary">Login/Sign Up</a>
+            `
+
+        const footer_urls = `
+                    <a href="#">About Us</a>
+                    <a href="#">Contact</a>
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Terms of Service</a>
+                    <a href="#">Help Center</a>`
+        const footer_urls_2 = `
+                    <a href="qa.html">Ask Questions</a>
+                    <a href="market.html">Sell Books</a>
+                    <a href="notes.html">Share Notes</a>
+                    <a href="group.html">Create Groups</a>
+                    <a href="home">Campus Events</a>`
+    </script>
+    <script src="css/index.js"></script>
+
+
+    <script>
+        // Go Back Function
+        function goBack() {
+            window.history.back();
+        }
+
+        // Modal Functions
+        const modalOverlay = document.getElementById('modalOverlay');
+
+        function openModal() {
+            modalOverlay.classList.add('show');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            modalOverlay.classList.remove('show');
+            document.body.style.overflow = 'auto';
+        }
+
+        function closeModalOnOutside(event) {
+            if (event.target === modalOverlay) {
+                closeModal();
+            }
+        }
+
+        // Close with Escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && modalOverlay.classList.contains('show')) {
+                closeModal();
+            }
+        });
+
+        // Contact Functions
+        function emailSeller() {
+            window.location.href = 'mailto:sarah.kioko@student.edu?subject=Inquiry about Data Structures Book';
+        }
+
+        function whatsappSeller() {
+            window.open('https://wa.me/254723456789?text=Hi, I am interested in your Data Structures book on Campus Connect', '_blank');
+        }
+
+        function callSeller() {
+            window.location.href = 'tel:+254723456789';
+        }
+
+        // Buy Now Function
+        function buyNow() {
+            alert('Redirecting to payment page...');
+            // window.location.href = '/payment?product=data-structures-book';
+        }
+
+        // Wishlist Toggle
+        function toggleWishlist(element) {
+            if (element.textContent === '♡') {
+                element.textContent = '♥';
+                element.style.color = '#ff4757';
+            } else {
+                element.textContent = '♡';
+                element.style.color = '#0D1B2A';
+            }
+        }
+
+        // Load Product
+        function loadProduct(id) {
+            console.log(`Loading product ${id}...`);
+            // window.location.href = `/product/${id}`;
+        }
+    </script>
+</body>
+</html>

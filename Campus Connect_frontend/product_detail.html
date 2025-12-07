@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Details - Campus Connect</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/product_detail.css">
+    <link rel="stylesheet" href="css/nav.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header" id="header">
+        <!--Generated dynamically by js-->
+    </header>
+
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Product Section -->
+        <div class="product-section">
+            <div>
+                <img src="https://images.unsplash.com/photo-1544947950-fa07a98d237f?w=800" alt="Product" class="product-image">
+            </div>
+            <div class="product-info">
+                <h1 class="product-title">Introduction to Algorithms (4th Edition)</h1>
+                <div class="price-section">
+                    <span class="price">$45.00</span>
+                    <span class="discount-badge">-20%</span>
+                </div>
+                <!--
+                <p style="color: #666; line-height: 1.6;">
+                    Comprehensive textbook covering fundamental algorithms and data structures. Perfect condition, 
+                    minimal highlighting. Includes all chapters and practice problems.
+                </p>
+                -->
+                <div class="button-group">
+                    <a href="#" class="btn btn-primary-1" onclick="handleBuyNow(event)">Buy Now</a>
+                    <button class="btn btn-outline" onclick="openModal()">Contact Seller</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Description Section -->
+        <div class="description-card">
+            <h2>Product Description</h2>
+            <div class="description-text" id="description">
+                This is a comprehensive textbook that has been the leading introduction to algorithms for over 30 years. 
+                The fourth edition includes new chapters on matchings in bipartite graphs, online algorithms, and machine learning. 
+                Each chapter is relatively self-contained and can be used as a unit of study. The algorithms are described in English 
+                and in a pseudocode designed to be readable by anyone who has done a little programming. The explanations have been 
+                kept elementary without sacrificing depth of coverage or mathematical rigor. The book is gently used with minimal 
+                wear and tear. All pages are intact and readable. Some light highlighting on key concepts but overall in excellent condition. 
+                Perfect for computer science students or professionals looking to deepen their understanding of algorithms.
+            </div>
+            <button class="show-more-btn" onclick="toggleDescription()">Show more</button>
+        </div>
+
+        <!-- Related Products -->
+        <div class="related-section">
+            <h2>Related Products</h2>
+            <div class="related-grid">
+                <div class="product-card" onclick="alert('Opening product details...')">
+                    <img src="https://images.unsplash.com/photo-1532012197267-da84d127e765?w=400" alt="Related Product">
+                    <div class="product-card-content">
+                        <div class="product-card-title">Data Structures & Algorithms in Python</div>
+                        <div class="product-card-price">$35.00</div>
+                    </div>
+                </div>
+                <div class="product-card" onclick="alert('Opening product details...')">
+                    <img src="https://images.unsplash.com/photo-1589998059171-988d887df646?w=400" alt="Related Product">
+                    <div class="product-card-content">
+                        <div class="product-card-title">Computer Science Notes Bundle</div>
+                        <div class="product-card-price">$25.00</div>
+                    </div>
+                </div>
+                <div class="product-card" onclick="alert('Opening product details...')">
+                    <img src="https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?w=400" alt="Related Product">
+                    <div class="product-card-content">
+                        <div class="product-card-title">Programming Study Guide</div>
+                        <div class="product-card-price">$20.00</div>
+                    </div>
+                </div>
+                <div class="product-card" onclick="alert('Opening product details...')">
+                    <img src="https://images.unsplash.com/photo-1495446815901-a7297e633e8d?w=400" alt="Related Product">
+                    <div class="product-card-content">
+                        <div class="product-card-title">Software Engineering Textbook</div>
+                        <div class="product-card-price">$40.00</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Seller Contact Modal -->
+    <div class="modal-overlay" id="modalOverlay" onclick="closeModalOnOverlay(event)">
+        <div class="modal">
+            <div class="modal-header">
+                <h3>Contact Seller</h3>
+                <button class="close-btn" onclick="closeModal()">&times;</button>
+            </div>
+            <div class="modal-content">
+                <div class="seller-image-section">
+                    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200" alt="Seller" class="seller-profile-pic">
+                    <span class="verified-badge">✓ Verified</span>
+                </div>
+                <div class="seller-details">
+                    <div class="seller-info">
+                        <h4>John Anderson</h4>
+                        <p>📧 john.anderson@campus.edu</p>
+                        <p>📱 +1 (555) 123-4567</p>
+                    </div>
+                    <div class="contact-buttons">
+                        <a href="mailto:john.anderson@campus.edu" class="contact-btn contact-btn-email">
+                            📧 Email Seller
+                        </a>
+                        <a href="https://wa.me/15551234567" target="_blank" class="contact-btn contact-btn-whatsapp">
+                            💬 WhatsApp
+                        </a>
+                        <a href="tel:+15551234567" class="contact-btn contact-btn-call">
+                            📞 Call
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer" id="footer">
+        <!--Generated dynamically by js-->
+    </footer>
+
+    <script>
+        const home = `<a href="#" class="logo">Campus Connect</a>`
+        const search = `
+            <a href=''><button class="search-btn">🔍</button></a>
+            `
+        const nav_urls = `
+                    <li><a href="qa.html">Ask Questions</a></li>
+                    <li><a href="market.html">Sell Books</a></li>
+                    <li><a href="notes.html">Notes</a></li>
+                    <li><a href="group.html">Groups</a></li>
+                    `
+        const login = `
+                <a href="login.html" class="btn-primary">Login/Sign Up</a>
+            `
+
+        const footer_urls = `
+                    <a href="#">About Us</a>
+                    <a href="#">Contact</a>
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Terms of Service</a>
+                    <a href="#">Help Center</a>`
+        const footer_urls_2 = `
+                    <a href="qa.html">Ask Questions</a>
+                    <a href="market.html">Sell Books</a>
+                    <a href="notes.html">Share Notes</a>
+                    <a href="group.html">Create Groups</a>
+                    <a href="home">Campus Events</a>`
+    </script>
+    <script src="css/index.js"></script>
+
+    <script>
+        // Modal Functions
+        function openModal() {
+            document.getElementById('modalOverlay').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            document.getElementById('modalOverlay').classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        function closeModalOnOverlay(event) {
+            if (event.target.id === 'modalOverlay') {
+                closeModal();
+            }
+        }
+
+        // Description Toggle
+        function toggleDescription() {
+            const desc = document.getElementById('description');
+            const btn = event.target;
+            
+            if (desc.classList.contains('expanded')) {
+                desc.classList.remove('expanded');
+                btn.textContent = 'Show more';
+            } else {
+                desc.classList.add('expanded');
+                btn.textContent = 'Show less';
+            }
+        }
+
+        // Buy Now Function
+        function handleBuyNow(event) {
+            event.preventDefault();
+            alert('Redirecting to payment page...');
+            // In a real application, this would redirect to the payment page
+            // window.location.href = 'payment.html';
+        }
+
+        // Close modal on ESC key
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                closeModal();
+            }
+        });
+    </script>
+</body>
+</html>

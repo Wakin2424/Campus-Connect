@@ -1,0 +1,350 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Product - Campus Connect</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{%static 'CSS/product_upload.css'%}">
+    <link rel="stylesheet" href="{%static 'CSS/nav.css'%}">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header" id="header">
+        <!--Generated dynamically by js-->
+    </header>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="page-header">
+            <h1>Upload a Product</h1>
+            <p>Provide details about your product to sell it on Campus Connect</p>
+        </div>
+
+        <div class="form-card">
+            <form id="productForm">
+                {% csrf_token %}
+                <!-- Image Upload -->
+                <div class="form-group">
+                    <label>📸 Product Image *</label>
+                    <div class="image-upload-container" id="imageUploadContainer">
+                        <input type="file" id="imageInput" accept="image/*" required>
+                        <div class="upload-placeholder">
+                            <div class="upload-icon">📷</div>
+                            <p>Click to upload product image</p>
+                        </div>
+                        <img id="imagePreview" class="image-preview" alt="Product preview">
+                    </div>
+                </div>
+
+                <!-- Product Name -->
+                <div class="form-group">
+                    <label for="productName">🏷 Product Name *</label>
+                    <input type="text" id="productName" placeholder="Enter product name" required>
+                </div>
+
+                <!-- Category -->
+                <div class="form-group">
+                    <label for="category">🗂 Product Category *</label>
+                    <select id="category" required>
+                        <option value="">Select a category</option>
+                        {% for category in categories %}
+                        <option value="{{category.name}}">{{category.name}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <!-- Course Related -->
+                <div class="form-group">
+                    <label for="courseSelect">🎓 Course Related (Optional)</label>
+                    <select id="courseSelect" class="course-selector">
+                        <option value="">Select courses (optional)</option>
+                        {% for course in courses %}
+                        <option value="{{course.course_name}}">{{course.course_name}}</option>
+                        {% endfor %}
+                    </select>
+                    <div class="course-tags" id="courseTags"></div>
+                </div>
+
+                <!-- Description -->
+                <div class="form-group">
+                    <label>📝 Product Description</label>
+
+                    <div class="text-toolbar">
+                        <button type="button" onclick="formatText('bold')" class="format-button" id="bold"><b>B</b></button>
+                        <button type="button" onclick="formatText('italic')" class="format-button" id="italic"><i>I</i></button>
+                        <button type="button" onclick="formatText('bullet')" class="format-button" id="bullet">• List</button>
+                    </div>
+
+                    <!-- REPLACED TEXTAREA WITH THIS -->
+                    <div id="description" contenteditable="true" class="editable-box">
+                        Describe your product...
+                    </div>
+                </div>
+
+                <!-- Price -->
+                <div class="form-group">
+                    <label for="price">💵 Price (KSh) *</label>
+                    <input type="number" id="price" placeholder="Enter price" min="0" step="0.01" required>
+                </div>
+
+                <!-- Discount -->
+                <div class="form-group">
+                    <label for="discount">🔖 Discount (%) *</label>
+                    <input type="number" id="discount" placeholder="Enter discount (0 if none)" value="0" min="0" required>
+                </div>
+
+                <!-- Submit Button -->
+                <button type="submit" class="submit-btn">Upload Product</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Success Modal -->
+    <div class="modal" id="successModal">
+        <div class="modal-content">
+            <h2>✅ Product Uploaded Successfully!</h2>
+            <p>Your product has been listed on Campus Connect Marketplace.</p>
+            <button class="modal-btn" onclick="closeModal()">Continue</button>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer" id="footer">
+        <!--Generated dynamically by js-->
+    </footer>
+
+    <script>
+        const home = `<a href="{%url 'home'%}" class="logo">Campus Connect</a>`
+        {% if user.image != None %}
+        const user_name = '<img class="user-avatar" src="{{user.image.file.url}}" alt="Avatar">'
+        {% else %}
+        const user_name = '<div class="user-avatar">{{ user.first_name|upper|slice:":1" }}' + '{{ user.last_name|upper|slice:":1" }}</div>'
+        {% endif %}
+        const search = `
+            <input type="text" class="search-bar" id="search-bar" placeholder="Search...">
+            <button class="search-btn" onClick="Search()">🔍</button>
+            `
+        const nav_urls = `
+                    <li><a href="{%url 'question_library'%}">Ask Questions</a></li>
+                    <li><a href="{%url 'market'%}">Market</a></li>
+                    <li><a href="{%url 'notes'%}">Notes</a></li>
+                    <li><a href="group.html">Groups</a></li>
+                    `
+        const login= `
+            {% if user.is_verified %}
+                <div class="user-dropdown">
+                    <div class="quick-post-btn">Post +</div>
+                    <div class="dropdown-menu">
+                        <a href="{%url 'note_upload'%}"><i class="fas"></i> Upload Notes</a>
+                    </div>
+                </div>     
+            {% endif %}
+            <div class="user-dropdown">
+                <div class="user-avatar">${user_name}</div>
+                <div class="dropdown-menu">
+                    <a href="{%url 'user' %}"><i class="fas fa-user"></i> Profile</a>
+                    <a href="{%url 'logout'%}"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                </div>
+            </div>
+        `
+        const footer_urls = `
+                    <a href="#">About Us</a>
+                    <a href="#">Contact</a>
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Terms of Service</a>
+                    <a href="#">Help Center</a>`
+        const footer_urls_2 = `
+                    <a href="{%url 'question_library'%}">Ask Questions</a>
+                    <a href="{%url 'market'%}">Market</a>
+                    <a href="{%url 'notes'%}">Share Notes</a>
+                    <a href="group.html">Create Groups</a>
+                    <a href="{%url 'home'%}">Campus Events</a>`
+    </script>
+    <script src="{%static 'JS/index.js'%}"></script>
+
+    <script>
+        // Selected courses array
+        let selectedCourses = [];
+
+        // Image Upload Preview
+        const imageInput = document.getElementById('imageInput');
+        const imagePreview = document.getElementById('imagePreview');
+        const imageUploadContainer = document.getElementById('imageUploadContainer');
+        let url = ''
+
+        imageUploadContainer.addEventListener('click', () => {
+            imageInput.click();
+        });
+
+        imageInput.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    imagePreview.src = e.target.result;
+                    imagePreview.classList.add('show');
+                    imageUploadContainer.classList.add('has-image');
+                    imageUploadContainer.querySelector('.upload-placeholder').style.display = 'none';
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // Course Selection
+        const courseSelect = document.getElementById('courseSelect');
+        const courseTags = document.getElementById('courseTags');
+
+        courseSelect.addEventListener('change', (e) => {
+            const course = e.target.value;
+            if (course && !selectedCourses.includes(course)) {
+                selectedCourses.push(course);
+                renderCourseTags();
+                e.target.value = '';
+            }
+        });
+
+        function renderCourseTags() {
+            courseTags.innerHTML = '';
+            selectedCourses.forEach((course, index) => {
+                const tag = document.createElement('div');
+                tag.className = 'course-tag';
+                tag.innerHTML = `
+                    ${course}
+                    <span class="remove" onclick="removeCourse(${index})">×</span>
+                `;
+                courseTags.appendChild(tag);
+            });
+        }
+
+        function removeCourse(index) {
+            selectedCourses.splice(index, 1);
+            renderCourseTags();
+        }
+
+        // Text Formatting
+        function formatText(type) {
+            let formatBtn = document.getElementById(type)
+            console.log(formatBtn)
+            if(formatBtn.className == 'format-button'){
+                formatBtn.className = 'format-button active'
+                formatBtn.style.backgroundColor = '#1E90FF'
+            }
+            else{
+                formatBtn.className = 'format-button'
+                formatBtn.style.backgroundColor = 'white'
+
+            }
+            document.getElementById("description").focus();
+
+            if (type === "bold") {
+                document.execCommand("bold");
+            } 
+            else if (type === "italic") {
+                document.execCommand("italic");
+            } 
+            else if (type === "bullet") {
+                document.execCommand("insertUnorderedList");
+            }
+        }
+        // Form Submission
+        const productForm = document.getElementById('productForm');
+        const successModal = document.getElementById('successModal');
+
+        function sanitizeHTML(html) {
+            const div = document.createElement("div");
+            div.innerHTML = html;
+
+            // Remove all script tags
+            div.querySelectorAll("script").forEach(el => el.remove());
+
+            // Remove event handlers like onclick=""
+            div.querySelectorAll("*").forEach(el => {
+                [...el.attributes].forEach(attr => {
+                    if (attr.name.startsWith("on")) {
+                        el.removeAttribute(attr.name);
+                    }
+                });
+            });
+
+            // Remove dangerous tags
+            div.querySelectorAll("iframe, object, embed").forEach(el => el.remove());
+
+            return div.innerHTML;
+        }
+
+
+        function getCookie(name){
+            let cookieValue = null;
+            if(document.cookie && document.cookie !== ''){
+                const cookies = document.cookie.split(';');
+                for(let i=0;i <cookies.length; i++){
+                    const cookie = cookies[i].trim();
+                    if (cookie.substring(0, name.length + 1) === name + '='){
+                        cookieValue = decodeURIComponent(cookie.substring(name.length+1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+
+        productForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+
+            // Validate required fields
+            if (!imageInput.files[0]) {
+                alert('Please upload a product image');
+                return;
+            }
+
+            const formData = new FormData();
+
+            formData.append("name", document.getElementById("productName").value);
+            formData.append("category", document.getElementById("category").value);
+            formData.append("description", sanitizeHTML(document.getElementById("description").innerHTML));
+
+            formData.append("price", parseFloat(document.getElementById("price").value));
+            formData.append("discount", parseInt(document.getElementById("discount").value) || 0);
+
+            // array of selected courses
+            selectedCourses.forEach(course => {
+                formData.append("courses", course);
+            });
+
+            // image
+            const fileInput = document.getElementById("imageInput");
+            formData.append("image", fileInput.files[0]);
+
+
+            fetch("{%url 'upload_product'%}", {
+                method: "POST",
+                headers: {
+                    'X-CSRFToken': getCookie('csrftoken')
+                },
+                body: formData,
+            })
+            .then(response => response.json())
+            .then(data =>{
+                if(data.status){
+                    url = data.url
+                    // Show success modal
+                    successModal.classList.add('show');
+                    
+                }
+                else{
+                    console.log("Error!")
+                }
+            })
+            .catch(err => console.error(err));
+
+        });
+
+        function closeModal() {
+            successModal.classList.remove('show');
+            window.location.href = url
+        }
+    </script>
+</body>
+</html>

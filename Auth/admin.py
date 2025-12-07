@@ -24,10 +24,16 @@ class Question_subjects_admin(admin.ModelAdmin):
     list_display = ['reference_id', 'question__question', 'note__title', 'course__course_name']
 
 class ImageReference_admin(admin.ModelAdmin):
-    list_display = ['reference_id', 'question__question', 'image__title']
+    list_display = ['reference_id', 'question__question', 'answer__answer', 'product__name', 'image__title']
 
 class Answer_admin(admin.ModelAdmin):
     list_display = ['answer_id', 'user__first_name', 'question__question', 'answer', 'created_at']
+
+class Category_admin(admin.ModelAdmin):
+    list_display = ['category_id', 'name', 'slug', 'description', 'created_at']
+
+class Product_admin(admin.ModelAdmin):
+    list_display = ['product_id', 'user__first_name', 'slug', 'code', 'price', 'discount', 'status', 'created_at', 'description']
 
 class Rating_admin(admin.ModelAdmin):
     list_display = ['rating_id', 'user__first_name', 'question__question', 'rating']
@@ -47,6 +53,8 @@ admin.site.register(CustomUser, User_admin)
 admin.site.register(Question_subjects, Question_subjects_admin)
 admin.site.register(Image_reference, ImageReference_admin)
 admin.site.register(Answers, Answer_admin)
+admin.site.register(Category, Category_admin)
+admin.site.register(Product, Product_admin)
 admin.site.register(Ratings, Rating_admin)
 admin.site.register(Likes, Likes_admin)
 admin.site.register(Images, Images_admin)
