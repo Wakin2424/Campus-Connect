@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Details - Campus Connect Marketplace</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #ffffff;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        /* Header */
+        header {
+            background-color: #ffffff;
+            padding: 1rem 2rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #0D1B2A;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        nav a {
+            color: #0D1B2A;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        nav a:hover {
+            color: #1E90FF;
+        }
+
+        /* Main Container */
+        .container {
+            max-width: 1400px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+
+        /* Product Section */
+        .product-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        .product-image {
+            width: 100%;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+
+        .product-details {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .product-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #0D1B2A;
+        }
+
+        .price-section {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .price {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #0D1B2A;
+        }
+
+        .discount-badge {
+            background-color: #ff4444;
+            color: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .seller-info {
+            background-color: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 12px;
+            border: 2px solid #e9ecef;
+        }
+
+        .seller-info h3 {
+            color: #0D1B2A;
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+        }
+
+        .seller-detail {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.5rem;
+            color: #555;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .btn {
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            flex: 1;
+        }
+
+        .btn-primary {
+            background-color: #0D1B2A;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: #1a2f4a;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(13,27,42,0.3);
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            color: #0D1B2A;
+            border: 2px solid #0D1B2A;
+        }
+
+        .btn-outline:hover {
+            background-color: #0D1B2A;
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        /* Description Section */
+        .description-section {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.08);
+            margin-bottom: 3rem;
+        }
+
+        .description-section h2 {
+            color: #0D1B2A;
+            margin-bottom: 1rem;
+        }
+
+        .description-content {
+            color: #555;
+            line-height: 1.8;
+            max-height: 150px;
+            overflow: hidden;
+            transition: max-height 0.5s ease;
+        }
+
+        .description-content.expanded {
+            max-height: 2000px;
+        }
+
+        .show-more-btn {
+            margin-top: 1rem;
+            background-color: transparent;
+            color: #1E90FF;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 1rem;
+            padding: 0.5rem 0;
+        }
+
+        .show-more-btn:hover {
+            text-decoration: underline;
+        }
+
+        /* Related Products */
+        .related-section {
+            margin-bottom: 3rem;
+        }
+
+        .related-section h2 {
+            color: #0D1B2A;
+            margin-bottom: 1.5rem;
+            font-size: 1.8rem;
+        }
+
+        .related-products {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .product-card {
+            background-color: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.08);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+
+        .product-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .product-card-content {
+            padding: 1rem;
+        }
+
+        .product-card-title {
+            font-weight: 600;
+            color: #0D1B2A;
+            margin-bottom: 0.5rem;
+        }
+
+        .product-card-price {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .card-price {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #0D1B2A;
+        }
+
+        .card-discount {
+            background-color: #ff4444;
+            color: white;
+            padding: 0.2rem 0.5rem;
+            border-radius: 12px;
+            font-size: 0.75rem;
+        }
+
+        /* Modal */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.6);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            animation: fadeIn 0.3s;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .modal {
+            background-color: white;
+            border-radius: 16px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+            max-width: 700px;
+            width: 90%;
+            animation: slideIn 0.3s;
+            position: relative;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateY(-50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .modal-header {
+            padding: 1.5rem 2rem;
+            border-bottom: 1px solid #e9ecef;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-header h3 {
+            color: #0D1B2A;
+            font-size: 1.5rem;
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #999;
+            transition: color 0.3s;
+        }
+
+        .close-btn:hover {
+            color: #0D1B2A;
+        }
+
+        .modal-body {
+            padding: 2rem;
+            display: grid;
+            grid-template-columns: auto 1fr;
+            gap: 2rem;
+        }
+
+        .seller-image-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .seller-image {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid #0D1B2A;
+        }
+
+        .verified-badge {
+            background-color: #1E90FF;
+            color: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+
+        .seller-details {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .seller-name {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #0D1B2A;
+        }
+
+        .contact-info {
+            color: #555;
+            margin-bottom: 0.5rem;
+        }
+
+        .contact-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+            margin-top: 1rem;
+        }
+
+        .contact-btn {
+            padding: 0.8rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            color: white;
+            text-decoration: none;
+            text-align: center;
+        }
+
+        .contact-btn-email {
+            background-color: #dc3545;
+        }
+
+        .contact-btn-email:hover {
+            background-color: #c82333;
+        }
+
+        .contact-btn-whatsapp {
+            background-color: #25D366;
+        }
+
+        .contact-btn-whatsapp:hover {
+            background-color: #1fb855;
+        }
+
+        .contact-btn-call {
+            background-color: #1E90FF;
+        }
+
+        .contact-btn-call:hover {
+            background-color: #1873cc;
+        }
+
+        /* Footer */
+        footer {
+            background-color: #0D1B2A;
+            color: white;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .footer-links a {
+            color: white;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: #1E90FF;
+        }
+
+        .copyright {
+            margin-top: 1rem;
+            opacity: 0.8;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .product-section {
+                grid-template-columns: 1fr;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+            }
+
+            nav ul {
+                gap: 1rem;
+                flex-wrap: wrap;
+            }
+
+            .modal-body {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .seller-image-container {
+                justify-content: center;
+            }
+
+            .related-products {
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="header-container">
+            <div class="logo">Campus Connect</div>
+            <nav>
+                <ul>
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#market">Market</a></li>
+                    <li><a href="#notes">Notes</a></li>
+                    <li><a href="#questions">Questions</a></li>
+                    <li><a href="#groups">Groups</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="container">
+        <!-- Product Section -->
+        <div class="product-section">
+            <!-- Product Image -->
+            <div>
+                <img src="https://images.unsplash.com/photo-1544947950-fa07a98d237f?w=800&h=800&fit=crop" alt="Introduction to Algorithms" class="product-image">
+            </div>
+
+            <!-- Product Details -->
+            <div class="product-details">
+                <h1 class="product-title">Introduction to Algorithms (4th Edition)</h1>
+                
+                <div class="price-section">
+                    <span class="price">$45.00</span>
+                    <span class="discount-badge">-20%</span>
+                </div>
+
+                <div class="seller-info">
+                    <h3>Seller Information</h3>
+                    <div class="seller-detail">
+                        <strong>Name:</strong> Sarah Johnson
+                    </div>
+                    <div class="seller-detail">
+                        <strong>Email:</strong> sarah.johnson@campus.edu
+                    </div>
+                    <div class="seller-detail">
+                        <strong>Phone:</strong> +1 (555) 123-4567
+                    </div>
+                </div>
+
+                <div class="action-buttons">
+                    <button class="btn btn-primary" onclick="buyNow()">Buy Now</button>
+                    <button class="btn btn-outline" onclick="openModal()">Contact Seller</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Description Section -->
+        <div class="description-section">
+            <h2>Product Description</h2>
+            <div class="description-content" id="description">
+                <p>This comprehensive textbook covers fundamental algorithms and data structures used in computer science. The fourth edition includes updated content on modern algorithmic techniques and real-world applications.</p>
+                <p>The book is in excellent condition with minimal wear. All pages are intact and legible. Perfect for students taking courses in algorithms, data structures, or preparing for technical interviews.</p>
+                <p>Key topics covered include: sorting algorithms, graph algorithms, dynamic programming, greedy algorithms, NP-completeness, and approximation algorithms. Each chapter includes detailed explanations, pseudocode, and exercises.</p>
+                <p>This edition also features new chapters on multithreaded algorithms and van Emde Boas trees. The book has been widely used in top universities worldwide and is considered the definitive guide to algorithm design and analysis.</p>
+            </div>
+            <button class="show-more-btn" id="showMoreBtn" onclick="toggleDescription()">Show More</button>
+        </div>
+
+        <!-- Related Products -->
+        <div class="related-section">
+            <h2>Related Products</h2>
+            <div class="related-products">
+                <div class="product-card" onclick="loadProduct()">
+                    <img src="https://images.unsplash.com/photo-1532012197267-da84d127e765?w=400&h=300&fit=crop" alt="Data Structures">
+                    <div class="product-card-content">
+                        <div class="product-card-title">Data Structures and Algorithms</div>
+                        <div class="product-card-price">
+                            <span class="card-price">$38.00</span>
+                            <span class="card-discount">-15%</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="product-card" onclick="loadProduct()">
+                    <img src="https://images.unsplash.com/photo-1512820790803-83ca734da794?w=400&h=300&fit=crop" alt="Computer Networks">
+                    <div class="product-card-content">
+                        <div class="product-card-title">Computer Networks (5th Ed)</div>
+                        <div class="product-card-price">
+                            <span class="card-price">$42.00</span>
+                            <span class="card-discount">-10%</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="product-card" onclick="loadProduct()">
+                    <img src="https://images.unsplash.com/photo-1509021436665-8f07dbf5bf1d?w=400&h=300&fit=crop" alt="Operating Systems">
+                    <div class="product-card-content">
+                        <div class="product-card-title">Operating System Concepts</div>
+                        <div class="product-card-price">
+                            <span class="card-price">$50.00</span>
+                            <span class="card-discount">-25%</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="product-card" onclick="loadProduct()">
+                    <img src="https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?w=400&h=300&fit=crop" alt="Database Systems">
+                    <div class="product-card-content">
+                        <div class="product-card-title">Database System Concepts</div>
+                        <div class="product-card-price">
+                            <span class="card-price">$46.00</span>
+                            <span class="card-discount">-18%</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Contact Seller Modal -->
+    <div class="modal-overlay" id="modalOverlay" onclick="closeModalOnOverlay(event)">
+        <div class="modal">
+            <div class="modal-header">
+                <h3>Contact Seller</h3>
+                <button class="close-btn" onclick="closeModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="seller-image-container">
+                    <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=200&h=200&fit=crop" alt="Sarah Johnson" class="seller-image">
+                    <span class="verified-badge">✓ Verified</span>
+                </div>
+                <div class="seller-details">
+                    <div class="seller-name">Sarah Johnson</div>
+                    <div class="contact-info">📧 sarah.johnson@campus.edu</div>
+                    <div class="contact-info">📱 +1 (555) 123-4567</div>
+                    
+                    <div class="contact-buttons">
+                        <a href="mailto:sarah.johnson@campus.edu" class="contact-btn contact-btn-email">
+                            Email Seller
+                        </a>
+                        <a href="https://wa.me/15551234567" target="_blank" class="contact-btn contact-btn-whatsapp">
+                            WhatsApp
+                        </a>
+                        <a href="tel:+15551234567" class="contact-btn contact-btn-call">
+                            Call Now
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-links">
+            <a href="#about">About</a>
+            <a href="#contact">Contact</a>
+            <a href="#terms">Terms</a>
+            <a href="#privacy">Privacy</a>
+        </div>
+        <div class="copyright">
+            &copy; 2024 Campus Connect. All rights reserved.
+        </div>
+    </footer>
+
+    <script>
+        // Modal Functions
+        function openModal() {
+            document.getElementById('modalOverlay').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            document.getElementById('modalOverlay').classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        function closeModalOnOverlay(event) {
+            if (event.target === document.getElementById('modalOverlay')) {
+                closeModal();
+            }
+        }
+
+        // Description Toggle
+        function toggleDescription() {
+            const description = document.getElementById('description');
+            const btn = document.getElementById('showMoreBtn');
+            
+            if (description.classList.contains('expanded')) {
+                description.classList.remove('expanded');
+                btn.textContent = 'Show More';
+            } else {
+                description.classList.add('expanded');
+                btn.textContent = 'Show Less';
+            }
+        }
+
+        // Buy Now Function
+        function buyNow() {
+            // Redirect to payment page
+            alert('Redirecting to payment page...');
+            // In a real application: window.location.href = '/payment?product=intro-algorithms';
+        }
+
+        // Load Product (for related products)
+        function loadProduct() {
+            alert('Loading product details...');
+            // In a real application: window.location.href = '/product/' + productId;
+        }
+
+        // Close modal on Escape key
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                closeModal();
+            }
+        });
+    </script>
+</body>
+</html>

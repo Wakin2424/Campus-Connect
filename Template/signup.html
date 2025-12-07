@@ -277,6 +277,7 @@
                 <div class="quick-post-btn">Post +</div>
                 <div class="dropdown-menu">
                     <a href="{%url "question"%}"><i class="fas"></i> Post Question</a>
+                    <a href="{%url "upload_product"%}"><i class="fas"></i> Sell Product</a>
                     {% if user.is_verified %}
                     <a href="{%url 'note_upload'%}"><i class="fas"></i> Upload Notes</a>
                     {% endif %}

@@ -24,9 +24,28 @@
             </div>
             <div class="product-info">
                 <h1 class="product-title">{{product.name}}</h1>
+                <div class="course-tags" style="display: flex;flex-wrap: wrap;gap: 0.5rem;margin-bottom: 1.5rem;">
+                    {% for course in courses %}
+                    <span class="tag" style="background-color: #1E90FF;color: white;padding: 0.3rem 0.8rem;border-radius: 20px;font-size: 0.9rem;font-weight: 500;">{{course.course.course_name}}</span>
+                    {% endfor %}
+                </div>
+                
                 <div class="price-section">
                     <span class="price">Ksh {{product.discount}}</span>
                     <span class="discount-badge">-{{discount}}%</span>
+                </div>
+
+                <div class="seller-info-1" >
+                    <h3>Seller Information</h3>
+                    <div class="seller-detail-1">
+                        <strong>Name:</strong> {{seller.first_name}} {{seller.last_name}}
+                    </div>
+                    <div class="seller-detail-1">
+                        <strong>Email:</strong> {{seller.email}}
+                    </div>
+                    <div class="seller-detail-1">
+                        <strong>Phone:</strong> {{seller.contact}}
+                    </div>
                 </div>
                 <!--
                 <p style="color: #666; line-height: 1.6;">
@@ -95,8 +114,14 @@
             </div>
             <div class="modal-content">
                 <div class="seller-image-section">
-                    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200" alt="Seller" class="seller-profile-pic">
+                    {% if seller.image != None %}
+                    <img class="seller-profile-pic" src="{{seller.image.file.url}}" alt="Avatar">'
+                    {% else %}
+                    <div class="seller-profile-pic">{{ seller.first_name|upper|slice:":1" }}' + '{{ seller.last_name|upper|slice:":1" }}</div>'
+                    {% endif %}
+                    {% if seller.is_verified%}
                     <span class="verified-badge">✓ Verified</span>
+                    {% endif %}
                 </div>
                 <div class="seller-details">
                     <div class="seller-info">
@@ -148,6 +173,7 @@
                 <div class="quick-post-btn">Post +</div>
                 <div class="dropdown-menu">
                     <a href="{%url "question"%}"><i class="fas"></i> Post Question</a>
+                    <a href="{%url "upload_product"%}"><i class="fas"></i> Sell Product</a>
                     {% if user.is_verified %}
                     <a href="{%url 'note_upload'%}"><i class="fas"></i> Upload Notes</a>
                     {% endif %}

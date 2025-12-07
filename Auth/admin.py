@@ -33,7 +33,7 @@ class Category_admin(admin.ModelAdmin):
     list_display = ['category_id', 'name', 'slug', 'description', 'created_at']
 
 class Product_admin(admin.ModelAdmin):
-    list_display = ['product_id', 'user__first_name', 'slug', 'code', 'price', 'discount', 'status', 'created_at', 'description']
+    list_display = ['product_id', 'user__first_name', 'name', 'category__name','slug', 'code', 'price', 'discount', 'status', 'created_at', 'description']
 
 class Rating_admin(admin.ModelAdmin):
     list_display = ['rating_id', 'user__first_name', 'question__question', 'rating']

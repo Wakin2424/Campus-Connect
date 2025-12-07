@@ -46,40 +46,20 @@
             <p class="category-subtitle">Popular picks for students</p>
         </div>
         <div class="product-grid">
+            {% for book in books %}
             <div class="product-card">
                 <div class="product-card-image">
-                    <img src="https://images.unsplash.com/photo-1589998059171-988d887df646?w=400" alt="Business Book">
-                    <div class="discount-badge">-18%</div>
-                </div>
-                <div class="product-card-content">
-                    <h3 class="product-card-title">Business Management Essentials</h3>
-                    <div class="product-card-price">KSh 2,200</div>
-                    <button class="view-details-btn">View Details</button>
-                </div>
-            </div>
+                    <img src="{{book.image.file.url}}" alt="{{book.name}}">
 
-            <div class="product-card">
-                <div class="product-card-image">
-                    <img src="https://images.unsplash.com/photo-1491841573634-28140fc7ced7?w=400" alt="Law Book">
                 </div>
                 <div class="product-card-content">
-                    <h3 class="product-card-title">Introduction to Constitutional Law</h3>
-                    <div class="product-card-price">KSh 3,500</div>
-                    <button class="view-details-btn">View Details</button>
+                    <h3 class="product-card-title">{{book.name}}</h3>
+                    <div class="product-card-price">KSh {{book.price}}</div>
+                    <a style="text-decoration: none;" href="{%url 'product_detail' id=book.code %}"><button class="view-details-btn">View Details</button></a>
                 </div>
             </div>
+            {% endfor %}
 
-            <div class="product-card">
-                <div class="product-card-image">
-                    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400" alt="Engineering">
-                    <div class="discount-badge">-22%</div>
-                </div>
-                <div class="product-card-content">
-                    <h3 class="product-card-title">Engineering Mathematics Vol. 2</h3>
-                    <div class="product-card-price">KSh 2,800</div>
-                    <button class="view-details-btn">View Details</button>
-                </div>
-            </div>
         </div>
         <div class="view-more-container">
             <button class="view-more-btn">View More Books</button>
@@ -93,6 +73,7 @@
             <p class="category-subtitle">Ace your exams with previous papers</p>
         </div>
         <div class="product-grid">
+            {% for paper in papers %}
             <div class="product-card">
                 <div class="product-card-image">
                     <img src="https://images.unsplash.com/photo-1586281380349-632531db7ed4?w=400" alt="Math Papers">
@@ -103,29 +84,8 @@
                     <button class="view-details-btn">View Details</button>
                 </div>
             </div>
+            {% endfor %}
 
-            <div class="product-card">
-                <div class="product-card-image">
-                    <img src="https://images.unsplash.com/photo-1554224311-beee415c201f?w=400" alt="Physics Papers">
-                    <div class="discount-badge">-30%</div>
-                </div>
-                <div class="product-card-content">
-                    <h3 class="product-card-title">Physics Past Exams with Solutions</h3>
-                    <div class="product-card-price">KSh 600</div>
-                    <button class="view-details-btn">View Details</button>
-                </div>
-            </div>
-
-            <div class="product-card">
-                <div class="product-card-image">
-                    <img src="https://images.unsplash.com/photo-1488190211105-8b0e65b80b4e?w=400" alt="CS Papers">
-                </div>
-                <div class="product-card-content">
-                    <h3 class="product-card-title">CS 201 Final Exam Papers Bundle</h3>
-                    <div class="product-card-price">KSh 750</div>
-                    <button class="view-details-btn">View Details</button>
-                </div>
-            </div>
         </div>
         <div class="view-more-container">
             <button class="view-more-btn">View More Past Papers</button>
@@ -139,6 +99,7 @@
             <p class="category-subtitle">Comprehensive study notes from top students</p>
         </div>
         <div class="product-grid">
+            {% for note in notes %}
             <div class="product-card">
                 <div class="product-card-image">
                     <img src="https://images.unsplash.com/photo-1434030216411-0b793f4b4173?w=400" alt="Engineering Notes">
@@ -150,80 +111,15 @@
                     <button class="view-details-btn">View Details</button>
                 </div>
             </div>
+            {% endfor %}
 
-            <div class="product-card">
-                <div class="product-card-image">
-                    <img src="https://images.unsplash.com/photo-1455390582262-044cdead277a?w=400" alt="Stats Notes">
-                </div>
-                <div class="product-card-content">
-                    <h3 class="product-card-title">Business Statistics Handouts</h3>
-                    <div class="product-card-price">KSh 600</div>
-                    <button class="view-details-btn">View Details</button>
-                </div>
-            </div>
-
-            <div class="product-card">
-                <div class="product-card-image">
-                    <img src="https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?w=400" alt="Network Notes">
-                </div>
-                <div class="product-card-content">
-                    <h3 class="product-card-title">Computer Networks - Semester Notes</h3>
-                    <div class="product-card-price">KSh 900</div>
-                    <button class="view-details-btn">View Details</button>
-                </div>
-            </div>
         </div>
         <div class="view-more-container">
             <button class="view-more-btn">View More Notes</button>
         </div>
     </section>
 
-    <!-- Revision Materials Category -->
-    <section class="category-section">
-        <div class="category-header">
-            <h2 class="category-title">Revision Materials</h2>
-            <p class="category-subtitle">Quick revision guides and summaries</p>
-        </div>
-        <div class="product-grid">
-            <div class="product-card">
-                <div class="product-card-image">
-                    <img src="https://images.unsplash.com/photo-1450101499163-c8848c66ca85?w=400" alt="Accounting">
-                    <div class="discount-badge">-10%</div>
-                </div>
-                <div class="product-card-content">
-                    <h3 class="product-card-title">Financial Accounting Summary Notes</h3>
-                    <div class="product-card-price">KSh 700</div>
-                    <button class="view-details-btn">View Details</button>
-                </div>
-            </div>
-
-            <div class="product-card">
-                <div class="product-card-image">
-                    <img src="https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=400" alt="Economics">
-                </div>
-                <div class="product-card-content">
-                    <h3 class="product-card-title">Macroeconomics Revision Pack</h3>
-                    <div class="product-card-price">KSh 650</div>
-                    <button class="view-details-btn">View Details</button>
-                </div>
-            </div>
-
-            <div class="product-card">
-                <div class="product-card-image">
-                    <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=400" alt="Lab Reports">
-                    <div class="discount-badge">-15%</div>
-                </div>
-                <div class="product-card-content">
-                    <h3 class="product-card-title">Chemistry Lab Reports Collection</h3>
-                    <div class="product-card-price">KSh 550</div>
-                    <button class="view-details-btn">View Details</button>
-                </div>
-            </div>
-        </div>
-        <div class="view-more-container">
-            <button class="view-more-btn">View More Revision Materials</button>
-        </div>
-    </section>
+    
 
     <!-- Study Guides Category -->
     <section class="category-section">
@@ -232,6 +128,7 @@
             <p class="category-subtitle">Step-by-step guides for mastering concepts</p>
         </div>
         <div class="product-grid">
+            {% for guide in study_guides %}
             <div class="product-card">
                 <div class="product-card-image">
                     <img src="https://images.unsplash.com/photo-1497633762265-9d179a990aa6?w=400" alt="Python Guide">
@@ -243,28 +140,8 @@
                     <button class="view-details-btn">View Details</button>
                 </div>
             </div>
+            {% endfor %}
 
-            <div class="product-card">
-                <div class="product-card-image">
-                    <img src="https://images.unsplash.com/photo-1532012197267-da84d127e765?w=400" alt="Database">
-                </div>
-                <div class="product-card-content">
-                    <h3 class="product-card-title">Database Design Step-by-Step Guide</h3>
-                    <div class="product-card-price">KSh 1,000</div>
-                    <button class="view-details-btn">View Details</button>
-                </div>
-            </div>
-
-            <div class="product-card">
-                <div class="product-card-image">
-                    <img src="https://images.unsplash.com/photo-1531297484001-80022131f5a1?w=400" alt="Research">
-                </div>
-                <div class="product-card-content">
-                    <h3 class="product-card-title">Research Methods & Thesis Writing</h3>
-                    <div class="product-card-price">KSh 1,500</div>
-                    <button class="view-details-btn">View Details</button>
-                </div>
-            </div>
         </div>
         <div class="view-more-container">
             <button class="view-more-btn">View More Study Guides</button>
@@ -299,6 +176,7 @@
                 <div class="quick-post-btn">Post +</div>
                 <div class="dropdown-menu">
                     <a href="{%url "question"%}"><i class="fas"></i> Post Question</a>
+                    <a href="{%url "upload_product"%}"><i class="fas"></i> Sell Product</a>
                     {% if user.is_verified %}
                     <a href="{%url 'note_upload'%}"><i class="fas"></i> Upload Notes</a>
                     {% endif %}
