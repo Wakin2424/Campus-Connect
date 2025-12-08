@@ -8,10 +8,9 @@ import uuid, os
 
 # Create your views here.
 def Home(request):
-    
     books = models.Product.objects.filter(category=models.Category.objects.get(slug='books'))[:3]
     notes = models.Product.objects.filter(category=models.Category.objects.get(slug='notes-and-handouts'))[:3]
-    papers = models.Product.objects.filter(category=models.Category.objects.get(slug='past-papers'))[:3]
+    papers = models.Product.objects.filter(category=models.Category.objects.get(slug='articles'))[:3]
     study_guides = models.Product.objects.filter(category=models.Category.objects.get(slug='study-guides'))[:3]
 
    
@@ -85,10 +84,7 @@ def uploadProduct(request):
 
         except:
             return JsonResponse({'status':status})
-        
-        
-
-    
+                
     else:
         category = models.Category.objects.all()
         courses = models.Course.objects.all()
