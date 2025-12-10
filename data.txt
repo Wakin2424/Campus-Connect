@@ -1,23 +1,25 @@
-Illustrated Textbook of Paediatrics
+//mobile friendly
+const mobileToggle = document.getElementById("mobileToggle");
+const mobileMenu = document.getElementById("mobileMenu")
+const postElementBtn = document.getElementsByClassName('quick-post-btn')
+const Avatar = document.getElementsByClassName('user-avatar')
+const dropDownElements = document.getElementsByClassName('dropdown-menu')
+// Toggle Mobile Menu
+mobileToggle.addEventListener("click", () => {
+    if(mobileToggle.className == 'mobile-toggle'){
+        mobileToggle.className = 'mobile-toggle-active'
+        
 
 
-<bold>llustrated Textbook of Paediatrics</bold> by Tom Lissauer (currently in its 6th edition, published in 2021) is an acclaimed, highly visual, and concise textbook designed primarily for undergraduate medical students. It is often referred to as the "Sunflower book" due to its distinctive cover. 
-<bold><italic>Key Features</italic></bold>
-• <bold>Highly Illustrated Format:</bold> The book's major strength is its extensive use of hundreds of full-color photographs, diagrams, and illustrations to help clarify and present clinical conditions and complex information visually.
-• <bold>Concise and Focused:</bold> The writing style is succinct, using bullet points and "key learning points" boxes to facilitate revision and cover the essential core curriculum in paediatrics and child health, without excessive detail.
-• <bold>Case Studies:</bold> It incorporates illustrated case histories and "clinical hints and tips" to explain important clinical problems and bridge the gap between theoretical knowledge and practical application.
-• <bold>Target Audience: While primarily aimed at medical students during their clinical rotations, it is also widely used by an international audience including nurses, general practitioners, and trainee paediatricians preparing for specialty exams like the MRCPCH.
-• <bold>Structured Approach:</bold> Diseases and conditions are consistently presented using a clear, logical structure: Clinical features, Investigations, Management, Prognosis, and Prevention (where appropriate). 
-<bold><italic>Topics Covered</italic></bold>
-The textbook provides comprehensive coverage of the paediatric curriculum through numerous system-based chapters: 
-• Paediatrics and Child Health (General issues, history, and examination)
-• Normal Child Development, Hearing, and Vision
-• Developmental Problems and Special Needs
-• Care of the Ill Child and Paediatric Emergencies
-• Child Protection and Global Child Health
-• Genetics, Perinatal, and Neonatal Medicine
-• Nutrition, Growth, and Puberty
-• System-specific disorders (e.g., Respiratory, Cardiac, Gastrointestinal, • • Neurological, Dermatological, Endocrine, etc.)
-• Child and Adolescent Mental Health 
-Tom Lissauer, an Honorary Consultant Paediatrician with a special interest in medical education, also co-edits supplementary resources such as Self-Assessment in Paediatrics to complement the main textbook.
+    }
+    else{
+        mobileToggle.className = 'mobile-toggle'
 
+    }
+});
+
+given that with
+mobileToggle -(button) a button that toggles(opens  and closes the side panel in mobile)
+mobileMenu -(div) the side Panel that covers the left vertical side of the phone and 1/3 of the horizontal side when opened and disappears to the left in a sliding animation
+postElementBtn -(button) a button in the web in desktop that when a mouse hovers over it it shows a dropdown list of options of posting(question, answer) and disappears in mobile because the dropdown goes to the mobileMenu
+Avatar -(div) circular profile icon where the user sees their profile picture or first letters of the first and lastname(eg JK if the user does not have a profile picture)

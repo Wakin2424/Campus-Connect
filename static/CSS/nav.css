@@ -276,8 +276,103 @@
     color: #ccc;
 }
 
+#mobileMenu{
+    display: none;
+}
+
+#mobile-toggle{
+    display: block;
+}
 /*
 footer area: 796 * 534.406
 footer padding: top-48, bottom-32, sides-0
 
 */
+
+ /************** MOBILE VIEW ****************/
+/* ---------------------- */
+/* BASE STYLES            */
+/* ---------------------- */
+
+/* The toggle button (hamburger) */
+.mobile-toggle,
+.mobile-toggle-active {
+    width: 30px;
+    height: 25px;
+    position: relative;
+    background: none;
+    border: none;
+    cursor: pointer;
+    z-index: 9999; /* above menu */
+}
+
+/* The three lines */
+.mobile-toggle::before,
+.mobile-toggle::after,
+.mobile-toggle span,
+.mobile-toggle-active::before,
+.mobile-toggle-active::after,
+.mobile-toggle-active span {
+    content: '';
+    position: absolute;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: #000;
+    transition: 0.3s;
+}
+
+/* Top, middle, bottom lines */
+.mobile-toggle::before { top: 0; }
+.mobile-toggle span { top: 11px; }
+.mobile-toggle::after { top: 22px; }
+
+/* ---------------------- */
+/* Active (X icon)        */
+/* ---------------------- */
+.mobile-toggle-active::before {
+    transform: rotate(45deg);
+    top: 11px;
+}
+.mobile-toggle-active span {
+    opacity: 0;
+}
+.mobile-toggle-active::after {
+    transform: rotate(-45deg);
+    top: 11px;
+}
+
+/* ---------------------- */
+/* SIDE MENU PANEL        */
+/* ---------------------- */
+.mobile-menu {
+    position: fixed;
+    top: 0;
+    left: -50%;            /* hidden by default */
+    width: 50%;            /* half screen */
+    height: 100vh;         /* full height */
+    background: white;
+    box-shadow: 2px 0 10px rgba(0,0,0,.2);
+    transition: left 0.3s ease;
+    z-index: 9998;
+}
+
+.mobile-menu.active {
+    left: 0; /* slide in */
+}
+
+/* ---------------------- */
+/* MOBILE RESPONSIVE CSS  */
+/* ---------------------- */
+@media (max-width: 768px) {
+
+    /* Hide quick-post button */
+    .quick-post-btn {
+        display: none;
+    }
+
+    /* make toggle always show on mobile */
+    #mobileToggle {
+        display: block;
+    }
+}

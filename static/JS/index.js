@@ -3,24 +3,23 @@ const footer = document.getElementById('footer')
 
 header.innerHTML = `
         <div class="nav-container">
+            <button id="mobileToggle" class="mobile-toggle"><span></span></button>
+            <div id="mobileMenu" class="mobile-menu">
+                <!-- your menu items here -->
+            </div>
             ${home}
             
             <nav>
-                <ul class="nav-links" id="navLinks">
+                <ul class="nav-links mobile-elements-nav" id="navLinks" >
                     ${nav_urls}
                 </ul>
             </nav>
-            <div class="search-container">
+            <div class="search-container" style="display:none;">
                 ${search}
             </div>
 
             ${login}            
 
-            <div class="mobile-toggle" id="mobileToggle">
-                <span></span>
-                <span></span>
-                <span></span>
-            </div>
         </div>
 `
 
@@ -64,7 +63,6 @@ footer.innerHTML = `
         </div>
 `
 
-
 function formatDate(dateString) {
     const date = new Date(dateString);
     const now = new Date();
@@ -105,7 +103,6 @@ function formatDate(dateString) {
     return result
 }
 
-
 dateELems = document.getElementsByClassName('datetime')
 console.log(dateELems)
 for(i=0; i<dateELems.length; i++) {
@@ -113,3 +110,45 @@ for(i=0; i<dateELems.length; i++) {
     console.log(dateElem.textContent)
     dateElem.textContent = formatDate(dateElem.textContent)
 };
+
+//mobile friendly
+const mobileToggle = document.getElementById("mobileToggle");
+const mobileMenu = document.getElementById("mobileMenu");
+const navElements = document.getElementById('navLinks')
+const Avatar = document.getElementsByClassName('user-avatar');
+const dropDownElements = document.getElementsByClassName('dropdown-menu');
+
+/*
+//add to mobile menu
+if (window.innerWidth <= 768) {
+    Array.from(navElements.children).forEach(element => {
+      mobileMenu.appendChild(element)  
+    });    
+}
+
+if (window.innerWidth > 768){
+    Array.from(navElements.children).forEach(element => {
+      mobileMenu.appendChild(element)  
+    }); 
+}
+
+
+// Toggle Mobile Menu
+mobileMenu.style.display = 'none'
+mobileToggle.addEventListener("click", () => {
+    if(mobileToggle.className == 'mobile-toggle'){
+        mobileToggle.className = 'mobile-toggle-active'
+        mobileMenu.style.display = 'block'
+        mobileMenu.style.left = '0'
+
+
+
+    }
+    else{
+        mobileToggle.className = 'mobile-toggle'
+        mobileMenu.style.display = 'none'
+        mobileMenu.style.left = '-50%'
+
+    }
+});
+*/
