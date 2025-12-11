@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,8 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Payment - Campus Connect</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="css/payment.css">
-    <link rel="stylesheet" href="css/nav.css">
+    <link rel="stylesheet" href="{%static 'CSS/payment.css'%}">
+    <link rel="stylesheet" href="{%static 'CSS/nav.css'%}">
 </head>
 <body>
     <!-- Header -->
@@ -23,15 +24,17 @@
                 <div class="card">
                     <h2 class="section-title">Product Details</h2>
                     <div class="product-section">
-                        <img src="https://images.unsplash.com/photo-1544947950-fa07a98d237f?w=500" alt="Product" class="product-image">
+                        <img src="{{product.image.file.url}}" alt="{{product.name}}" class="product-image">
                         <div class="product-info">
-                            <h3 class="product-name">Engineering Mathematics Textbook - 5th Edition</h3>
+                            <h3 class="product-name">{{product.name}}</h3>
                             <div class="price-container">
-                                <span class="product-price">KSh 2,800</span>
-                                <span class="product-discount">KSh 3,500</span>
+                                <span class="product-price">KSh {{product.discount}}</span>
+                                <span class="product-discount">KSh {{product.price}}</span>
                                 <span class="discount-badge">20% OFF</span>
                             </div>
+                            {% if product.status %}
                             <span class="availability-badge">✓ Available</span>
+                            {% endif %}
                         </div>
                     </div>
                 </div>
@@ -42,11 +45,11 @@
                     <form id="addressForm">
                         <div class="form-group">
                             <label>Full Name <span class="required">*</span></label>
-                            <input type="text" id="fullName" required placeholder="Enter your full name">
+                            <input type="text" id="fullName" value="{{user.first_name}} {{user.last_name}}" required>
                         </div>
                         <div class="form-group">
                             <label>Contact / Phone <span class="required">*</span></label>
-                            <input type="tel" id="phone" required placeholder="+254 700 000 000">
+                            <input type="tel" id="phone" value="{{user.contact}}" required>
                         </div>
                         <div class="form-group">
                             <label>Address Line 1 <span class="required">*</span></label>
@@ -109,7 +112,7 @@
                     
                     <div class="summary-row">
                         <span class="summary-label">Subtotal</span>
-                        <span class="summary-value">KSh 3,500</span>
+                        <span class="summary-value">KSh {{product.discount}}</span>
                     </div>
                     
                     <div class="summary-row">
@@ -171,21 +174,45 @@
         <!--Generated dynamically by js-->
     </footer>
 
+    <!-- Footer -->
+    <footer class="footer" id="footer">
+        <!--Generated dynamically by js-->
+    </footer>
+
     <script>
-        const home = `<a href="#" class="logo">Campus Connect</a>`
+        const home = `<a href="{%url 'home'%}" class="logo">Campus Connect</a>`
+        {% if user.image != None %}
+        const user_name = '<img class="user-avatar" src="{{user.image.file.url}}" alt="Avatar">'
+        {% else %}
+        const user_name = '<div class="user-avatar">{{ user.first_name|upper|slice:":1" }}' + '{{ user.last_name|upper|slice:":1" }}</div>'
+        {% endif %}
         const search = `
-            <a href=''><button class="search-btn">🔍</button></a>
+            <input type="text" class="search-bar" id="search-bar" placeholder="Search...">
+            <button class="search-btn" onClick="Search()">🔍</button>
             `
         const nav_urls = `
-                    <li><a href="qa.html">Ask Questions</a></li>
-                    <li><a href="market.html">Sell Books</a></li>
-                    <li><a href="notes.html">Notes</a></li>
+                    <li><a href="{%url 'question_library'%}">Ask Questions</a></li>
+                    <li><a href="{%url 'market'%}">Market</a></li>
+                    <li><a href="{%url 'notes'%}">Notes</a></li>
                     <li><a href="group.html">Groups</a></li>
                     `
-        const login = `
-                <a href="login.html" class="btn-primary">Login/Sign Up</a>
-            `
-
+        const login= `
+            {% if user.is_verified %}
+                <div class="user-dropdown">
+                    <div class="quick-post-btn">Post +</div>
+                    <div class="dropdown-menu">
+                        <a href="{%url 'note_upload'%}"><i class="fas"></i> Upload Notes</a>
+                    </div>
+                </div>     
+            {% endif %}
+            <div class="user-dropdown">
+                <div class="user-avatar">${user_name}</div>
+                <div class="dropdown-menu">
+                    <a href="{%url 'user' %}"><i class="fas fa-user"></i> Profile</a>
+                    <a href="{%url 'logout'%}"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                </div>
+            </div>
+        `
         const footer_urls = `
                     <a href="#">About Us</a>
                     <a href="#">Contact</a>
@@ -193,13 +220,13 @@
                     <a href="#">Terms of Service</a>
                     <a href="#">Help Center</a>`
         const footer_urls_2 = `
-                    <a href="qa.html">Ask Questions</a>
-                    <a href="market.html">Sell Books</a>
-                    <a href="notes.html">Share Notes</a>
+                    <a href="{%url 'question_library'%}">Ask Questions</a>
+                    <a href="{%url 'market'%}">Market</a>
+                    <a href="{%url 'notes'%}">Share Notes</a>
                     <a href="group.html">Create Groups</a>
-                    <a href="home">Campus Events</a>`
+                    <a href="{%url 'home'%}">Campus Events</a>`
     </script>
-    <script src="css/index.js"></script>
+    <script src="{%static 'JS/index.js'%}"></script>
 
     <script>
         // Payment method selection
