@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse, Http404, JsonResponse
 from django.shortcuts import get_object_or_404
 from django.contrib.auth import get_user_model
+from django.db.models import F
 from django.urls import reverse
 import Auth.models as models
 import uuid, os
@@ -59,7 +60,7 @@ def uploadProduct(request):
             category = models.Category.objects.get(name=category)
 
             slug = str(name)
-            slug.replace(" ", '-')
+            slug = slug.replace(" ", "-")
 
             products = models.Product.objects.filter(slug=slug)
             if len(products) > 0 :
@@ -95,7 +96,7 @@ def uploadProduct(request):
         return render(request, 'product_upload.html', context)
 
 def productDetail(request, id):
-    product = get_object_or_404(models.Product, code=id)
+    product = get_object_or_404(models.Product, slug=id)
     User = get_user_model()
     seller = User.objects.get(id=product.user.id)
     courses = models.Question_subjects.objects.filter(product=product)
@@ -108,3 +109,49 @@ def productDetail(request, id):
 
     }
     return render(request, 'product_detail.html', context)
+
+def updateProductDetail(request, id):
+    if not request.user.is_authenticated:
+        raise Http404('invalid request')
+    
+    product = get_object_or_404(models.Product, slug=id)
+
+    if request.user.id != product.user.id:
+        raise Http404('invalid request')
+
+    negotiation_requests = models.Payment.objects.filter(payment_method='negotiate', status='pending').values(
+        id=F('transaction_id'),
+        user_name = F('user__first_name'),
+        item = F('product__name'),
+        requestedPrice = F('product__discount')
+    )
+    
+    negotiation_requests = list(negotiation_requests)
+    
+    for index, negotiation_request in enumerate(negotiation_requests):
+        negotiation_request['index'] = index+1
+
+    context = {
+        'product':product,
+        'negotiation_requests': negotiation_requests,
+    }
+
+    return render(request, 'edit-product.html', context)
+
+def saveProductChanges(request):
+    if request.method == 'POST':
+        try:
+            product = models.Product.objects.get(code=request.POST.get('id'))
+            product.name = request.POST.get('name')
+            product.description = request.POST.get('description')
+            product.price = request.POST.get('price')
+            product.discount = request.POST.get('discount')
+
+            product.save()
+
+            return JsonResponse({'status':True})
+        except:
+            return JsonResponse({'status':False})
+    
+        return
+    return JsonResponse({'status':False})

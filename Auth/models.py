@@ -206,3 +206,31 @@ class Likes(models.Model):
     class Meta:
         db_table = 'likes'
         unique_together = (('user', 'question', 'answer'))
+
+class Address(models.Model):
+    address_id = models.AutoField(primary_key=True)
+    user = models.ForeignKey(AuthCustomuser, models.DO_NOTHING, blank=True, null=True)
+    address1 = models.CharField(max_length=255)
+    address2 = models.CharField(max_length=255, blank=True, null=True)
+    contact = models.CharField(max_length=50)
+    city = models.CharField(max_length=100)
+    postal_code = models.CharField(max_length=20)
+    country = models.CharField(max_length=100)
+    created_at = models.DateTimeField(blank=True, null=True, auto_now_add=True)
+
+    class Meta:
+        db_table = 'address'
+
+class Payment(models.Model):
+    payment_id = models.AutoField(primary_key=True)
+    transaction_id = models.CharField(unique=True, max_length=50)
+    user = models.ForeignKey(AuthCustomuser, models.DO_NOTHING, blank=True, null=True)
+    product = models.ForeignKey('Product', models.DO_NOTHING, blank=True, null=True)
+    payment_method = models.CharField(max_length=50)
+    price = models.DecimalField(max_digits=10, decimal_places=2)
+    amount = models.IntegerField(blank=True, null=True)
+    status = models.CharField(max_length=20, default='pending')
+    created_at = models.DateTimeField(blank=True, null=True, auto_now_add=True)
+
+    class Meta:
+        db_table = 'payment'

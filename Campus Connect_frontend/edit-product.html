@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Product - Campus Connect</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/edit-product.css">
+    <link rel="stylesheet" href="css/nav.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header" id="header">
+        <!--Generated dynamically by js-->
+    </header>
+
+    <!-- Main Content -->
+    <div class="container">
+        <h1 class="page-title">Edit Product</h1>
+
+        <!-- Edit Product Form -->
+        <div class="card">
+            <h2 class="section-title">Product Details</h2>
+            
+            <!-- Image Upload -->
+            <div class="image-upload-section">
+                <label style="display: block; margin-bottom: 1rem; font-weight: 600; color: #0D1B2A;">Product Picture</label>
+                <div class="image-preview-container">
+                    <img src="https://images.unsplash.com/photo-1544947950-fa07a98d237f?w=500" alt="Product" class="image-preview" id="imagePreview">
+                    <div class="upload-controls">
+                        <div class="file-input-wrapper">
+                            <label class="file-input-label">
+                                📸 Choose New Image
+                                <input type="file" id="productImage" accept="image/*">
+                            </label>
+                        </div>
+                        <span class="file-name" id="fileName">No file chosen</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Product Form Fields -->
+            <form id="productForm">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="productName">Product Name</label>
+                        <input type="text" id="productName" value="Engineering Mathematics Textbook - 5th Edition" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="productPrice">Product Price (KSh)</label>
+                        <input type="number" id="productPrice" value="3500" min="0" required>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="productDiscount">Discount (%)</label>
+                        <input type="number" id="productDiscount" value="20" min="0" max="100">
+                    </div>
+                    <div class="form-group">
+                        <label>Discounted Price</label>
+                        <input type="text" id="discountedPrice" value="KSh 2,800" readonly style="background-color: #f0f0f0;">
+                    </div>
+                </div>
+
+                <div class="form-group full-width">
+                    <label for="productDescription">Product Description</label>
+                    <div class="description-editor" id="productDescription" contenteditable="true">
+This comprehensive Engineering Mathematics textbook covers essential topics including calculus, linear algebra, differential equations, and numerical methods. Perfect for undergraduate engineering students. Includes solved examples and practice problems. Book is in excellent condition with minimal wear.
+                    </div>
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary">💾 Save Changes</button>
+                    <button type="button" class="btn btn-secondary" onclick="window.history.back()">✖ Cancel</button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Negotiation Requests -->
+        <div class="card">
+            <h2 class="section-title">Price Negotiation Requests</h2>
+            
+            <div class="table-container">
+                <table id="negotiationTable">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>User</th>
+                            <th>Product</th>
+                            <th>Requested Price</th>
+                            <th>Your Price</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="negotiationTableBody">
+                        <!-- Sample data will be inserted here -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer" id="footer">
+        <!--Generated dynamically by js-->
+    </footer>
+
+    <script>
+        const home = `<a href="#" class="logo">Campus Connect</a>`
+        const search = `
+            <a href=''><button class="search-btn">🔍</button></a>
+            `
+        const nav_urls = `
+                    <li><a href="qa.html">Ask Questions</a></li>
+                    <li><a href="market.html">Sell Books</a></li>
+                    <li><a href="notes.html">Notes</a></li>
+                    <li><a href="group.html">Groups</a></li>
+                    `
+        const login = `
+                <a href="login.html" class="btn-primary">Login/Sign Up</a>
+            `
+
+        const footer_urls = `
+                    <a href="#">About Us</a>
+                    <a href="#">Contact</a>
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Terms of Service</a>
+                    <a href="#">Help Center</a>`
+        const footer_urls_2 = `
+                    <a href="qa.html">Ask Questions</a>
+                    <a href="market.html">Sell Books</a>
+                    <a href="notes.html">Share Notes</a>
+                    <a href="group.html">Create Groups</a>
+                    <a href="home">Campus Events</a>`
+    </script>
+    <script src="css/index.js"></script>
+
+    <script>
+        // Sample negotiation data
+        const negotiationRequests = [
+            {
+                id: 1,
+                user: "John Kamau",
+                product: "Engineering Mathematics Textbook",
+                requestedPrice: 2500
+            },
+            {
+                id: 2,
+                user: "Mary Wanjiru",
+                product: "Engineering Mathematics Textbook",
+                requestedPrice: 2600
+            },
+            {
+                id: 3,
+                user: "Peter Omondi",
+                product: "Engineering Mathematics Textbook",
+                requestedPrice: 2400
+            }
+        ];
+
+        // Image preview functionality
+        const productImageInput = document.getElementById('productImage');
+        const imagePreview = document.getElementById('imagePreview');
+        const fileName = document.getElementById('fileName');
+
+        productImageInput.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                fileName.textContent = file.name;
+                
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    imagePreview.src = e.target.result;
+                };
+                reader.readAsDataURL(file);
+            } else {
+                fileName.textContent = 'No file chosen';
+            }
+        });
+
+        // Calculate discounted price
+        const priceInput = document.getElementById('productPrice');
+        const discountInput = document.getElementById('productDiscount');
+        const discountedPriceInput = document.getElementById('discountedPrice');
+
+        function calculateDiscountedPrice() {
+            const price = parseFloat(priceInput.value) || 0;
+            const discount = parseFloat(discountInput.value) || 0;
+            const discounted = price - (price * discount / 100);
+            discountedPriceInput.value = `KSh ${discounted.toLocaleString()}`;
+        }
+
+        priceInput.addEventListener('input', calculateDiscountedPrice);
+        discountInput.addEventListener('input', calculateDiscountedPrice);
+
+        // Render negotiation table
+        function renderNegotiationTable() {
+            const tbody = document.getElementById('negotiationTableBody');
+            
+            if (negotiationRequests.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="6">
+                            <div class="empty-state">
+                                <div class="empty-state-icon">📭</div>
+                                <p>No negotiation requests yet</p>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+
+            tbody.innerHTML = negotiationRequests.map((request, index) => `
+                <tr>
+                    <td data-label="#" class="table-index">${index + 1}</td>
+                    <td data-label="User">${request.user}</td>
+                    <td data-label="Product">${request.product}</td>
+                    <td data-label="Requested Price">KSh ${request.requestedPrice.toLocaleString()}</td>
+                    <td data-label="Your Price">
+                        <input type="number" class="price-input" id="price-${request.id}" placeholder="Enter price" min="0">
+                    </td>
+                    <td data-label="Actions">
+                        <div class="table-actions">
+                            <button class="btn-accept" onclick="acceptNegotiation(${request.id})">✓ Accept</button>
+                            <button class="btn-reject" onclick="rejectNegotiation(${request.id})">✗ Reject</button>
+                        </div>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        // Accept negotiation
+        function acceptNegotiation(id) {
+            const priceInput = document.getElementById(`price-${id}`);
+            const price = priceInput.value;
+            
+            if (!price || price <= 0) {
+                alert('Please enter a valid price before accepting');
+                priceInput.focus();
+                return;
+            }
+
+            const request = negotiationRequests.find(r => r.id === id);
+            if (confirm(`Accept negotiation from ${request.user} at KSh ${price}?`)) {
+                console.log(`Accepted negotiation #${id} with price: KSh ${price}`);
+                alert(`✓ Negotiation accepted! Price: KSh ${price}`);
+                
+                // Remove from array and re-render
+                const index = negotiationRequests.findIndex(r => r.id === id);
+                negotiationRequests.splice(index, 1);
+                renderNegotiationTable();
+            }
+        }
+
+        // Reject negotiation
+        function rejectNegotiation(id) {
+            const request = negotiationRequests.find(r => r.id === id);
+            if (confirm(`Reject negotiation from ${request.user}?`)) {
+                console.log(`Rejected negotiation #${id}`);
+                alert('✗ Negotiation rejected');
+                
+                // Remove from array and re-render
+                const index = negotiationRequests.findIndex(r => r.id === id);
+                negotiationRequests.splice(index, 1);
+                renderNegotiationTable();
+            }
+        }
+
+        // Form submission
+        const productForm = document.getElementById('productForm');
+        productForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const formData = {
+                name: document.getElementById('productName').value,
+                price: document.getElementById('productPrice').value,
+                discount: document.getElementById('productDiscount').value,
+                description: document.getElementById('productDescription').innerText,
+                image: imagePreview.src
+            };
+
+            console.log('Product updated:', formData);
+            alert('✓ Product details saved successfully!');
+        });
+
+        // Initialize table
+        renderNegotiationTable();
+    </script>
+</body>
+</html>

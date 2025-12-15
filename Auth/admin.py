@@ -44,6 +44,12 @@ class Likes_admin(admin.ModelAdmin):
 class Images_admin(admin.ModelAdmin):
     list_display = ['image_id', 'title', 'file']
 
+class Payment_admin(admin.ModelAdmin):
+    list_display = ['payment_id', 'transaction_id', 'user__first_name', 'product__name', 'payment_method', 'price', 'amount', 'status', 'created_at']
+
+class Address_admin(admin.ModelAdmin):
+    list_display = ['address_id', 'user__first_name', 'address1', 'address2', 'contact', 'city', 'postal_code', 'country', 'created_at']
+
 admin.site.register(Qa, Qa_admin)
 admin.site.register(Notifications, Notification_admin)
 admin.site.register(Notes, Notes_admin)
@@ -58,3 +64,5 @@ admin.site.register(Product, Product_admin)
 admin.site.register(Ratings, Rating_admin)
 admin.site.register(Likes, Likes_admin)
 admin.site.register(Images, Images_admin)
+admin.site.register(Payment, Payment_admin)
+admin.site.register(Address, Address_admin)

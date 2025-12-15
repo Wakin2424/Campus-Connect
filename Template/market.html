@@ -55,7 +55,7 @@
                 <div class="product-card-content">
                     <h3 class="product-card-title">{{book.name}}</h3>
                     <div class="product-card-price">KSh {{book.price}}</div>
-                    <a style="text-decoration: none;" href="{%url 'product_detail' id=book.code %}"><button class="view-details-btn">View Details</button></a>
+                    <a style="text-decoration: none;" href="{%url 'product_detail' id=book.slug %}"><button class="view-details-btn">View Details</button></a>
                 </div>
             </div>
             {% endfor %}

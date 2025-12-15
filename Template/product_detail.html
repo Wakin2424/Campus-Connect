@@ -54,8 +54,11 @@
                 </p>
                 -->
                 <div class="button-group">
-                    <a href="{%url 'payment' id=product.code %}" class="btn btn-primary-1">Buy Now</a>
+                    <a href="{%url 'payment' id=product.slug %}" class="btn btn-primary-1">Buy Now</a>
                     <button class="btn btn-outline" onclick="openModal()">Contact Seller</button>
+                    {% if product.user.id == user.id%}
+                    <a href="{%url 'edit_product' id=product.slug %}" class="btn btn-primary-1">Edit Details</a>
+                    {% endif %}
                 </div>
             </div>
         </div>
