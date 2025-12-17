@@ -141,27 +141,29 @@
         <div class="modal">
             <button class="modal-close" id="modalClose">&times;</button>
             <div class="modal-left">
-                <img src="https://i.pravatar.cc/300?img=12" alt="Seller" class="seller-avatar">
+                <img src="{{seller.image.file.url}}" alt="{{seller.first_name}}" class="seller-avatar">
+                {% if seller.is_verified %}
                 <span class="verified-badge">✓ Verified Seller</span>
+                {% endif %}
             </div>
             <div class="modal-right">
-                <h2 class="seller-name">Sarah Njeri</h2>
+                <h2 class="seller-name">{{seller.first_name}} {{seller.last_name}}</h2>
                 <div class="seller-details">
                     <div class="detail-row">
-                        <strong>Email:</strong> <span>sarah.njeri@student.ac.ke</span>
+                        <strong>Email:</strong> <span>{{seller.email}}</span>
                     </div>
                     <div class="detail-row">
-                        <strong>Phone:</strong> <span>+254 723 456 789</span>
+                        <strong>Phone:</strong> <span>{{seller.contact}}</span>
                     </div>
                 </div>
                 <div class="contact-buttons">
-                    <a href="mailto:sarah.njeri@student.ac.ke" class="contact-btn btn-email">
+                    <a href="mailto:{{seller.email}}" class="contact-btn btn-email">
                         📧 Email Seller
                     </a>
-                    <a href="https://wa.me/254723456789" target="_blank" class="contact-btn btn-whatsapp">
+                    <a href="https://wa.me/{{seller.contact}}" target="_blank" class="contact-btn btn-whatsapp">
                         💬 WhatsApp
                     </a>
-                    <a href="tel:+254723456789" class="contact-btn btn-call">
+                    <a href="tel:{{seller.contact}}" class="contact-btn btn-call">
                         📞 Call Seller
                     </a>
                 </div>
@@ -362,6 +364,8 @@
                     return cookieValue;
                 }
 
+                confirmBtn.textContent = 'Waiting Confirmation'
+
                 fetch("{% url 'inter_payment_processing' id=product.code %}", {
                     method: "POST",
                     headers: {
@@ -373,11 +377,19 @@
                 .then(data => {
                     if (data.status){
                         //if the process is successful redirect to the specified url
-                        window.location.href = data.url
+                        confirmBtn.textContent = 'Redirecting'
+                        confirmBtn.style.color = 'green'
+                        window.location.href = "{%url 'redirect'%}"
                         
                     }
                     else{
-                        alert('error! Process unsuccessful')
+
+                        confirmBtn.textContent = 'Failed! Try Again';
+                        confirmBtn.style.color = '#c51e1e';
+                        setTimeout(()=>{
+                            confirmBtn.textContent = 'Confirm Payment';
+                            confirmBtn.style.color = 'White';
+                        }, 1500)
                     }
                 })
                 .catch(err => console.error(err));
