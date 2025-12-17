@@ -14,7 +14,7 @@ header.innerHTML = `
                     ${nav_urls}
                 </ul>
             </nav>
-            <div class="search-container" style="display:none;">
+            <div class="search-container">
                 ${search}
             </div>
 

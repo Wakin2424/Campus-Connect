@@ -8,14 +8,15 @@ def Auth_index(request):
     user = models.AuthCustomuser.objects.get(id=request.user.id)
     question_length = len(models.Qa.objects.filter(user=user))
     answer_length = len(models.Answers.objects.filter(user=user))
-    latest_questions = models.Qa.objects.all().order_by('-created_at')[:6 if len(models.Qa.objects.all()) > 6 else len(models.Qa.objects.all())]
-    trending_questions = models.Qa.objects.all().order_by('-views')[:6 if len(models.Qa.objects.all()) > 6 else len(models.Qa.objects.all())]
-    
+    latest_questions = models.Qa.objects.all().order_by('-created_at')[:6]
+    trending_questions = models.Qa.objects.all().order_by('-views')[:6]
+    products = models.Product.objects.all().order_by('created_at')[:3]
     context = {
         'question_length': question_length,
         'answer_length': answer_length,
         'latest_questions': latest_questions,
         'trending_questions': trending_questions,
+        'products': products
     }
     return render(request, 'home.html', context)
 

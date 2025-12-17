@@ -97,15 +97,24 @@ def uploadProduct(request):
 
 def productDetail(request, id):
     product = get_object_or_404(models.Product, slug=id)
+    category = models.Category.objects.get(category_id=product.category.category_id)
     User = get_user_model()
     seller = User.objects.get(id=product.user.id)
     courses = models.Question_subjects.objects.filter(product=product)
+    related_products = list(models.Product.objects.filter(category=category)[:4])
+
+    for index, related_product in enumerate(related_products):
+        if related_product.product_id == product.product_id:
+            print(related_product.name)
+            related_products.pop(index)
+            break
 
     context = {
         'product':product,
         'courses':courses,
         'seller':seller,
-        'discount': round((product.price - product.discount)/product.price * 100, 0)
+        'discount': round((product.price - product.discount)/product.price * 100, 0),
+        'related_products':related_products
 
     }
     return render(request, 'product_detail.html', context)

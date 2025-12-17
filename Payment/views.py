@@ -4,57 +4,58 @@ from django.urls import reverse
 from Auth import models
 import uuid, json
 
+fee = 200
+
 # Create your views here.
 def mpesaPaymentProcessing(request, product):
-    pass
+    return JsonResponse({'status':False})
 
 def paypalPaymentProcessing(request, address, product):
-    pass
+    return JsonResponse({'status':False})
 
 def productPaymentProcessing(request, id):
-    product = get_object_or_404(models.Product, code=id)
-    user = models.AuthCustomuser.objects.get(id=request.user.id)
-    address1 = request.POST.get('address1')
-    address2 = request.POST.get('address2')
-    contact = request.POST.get('contact')
-    city = request.POST.get('city')
-    postal_code = request.POST.get('postalCode')
-    country = request.POST.get('country')
-    payment_method = request.POST.get('paymentMethod')
-    transaction_id = uuid.uuid4().hex[:12].upper()
+    if request.method == 'POST':
+        product = get_object_or_404(models.Product, code=id)
+        user = models.AuthCustomuser.objects.get(id=request.user.id)
+        address1 = request.POST.get('address1')
+        address2 = request.POST.get('address2')
+        contact = request.POST.get('contact')
+        city = request.POST.get('city')
+        postal_code = request.POST.get('postalCode')
+        country = request.POST.get('country')
+        payment_method = request.POST.get('paymentMethod')
+        transaction_id = uuid.uuid4().hex[:12].upper()
 
-    payment = models.Payment(transaction_id=transaction_id, user=user, product=product, payment_method=payment_method, price=product.discount)
-    address = models.Address(user=user, address1=address1, address2=address2, contact=contact, city=city, postal_code=postal_code, country=country)
-    if payment_method == 'paypal' or payment_method == 'mpesa':
         payment = models.Payment(transaction_id=transaction_id, user=user, product=product, payment_method=payment_method, price=product.discount)
         address = models.Address(user=user, address1=address1, address2=address2, contact=contact, city=city, postal_code=postal_code, country=country)
+        if payment_method == 'paypal' or payment_method == 'mpesa':
+            payment = models.Payment(transaction_id=transaction_id, user=user, product=product, payment_method=payment_method, price=product.discount+fee)
+            address = models.Address(user=user, address1=address1, address2=address2, contact=contact, city=city, postal_code=postal_code, country=country)
 
-        payment.save()
-        address.save()
+            payment.save()
+            address.save()
 
-        if payment_method == 'paypal':
-            return paypalPaymentProcessing(request, address, product)
-        else:
-            return mpesaPaymentProcessing(request, product)
-        
-    elif payment_method == 'contactSeller':
-        payment = models.Payment(transaction_id=transaction_id, user=user, product=product, payment_method='negotiate', price=product.discount)
-        return redirect(reverse('product_detail', kwargs={'id': product.code}))
+            if payment_method == 'paypal':
+                return paypalPaymentProcessing(request, address, product)
+            else:
+                return mpesaPaymentProcessing(request, product)
+            
+        elif payment_method == 'seller':
+            payment = models.Payment(transaction_id=transaction_id, user=user, product=product, payment_method='negotiate', price=product.discount)
+            return redirect(reverse('product_detail', kwargs={'id': product.code}))
+
 
 
 def productPayment(request, id):
     if not request.user.is_authenticated:
         raise Http404('Invalid Request')
-    
-    if request.method == 'POST':
-        productPaymentProcessing(request, id)
-
 
     product = get_object_or_404(models.Product, slug=id)
     discount = round((product.price - product.discount)/product.price *100, 0)
     context = {
         'product':product,
-        'discount':discount
+        'discount':discount,
+        'fee':fee
 
     }
     return render(request, 'payment.html', context)
@@ -73,10 +74,21 @@ def paymentNegotiationRequest(request):
                 payment_request.status = 'cancelled'
                 payment_request.save()
                 return JsonResponse({'status':False})
-
-            
-
             
         except:
             return JsonResponse({'status':False})
     return JsonResponse({'status':False})
+
+def Test(request):
+    if request.method=='POST':
+        address1 = request.POST.get('address1')
+        address2 = request.POST.get('address2')
+        contact = request.POST.get('contact')
+        city = request.POST.get('city')
+        postal_code = request.POST.get('postalCode')
+        country = request.POST.get('country')
+        payment_method = request.POST.get('paymentMethod')
+
+        print(address1, address2, contact, city, postal_code, country, payment_method)
+
+    return JsonResponse({'stauts':False})

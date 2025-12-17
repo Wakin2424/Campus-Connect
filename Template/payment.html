@@ -49,7 +49,7 @@
                         </div>
                         <div class="form-group">
                             <label>Contact / Phone <span class="required">*</span></label>
-                            <input type="tel" name="contact" id="phone" value="{{user.contact}}" required>
+                            <input type="tel" name="phone" id="phone" value="{{user.contact}}" required>
                         </div>
                         <div class="form-group">
                             <label>Address Line 1 <span class="required">*</span></label>
@@ -112,22 +112,22 @@
                     
                     <div class="summary-row">
                         <span class="summary-label">Subtotal</span>
-                        <span class="summary-value">KSh {{product.discount}}</span>
+                        <span class="summary-value">KSh <span id="summary-subtotal">{{product.price}}</span></span>
                     </div>
                     
                     <div class="summary-row">
-                        <span class="summary-label">Discount (20%)</span>
-                        <span class="summary-value" style="color: #ff6b6b;">- KSh 700</span>
+                        <span class="summary-label">Discount (<span id="summary-discount-percent"></span>%)</span>
+                        <span class="summary-value" style="color: #ff6b6b;">- KSh <span id="summary-discount">{{product.discount}}</span></span>
                     </div>
                     
                     <div class="summary-row">
                         <span class="summary-label">Delivery Fee</span>
-                        <span class="summary-value">KSh 200</span>
+                        <span class="summary-value">KSh <span id="fee">{{fee}}</span></span>
                     </div>
                     
                     <div class="summary-row total-row">
                         <span class="summary-label">Total Amount</span>
-                        <span class="summary-value">KSh 3,000</span>
+                        <span class="summary-value">KSh <span id="summary-total"></span></span>
                     </div>
                     
                     <button class="confirm-btn" id="confirmBtn">Confirm Payment</button>
@@ -235,8 +235,23 @@
         const modalClose = document.getElementById('modalClose');
         const confirmBtn = document.getElementById('confirmBtn');
         const addressForm = document.getElementById('addressForm');
+        let totalPriceAmount = 0.0
 
         let selectedPaymentMethod = null;
+
+        function calculateTotal(){
+            let subtotalElement = parseFloat(document.getElementById('summary-subtotal').textContent)
+            let discountElement = parseFloat(document.getElementById('summary-discount').textContent)
+            let fee = parseFloat(document.getElementById('fee').textContent)
+            let discountPercentElement = document.getElementById('summary-discount-percent')
+            let TotalElement = document.getElementById('summary-total')
+
+            totalPriceAmount =  discountElement + fee
+            TotalElement.textContent = totalPriceAmount
+            discountPercentElement.textContent = Number((subtotalElement - discountElement)/subtotalElement * 100)
+        }
+
+        calculateTotal()
 
         // Handle payment method selection
         paymentOptions.forEach(option => {
@@ -297,44 +312,76 @@
                 return;
             }
 
+
             // Validate form fields
             const fullName = document.getElementById('fullName').value.trim();
-            const phone = document.getElementById('phone').value.trim();
+            const contact = document.getElementById('phone').value.trim();
             const address1 = document.getElementById('address1').value.trim();
             const city = document.getElementById('city').value.trim();
-            const postal = document.getElementById('postal').value.trim();
+            const postalCode = document.getElementById('postal').value.trim();
             const country = document.getElementById('country').value;
+            
 
-            if (!fullName || !phone || !address1 || !city || !postal || !country) {
+            if (!fullName || !contact || !address1 || !city || !postalCode || !country) {
                 alert('Please fill in all required fields');
                 return;
             }
 
             // Form validation passed
             if (addressForm.checkValidity()) {
-                // Collect form data
-                const formData = {
+                const formDataObj = {
                     fullName,
-                    phone,
+                    contact,
                     address1,
                     address2: document.getElementById('address2').value.trim(),
                     city,
-                    postal,
+                    postalCode,
                     country,
                     paymentMethod: selectedPaymentMethod,
-                    totalAmount: 'KSh 3,000'
+                    totalAmount: totalPriceAmount
                 };
 
-                console.log('Payment confirmed with data:', formData);
+                const formData = new FormData();
 
-                // Show success message
-                alert(`Payment confirmation successful!\n\nPayment Method: ${selectedPaymentMethod.toUpperCase()}\nTotal: KSh 3,000\n\nYour order will be processed shortly.`);
+                for (const key in formDataObj) {
+                    formData.append(key, formDataObj[key]);
+                }
 
-                // Here you would typically submit to a backend
-                // For now, we'll just reset the form
-                // addressForm.reset();
-                // paymentOptions.forEach(opt => opt.classList.remove('active'));
-                // selectedPaymentMethod = null;
+                function getCookie(name){
+                    let cookieValue = null;
+                    if(document.cookie && document.cookie !== ''){
+                        const cookies = document.cookie.split(';');
+                        for(let i=0;i <cookies.length; i++){
+                            const cookie = cookies[i].trim();
+                            if (cookie.substring(0, name.length + 1) === name + '='){
+                                cookieValue = decodeURIComponent(cookie.substring(name.length+1));
+                                break;
+                            }
+                        }
+                    }
+                    return cookieValue;
+                }
+
+                fetch("{% url 'inter_payment_processing' id=product.code %}", {
+                    method: "POST",
+                    headers: {
+                        "X-CSRFToken": getCookie("csrftoken")
+                    },
+                    body: formData
+                })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.status){
+                        //if the process is successful redirect to the specified url
+                        window.location.href = data.url
+                        
+                    }
+                    else{
+                        alert('error! Process unsuccessful')
+                    }
+                })
+                .catch(err => console.error(err));
+
             } else {
                 addressForm.reportValidity();
             }

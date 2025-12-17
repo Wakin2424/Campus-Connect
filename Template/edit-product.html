@@ -96,7 +96,7 @@
                     </thead>
                     <tbody id="negotiationTableBody">
                         {% for negotiation_request in negotiation_requests %}
-                        <tr>
+                        <tr id="request-{{negotiation_request.id}}">
                             <td data-label="#" class="table-index">{{negotiation_request.index}}</td>
                             <td data-label="User">{{negotiation_request.user_name}}</td>
                             <td data-label="Product">{{negotiation_request.item}}</td>
@@ -145,7 +145,11 @@
                 <div class="user-dropdown">
                     <div class="quick-post-btn">Post +</div>
                     <div class="dropdown-menu">
+                        <a href="{%url "question"%}"><i class="fas"></i> Post Question</a>
+                        <a href="{%url "upload_product"%}"><i class="fas"></i> Sell Product</a>
+                        {% if user.is_verified %}
                         <a href="{%url 'note_upload'%}"><i class="fas"></i> Upload Notes</a>
+                        {% endif %}
                     </div>
                 </div>     
             {% endif %}
@@ -307,10 +311,12 @@
                 .then(response => response.json())
                 .then(data =>{
                     if(data.status){
-                        alert('Request accepted successfully')                        
+                        alert('Request accepted successfully')    
+                        document.getElementById(`request-${id}`).remove()                    
                     }
                     else{
                         alert('Request Rejected successfully')   
+                        document.getElementById(`request-${id}`).remove()
                     }
                 })
                 .catch(err => console.error(err));

@@ -171,33 +171,20 @@
             <div class="card">
                 <div class="card-header">
                     <h3 class="card-title">Latest in Market</h3>
-                    <a href="#" class="view-all-btn">Go to Market →</a>
+                    <a href="{%url 'market' %}" class="view-all-btn">Go to Market →</a>
                 </div>
                 <div class="products-grid">
+                    {% for product in products %}
                     <div class="product-card">
-                        <div class="product-image">📚</div>
+                        <div class="product-image"><img class="product-image" src="{{product.image.file.url}}" alt="{{product.name}}"></div>
                         <div class="product-info">
-                            <div class="product-name">Calculus Textbook</div>
-                            <div class="product-price">$45</div>
-                            <button class="view-product-btn">View Product</button>
+                            <div class="product-name">{{product.name}}</div>
+                            <div class="product-price">Ksh {{product.price}}</div>
+                            <a href="{%url 'product_detail' id=product.slug %}"><button class="view-product-btn">View Product</button></a>
                         </div>
                     </div>
-                    <div class="product-card">
-                        <div class="product-image">💻</div>
-                        <div class="product-info">
-                            <div class="product-name">Programming Laptop</div>
-                            <div class="product-price">$650</div>
-                            <button class="view-product-btn">View Product</button>
-                        </div>
-                    </div>
-                    <div class="product-card">
-                        <div class="product-image">📱</div>
-                        <div class="product-info">
-                            <div class="product-name">Scientific Calculator</div>
-                            <div class="product-price">$25</div>
-                            <button class="view-product-btn">View Product</button>
-                        </div>
-                    </div>
+                    {% endfor %}
+                    
                 </div>
             </div>
         </div>

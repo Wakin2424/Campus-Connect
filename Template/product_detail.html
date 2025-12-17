@@ -76,34 +76,16 @@
         <div class="related-section">
             <h2>Related Products</h2>
             <div class="related-grid">
-                <div class="product-card" onclick="alert('Opening product details...')">
-                    <img src="https://images.unsplash.com/photo-1532012197267-da84d127e765?w=400" alt="Related Product">
+                {% for related_product in related_products %}
+                <div class="product-card" onclick="openRelatedProduct('{{related_product.slug}}')">
+                    <img src="{{related_product.image.file.url}}" alt="{{related_product.name}}">
                     <div class="product-card-content">
-                        <div class="product-card-title">Data Structures & Algorithms in Python</div>
-                        <div class="product-card-price">$35.00</div>
+                        <div class="product-card-title">{{related_product.name}}</div>
+                        <div class="product-card-price">Ksh {{related_product.price}}</div>
                     </div>
                 </div>
-                <div class="product-card" onclick="alert('Opening product details...')">
-                    <img src="https://images.unsplash.com/photo-1589998059171-988d887df646?w=400" alt="Related Product">
-                    <div class="product-card-content">
-                        <div class="product-card-title">Computer Science Notes Bundle</div>
-                        <div class="product-card-price">$25.00</div>
-                    </div>
-                </div>
-                <div class="product-card" onclick="alert('Opening product details...')">
-                    <img src="https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?w=400" alt="Related Product">
-                    <div class="product-card-content">
-                        <div class="product-card-title">Programming Study Guide</div>
-                        <div class="product-card-price">$20.00</div>
-                    </div>
-                </div>
-                <div class="product-card" onclick="alert('Opening product details...')">
-                    <img src="https://images.unsplash.com/photo-1495446815901-a7297e633e8d?w=400" alt="Related Product">
-                    <div class="product-card-content">
-                        <div class="product-card-title">Software Engineering Textbook</div>
-                        <div class="product-card-price">$40.00</div>
-                    </div>
-                </div>
+                {% endfor %}
+                
             </div>
         </div>
     </div>
@@ -283,6 +265,10 @@
                 closeModal();
             }
         });
+
+        function openRelatedProduct(id){
+            window.location.href = `{%url 'market'%}product/${id}`
+        }
     </script>
 </body>
 </html>
