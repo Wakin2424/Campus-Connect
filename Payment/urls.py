@@ -8,7 +8,8 @@ urlpatterns = [
     path('api/payment-negotiation/', views.paymentNegotiationRequest, name='payment_negotiation_request'),
     path('redirect', views.paymentRedirect, name='redirect'),
     path('paypal', include('paypal.standard.ipn.urls')),
-    path('payment-success', views.successTemplate, name='payment_success'),
-    path('payment-fail', views.failTemplate, name='payment_fail'),
+    path('api/mpesa/callback/<str:id>/', views.mpesaCallback, name='callback'),
+    path('payment-success/<str:slug>/', views.successTemplate, name='payment_success'),
+    path('payment-fail/<str:slug>/', views.failTemplate, name='payment_fail'),
     path('test', views.Test, name='payment_test')
 ]

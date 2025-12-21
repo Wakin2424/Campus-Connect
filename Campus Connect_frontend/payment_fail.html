@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Failed - Campus Connect</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/payment_fail.css">
+    <link rel="stylesheet" href="css/nav.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header" id="header">
+        <!--Generated dynamically by js-->
+    </header>
+
+    <!-- Main Content -->
+    <main>
+        <div class="payment-failed-container">
+            <div class="error-icon">
+                <div class="error-circle">
+                    <div class="error-cross"></div>
+                </div>
+            </div>
+
+            <h1>Payment Failed</h1>
+            <p class="error-message">
+                We couldn't process your payment. This might be due to insufficient funds, 
+                incorrect card details, or a network issue. Please try again or choose another payment method.
+            </p>
+
+            <div class="error-details">
+                <p><strong>Common reasons for payment failure:</strong></p>
+                <p>• Insufficient funds in account</p>
+                <p>• Incorrect card details or expired card</p>
+                <p>• Bank declined the transaction</p>
+                <p>• Network connection issue</p>
+            </div>
+
+            <div class="button-group">
+                <button class="btn btn-primary" onclick="tryAgain()">Try Again</button>
+                <a href="/" class="btn btn-secondary">Return Home</a>
+            </div>
+
+            <p class="support-link">
+                Need help? <a href="/support">Contact Support</a>
+            </p>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer" id="footer">
+        <!--Generated dynamically by js-->
+    </footer>
+
+    <script>
+        home = ''
+        search = ''
+        const nav_urls = `
+                    <li><a href="home.html">Home</a></li>
+                    <li><a href="qa.html">Ask Questions</a></li>
+                    <li><a href="market.html">Sell Books</a></li>
+                    <li><a href="notes.html">Notes</a></li>
+                    <li><a href="group.html">Groups</a></li>
+                    `
+        const login = `
+        <div class="search-container">
+                <input type="text" class="search-bar" placeholder="Search...">
+                <a href="login.html" class="btn-primary">Login</a>
+            </div>`
+        const logout = `
+            <div class="search-container">
+                <input type="text" class="search-bar" placeholder="Search...">
+            </div>
+            <div class="user-dropdown">
+                <div class="user-avatar">JS</div>
+                <div class="dropdown-menu">
+                    <a href="#"><i class="fas fa-user"></i> Profile</a>
+                    <a href="#"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                </div>
+            </div>
+        `
+
+
+        const footer_urls = `
+                    <a href="#">About Us</a>
+                    <a href="#">Contact</a>
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Terms of Service</a>
+                    <a href="#">Help Center</a>`
+        const footer_urls_2 = `
+                    <a href="qa.html">Ask Questions</a>
+                    <a href="market.html">Sell Books</a>
+                    <a href="notes.html">Share Notes</a>
+                    <a href="group.html">Create Groups</a>
+                    <a href="home">Campus Events</a>`
+    </script>
+    <script src="css/index.js"></script>
+
+    <script>
+        // Mobile menu toggle
+        const menuToggle = document.getElementById('menuToggle');
+        const navMenu = document.getElementById('navMenu');
+
+        menuToggle.addEventListener('click', () => {
+            navMenu.classList.toggle('active');
+        });
+
+        // Try Again function
+        function tryAgain() {
+            // Store retry attempt
+            const retryCount = parseInt(sessionStorage.getItem('paymentRetryCount') || '0');
+            sessionStorage.setItem('paymentRetryCount', (retryCount + 1).toString());
+
+            // If user has tried 3+ times, offer support
+            if (retryCount >= 2) {
+                const goToSupport = confirm(
+                    'You\'ve tried multiple times. Would you like to contact support for assistance?'
+                );
+                if (goToSupport) {
+                    window.location.href = '/support';
+                    return;
+                }
+            }
+
+            // Redirect to payment page
+            window.location.href = '/payment';
+        }
+
+        // Optional: Add retry countdown
+        let countdown = 5;
+        const tryAgainBtn = document.querySelector('.btn-primary');
+        const originalText = tryAgainBtn.textContent;
+
+        // Uncomment to enable countdown
+        /*
+        const countdownInterval = setInterval(() => {
+            if (countdown > 0) {
+                tryAgainBtn.textContent = `Try Again (${countdown})`;
+                tryAgainBtn.disabled = true;
+                tryAgainBtn.style.opacity = '0.6';
+                tryAgainBtn.style.cursor = 'not-allowed';
+                countdown--;
+            } else {
+                clearInterval(countdownInterval);
+                tryAgainBtn.textContent = originalText;
+                tryAgainBtn.disabled = false;
+                tryAgainBtn.style.opacity = '1';
+                tryAgainBtn.style.cursor = 'pointer';
+            }
+        }, 1000);
+        */
+
+        // Clear retry count when leaving page
+        window.addEventListener('beforeunload', () => {
+            if (window.location.pathname === '/') {
+                sessionStorage.removeItem('paymentRetryCount');
+            }
+        });
+    </script>
+</body>
+</html>

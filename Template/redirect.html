@@ -23,6 +23,34 @@
             <p class="message" id="message">Please wait while we process your payment.</p>
             <div class="status-badge" id="status">Initializing</div>
 
+            {% if Type == 'paypal'%}
+            <div style="display: none;">
+                {{paypal_form.render}}
+            </div>
+
+            <script>
+                document.forms[0].submit()
+            </script>
+            {% elif Type == 'mpesa' %}
+            <script>
+                let validationInterval = setInterval(() => {
+                    fetch("{%url 'home'%}")
+                        .then(res => res.json())
+                        .then(data => {
+                        if (data.status == 200) {
+                            window.location.href = "{%url 'payment_success'%}";
+                            clearInterval(validationInterval)
+                        }
+                        else if(data.status == 400){
+                            window.location.href = "{%url 'payment_failed'%}";
+                            clearInterval(validationInterval)
+                        }
+
+                        });
+                    }, 3000); // poll every 3 seconds
+            </script>
+            {% endif %}
+
         </div>
     </div>
 </body>

@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Successful - Campus Connect</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/payment_success.css">
+    <link rel="stylesheet" href="css/nav.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header" id="header">
+        <!--Generated dynamically by js-->
+    </header>
+
+    <!-- Main Content -->
+    <main>
+        <div class="success-container">
+            <!-- Success Animation -->
+            <div class="success-animation">
+                <div class="success-circle">
+                    <div class="success-checkmark">
+                        <div class="checkmark-stem"></div>
+                        <div class="checkmark-kick"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Success Message -->
+            <h1>Payment Successful!</h1>
+            <p class="success-message">
+                Thank you for your payment. Your transaction was completed successfully. 
+                We appreciate your trust in Campus Connect.
+            </p>
+
+            <!-- Rating & Review Card -->
+            <div class="review-card">
+                <h2>Rate Your Experience</h2>
+                
+                <!-- Star Rating -->
+                <div class="star-rating" id="starRating">
+                    <span class="star" data-rating="1">★</span>
+                    <span class="star" data-rating="2">★</span>
+                    <span class="star" data-rating="3">★</span>
+                    <span class="star" data-rating="4">★</span>
+                    <span class="star" data-rating="5">★</span>
+                </div>
+                <p class="rating-text" id="ratingText">Click on the stars to rate</p>
+
+                <!-- Review Textarea -->
+                <textarea 
+                    class="review-input" 
+                    id="reviewText"
+                    placeholder="Share your experience with Campus Connect..."
+                ></textarea>
+
+                <!-- Submit Button -->
+                <button class="btn btn-primary" id="submitReview">
+                    Submit Review
+                </button>
+
+                <!-- Success Message -->
+                <div class="review-success" id="reviewSuccess">
+                    ✓ Thank you! Your review has been submitted successfully.
+                </div>
+            </div>
+
+            <!-- Navigation Buttons -->
+            <div class="navigation-buttons">
+                <a href="/" class="btn btn-secondary">Go to Home</a>
+                <a href="/orders" class="btn btn-secondary">View Orders</a>
+            </div>
+        </div>
+    </main>
+
+
+    <!-- Footer -->
+    <footer class="footer" id="footer">
+        <!--Generated dynamically by js-->
+    </footer>
+
+    <script>
+        home = ''
+        search = ''
+        const nav_urls = `
+                    <li><a href="home.html">Home</a></li>
+                    <li><a href="qa.html">Ask Questions</a></li>
+                    <li><a href="market.html">Sell Books</a></li>
+                    <li><a href="notes.html">Notes</a></li>
+                    <li><a href="group.html">Groups</a></li>
+                    `
+        const login = `
+        <div class="search-container">
+                <input type="text" class="search-bar" placeholder="Search...">
+                <a href="login.html" class="btn-primary">Login</a>
+            </div>`
+        const logout = `
+            <div class="search-container">
+                <input type="text" class="search-bar" placeholder="Search...">
+            </div>
+            <div class="user-dropdown">
+                <div class="user-avatar">JS</div>
+                <div class="dropdown-menu">
+                    <a href="#"><i class="fas fa-user"></i> Profile</a>
+                    <a href="#"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                </div>
+            </div>
+        `
+
+
+        const footer_urls = `
+                    <a href="#">About Us</a>
+                    <a href="#">Contact</a>
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Terms of Service</a>
+                    <a href="#">Help Center</a>`
+        const footer_urls_2 = `
+                    <a href="qa.html">Ask Questions</a>
+                    <a href="market.html">Sell Books</a>
+                    <a href="notes.html">Share Notes</a>
+                    <a href="group.html">Create Groups</a>
+                    <a href="home">Campus Events</a>`
+    </script>
+    <script src="css/index.js"></script>
+
+    <script>
+        // Rating System
+        let selectedRating = 0;
+        const stars = document.querySelectorAll('.star');
+        const ratingValue = document.getElementById('ratingValue');
+        const submitBtn = document.getElementById('submitBtn');
+        const skipBtn = document.getElementById('skipBtn');
+        const reviewText = document.getElementById('reviewText');
+        const charCounter = document.getElementById('charCounter');
+        const mainContent = document.getElementById('mainContent');
+        const thankYouMessage = document.getElementById('thankYouMessage');
+
+        // Generate confetti
+        function generateConfetti() {
+            const confettiContainer = document.getElementById('confetti');
+            const colors = ['#1E90FF', '#0D1B2A', '#fbbf24', '#10b981'];
+            
+            for (let i = 0; i < 20; i++) {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti-piece';
+                confetti.style.left = `${Math.random() * 100}%`;
+                confetti.style.top = `${Math.random() * 20}%`;
+                confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
+                confetti.style.animationDelay = `${Math.random() * 0.5}s`;
+                confetti.style.animationDuration = `${1 + Math.random()}s`;
+                confettiContainer.appendChild(confetti);
+            }
+        }
+
+        // Star hover effect
+        stars.forEach(star => {
+            star.addEventListener('mouseenter', function() {
+                const rating = parseInt(this.dataset.rating);
+                highlightStars(rating);
+            });
+
+            star.addEventListener('click', function() {
+                selectedRating = parseInt(this.dataset.rating);
+                selectStars(selectedRating);
+                updateRatingValue();
+                updateSubmitButton();
+            });
+        });
+
+        // Container mouse leave - reset to selected
+        document.getElementById('starsContainer').addEventListener('mouseleave', function() {
+            if (selectedRating > 0) {
+                selectStars(selectedRating);
+            } else {
+                clearStars();
+            }
+        });
+
+        function highlightStars(rating) {
+            stars.forEach((star, index) => {
+                if (index < rating) {
+                    star.classList.add('hovered');
+                } else {
+                    star.classList.remove('hovered');
+                }
+            });
+        }
+
+        function selectStars(rating) {
+            stars.forEach((star, index) => {
+                star.classList.remove('hovered');
+                if (index < rating) {
+                    star.classList.add('selected');
+                } else {
+                    star.classList.remove('selected');
+                }
+            });
+        }
+
+        function clearStars() {
+            stars.forEach(star => {
+                star.classList.remove('hovered', 'selected');
+            });
+        }
+
+        function updateRatingValue() {
+            if (selectedRating > 0) {
+                const labels = ['', 'Poor', 'Fair', 'Good', 'Very Good', 'Excellent'];
+                ratingValue.textContent = `${selectedRating} / 5 - ${labels[selectedRating]}`;
+                ratingValue.classList.add('show');
+                setTimeout(() => ratingValue.classList.remove('show'), 300);
+            } else {
+                ratingValue.textContent = '';
+            }
+        }
+
+        // Character counter
+        reviewText.addEventListener('input', function() {
+            const length = this.value.length;
+            const maxLength = 500;
+            charCounter.textContent = `${length} / ${maxLength}`;
+            
+            charCounter.classList.remove('warning', 'limit');
+            if (length > 450) {
+                charCounter.classList.add('warning');
+            }
+            if (length >= maxLength) {
+                charCounter.classList.add('limit');
+            }
+            
+            updateSubmitButton();
+        });
+
+        // Update submit button state
+        function updateSubmitButton() {
+            if (selectedRating > 0) {
+                submitBtn.disabled = false;
+            } else {
+                submitBtn.disabled = true;
+            }
+        }
+
+        // Submit review
+        submitBtn.addEventListener('click', function() {
+            const review = {
+                rating: selectedRating,
+                text: reviewText.value.trim(),
+                timestamp: new Date().toISOString()
+            };
+
+            console.log('Submitting review:', review);
+            
+            // Here you would typically send the data to your backend
+            // Example:
+            // fetch('/api/submit-review', {
+            //     method: 'POST',
+            //     headers: { 'Content-Type': 'application/json' },
+            //     body: JSON.stringify(review)
+            // }).then(response => response.json())
+            //   .then(data => showThankYou());
+
+            // For now, just show the thank you message
+            showThankYou();
+        });
+
+        // Skip review
+        skipBtn.addEventListener('click', function() {
+            if (confirm('Are you sure you want to skip the review?')) {
+                window.location.href = '/';
+            }
+        });
+
+        // Show thank you message
+        function showThankYou() {
+            mainContent.style.display = 'none';
+            thankYouMessage.classList.add('show');
+        }
+
+        // Initialize confetti on page load
+        window.addEventListener('load', function() {
+            setTimeout(generateConfetti, 800);
+        });
+    </script>
+</body>
+</html>

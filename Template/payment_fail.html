@@ -1,0 +1,157 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Failed - Campus Connect</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{%static 'CSS/payment_fail.css'%}">
+    <link rel="stylesheet" href="{%static 'CSS/nav.css'%}">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header" id="header">
+        <!--Generated dynamically by js-->
+    </header>
+
+    <!-- Main Content -->
+    <main>
+        <div class="payment-failed-container">
+            <div class="error-icon">
+                <div class="error-circle">
+                    <div class="error-cross"></div>
+                </div>
+            </div>
+
+            <h1>Payment Failed</h1>
+            <p class="error-message">
+                We couldn't process your payment. This might be due to insufficient funds, 
+                incorrect card details, or a network issue. Please try again or choose another payment method.
+            </p>
+
+            <div class="error-details">
+                <p><strong>Common reasons for payment failure:</strong></p>
+                <p>• Insufficient funds in account</p>
+                <p>• Incorrect card details or expired card</p>
+                <p>• Bank declined the transaction</p>
+                <p>• Network connection issue</p>
+            </div>
+
+            <div class="button-group">
+                <button class="btn btn-primary" onclick="tryAgain()">Try Again</button>
+                <a href="{%url 'home'%}" class="btn btn-secondary">Return Home</a>
+            </div>
+
+            <p class="support-link">
+                Need help? <a href="/support">Contact Support</a>
+            </p>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer" id="footer">
+        <!--Generated dynamically by js-->
+    </footer>
+
+    <script>
+        const home = `<a href="{%url 'home'%}" class="logo">Campus Connect</a>`
+        {% if user.image != None %}
+        const user_name = '<img class="user-avatar" src="{{user.image.file.url}}" alt="Avatar">'
+        {% else %}
+        const user_name = '<div class="user-avatar">{{ user.first_name|upper|slice:":1" }}' + '{{ user.last_name|upper|slice:":1" }}</div>'
+        {% endif %}
+        const search = `
+            <input type="text" class="search-bar" id="search-bar" placeholder="Search...">
+            <button class="search-btn" onClick="Search()">🔍</button>
+            `
+        const nav_urls = `
+                    <li><a href="{%url 'question_library'%}">Ask Questions</a></li>
+                    <li><a href="{%url 'market'%}">Market</a></li>
+                    <li><a href="{%url 'notes'%}">Notes</a></li>
+                    <li><a href="group.html">Groups</a></li>
+                    `
+        const login= `
+            {% if user.is_verified %}
+                <div class="user-dropdown">
+                    <div class="quick-post-btn">Post +</div>
+                    <div class="dropdown-menu">
+                        <a href="{%url "question"%}"><i class="fas"></i> Post Question</a>
+                        <a href="{%url "upload_product"%}"><i class="fas"></i> Sell Product</a>
+                        {% if user.is_verified %}
+                        <a href="{%url 'note_upload'%}"><i class="fas"></i> Upload Notes</a>
+                        {% endif %}
+                    </div>
+                </div>     
+            {% endif %}
+            <div class="user-dropdown">
+                <div class="user-avatar">${user_name}</div>
+                <div class="dropdown-menu">
+                    <a href="{%url 'user' %}"><i class="fas fa-user"></i> Profile</a>
+                    <a href="{%url 'logout'%}"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                </div>
+            </div>
+        `
+        const footer_urls = `
+                    <a href="#">About Us</a>
+                    <a href="#">Contact</a>
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Terms of Service</a>
+                    <a href="#">Help Center</a>`
+        const footer_urls_2 = `
+                    <a href="{%url 'question_library'%}">Ask Questions</a>
+                    <a href="{%url 'market'%}">Market</a>
+                    <a href="{%url 'notes'%}">Share Notes</a>
+                    <a href="group.html">Create Groups</a>
+                    <a href="{%url 'home'%}">Campus Events</a>`
+    </script>
+    <script src="{%static 'JS/index.js'%}"></script>
+
+    <script>
+        // Mobile menu toggle
+        const menuToggle = document.getElementById('menuToggle');
+        const navMenu = document.getElementById('navMenu');
+
+        menuToggle.addEventListener('click', () => {
+            navMenu.classList.toggle('active');
+        });
+
+        // Try Again function
+        function tryAgain() {
+            // Redirect to payment page
+            window.location.href = "{%url 'payment' id=product.slug %}";
+        }
+
+        // Optional: Add retry countdown
+        let countdown = 5;
+        const tryAgainBtn = document.querySelector('.btn-primary');
+        const originalText = tryAgainBtn.textContent;
+
+        // Uncomment to enable countdown
+        /*
+        const countdownInterval = setInterval(() => {
+            if (countdown > 0) {
+                tryAgainBtn.textContent = `Try Again (${countdown})`;
+                tryAgainBtn.disabled = true;
+                tryAgainBtn.style.opacity = '0.6';
+                tryAgainBtn.style.cursor = 'not-allowed';
+                countdown--;
+            } else {
+                clearInterval(countdownInterval);
+                tryAgainBtn.textContent = originalText;
+                tryAgainBtn.disabled = false;
+                tryAgainBtn.style.opacity = '1';
+                tryAgainBtn.style.cursor = 'pointer';
+            }
+        }, 1000);
+        */
+
+        // Clear retry count when leaving page
+        window.addEventListener('beforeunload', () => {
+            if (window.location.pathname === '/') {
+                sessionStorage.removeItem('paymentRetryCount');
+            }
+        });
+    </script>
+</body>
+</html>

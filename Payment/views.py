@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from django.http import Http404, JsonResponse
+from django.http import Http404, JsonResponse, HttpResponseForbidden, HttpResponseNotAllowed
 from django.views.decorators.csrf import csrf_exempt
 from . import Forms
 from django.contrib.auth import get_user_model
@@ -45,7 +45,7 @@ def productPaymentProcessing(request, id):
 
 def productPayment(request, id):
     if not request.user.is_authenticated:
-        raise Http404('Invalid Request')
+        return redirect('login')
 
     product = get_object_or_404(models.Product, slug=id)
     User = get_user_model()
@@ -95,13 +95,14 @@ def Test(request):
 
 def paymentRedirect(request):
     if not request.user.is_authenticated or not request.session.get('payment'):
-        raise Http404('Invalid Request')
+        raise HttpResponseForbidden('')
     
     user = models.AuthCustomuser.objects.get(id=request.user.id)
     payment = models.Payment.objects.filter(user=user, status='pending')
+    address = models.Address.objects.filter(user=user).last()
     
     if len(payment) == 0:
-        raise Http404('Invalid Request')
+        raise HttpResponseForbidden('')
     
     payment = payment.last()
     context = {}
@@ -111,18 +112,83 @@ def paymentRedirect(request):
         context['paypal_form'] = Forms.paypalPaymentProcessing(request, payment)
     
     elif payment.payment_method == 'mpesa':
-        pass 
+        Forms.mpesaPaymentProcessing(request, payment, address.contact)
 
     return render(request, 'redirect.html', context)
 
 #mpesa callback function
 @csrf_exempt
-def mpesaCallback(request):
-    data = json.loads(request.body)
-    result_code = data['Body']['stkCallback']['ResultCode']
+def mpesaCallback(request, id):
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        result_code = data['Body']['stkCallback']['ResultCode']
 
-def successTemplate(request):
-    pass
+        payment = models.Payment.objects.get(transaction_id=id)
 
-def failTemplate(request):
-    pass
+        if result_code == 0:
+            payment.status = 'complete'
+            payment.save()
+        
+        else:
+            payment.status = 'cancelled'
+            payment.save()
+        
+        return JsonResponse({"ResultCode": 0, "ResultDesc": "Accepted"})
+    return JsonResponse({"error": "Invalid method"}, status=405)
+
+def mpesaTransactionCheck(request, id):
+    if request.method == 'POST':
+        try:
+            payment = models.Payment.objects.get(transaction_id=id)
+
+            if payment.status == 'complete':
+                url = request.build_absolute_uri(reverse('payment_success', kwargs={'slug': payment.product.slug}))
+                return JsonResponse({'status': 200, 'url':url})
+            
+            elif payment.status == 'cancelled':
+                url = request.build_absolute_uri(reverse('payment_fail', kwargs={'slug': payment.product.slug}))
+                return JsonResponse({'status': 200, 'url':url})
+            
+            else:
+                return JsonResponse({'status':204})
+            
+        except:
+            return JsonResponse({'status':404})
+        
+
+
+def successTemplate(request, slug):
+    product = get_object_or_404(models.Product, slug=slug)
+    user = models.AuthCustomuser.objects.get(id=request.user.id)
+
+    payment = models.Payment.objects.filter(product=product, user=user).last()
+
+    if payment.payment_method == 'paypal':
+        payment.status = 'complete'
+        payment.save()
+
+    context = {
+        'product':product
+    }
+    return render(request, 'payment_success.html', context)
+
+def orderReview(request):
+    if not request.user.is_authenticated:
+        raise HttpResponseForbidden('')
+    
+
+def failTemplate(request, slug):
+    product = get_object_or_404(models.Product, slug=slug)
+    user = models.AuthCustomuser.objects.get(id=request.user.id)
+
+    payment = models.Payment.objects.filter(product=product, user=user).last()
+
+    if payment.payment_method == 'paypal':
+        payment.status = 'complete'
+        payment.save()
+
+    context = {
+        'product':product
+    }
+    return render(request, 'payment_fail.html', context)
+

@@ -105,7 +105,6 @@ def productDetail(request, id):
 
     for index, related_product in enumerate(related_products):
         if related_product.product_id == product.product_id:
-            print(related_product.name)
             related_products.pop(index)
             break
 

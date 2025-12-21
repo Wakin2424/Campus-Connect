@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Successful - Campus Connect</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="header-container">
+            <a href="/" class="logo">Campus Connect</a>
+            <button class="menu-toggle" id="menuToggle">☰</button>
+            <nav id="navMenu">
+                <ul>
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/market">Market</a></li>
+                    <li><a href="/notes">Notes</a></li>
+                    <li><a href="/questions">Questions</a></li>
+                    <li><a href="/profile">Profile</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+        <div class="success-container">
+            <!-- Success Animation -->
+            <div class="success-animation">
+                <div class="success-circle">
+                    <div class="success-checkmark">
+                        <div class="checkmark-stem"></div>
+                        <div class="checkmark-kick"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Success Message -->
+            <h1>Payment Successful!</h1>
+            <p class="success-message">
+                Thank you for your payment. Your transaction was completed successfully. 
+                We appreciate your trust in Campus Connect.
+            </p>
+
+            <!-- Rating & Review Card -->
+            <div class="review-card">
+                <h2>Rate Your Experience</h2>
+                
+                <!-- Star Rating -->
+                <div class="star-rating" id="starRating">
+                    <span class="star" data-rating="1">★</span>
+                    <span class="star" data-rating="2">★</span>
+                    <span class="star" data-rating="3">★</span>
+                    <span class="star" data-rating="4">★</span>
+                    <span class="star" data-rating="5">★</span>
+                </div>
+                <p class="rating-text" id="ratingText">Click on the stars to rate</p>
+
+                <!-- Review Textarea -->
+                <textarea 
+                    class="review-input" 
+                    id="reviewText"
+                    placeholder="Share your experience with Campus Connect..."
+                ></textarea>
+
+                <!-- Submit Button -->
+                <button class="btn btn-primary" id="submitReview">
+                    Submit Review
+                </button>
+
+                <!-- Success Message -->
+                <div class="review-success" id="reviewSuccess">
+                    ✓ Thank you! Your review has been submitted successfully.
+                </div>
+            </div>
+
+            <!-- Navigation Buttons -->
+            <div class="navigation-buttons">
+                <a href="/" class="btn btn-secondary">Go to Home</a>
+                <a href="/orders" class="btn btn-secondary">View Orders</a>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-container">
+            <div class="footer-content">
+                <ul class="footer-links">
+                    <li><a href="/about">About</a></li>
+                    <li><a href="/contact">Contact</a></li>
+                    <li><a href="/terms">Terms</a></li>
+                    <li><a href="/privacy">Privacy</a></li>
+                </ul>
+                <div class="social-icons">
+                    <a href="#" aria-label="Facebook">f</a>
+                    <a href="#" aria-label="Twitter">𝕏</a>
+                    <a href="#" aria-label="Instagram">📷</a>
+                    <a href="#" aria-label="LinkedIn">in</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Campus Connect. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        const menuToggle = document.getElementById('menuToggle');
+        const navMenu = document.getElementById('navMenu');
+
+        menuToggle.addEventListener('click', () => {
+            navMenu.classList.toggle('active');
+        });
+
+        // Star Rating System
+        const stars = document.querySelectorAll('.star');
+        const ratingText = document.getElementById('ratingText');
+        let selectedRating = 0;
+
+        const ratingMessages = {
+            0: 'Click on the stars to rate',
+            1: 'Poor - We\'re sorry to hear that',
+            2: 'Fair - We can do better',
+            3: 'Good - Thanks for your feedback',
+            4: 'Very Good - We\'re glad you enjoyed it',
+            5: 'Excellent - Thank you so much!'
+        };
+
+        // Handle star click
+        stars.forEach(star => {
+            star.addEventListener('click', () => {
+                selectedRating = parseInt(star.dataset.rating);
+                updateStars(selectedRating);
+                ratingText.textContent = ratingMessages[selectedRating];
+            });
+
+            // Handle star hover
+            star.addEventListener('mouseenter', () => {
+                const hoverRating = parseInt(star.dataset.rating);
+                stars.forEach((s, index) => {
+                    if (index < hoverRating) {
+                        s.classList.add('hovered');
+                    } else {
+                        s.classList.remove('hovered');
+                    }
+                });
+            });
+        });
+
+        // Remove hover effect when mouse leaves star rating area
+        document.getElementById('starRating').addEventListener('mouseleave', () => {
+            stars.forEach(star => star.classList.remove('hovered'));
+        });
+
+        function updateStars(rating) {
+            stars.forEach((star, index) => {
+                if (index < rating) {
+                    star.classList.add('active');
+                } else {
+                    star.classList.remove('active');
+                }
+            });
+        }
+
+        // Submit Review
+        const submitBtn = document.getElementById('submitReview');
+        const reviewText = document.getElementById('reviewText');
+        const reviewSuccess = document.getElementById('reviewSuccess');
+
+        submitBtn.addEventListener('click', () => {
+            const review = reviewText.value.trim();
+
+            if (selectedRating === 0) {
+                alert('Please select a rating before submitting.');
+                return;
+            }
+
+            // Disable button during submission
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Submitting...';
+
+            // Simulate API call
+            setTimeout(() => {
+                // Here you would send the data to your backend
+                const reviewData = {
+                    rating: selectedRating,
+                    review: review,
+                    timestamp: new Date().toISOString()
+                };
+
+                console.log('Review submitted:', reviewData);
+
+                // Show success message
+                reviewSuccess.classList.add('show');
+                
+                // Reset form
+                reviewText.value = '';
+                selectedRating = 0;
+                updateStars(0);
+                ratingText.textContent = ratingMessages[0];
+
+                // Re-enable button
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Submit Another Review';
+
+                // Hide success message after 5 seconds
+                setTimeout(() => {
+                    reviewSuccess.classList.remove('show');
+                    submitBtn.textContent = 'Submit Review';
+                }, 5000);
+            }, 1000);
+        });
+
+        // Optional: Store payment success data
+        const paymentData = {
+            transactionId: 'TXN' + Date.now(),
+            timestamp: new Date().toISOString(),
+            status: 'success'
+        };
+        console.log('Payment completed:', paymentData);
+    </script>
+</body>
+</html>
