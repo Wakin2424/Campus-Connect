@@ -11,5 +11,6 @@ urlpatterns = [
     path('api/mpesa/callback/<str:id>/', views.mpesaCallback, name='callback'),
     path('payment-success/<str:slug>/', views.successTemplate, name='payment_success'),
     path('payment-fail/<str:slug>/', views.failTemplate, name='payment_fail'),
-    path('test', views.Test, name='payment_test')
+    path('test', views.Test, name='payment_test'),
+    path('api/Review/', views.orderReview, name='review')
 ]

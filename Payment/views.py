@@ -175,8 +175,22 @@ def successTemplate(request, slug):
 def orderReview(request):
     if not request.user.is_authenticated:
         raise HttpResponseForbidden('')
-    
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        slug = data['slug']
+        rating_value = int(data['rating'])
+        review = data['review']
 
+        try:
+            product = get_object_or_404(models.Product, slug=slug)  
+            user = models.AuthCustomuser.objects.get(id=request.user.id)
+            rating = models.Ratings(user=user, rating=rating_value, product=product, description=review)
+            rating.save()
+            return JsonResponse({'status':True})
+        except:
+            return JsonResponse({'status':False})
+    return JsonResponse({'status':False})
+        
 def failTemplate(request, slug):
     product = get_object_or_404(models.Product, slug=slug)
     user = models.AuthCustomuser.objects.get(id=request.user.id)

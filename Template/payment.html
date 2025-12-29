@@ -250,7 +250,7 @@
 
             totalPriceAmount =  discountElement + fee
             TotalElement.textContent = totalPriceAmount
-            discountPercentElement.textContent = Number((subtotalElement - discountElement)/subtotalElement * 100)
+            discountPercentElement.textContent = Math.ceil((subtotalElement - discountElement)/subtotalElement * 100)
         }
 
         calculateTotal()
@@ -365,6 +365,7 @@
                 }
 
                 confirmBtn.textContent = 'Waiting Confirmation'
+                confirmBtn.disabled = true
 
                 fetch("{% url 'inter_payment_processing' id=product.code %}", {
                     method: "POST",
@@ -383,7 +384,7 @@
                         
                     }
                     else{
-
+                        confirmBtn.disabled = false
                         confirmBtn.textContent = 'Failed! Try Again';
                         confirmBtn.style.color = '#c51e1e';
                         setTimeout(()=>{

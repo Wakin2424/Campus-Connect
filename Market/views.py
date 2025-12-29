@@ -34,9 +34,13 @@ def loadProducts(request):
 
 def uploadProduct(request):
     if not request.user.is_authenticated:
-        raise Http404("Invalid Request!")
+        return redirect('login')
     
     if request.method == "POST":
+        if not request.user.is_authenticated:
+            raise Http404("Invalid Request!")
+    
+
         name = request.POST.get("name")
         category = request.POST.get("category")
         courses = request.POST.getlist("courses")
