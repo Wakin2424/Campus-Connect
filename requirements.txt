@@ -15,6 +15,10 @@ whitenoise==6.10.0
 PyPDF2==3.0.1
 python-docx==1.2.0
 docx2pdf==0.1.8
-gunicorn
-django-anymail
-djangorestframework_simplejwt
+gunicorn==23.0.0
+django-anymail==13.1
+djangorestframework_simplejwt==5.5.1
+daphne==4.2.1
+channels==4.3.2
+channels_redis==4.3.0
+
