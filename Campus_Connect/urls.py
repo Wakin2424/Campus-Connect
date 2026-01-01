@@ -30,7 +30,9 @@ urlpatterns = [
     path('notes/', include('Notes.urls')),
     path('market/', include('Market.urls')),
     path('payment/', include('Payment.urls')),
-    path('api/mails/', include('Mail.urls'))
+    path('Groups/', include('Groups.urls')),
+    path('chat/', include('Chat.urls')),
+    path('api/mails/', include('Mail.urls')),
 ]
 
 

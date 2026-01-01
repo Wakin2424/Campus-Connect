@@ -4,92 +4,22 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
-  <style>
-    .batch {
-  display: none;
-}
-.batch.active {
-  display: block;
-}
-.batch-btn.active {
-  background: black;
-  color: white;
-}
-
-  </style>
 </head>
 <body>
-    <div id="data-container"></div>
-
-<div id="buttons">
-  <button id="btn1" class="batch-btn active">1</button>
-  <button id="loadMore">More</button>
-</div>
   <script>
-    const dataContainer = document.getElementById("data-container");
-const loadMoreBtn = document.getElementById("loadMore");
-const buttonsContainer = document.getElementById("buttons");
+    const socket = new WebSocket("ws://" + window.location.host + "/ws/chat/");
 
-let batchNumber = 1;
-let batches = {}; // store each batch's div
+    socket.onmessage = function(event) {
+        const data = JSON.parse(event.data);
+        console.log("Message:", data.message);
+    };
 
-// Load first batch on page load
-window.onload = () => {
-  loadBatch(1);
-  showBatch(1);
-};
-
-function loadBatch(n) {
-  // Create div container for the batch
-  const batchDiv = document.createElement("div");
-  batchDiv.classList.add("batch");
-  batchDiv.id = `batch${n}`;
-
-  // Simulated data for demo
-  for (let i = 1; i <= 5; i++) {
-    const item = document.createElement("div");
-    item.textContent = `Batch ${n} - Item ${i}`;
-    batchDiv.appendChild(item);
-  }
-
-  // Add to DOM but hidden
-  dataContainer.appendChild(batchDiv);
-  batches[n] = batchDiv;
-}
-
-function showBatch(n) {
-  // Hide all
-  for (let key in batches) {
-    batches[key].classList.remove("active");
-  }
-
-  // Show selected
-  batches[n].classList.add("active");
-
-  // Update active button
-  document.querySelectorAll(".batch-btn").forEach(btn => btn.classList.remove("active"));
-  const activeBtn = document.getElementById(`btn${n}`);
-  if (activeBtn) activeBtn.classList.add("active");
-}
-
-loadMoreBtn.addEventListener("click", () => {
-  batchNumber++;
-  loadBatch(batchNumber);
-
-  // Create new numbered button
-  const newBtn = document.createElement("button");
-  newBtn.textContent = batchNumber;
-  newBtn.id = `btn${batchNumber}`;
-  newBtn.classList.add("batch-btn");
-  newBtn.addEventListener("click", () => showBatch(batchNumber));
-
-  // Insert before the "More" button
-  buttonsContainer.insertBefore(newBtn, loadMoreBtn);
-
-  // Show new batch
-  showBatch(batchNumber);
-});
-
+    socket.onopen = function() {
+        socket.send(JSON.stringify({
+            message: "Hello from browser"
+        }));
+    };
   </script>
+
 </body>
 </html>

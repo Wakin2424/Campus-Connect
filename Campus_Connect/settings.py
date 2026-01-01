@@ -49,8 +49,14 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    #Third party
     'paypal.standard.ipn',
     'social_django',
+    'channels',
+    
+
+    #Custom
     'Home',
     'Auth',
     'Chat',
@@ -58,7 +64,8 @@ INSTALLED_APPS = [
     'Notes',
     'Question_Answer',
     'Search',
-    'User'
+    'User',
+    'Groups',
 
 ]
 
@@ -94,8 +101,17 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'Campus_Connect.wsgi.application'
+#WSGI_APPLICATION = 'Campus_Connect.wsgi.application'
+ASGI_APPLICATION = 'Campus_Connect.asgi.application'
 
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND':  'channels.layers.InMemoryChannelLayer',#'channels_redis.core.RedisChannelLayer',
+#        'CONFIG':{
+#            'hosts':[('127.0.0.1', 6379)],
+#        }
+    }
+}
 
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases

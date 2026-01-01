@@ -36,13 +36,13 @@ class Images(models.Model):
 class CustomUser(AbstractUser):
     email = models.EmailField(_('email address'), unique=True)
     contact = models.CharField(max_length=15, blank=True)
-    course = models.ForeignKey('course', models.DO_NOTHING, null=True, blank=True)
-    career = models.ForeignKey('career', models.DO_NOTHING, null=True, blank=True)
+    course = models.ForeignKey('course', null=True, blank=True, on_delete=models.SET_NULL)
+    career = models.ForeignKey('career', null=True, blank=True, on_delete=models.SET_NULL)
     year_of_study = models.IntegerField(null=True, blank=True)
     graduation_level = models.CharField(max_length=200,  null=True, blank=True)
     institution = models.CharField(max_length=300, blank=True, null=True)
     is_verified = models.BooleanField(default=False)
-    image = models.ForeignKey('Images', models.DO_NOTHING, blank=True, null=True)
+    image = models.ForeignKey('Images', blank=True, null=True, on_delete=models.SET_NULL)
     
 
     USERNAME_FIELD = 'email'         # Use email to log in
@@ -67,9 +67,9 @@ class AuthCustomuser(models.Model):
     graduation_level = models.CharField(max_length=200, blank=True, null=True)
     is_verified = models.BooleanField(default=False)
     year_of_study = models.IntegerField(blank=True, null=True)
-    career = models.ForeignKey('Career', models.DO_NOTHING, blank=True, null=True)
-    course = models.ForeignKey('Course', models.DO_NOTHING, blank=True, null=True)
-    image = models.ForeignKey('Images', models.DO_NOTHING, blank=True, null=True)
+    career = models.ForeignKey('Career', blank=True, null=True, on_delete=models.SET_NULL)
+    course = models.ForeignKey('Course', blank=True, null=True, on_delete=models.SET_NULL)
+    image = models.ForeignKey('Images', blank=True, null=True, on_delete=models.SET_NULL)
     institution = models.CharField(max_length=300, blank=True, null=True)
 
     class Meta:
@@ -90,16 +90,16 @@ class Category(models.Model):
 
 class Product(models.Model):
     product_id = models.AutoField(primary_key=True)
-    user = models.ForeignKey(AuthCustomuser, on_delete=models.DO_NOTHING, null=True, blank=True)
+    user = models.ForeignKey(AuthCustomuser, on_delete=models.CASCADE, null=True, blank=True)
     name = models.CharField(max_length=200)
-    category = models.ForeignKey(Category, on_delete=models.DO_NOTHING)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE)
     courses = models.ManyToManyField(Course, through='Question_subjects')
     slug = models.CharField(max_length=200, unique=True)
     code = models.CharField(max_length=200)
     description = models.TextField(blank=True, null=True)
     price = models.DecimalField(max_digits=10, decimal_places=2)
     discount = models.DecimalField(max_digits=10, decimal_places=2, default=0)
-    image = models.ForeignKey(Images, models.DO_NOTHING, null=True)
+    image = models.ForeignKey(Images, models.SET_NULL, null=True)
     status = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
@@ -110,7 +110,7 @@ class Product(models.Model):
 class Notes(models.Model):
     note_id = models.AutoField(primary_key=True)
     code = models.CharField(max_length=250, unique=True, default=uuid.uuid4())
-    user = models.ForeignKey(AuthCustomuser, models.DO_NOTHING, blank=True, null=True)
+    user = models.ForeignKey(AuthCustomuser, blank=True, null=True, on_delete=models.CASCADE)
     courses = models.ManyToManyField(Course, through='Question_subjects')
     title = models.CharField(max_length=200)
     description = models.TextField(blank=True, null=True)
@@ -128,7 +128,7 @@ class Notes(models.Model):
 
 class Notifications(models.Model):
     notification_id = models.AutoField(primary_key=True)
-    user = models.ForeignKey(AuthCustomuser, models.DO_NOTHING, blank=True, null=True)
+    user = models.ForeignKey(AuthCustomuser, blank=True, null=True, on_delete=models.CASCADE)
     message = models.TextField()
     is_read = models.BooleanField(blank=True, null=True)
     created_at = models.DateTimeField(blank=True, null=True, default=str(dt.datetime.now()))
@@ -139,7 +139,7 @@ class Notifications(models.Model):
 class Qa(models.Model):
     qa_id = models.AutoField(primary_key=True)
     code = models.CharField(max_length=250, unique=True)
-    user = models.ForeignKey(AuthCustomuser, models.DO_NOTHING, blank=True, null=True)
+    user = models.ForeignKey(AuthCustomuser, blank=True, null=True, on_delete=models.CASCADE)
     question = models.TextField()
     description = models.TextField(blank=True, null=True)
     views = models.IntegerField(blank=True, null=True, default=0)
@@ -154,8 +154,8 @@ class Qa(models.Model):
 class Answers(models.Model):
     answer_id = models.AutoField(primary_key=True)
     code = models.CharField(max_length=250, unique=True)
-    user = models.ForeignKey(AuthCustomuser, models.DO_NOTHING, blank=True, null=True)
-    question = models.ForeignKey('qa', models.DO_NOTHING, blank=True, null=True)
+    user = models.ForeignKey(AuthCustomuser, blank=True, null=True, on_delete=models.CASCADE)
+    question = models.ForeignKey('qa', blank=True, null=True, on_delete=models.CASCADE)
     answer = models.TextField()
     created_at = models.DateTimeField(blank=True, default=str(dt.datetime.now()))
 
@@ -164,31 +164,31 @@ class Answers(models.Model):
 
 class Question_subjects(models.Model):
     reference_id = models.AutoField(primary_key=True)
-    question = models.ForeignKey(Qa, models.DO_NOTHING, blank=True, null=True)
-    note = models.ForeignKey(Notes, models.DO_NOTHING, blank=True, null=True)
-    course = models.ForeignKey(Course, models.DO_NOTHING, blank=True, null=True)
-    product = models.ForeignKey(Product, models.DO_NOTHING, blank=True, null=True)
+    question = models.ForeignKey(Qa, blank=True, null=True, on_delete=models.CASCADE)
+    note = models.ForeignKey(Notes, blank=True, null=True, on_delete=models.CASCADE)
+    course = models.ForeignKey(Course, blank=True, null=True, on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, blank=True, null=True, on_delete=models.CASCADE)
 
     class Meta:
         db_table = 'question_subjects'
 
 class Image_reference(models.Model):
     reference_id = models.AutoField(primary_key=True)
-    question = models.ForeignKey(Qa, models.DO_NOTHING, blank=True, null=True)
-    answer = models.ForeignKey(Answers, models.DO_NOTHING, blank=True, null=True)
-    product = models.ForeignKey(Product, models.DO_NOTHING, blank=True, null=True)
-    image = models.ForeignKey(Images, models.DO_NOTHING)
+    question = models.ForeignKey(Qa, blank=True, null=True, on_delete=models.CASCADE)
+    answer = models.ForeignKey(Answers, blank=True, null=True, on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, blank=True, null=True, on_delete=models.CASCADE)
+    image = models.ForeignKey(Images, on_delete=models.CASCADE)
 
     class Meta:
         db_table = 'image_reference'
 
 class Ratings(models.Model):
     rating_id = models.AutoField(primary_key=True)
-    user = models.ForeignKey(AuthCustomuser, models.DO_NOTHING, blank=True, null=True)
+    user = models.ForeignKey(AuthCustomuser, blank=True, null=True, on_delete=models.CASCADE)
     rating = models.IntegerField(blank=True, null=True)
-    question = models.ForeignKey(Qa, models.DO_NOTHING, blank=True, null=True)
-    note = models.ForeignKey(Notes, models.DO_NOTHING, blank=True, null=True)
-    product = models.ForeignKey(Product, models.DO_NOTHING, blank=True, null=True)
+    question = models.ForeignKey(Qa, blank=True, null=True, on_delete=models.CASCADE)
+    note = models.ForeignKey(Notes, blank=True, null=True, on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, blank=True, null=True, on_delete=models.CASCADE)
     description = models.TextField(blank=True, null=True)
 
     class Meta:
@@ -197,10 +197,10 @@ class Ratings(models.Model):
 
 class Likes(models.Model):
     like_id = models.AutoField(primary_key=True)
-    user = models.ForeignKey(AuthCustomuser, models.DO_NOTHING, blank=True, null=True)
-    question = models.ForeignKey(Qa, models.DO_NOTHING, blank=True, null=True)
-    answer = models.ForeignKey(Answers, models.DO_NOTHING, blank=True, null=True)
-    note = models.ForeignKey(Notes, models.DO_NOTHING, blank=True, null=True)
+    user = models.ForeignKey(AuthCustomuser, blank=True, null=True, on_delete=models.CASCADE)
+    question = models.ForeignKey(Qa, blank=True, null=True, on_delete=models.CASCADE)
+    answer = models.ForeignKey(Answers, blank=True, null=True, on_delete=models.CASCADE)
+    note = models.ForeignKey(Notes, blank=True, null=True, on_delete=models.CASCADE)
     likes = models.IntegerField(blank=True, null=True,default=0)
     created_at = models.DateTimeField(blank=True, null=True, default=str(dt.datetime.now()))
     class Meta:
@@ -209,7 +209,7 @@ class Likes(models.Model):
 
 class Address(models.Model):
     address_id = models.AutoField(primary_key=True)
-    user = models.ForeignKey(AuthCustomuser, models.DO_NOTHING, blank=True, null=True)
+    user = models.ForeignKey(AuthCustomuser, blank=True, null=True, on_delete=models.CASCADE)
     address1 = models.CharField(max_length=255)
     address2 = models.CharField(max_length=255, blank=True, null=True)
     contact = models.CharField(max_length=50)
@@ -224,8 +224,8 @@ class Address(models.Model):
 class Payment(models.Model):
     payment_id = models.AutoField(primary_key=True)
     transaction_id = models.CharField(unique=True, max_length=50)
-    user = models.ForeignKey(AuthCustomuser, models.DO_NOTHING, blank=True, null=True)
-    product = models.ForeignKey('Product', models.DO_NOTHING, blank=True, null=True)
+    user = models.ForeignKey(AuthCustomuser, blank=True, null=True, on_delete=models.CASCADE)
+    product = models.ForeignKey('Product', blank=True, null=True, on_delete=models.SET_NULL)
     payment_method = models.CharField(max_length=50)
     price = models.DecimalField(max_digits=10, decimal_places=2)
     amount = models.IntegerField(blank=True, null=True)
