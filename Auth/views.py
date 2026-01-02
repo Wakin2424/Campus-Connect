@@ -13,9 +13,9 @@ def Login(request):
             login(request, user)
             return redirect('home')
         else:
-            return render(request, 'login.html', {'msg_bool':True, 'error':"Invalid Credentials"})
+            return render(request, 'Auth/login.html', {'msg_bool':True, 'error':"Invalid Credentials"})
     else:
-        return render(request, 'login.html', {'msg_bool':False})
+        return render(request, 'Auth/login.html', {'msg_bool':False})
 
 def Logout(request):
     logout(request)
@@ -50,7 +50,7 @@ def Signup(request):
             'courses': courses,
             'error': form.error_messages
         }
-        return render(request, 'signup.html', context)
+        return render(request, 'Auth/signup.html', context)
 
     else:
         careers = models.Career.objects.all().order_by('career_name')
@@ -62,7 +62,7 @@ def Signup(request):
             'courses': courses,
             'error': ''
         }
-        return render(request, 'signup.html', context)
+        return render(request, 'Auth/signup.html', context)
     
 def EditProfile(request):
     if not request.user.is_authenticated:
@@ -143,15 +143,7 @@ def EditProfile(request):
         user.save()
 
         return redirect('user')
-    
-        careers = models.Career.objects.all().order_by('career_name')
-        courses = models.Course.objects.all().order_by('course_name')
-        context = {
-            'careers': careers,
-            'courses': courses,
-            'error': form.error_messages
-        }
-        return render(request, 'edit_profile.html', context)
+
     
     else:
         careers = models.Career.objects.all().order_by('career_name')
@@ -163,7 +155,7 @@ def EditProfile(request):
             'courses': courses,
             'error': ''
         }
-        return render(request, 'edit_profile.html', context)
+        return render(request, 'Auth/edit_profile.html', context)
 
 def forgotPassword(request):
     pass

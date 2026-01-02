@@ -18,10 +18,10 @@ def Auth_index(request):
         'trending_questions': trending_questions,
         'products': products
     }
-    return render(request, 'home.html', context)
+    return render(request, 'Home/home.html', context)
 
 def Unauth_index(request):
-    return render(request, 'index.html')
+    return render(request, 'Home/index.html')
 
 def Home(request):
     if request.user.is_authenticated:

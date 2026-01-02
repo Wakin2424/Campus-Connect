@@ -147,9 +147,12 @@ class Qa(models.Model):
     created_at = models.DateTimeField(blank=True, default=str(dt.datetime.now()))
     courses = models.ManyToManyField(Course, through='Question_subjects')
 
-    class Meta:
+    def __str__(self):
+        return f"{self.user.first_name}: {self.question}"
 
+    class Meta:
         db_table = 'qa'
+
 
 class Answers(models.Model):
     answer_id = models.AutoField(primary_key=True)
@@ -158,6 +161,9 @@ class Answers(models.Model):
     question = models.ForeignKey('qa', blank=True, null=True, on_delete=models.CASCADE)
     answer = models.TextField()
     created_at = models.DateTimeField(blank=True, default=str(dt.datetime.now()))
+
+    def __str__(self):
+        return f"{self.user.first_name}: {self.answer}"
 
     class Meta:
         db_table = 'answers'

@@ -58,7 +58,7 @@ def productPayment(request, id):
         'fee':fee
 
     }
-    return render(request, 'payment.html', context)
+    return render(request, 'Payment/payment.html', context)
 
 def paymentNegotiationRequest(request):
     if request.method == 'POST':
@@ -114,7 +114,7 @@ def paymentRedirect(request):
     elif payment.payment_method == 'mpesa':
         Forms.mpesaPaymentProcessing(request, payment, address.contact)
 
-    return render(request, 'redirect.html', context)
+    return render(request, 'Payment/redirect.html', context)
 
 #mpesa callback function
 @csrf_exempt
@@ -170,7 +170,7 @@ def successTemplate(request, slug):
     context = {
         'product':product
     }
-    return render(request, 'payment_success.html', context)
+    return render(request, 'Payment/payment_success.html', context)
 
 def orderReview(request):
     if not request.user.is_authenticated:
@@ -204,5 +204,5 @@ def failTemplate(request, slug):
     context = {
         'product':product
     }
-    return render(request, 'payment_fail.html', context)
+    return render(request, 'Payment/payment_fail.html', context)
 

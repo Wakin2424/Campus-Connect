@@ -21,13 +21,13 @@ def Home(request):
         'papers':papers,
         'study_guides':study_guides
     }
-    return render(request, 'market.html', context)
+    return render(request, 'Market/market.html', context)
 
 def productLibrary(request, category):
     
 
     context = {}
-    return render(request, 'market.html', context)
+    return render(request, 'Market/market.html', context)
 
 def loadProducts(request):
     pass
@@ -97,7 +97,7 @@ def uploadProduct(request):
             'categories' : category,
             'courses' : courses
         }
-        return render(request, 'product_upload.html', context)
+        return render(request, 'Market/product_upload.html', context)
 
 def productDetail(request, id):
     product = get_object_or_404(models.Product, slug=id)
@@ -120,7 +120,7 @@ def productDetail(request, id):
         'related_products':related_products
 
     }
-    return render(request, 'product_detail.html', context)
+    return render(request, 'Market/product_detail.html', context)
 
 def updateProductDetail(request, id):
     if not request.user.is_authenticated:
@@ -148,7 +148,7 @@ def updateProductDetail(request, id):
         'negotiation_requests': negotiation_requests,
     }
 
-    return render(request, 'edit-product.html', context)
+    return render(request, 'Market/edit-product.html', context)
 
 def saveProductChanges(request):
     if request.method == 'POST':

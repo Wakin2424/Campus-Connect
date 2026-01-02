@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,8 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Groups - Campus Connect</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="css/group-landing-page.css">
-    <link rel="stylesheet" href="css/nav.css">
+    <link rel="stylesheet" href="{%static 'CSS/group-landing-page.css'%}">
+    <link rel="stylesheet" href="{%static 'CSS/nav.css'%}">
 </head>
 <body>
     <!-- Header -->
@@ -57,35 +58,13 @@
         <!--Generated dynamically by js-->
     </footer>
 
-    <script>
-        const home = `<a href="#" class="logo">Campus Connect</a>`
-        const search = `
-            <a href=''><button class="search-btn">🔍</button></a>
-            `
-        const nav_urls = `
-                    <li><a href="qa.html">Ask Questions</a></li>
-                    <li><a href="market.html">Sell Books</a></li>
-                    <li><a href="notes.html">Notes</a></li>
-                    <li><a href="group.html">Groups</a></li>
-                    `
-        const login = `
-                <a href="login.html" class="btn-primary">Login/Sign Up</a>
-            `
-
-        const footer_urls = `
-                    <a href="#">About Us</a>
-                    <a href="#">Contact</a>
-                    <a href="#">Privacy Policy</a>
-                    <a href="#">Terms of Service</a>
-                    <a href="#">Help Center</a>`
-        const footer_urls_2 = `
-                    <a href="qa.html">Ask Questions</a>
-                    <a href="market.html">Sell Books</a>
-                    <a href="notes.html">Share Notes</a>
-                    <a href="group.html">Create Groups</a>
-                    <a href="home">Campus Events</a>`
-    </script>
-    <script src="css/index.js"></script>
+    {% if user.is_authenticated %}
+        {% include "Components/header.html#authDynamicHeader" %}
+        {% include "Components/footer.html#footer" %}
+    {% else %}
+        {% include "Components/header.html#guestDynamicHeader" %}
+        {% include "Components/footer.html#footer" %}
+    {% endif %}
 
     <script>
         // Sample data for popular groups

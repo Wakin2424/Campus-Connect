@@ -54,9 +54,9 @@ INSTALLED_APPS = [
     'paypal.standard.ipn',
     'social_django',
     'channels',
+    'template_partials',
     
-
-    #Custom
+    #apps
     'Home',
     'Auth',
     'Chat',
@@ -106,12 +106,18 @@ ASGI_APPLICATION = 'Campus_Connect.asgi.application'
 
 CHANNEL_LAYERS = {
     'default': {
-        'BACKEND':  'channels.layers.InMemoryChannelLayer',#'channels_redis.core.RedisChannelLayer',
-#        'CONFIG':{
-#            'hosts':[('127.0.0.1', 6379)],
-#        }
+        'BACKEND': 'channels.layers.InMemoryChannelLayer',
+        
     }
 }
+
+# for configuring redis in CHANNELS_LAYERS
+"""
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG':{
+            'hosts':[('127.0.0.1', 6379)],
+        }
+        """
 
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases

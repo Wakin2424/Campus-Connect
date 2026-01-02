@@ -1,4 +1,6 @@
 {% load static %}
+{% load partials %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -117,36 +119,9 @@
         <!--Generated dynamically by js-->
     </footer>
 
-    <script>
-        const home = `<a href="{%url 'home'%}" class="logo">Campus Connect</a>`
-        const search = `
-            <input type="text" class="search-bar" id="search-bar" placeholder="Search...">
-            <button class="search-btn" onClick="Search()">🔍</button>
-            `
-        const nav_urls = `
-                    <li><a href="{%url 'question_library'%}">Ask Questions</a></li>
-                    <li><a href="{%url 'market'%}">Market</a></li>
-                    <li><a href="{%url 'notes'%}">Notes</a></li>
-                    <li><a href="group.html">Groups</a></li>
-                    `
-        const login = `
-                <a href="{%url 'login'%}" class="btn-primary">Login/Sign Up</a>
-            `
+    {% include "Components/header.html#guestDynamicHeader" %}
+    {% include "Components/footer.html#footer" %}
 
-        const footer_urls = `
-                    <a href="#">About Us</a>
-                    <a href="#">Contact</a>
-                    <a href="#">Privacy Policy</a>
-                    <a href="#">Terms of Service</a>
-                    <a href="#">Help Center</a>`
-        const footer_urls_2 = `
-                    <a href="{%url 'question_library'%}">Ask Questions</a>
-                    <a href="{%url 'market'%}">Market</a>
-                    <a href="{%url 'notes'%}">Share Notes</a>
-                    <a href="group.html">Create Groups</a>
-                    <a href="home">Campus Events</a>`
-    </script>
-    <script src="{%static 'JS/index.js'%}"></script>
     <script>
         function Search(){
             const search_link = "{%url 'search'%}"

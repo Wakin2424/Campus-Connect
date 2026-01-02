@@ -1,0 +1,21 @@
+{% load static %}
+{% load partials %}
+
+{% partialdef footer %}
+<script>
+const footer_urls = `
+                <a href="#">About Us</a>
+                <a href="#">Contact</a>
+                <a href="#">Privacy Policy</a>
+                <a href="#">Terms of Service</a>
+                <a href="#">Help Center</a>`
+const footer_urls_2 = `
+            <a href="{%url 'question_library'%}">Ask Questions</a>
+            <a href="{%url 'market'%}">Market</a>
+            <a href="{%url 'notes'%}">Share Notes</a>
+            <a href="group.html">Create Groups</a>
+            <a href="{%url 'home'%}">Campus Events</a>`
+</script>
+<script src="{%static 'JS/index.js'%}"></script>
+{% endpartialdef %}
+

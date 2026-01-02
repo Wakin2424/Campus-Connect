@@ -42,7 +42,7 @@ def Home(request):
     context = {
         'courses':courses
     }
-    return render(request, 'notes.html', context)
+    return render(request, 'Notes/notes.html', context)
 
 def LoadHomeData(request):
     page = int(request.GET.get('page'))
@@ -117,7 +117,7 @@ def Note_Detail(request, id):
         'likes':likes,
         'courses':courses
     }
-    return render(request, 'notes_details.html', context)
+    return render(request, 'Notes/notes_details.html', context)
 
 def Note_Upload(request):
     if request.method == 'POST':
@@ -161,4 +161,4 @@ def Note_Upload(request):
         context = {
             'courses':courses
         }
-        return render(request, 'upload_notes.html', context)
+        return render(request, 'Notes/upload_notes.html', context)

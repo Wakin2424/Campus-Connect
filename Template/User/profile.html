@@ -24,26 +24,29 @@
             <div class="card">
                 <div class="profile-header">
                     <div class="profile-picture">
-                        {% if account.image != None %}
-                        <img src="{{account.image.file.url}}" alt="Profile Picture">
+                        {% if user.image != None %}
+                        <img src="{{user.image.file.url}}" alt="Profile Picture">
                         {% else %}
                         <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='50' fill='%231E90FF'/%3E%3Ctext x='50' y='60' font-family='Arial' font-size='30' fill='white' text-anchor='middle'%3EJS%3C/text%3E%3C/svg%3E" alt="Profile Picture">
                         {% endif %}
                     </div>
                     <div class="profile-info">
                         <h1>
-                            {{account.first_name}} {{account.last_name}}
+                            {{user.first_name}} {{user.last_name}}
                             <i class="fas fa-check-circle verified-badge"></i>
                         </h1>
-                        {%if account.is_verified %}
+                        {%if user.is_verified %}
                         <div class="verification-note">
                             <i class="fas fa-shield-alt"></i> Verified Campus Member
                         </div>
                         {% endif %}
                         <div class="contact-info">
-                            <p><i class="fas fa-envelope"></i> {{account.email}}</p>
-                            <p><i class="fas fa-phone"></i> {{account.contact}}</p>
+                            <p><i class="fas fa-envelope"></i> {{user.email}}</p>
+                            <p><i class="fas fa-phone"></i> {{user.contact}}</p>
                         </div>
+                        <button class="edit-btn" onclick="Editpage()">
+                            <i class="fas fa-edit"></i> Edit Profile
+                        </button>
                     </div>
                 </div>
             </div>
@@ -51,15 +54,15 @@
             <!-- User Stats -->
             <div class="stats-grid">
                 <div class="stat-card">
-                    <div class="stat-number">25</div>
+                    <div class="stat-number">{{total_uploads}}</div>
                     <div class="stat-label">Total Uploads</div>
                 </div>
                 <div class="stat-card">
-                    <div class="stat-number">3,500</div>
+                    <div class="stat-number">{{total_views}}</div>
                     <div class="stat-label">Total Views</div>
                 </div>
                 <div class="stat-card">
-                    <div class="stat-number">★ 4.8</div>
+                    <div class="stat-number">★ {{rating.0}}</div>
                     <div class="stat-label">Average Rating</div>
                 </div>
                 <div class="stat-card">
@@ -91,7 +94,7 @@
                             </div>
                             <div class="upload-meta">
                                 <span>Uploaded: March 15, 2025</span>
-                                <a href="{%url 'note_detail' id='note.code' %}" class="view-link">View Details <i class="fas fa-arrow-right"></i></a>
+                                <a href="{%url 'note_detail' id=note.code %}" class="view-link">View Details <i class="fas fa-arrow-right"></i></a>
                             </div>
                         </div>
                         {% endfor %}
@@ -118,7 +121,6 @@
 
                 <div id="books" class="tab-content">
                     <div class="uploads-grid">
-                        {books}
                         <div class="upload-card">
                             <div class="upload-title">Introduction to Computer Science (9th Ed.)</div>
                             <div class="upload-description">Excellent condition textbook with minimal highlighting. Perfect for CS101.</div>
@@ -171,18 +173,22 @@
             <div class="card progress-card">
                 <h3>Profile Completion</h3>
                 <div class="progress-bar">
-                    <div class="progress-fill" style="width: 85%"></div>
+                    <div class="progress-fill" style="width: {{percentage}}%"></div>
                 </div>
-                <p style="color: #666; font-size: 0.9rem;">85% Complete</p>
-                <p style="color: #666; font-size: 0.8rem; margin-top: 0.5rem;">Add a bio to reach 100%</p>
+                <p style="color: #666; font-size: 0.9rem;">{{percentage}}% Complete</p>
+                {% if percentage == 100 %}
+                <p style="color: #666; font-size: 0.8rem; margin-top: 0.5rem;">You are a verified user</p>
+                {% else %}
+                <p style="color: #666; font-size: 0.8rem; margin-top: 0.5rem;">Edit profile to reach 100%</p>
+                {% endif %}
             </div>
 
             <!-- Review Summary -->
             <div class="card review-summary">
                 <h3>Overall Rating</h3>
-                <div class="big-rating">4.8</div>
+                <div class="big-rating">{{rating.0}}</div>
                 <div class="rating-stars">★★★★★</div>
-                <p style="color: #666;">Based on 47 reviews</p>
+                <p style="color: #666;">Based on {{rating.1}} reviews</p>
             </div>
 
             <!-- Recent Activity -->
@@ -223,62 +229,17 @@
     <footer class="footer" id="footer">
         <!--Generated dynamically by js-->
     </footer>
-    <script>
-        const home = `<a href="{%url 'home'%}" class="logo">Campus Connect</a>`
-        {% if user.image != None %}
-        const user_name = '<img class="user-avatar" src="{{user.image.file.url}}" alt="Avatar">'
-        {% else %}
-        const user_name = '<div class="user-avatar">{{ user.first_name|upper|slice:":1" }}' + '{{ user.last_name|upper|slice:":1" }}</div>'
-        {% endif %}
-        const search = `
-            <input type="text" class="search-bar" id="search-bar" placeholder="Search...">
-            <button class="search-btn" onClick="Search()">🔍</button>
-            `
-        const nav_urls = `
-                    <li><a href="{%url 'question_library'%}">Ask Questions</a></li>
-                    <li><a href="market.html">Market</a></li>
-                    <li><a href="{%url 'notes'%}">Notes</a></li>
-                    <li><a href="group.html">Groups</a></li>
-                    `
-        const login= `
-            <div class="user-dropdown">
-                <div class="quick-post-btn">Post +</div>
-                <div class="dropdown-menu">
-                    <a href="{%url "question"%}"><i class="fas"></i> Post Question</a>
-                    <a href="{%url "upload_product"%}"><i class="fas"></i> Sell Product</a>
-                    {% if user.is_verified %}
-                    <a href="{%url 'note_upload'%}"><i class="fas"></i> Upload Notes</a>
-                    {% endif %}
-                </div>
-            </div>
-            <div class="user-dropdown">
-                <div class="user-avatar">${user_name}</div>
-                <div class="dropdown-menu">
-                    <a href="{%url 'user' %}"><i class="fas fa-user"></i> Profile</a>
-                    <a href="{%url 'logout'%}"><i class="fas fa-sign-out-alt"></i> Logout</a>
-                </div>
-            </div>
-        `
-        const footer_urls = `
-                    <a href="#">About Us</a>
-                    <a href="#">Contact</a>
-                    <a href="#">Privacy Policy</a>
-                    <a href="#">Terms of Service</a>
-                    <a href="#">Help Center</a>`
-        const footer_urls_2 = `
-                    <a href="{%url 'question_library'%}">Ask Questions</a>
-                    <a href="market.html">Market</a>
-                    <a href="{%url 'notes'%}">Share Notes</a>
-                    <a href="group.html">Create Groups</a>
-                    <a href="{%url 'home'%}">Campus Events</a>`
-    </script>
-    
-    <script src="{%static 'JS/index.js'%}"></script>
+    {% include "Components/header.html#userProfilePage" %}
+    {% include "Components/footer.html#footer" %}
     <script>
         function Search(){
             const search_link = "{%url 'search'%}"
             let search_data = document.getElementById('search-bar')
             window.location.href = search_link + `?result=${search_data.value}`
+        }
+
+        function Editpage(){
+            window.location.href = '{%url "edit_profile"%}'
         }
     </script>
 

@@ -32,7 +32,7 @@ def Home(request):
         'resents':resents,
         'total_questions': total_questions
     }
-    return render(request, 'qa.html', context) 
+    return render(request, 'QuestionAnswer/qa.html', context) 
 
 def Load_questions(request):
     page = int(request.GET.get('page'))
@@ -132,7 +132,7 @@ def Question_form(request):
         context = {
             'courses':courses
         }
-        return render(request, 'question_form.html', context)
+        return render(request, 'QuestionAnswer/question_form.html', context)
 
 def Question(request, id):
     question = get_object_or_404(models.Qa, code=id)
@@ -193,7 +193,7 @@ def Question(request, id):
         'likes' :question_likes
 
     }
-    return render(request, 'question_detail.html', context)
+    return render(request, 'QuestionAnswer/question_detail.html', context)
 
 def Answerhome(requeest):
     return redirect('question_library')
@@ -255,7 +255,7 @@ def Answer(request, id):
             'question':question,
             'images'  : images,
             }
-        return render(request, 'answer.html', context)
+        return render(request, 'QuestionAnswer/answer.html', context)
 
 def Vote(request):
     if request.method == 'POST' and request.user.is_authenticated:

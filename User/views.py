@@ -46,7 +46,7 @@ def Myprofile(request):
         'total_views':total_views,
         'rating': rating,
     }
-    return render(request, 'profile.html', context)
+    return render(request, 'User/profile.html', context)
 
 def Otherprofile(request, account):
     try:
@@ -65,4 +65,4 @@ def Otherprofile(request, account):
         'questions': questions,
         'total_uploads': questions
     }
-    return render(request, 'user.html', context)
+    return render(request, 'User/user.html', context)

@@ -181,54 +181,8 @@
         <!--Generated dynamically by js-->
     </footer>
 
-    <script>
-        const home = `<a href="{%url 'home'%}" class="logo">Campus Connect</a>`
-        {% if user.image != None %}
-        const user_name = '<img class="user-avatar" src="{{user.image.file.url}}" alt="Avatar">'
-        {% else %}
-        const user_name = '<div class="user-avatar">{{ user.first_name|upper|slice:":1" }}' + '{{ user.last_name|upper|slice:":1" }}</div>'
-        {% endif %}
-        const search = `
-            <input type="text" class="search-bar" id="search-bar" placeholder="Search...">
-            <button class="search-btn" onClick="Search()">🔍</button>
-            `
-        const nav_urls = `
-                    <li><a href="{%url 'question_library'%}">Ask Questions</a></li>
-                    <li><a href="{%url 'market'%}">Market</a></li>
-                    <li><a href="{%url 'notes'%}">Notes</a></li>
-                    <li><a href="group.html">Groups</a></li>
-                    `
-        const login= `
-            {% if user.is_verified %}
-                <div class="user-dropdown">
-                    <div class="quick-post-btn">Post +</div>
-                    <div class="dropdown-menu">
-                        <a href="{%url 'note_upload'%}"><i class="fas"></i> Upload Notes</a>
-                    </div>
-                </div>     
-            {% endif %}
-            <div class="user-dropdown">
-                <div class="user-avatar">${user_name}</div>
-                <div class="dropdown-menu">
-                    <a href="{%url 'user' %}"><i class="fas fa-user"></i> Profile</a>
-                    <a href="{%url 'logout'%}"><i class="fas fa-sign-out-alt"></i> Logout</a>
-                </div>
-            </div>
-        `
-        const footer_urls = `
-                    <a href="#">About Us</a>
-                    <a href="#">Contact</a>
-                    <a href="#">Privacy Policy</a>
-                    <a href="#">Terms of Service</a>
-                    <a href="#">Help Center</a>`
-        const footer_urls_2 = `
-                    <a href="{%url 'question_library'%}">Ask Questions</a>
-                    <a href="{%url 'market'%}">Market</a>
-                    <a href="{%url 'notes'%}">Share Notes</a>
-                    <a href="group.html">Create Groups</a>
-                    <a href="{%url 'home'%}">Campus Events</a>`
-    </script>
-    <script src="{%static 'JS/index.js'%}"></script>
+    {% include "Components/header.html#authDynamicHeaderPost" %}
+    {% include "Components/footer.html#footer" %}
 
     <script>
         // Payment method selection

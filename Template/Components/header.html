@@ -1,0 +1,194 @@
+{% load static %}
+{% load partials %}
+
+{% partialdef navsection %}
+<!-- Header -->
+<header class="header" id="header">
+    
+</header>
+{% endpartialdef %}
+
+{% partialdef authButton %}
+const login = `
+        <a href="{%url 'login'%}" class="btn-primary">Login/Sign Up</a>
+    `
+{% endpartialdef %}
+
+{% partialdef loginButton %}
+const login = `
+        <a href="{%url 'login'%}" class="btn-primary">Login</a>
+    `
+{% endpartialdef %}
+
+{% partialdef signupButton %}
+const login = `
+        <a href="{%url 'login'%}" class="btn-primary">Sign Up</a>
+    `
+{% endpartialdef %}
+
+{% partialdef postInPostPage %}
+const login= `
+    <div class="user-dropdown">
+        <div class="user-avatar">${user_name}</div>
+        <div class="dropdown-menu">
+            <a href="{%url 'user' %}"><i class="fas fa-user"></i> Profile</a>
+            <a href="{%url 'logout'%}"><i class="fas fa-sign-out-alt"></i> Logout</a>
+        </div>
+    </div>
+`
+{% endpartialdef %}
+
+{% partialdef postInOtherPages %}
+const login= `
+    <div class="user-dropdown">
+        <div class="quick-post-btn">Post +</div>
+        <div class="dropdown-menu">
+            <a href="{%url "question"%}"><i class="fas"></i> Post Question</a>
+            <a href="{%url "upload_product"%}"><i class="fas"></i> Sell Product</a>
+            {% if user.is_verified %}
+            <a href="{%url 'note_upload'%}"><i class="fas"></i> Upload Notes</a>
+            {% endif %}
+        </div>
+    </div>
+    <div class="user-dropdown">
+        <div class="user-avatar">${user_name}</div>
+        <div class="dropdown-menu">
+            <a href="{%url 'user' %}"><i class="fas fa-user"></i> Profile</a>
+            <a href="{%url 'logout'%}"><i class="fas fa-sign-out-alt"></i> Logout</a>
+        </div>
+    </div>
+`
+{% endpartialdef %}
+
+{% partialdef userProfile %}
+const login= `
+    <div class="user-dropdown">
+        <div class="quick-post-btn">Post +</div>
+        <div class="dropdown-menu">
+            <a href="{%url "question"%}"><i class="fas"></i> Post Question</a>
+            <a href="{%url "upload_product"%}"><i class="fas"></i> Sell Product</a>
+            {% if user.is_verified %}
+            <a href="{%url 'note_upload'%}"><i class="fas"></i> Upload Notes</a>
+            {% endif %}
+        </div>
+    </div>
+    <div class="user-dropdown">
+        <div class="user-avatar">${user_name}</div>
+        <div class="dropdown-menu">
+            <a href="{%url 'logout'%}"><i class="fas fa-sign-out-alt"></i> Logout</a>
+        </div>
+    </div>
+`
+{% endpartialdef %}
+
+<!--navigation urls-->
+{% partialdef navigationUrls %}
+    const search = `
+        <input type="text" class="search-bar" id="search-bar" placeholder="Search...">
+        <button class="search-btn" onClick="Search()">🔍</button>
+        `
+    const nav_urls = `
+                <li><a href="{%url 'question_library'%}">Ask Questions</a></li>
+                <li><a href="{%url 'market'%}">Market</a></li>
+                <li><a href="{%url 'notes'%}">Notes</a></li>
+                <li><a href="{%url 'group_home'%}">Groups</a></li>
+                `
+
+{% endpartialdef %}
+
+<!--Other pages-->
+<!-- Unauthenticated page -->
+{% partialdef guestDynamicHeader %}
+<script>
+    {% include "Components/header.html#navigationUrls" %}
+    {% include "Components/header.html#authButton" %}
+</script>
+{% endpartialdef %}
+
+<!-- authenticated page -->
+{% partialdef authDynamicHeader %}
+<script>
+    const home = `<a href="{%url 'home'%}" class="logo">Campus Connect</a>`
+    {% if user.image != None %}
+    const user_name = '<img class="user-avatar" src="{{user.image.file.url}}" alt="Avatar">'
+    {% else %}
+    const user_name = '<div class="user-avatar">{{ user.first_name|upper|slice:":1" }}' + '{{ user.last_name|upper|slice:":1" }}</div>'
+    {% endif %}
+    {% include "Components/header.html#navigationUrls" %}
+    {% include "Components/header.html#postInOtherPages" %}
+</script>
+{% endpartialdef %}
+
+<!--login page-->
+{% partialdef guestLoginDynamicHeader %}
+<script>
+    const home = `<a href="{%url 'home'%}" class="logo">Campus Connect</a>`
+    {% include "Components/header.html#navigationUrls" %}
+    {% include "Components/header.html#signupButton" %}
+</script>
+{% endpartialdef %}
+
+{% partialdef authLoginDynamicHeader %}
+<script>
+    const home = `<a href="{%url 'home'%}" class="logo">Campus Connect</a>`
+    {% if user.image != None %}
+    const user_name = '<img class="user-avatar" src="{{user.image.file.url}}" alt="Avatar">'
+    {% else %}
+    const user_name = '<div class="user-avatar">{{ user.first_name|upper|slice:":1" }}' + '{{ user.last_name|upper|slice:":1" }}</div>'
+    {% endif %}
+    {% include "Components/header.html#navigationUrls" %}
+    {% include "Components/header.html#postInOtherPages" %}
+</script>
+{% endpartialdef %}
+
+<!--signup page-->
+{% partialdef guestSignupDynamicHeader %}
+<script>
+    const home = `<a href="{%url 'home'%}" class="logo">Campus Connect</a>`
+    {% include "Components/header.html#navigationUrls" %}
+    {% include "Components/header.html#loginButton" %}
+</script>
+
+{% endpartialdef %}
+
+{% partialdef authSignupDynamicHeader %}
+<script>
+    const home = `<a href="{%url 'home'%}" class="logo">Campus Connect</a>`
+    {% if user.image != None %}
+    const user_name = '<img class="user-avatar" src="{{user.image.file.url}}" alt="Avatar">'
+    {% else %}
+    const user_name = '<div class="user-avatar">{{ user.first_name|upper|slice:":1" }}' + '{{ user.last_name|upper|slice:":1" }}</div>'
+    {% endif %}
+    {% include "Components/header.html#navigationUrls" %}
+    {% include "Components/header.html#postInOtherPages" %}
+</script>
+{% endpartialdef %}
+
+<!--post pages ie notes-upload, question-upload, answer-upload -->
+{% partialdef authDynamicHeaderPost %}
+<script>
+    const home = `<a href="{%url 'home'%}" class="logo">Campus Connect</a>`
+    {% if user.image != None %}
+    const user_name = '<img class="user-avatar" src="{{user.image.file.url}}" alt="Avatar">'
+    {% else %}
+    const user_name = '<div class="user-avatar">{{ user.first_name|upper|slice:":1" }}' + '{{ user.last_name|upper|slice:":1" }}</div>'
+    {% endif %}
+    {% include "Components/header.html#navigationUrls" %}
+    {% include "Components/header.html#postInPostPage" %}
+</script>
+{% endpartialdef %}
+
+{% partialdef userProfilePage %}
+<script>
+    const home = `<a href="{%url 'home'%}" class="logo">Campus Connect</a>`
+    {% if user.image != None %}
+    const user_name = '<img class="user-avatar" src="{{user.image.file.url}}" alt="Avatar">'
+    {% else %}
+    const user_name = '<div class="user-avatar">{{ user.first_name|upper|slice:":1" }}' + '{{ user.last_name|upper|slice:":1" }}</div>'
+    {% endif %}
+    {% include "Components/header.html#navigationUrls" %}
+    {% include "Components/header.html#userProfile" %}
+</script>
+{% endpartialdef %}
+
+

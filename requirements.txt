@@ -21,6 +21,7 @@ djangorestframework_simplejwt==5.5.1
 daphne==4.2.1
 channels==4.3.2
 channels_redis==4.3.0
+django-template-partials==25.3
 psycopg2-binary
 psycopg2
 

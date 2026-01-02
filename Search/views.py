@@ -27,4 +27,4 @@ def Search(request):
         'notes':notes,
         'products':products
     }
-    return render(request, 'search.html', context)
+    return render(request, 'Search/search.html', context)
