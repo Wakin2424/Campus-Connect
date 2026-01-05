@@ -84,7 +84,7 @@ const login= `
 <!--navigation urls-->
 {% partialdef navigationUrls %}
     const search = `
-        <input type="text" class="search-bar" id="search-bar" placeholder="Search...">
+        <input type="text" class="search-bar" id="search-bar" placeholder="Search..." data-url="{%url 'search'%}">
         <button class="search-btn" onClick="Search()">🔍</button>
         `
     const nav_urls = `

@@ -1,3 +1,6 @@
+{% load static %}
+{% load partials %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -33,82 +36,6 @@
             z-index: 0;
         }
 
-        /* Header */
-        .header {
-            background: rgba(255, 255, 255, 0.98);
-            backdrop-filter: blur(10px);
-            padding: 1rem 2rem;
-            box-shadow: 0 2px 8px rgba(13, 27, 42, 0.08);
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            z-index: 1000;
-        }
-
-        .header-content {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .logo {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: #0D1B2A;
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .logo-icon {
-            width: 32px;
-            height: 32px;
-            background: linear-gradient(135deg, #1E90FF, #0D1B2A);
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-weight: 700;
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 2rem;
-            list-style: none;
-        }
-
-        .nav-links a {
-            color: #0D1B2A;
-            text-decoration: none;
-            font-weight: 500;
-            transition: color 0.3s;
-            position: relative;
-        }
-
-        .nav-links a::after {
-            content: '';
-            position: absolute;
-            bottom: -4px;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background: #1E90FF;
-            transition: width 0.3s;
-        }
-
-        .nav-links a:hover {
-            color: #1E90FF;
-        }
-
-        .nav-links a:hover::after {
-            width: 100%;
-        }
-
         /* Group Info Bar */
         .group-info-bar {
             background: rgba(255, 255, 255, 0.95);
@@ -116,9 +43,9 @@
             padding: 1rem 2rem;
             box-shadow: 0 2px 8px rgba(13, 27, 42, 0.08);
             position: sticky;
-            top: 64px;
+            top: 0px;
             z-index: 999;
-            margin-top: 64px;
+            margin-top: 0px;
             transition: all 0.3s ease;
         }
 
@@ -534,24 +461,12 @@
             }
         }
     </style>
+    <link rel="stylesheet" href="{%static 'CSS/nav.css'%}">
 </head>
 <body>
     <!-- Header -->
-    <header class="header">
-        <div class="header-content">
-            <a href="#" class="logo">
-                <div class="logo-icon">CC</div>
-                Campus Connect
-            </a>
-            <nav>
-                <ul class="nav-links">
-                    <li><a href="#">Home</a></li>
-                    <li><a href="#">Groups</a></li>
-                    <li><a href="#">Events</a></li>
-                    <li><a href="#">Profile</a></li>
-                </ul>
-            </nav>
-        </div>
+    <header class="header" id="header">
+        <!--Generated dynamically by js-->
     </header>
 
     <!-- Group Info Bar -->
@@ -596,6 +511,9 @@
         </div>
     </div>
 
+    {% include "Components/header.html#authDynamicHeader" %}
+    {% include "Components/footer.html#loadJs" %}
+
     <script>
         const chatContainer = document.getElementById('chatContainer');
         const messageInput = document.getElementById('messageInput');
@@ -614,7 +532,7 @@
 
         // WebSocket Connection
         function connectWebSocket() {
-            chatSocket = new WebSocket("ws://" + window.location.host + "/ws/chat/room1/");
+            chatSocket = new WebSocket("ws://" + window.location.host + "/ws/chat/computer-science-101/");
 
             chatSocket.onopen = function(e) {
                 console.log('WebSocket connection established');
@@ -627,7 +545,10 @@
 
             chatSocket.onmessage = function(e) {
                 const data = JSON.parse(e.data);
-                addMessage(data.username, data.message, data.timestamp, false);
+                if(data.username !== '{{user.first_name}}'){
+                    console.log(data)
+                    addMessage(data.username, data.message, data.timestamp, false, data.image_url);
+                }
             };
 
             chatSocket.onclose = function(e) {
@@ -649,7 +570,7 @@
         }
 
         // Add Message
-        function addMessage(username, message, timestamp, isOwn) {
+        function addMessage(username, message, timestamp, isOwn, image_url=null) {
             const messageDiv = document.createElement('div');
             messageDiv.className = 'message';
             
@@ -659,11 +580,18 @@
 
             const time = timestamp ? new Date(timestamp).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) : new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
             
-            const initials = username.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
+            let initials = ''
+            if (image_url !== null){
+                initials = `<image class="message-avatar" src=${image_url}>`
+            }
+            else{
+                initials = `<div class="message-avatar">${username.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase()}</div>`
+            }
+            
             const displayName = isOwn || username === currentUser ? 'You' : username;
 
             messageDiv.innerHTML = `
-                <div class="message-avatar">${initials}</div>
+                ${initials}
                 <div class="message-content">
                     <div class="message-header">${displayName}</div>
                     <div class="message-bubble">${escapeHtml(message)}</div>
@@ -730,19 +658,6 @@
 
         // Initialize
         connectWebSocket();
-
-        // Demo messages for visual testing (remove in production)
-        setTimeout(() => {
-            addMessage('Alice Johnson', 'Hey everyone! Welcome to the Computer Science 2024 group chat!', new Date().toISOString(), false);
-        }, 1000);
-        
-        setTimeout(() => {
-            addMessage('Bob Smith', 'Thanks Alice! Excited to collaborate with everyone here.', new Date().toISOString(), false);
-        }, 2500);
-
-        setTimeout(() => {
-            addMessage('Carol Davis', 'Does anyone have notes from yesterday\'s algorithm lecture?', new Date().toISOString(), false);
-        }, 4000);
     </script>
 </body>
 </html>

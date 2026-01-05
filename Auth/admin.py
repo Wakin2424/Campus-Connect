@@ -50,6 +50,15 @@ class Payment_admin(admin.ModelAdmin):
 class Address_admin(admin.ModelAdmin):
     list_display = ['address_id', 'user__first_name', 'address1', 'address2', 'contact', 'city', 'postal_code', 'country', 'created_at']
 
+class Group_admin(admin.ModelAdmin):
+    list_display = ['group_id', 'admin__first_name', 'name', 'slug', 'description', 'course__course_name', 'is_private', 'created_at']
+
+class GroupMembers_admin(admin.ModelAdmin):
+    list_display = ['member_id', 'group__name', 'user__first_name','role', 'joined_at']
+
+class GroupMessage_admin(admin.ModelAdmin):
+    list_display = ['message_id', 'group__name', 'msg_index']
+
 admin.site.register(Qa, Qa_admin)
 admin.site.register(Notifications, Notification_admin)
 admin.site.register(Notes, Notes_admin)
@@ -66,3 +75,6 @@ admin.site.register(Likes, Likes_admin)
 admin.site.register(Images, Images_admin)
 admin.site.register(Payment, Payment_admin)
 admin.site.register(Address, Address_admin)
+admin.site.register(Group, Group_admin)
+admin.site.register(GroupMember, GroupMembers_admin)
+admin.site.register(GroupMessages, GroupMessage_admin)

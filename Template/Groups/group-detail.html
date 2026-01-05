@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Campus Connect - Computer Science Students</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{%static 'CSS/group-detail.css'%}">
+    <link rel="stylesheet" href="{%static 'CSS/nav.css'%}">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header" id="header">
+        <!--Generated dynamically by js-->
+    </header>
+
+    <!-- Main Container -->
+    <div class="main-container">
+        <!-- Group Banner Section -->
+        <section class="group-banner">
+            <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=1400&h=350&fit=crop" 
+                 alt="Group Banner" 
+                 class="banner-image" 
+                 id="bannerImage">
+            
+            <!-- Admin Avatar Overlay -->
+            <div class="admin-avatar-overlay">
+                <img src="https://i.pravatar.cc/150?img=12" 
+                     alt="Admin Avatar" 
+                     class="admin-avatar" 
+                     id="adminAvatar">
+            </div>
+        </section>
+
+        <!-- Group Information Section -->
+        <section class="group-info-section">
+            <div class="group-header">
+                <h1 class="group-name" id="groupName">Computer Science Students</h1>
+                <div class="admin-label">
+                    <span>Admin:</span>
+                    <strong id="adminName">Sarah Johnson</strong>
+                </div>
+            </div>
+            
+            <p class="group-description" id="groupDescription">
+                Welcome to the Computer Science Students group! This is a community for all CS students to connect, share resources, discuss programming challenges, collaborate on projects, and support each other throughout our academic journey. Whether you're just starting out or preparing for your career, everyone is welcome here. Let's learn and grow together!
+            </p>
+            
+            <button class="join-btn" id="joinBtn">Join Group</button>
+        </section>
+
+        <!-- Group Members Section -->
+        <section class="group-members-section">
+            <div class="section-header">
+                <h2 class="section-title">Group Members</h2>
+                <p class="member-count" id="memberCount">Loading members...</p>
+            </div>
+            
+            <div class="members-list" id="membersList">
+                <div class="loading-container">
+                    <div class="spinner"></div>
+                    <p class="loading-text">Loading members...</p>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer" id="footer">
+        <!--Generated dynamically by js-->
+    </footer>
+
+    {% if user.is_authenticated %}
+        {% include "Components/header.html#authDynamicHeader" %}
+        {% include "Components/footer.html#footer" %}
+    {% else %}
+        {% include "Components/header.html#guestDynamicHeader" %}
+        {% include "Components/footer.html#footer" %}
+    {% endif %}
+
+    <script>
+        // Sample group data
+        const groupData = {
+            id: 1,
+            name: "Computer Science Students",
+            description: "Welcome to the Computer Science Students group! This is a community for all CS students to connect, share resources, discuss programming challenges, collaborate on projects, and support each other throughout our academic journey. Whether you're just starting out or preparing for your career, everyone is welcome here. Let's learn and grow together!",
+            banner: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=1400&h=350&fit=crop",
+            admin: {
+                id: 1,
+                name: "Sarah Johnson",
+                avatar: "https://i.pravatar.cc/150?img=12"
+            },
+            members: [
+                { id: 1, name: "Sarah Johnson", avatar: "https://i.pravatar.cc/150?img=12", isAdmin: true },
+                { id: 2, name: "Michael Chen", avatar: "https://i.pravatar.cc/150?img=13", isAdmin: false },
+                { id: 3, name: "Emily Rodriguez", avatar: "https://i.pravatar.cc/150?img=45", isAdmin: false },
+                { id: 4, name: "David Kim", avatar: "https://i.pravatar.cc/150?img=33", isAdmin: false },
+                { id: 5, name: "Jessica Thompson", avatar: "https://i.pravatar.cc/150?img=47", isAdmin: false },
+                { id: 6, name: "Ryan Martinez", avatar: "https://i.pravatar.cc/150?img=52", isAdmin: false },
+                { id: 7, name: "Amanda Lee", avatar: "https://i.pravatar.cc/150?img=48", isAdmin: false },
+                { id: 8, name: "James Wilson", avatar: "https://i.pravatar.cc/150?img=56", isAdmin: false },
+                { id: 9, name: "Sophia Brown", avatar: "https://i.pravatar.cc/150?img=44", isAdmin: false },
+                { id: 10, name: "Daniel Taylor", avatar: "https://i.pravatar.cc/150?img=60", isAdmin: false },
+                { id: 11, name: "Olivia Martinez", avatar: "https://i.pravatar.cc/150?img=32", isAdmin: false },
+                { id: 12, name: "Ethan Davis", avatar: "https://i.pravatar.cc/150?img=68", isAdmin: false }
+            ]
+        };
+
+        // Application state
+        let isUserMember = false;
+
+        // Initialize the page
+        function initializePage() {
+            loadGroupData();
+            setupJoinButton();
+            
+            // Simulate loading members
+            setTimeout(() => {
+                loadMembers();
+            }, 1000);
+        }
+
+        // Load group data into the page
+        function loadGroupData() {
+            document.getElementById('groupName').textContent = groupData.name;
+            document.getElementById('adminName').textContent = groupData.admin.name;
+            document.getElementById('groupDescription').textContent = groupData.description;
+            document.getElementById('bannerImage').src = groupData.banner;
+            document.getElementById('adminAvatar').src = groupData.admin.avatar;
+        }
+
+        // Load and display members
+        function loadMembers() {
+            const membersList = document.getElementById('membersList');
+            const memberCount = document.getElementById('memberCount');
+            
+            membersList.innerHTML = '';
+            memberCount.textContent = `${groupData.members.length} ${groupData.members.length === 1 ? 'member' : 'members'}`;
+
+            groupData.members.forEach(member => {
+                const memberRow = createMemberRow(member);
+                membersList.appendChild(memberRow);
+            });
+        }
+
+        // Create a member row element
+        function createMemberRow(member) {
+            const row = document.createElement('div');
+            row.className = 'member-row';
+            
+            const avatar = document.createElement('img');
+            avatar.src = member.avatar;
+            avatar.alt = `${member.name}'s avatar`;
+            avatar.className = 'member-avatar';
+            
+            const memberInfo = document.createElement('div');
+            memberInfo.className = 'member-info';
+            
+            const memberName = document.createElement('span');
+            memberName.className = 'member-name';
+            memberName.textContent = member.name;
+            
+            memberInfo.appendChild(memberName);
+            
+            if (member.isAdmin) {
+                const adminBadge = document.createElement('span');
+                adminBadge.className = 'admin-badge';
+                adminBadge.textContent = 'Admin';
+                memberInfo.appendChild(adminBadge);
+            }
+            
+            row.appendChild(avatar);
+            row.appendChild(memberInfo);
+            
+            return row;
+        }
+
+        // Setup join button functionality
+        function setupJoinButton() {
+            const joinBtn = document.getElementById('joinBtn');
+            
+            joinBtn.addEventListener('click', function() {
+                toggleMembership();
+            });
+        }
+
+        // Toggle group membership
+        function toggleMembership() {
+            const joinBtn = document.getElementById('joinBtn');
+            isUserMember = !isUserMember;
+            
+            if (isUserMember) {
+                joinBtn.textContent = 'Leave Group';
+                joinBtn.classList.add('joined');
+                showNotification('Successfully joined the group!');
+            } else {
+                joinBtn.textContent = 'Join Group';
+                joinBtn.classList.remove('joined');
+                showNotification('You have left the group');
+            }
+        }
+
+        // Show notification toast
+        function showNotification(message) {
+            // Remove existing notification if any
+            const existingNotification = document.querySelector('.notification');
+            if (existingNotification) {
+                existingNotification.remove();
+            }
+            
+            const notification = document.createElement('div');
+            notification.className = 'notification';
+            notification.textContent = message;
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.style.animation = 'slideOut 0.4s ease';
+                setTimeout(() => {
+                    notification.remove();
+                }, 400);
+            }, 3000);
+        }
+
+        // Initialize page when DOM is loaded
+        document.addEventListener('DOMContentLoaded', initializePage);
+    </script>
+</body>
+</html>

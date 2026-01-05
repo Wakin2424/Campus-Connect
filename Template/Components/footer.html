@@ -16,6 +16,10 @@ const footer_urls_2 = `
             <a href="group.html">Create Groups</a>
             <a href="{%url 'home'%}">Campus Events</a>`
 </script>
-<script src="{%static 'JS/index.js'%}"></script>
+<script src="{%static 'JS/footer.js'%}"></script>
+{% include "Components/footer.html#loadJs" %}
 {% endpartialdef %}
 
+{% partialdef loadJs %}
+<script src="{%static 'JS/index.js'%}"></script>
+{% endpartialdef %}

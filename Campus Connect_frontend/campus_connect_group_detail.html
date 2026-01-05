@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Campus Connect - Computer Science Students</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f8f9fa;
+            color: #333;
+        }
+
+        /* Header */
+        header {
+            background-color: #ffffff;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+        }
+
+        .header-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #0D1B2A;
+            text-decoration: none;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: #0D1B2A;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        nav a:hover {
+            color: #1E90FF;
+        }
+
+        /* Main Content */
+        main {
+            margin-top: 70px;
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Group Hero Section */
+        .group-hero {
+            position: relative;
+            width: 100%;
+            height: 300px;
+            overflow: hidden;
+        }
+
+        .group-hero-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .admin-avatar-container {
+            position: absolute;
+            bottom: -50px;
+            left: 40px;
+            z-index: 10;
+        }
+
+        .admin-avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            border: 5px solid #ffffff;
+            object-fit: cover;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Group Information Section */
+        .group-info-section {
+            background-color: #ffffff;
+            padding: 70px 40px 40px 40px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        }
+
+        .group-name {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #0D1B2A;
+            margin-bottom: 0.5rem;
+        }
+
+        .admin-info {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+            color: #666;
+            font-size: 0.95rem;
+        }
+
+        .admin-badge {
+            background-color: #1E90FF;
+            color: #ffffff;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .group-description {
+            color: #555;
+            line-height: 1.8;
+            margin-bottom: 2rem;
+            font-size: 1rem;
+        }
+
+        .join-btn {
+            background-color: #0D1B2A;
+            color: #ffffff;
+            border: none;
+            padding: 0.875rem 2.5rem;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(13, 27, 42, 0.2);
+        }
+
+        .join-btn:hover {
+            background-color: #1E90FF;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(13, 27, 42, 0.3);
+        }
+
+        .join-btn.joined {
+            background-color: #28a745;
+        }
+
+        .join-btn.joined:hover {
+            background-color: #dc3545;
+        }
+
+        /* Group Members Section */
+        .group-members-section {
+            background-color: #ffffff;
+            margin: 2rem 0;
+            padding: 2rem 40px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            border-radius: 8px;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #0D1B2A;
+            margin-bottom: 1.5rem;
+        }
+
+        .members-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .member-row {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 1px solid #f0f0f0;
+        }
+
+        .member-row:hover {
+            background-color: #f8f9fa;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+            transform: translateX(5px);
+        }
+
+        .member-avatar-container {
+            position: relative;
+        }
+
+        .member-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid #e9ecef;
+        }
+
+        .online-indicator {
+            position: absolute;
+            bottom: 2px;
+            right: 2px;
+            width: 12px;
+            height: 12px;
+            background-color: #28a745;
+            border-radius: 50%;
+            border: 2px solid #ffffff;
+        }
+
+        .member-info {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .member-name {
+            font-weight: 600;
+            color: #0D1B2A;
+            font-size: 1rem;
+        }
+
+        .member-admin-badge {
+            background-color: #ffc107;
+            color: #000;
+            padding: 0.2rem 0.6rem;
+            border-radius: 15px;
+            font-size: 0.7rem;
+            font-weight: 600;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .header-container {
+                padding: 1rem;
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            nav ul {
+                gap: 1rem;
+                font-size: 0.9rem;
+            }
+
+            .group-hero {
+                height: 200px;
+            }
+
+            .admin-avatar-container {
+                left: 20px;
+                bottom: -40px;
+            }
+
+            .admin-avatar {
+                width: 80px;
+                height: 80px;
+            }
+
+            .group-info-section {
+                padding: 60px 20px 30px 20px;
+            }
+
+            .group-name {
+                font-size: 1.5rem;
+            }
+
+            .group-members-section {
+                padding: 1.5rem 20px;
+            }
+
+            .member-row {
+                padding: 0.75rem;
+            }
+        }
+
+        /* Loading Animation */
+        .loading {
+            text-align: center;
+            padding: 2rem;
+            color: #666;
+        }
+
+        .spinner {
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #1E90FF;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 1rem;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="header-container">
+            <a href="#" class="logo">Campus Connect</a>
+            <nav>
+                <ul>
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#">Questions</a></li>
+                    <li><a href="#">Notes</a></li>
+                    <li><a href="#">Market</a></li>
+                    <li><a href="#">Groups</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+        <!-- Group Hero Section -->
+        <section class="group-hero">
+            <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=1200&h=300&fit=crop" alt="Group Banner" class="group-hero-image" id="groupBanner">
+            <div class="admin-avatar-container">
+                <img src="https://i.pravatar.cc/150?img=12" alt="Admin Avatar" class="admin-avatar" id="adminAvatar">
+            </div>
+        </section>
+
+        <!-- Group Information Section -->
+        <section class="group-info-section">
+            <h1 class="group-name" id="groupName">Computer Science Students</h1>
+            <div class="admin-info">
+                <span>Admin:</span>
+                <strong id="adminName">Sarah Johnson</strong>
+                <span class="admin-badge">GROUP ADMIN</span>
+            </div>
+            <p class="group-description" id="groupDescription">
+                Welcome to the Computer Science Students group! This is a community for all CS students to connect, share resources, discuss programming challenges, collaborate on projects, and support each other throughout our academic journey. Whether you're just starting out or preparing for your career, everyone is welcome here. Let's learn and grow together!
+            </p>
+            <button class="join-btn" id="joinBtn">Join Group</button>
+        </section>
+
+        <!-- Group Members Section -->
+        <section class="group-members-section">
+            <h2 class="section-title">Group Members <span id="memberCount">(0)</span></h2>
+            <div class="members-list" id="membersList">
+                <div class="loading">
+                    <div class="spinner"></div>
+                    <p>Loading members...</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        // Sample group data
+        const groupData = {
+            name: "Computer Science Students",
+            admin: {
+                name: "Sarah Johnson",
+                avatar: "https://i.pravatar.cc/150?img=12",
+                id: 1
+            },
+            description: "Welcome to the Computer Science Students group! This is a community for all CS students to connect, share resources, discuss programming challenges, collaborate on projects, and support each other throughout our academic journey. Whether you're just starting out or preparing for your career, everyone is welcome here. Let's learn and grow together!",
+            banner: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=1200&h=300&fit=crop",
+            members: [
+                { id: 1, name: "Sarah Johnson", avatar: "https://i.pravatar.cc/150?img=12", isAdmin: true, online: true },
+                { id: 2, name: "Michael Chen", avatar: "https://i.pravatar.cc/150?img=13", isAdmin: false, online: true },
+                { id: 3, name: "Emily Rodriguez", avatar: "https://i.pravatar.cc/150?img=45", isAdmin: false, online: false },
+                { id: 4, name: "David Kim", avatar: "https://i.pravatar.cc/150?img=33", isAdmin: false, online: true },
+                { id: 5, name: "Jessica Thompson", avatar: "https://i.pravatar.cc/150?img=47", isAdmin: false, online: false },
+                { id: 6, name: "Ryan Martinez", avatar: "https://i.pravatar.cc/150?img=52", isAdmin: false, online: true },
+                { id: 7, name: "Amanda Lee", avatar: "https://i.pravatar.cc/150?img=48", isAdmin: false, online: false },
+                { id: 8, name: "James Wilson", avatar: "https://i.pravatar.cc/150?img=56", isAdmin: false, online: true },
+                { id: 9, name: "Sophia Brown", avatar: "https://i.pravatar.cc/150?img=44", isAdmin: false, online: false },
+                { id: 10, name: "Daniel Taylor", avatar: "https://i.pravatar.cc/150?img=60", isAdmin: false, online: true }
+            ]
+        };
+
+        // User state
+        let isUserMember = false;
+
+        // Initialize page
+        function initializePage() {
+            // Populate group information
+            document.getElementById('groupName').textContent = groupData.name;
+            document.getElementById('adminName').textContent = groupData.admin.name;
+            document.getElementById('groupDescription').textContent = groupData.description;
+            document.getElementById('groupBanner').src = groupData.banner;
+            document.getElementById('adminAvatar').src = groupData.admin.avatar;
+
+            // Load members after a short delay to simulate loading
+            setTimeout(() => {
+                loadMembers();
+            }, 800);
+
+            // Setup join button
+            setupJoinButton();
+        }
+
+        // Load and display members
+        function loadMembers() {
+            const membersList = document.getElementById('membersList');
+            const memberCount = document.getElementById('memberCount');
+            
+            membersList.innerHTML = '';
+            memberCount.textContent = `(${groupData.members.length})`;
+
+            groupData.members.forEach(member => {
+                const memberRow = createMemberRow(member);
+                membersList.appendChild(memberRow);
+            });
+        }
+
+        // Create member row element
+        function createMemberRow(member) {
+            const row = document.createElement('div');
+            row.className = 'member-row';
+            
+            const avatarContainer = document.createElement('div');
+            avatarContainer.className = 'member-avatar-container';
+            
+            const avatar = document.createElement('img');
+            avatar.src = member.avatar;
+            avatar.alt = member.name;
+            avatar.className = 'member-avatar';
+            
+            avatarContainer.appendChild(avatar);
+            
+            if (member.online) {
+                const onlineIndicator = document.createElement('div');
+                onlineIndicator.className = 'online-indicator';
+                avatarContainer.appendChild(onlineIndicator);
+            }
+            
+            const memberInfo = document.createElement('div');
+            memberInfo.className = 'member-info';
+            
+            const memberName = document.createElement('span');
+            memberName.className = 'member-name';
+            memberName.textContent = member.name;
+            
+            memberInfo.appendChild(memberName);
+            
+            if (member.isAdmin) {
+                const adminBadge = document.createElement('span');
+                adminBadge.className = 'member-admin-badge';
+                adminBadge.textContent = 'ADMIN';
+                memberInfo.appendChild(adminBadge);
+            }
+            
+            row.appendChild(avatarContainer);
+            row.appendChild(memberInfo);
+            
+            return row;
+        }
+
+        // Setup join button functionality
+        function setupJoinButton() {
+            const joinBtn = document.getElementById('joinBtn');
+            
+            joinBtn.addEventListener('click', function() {
+                isUserMember = !isUserMember;
+                
+                if (isUserMember) {
+                    joinBtn.textContent = 'Leave Group';
+                    joinBtn.classList.add('joined');
+                    showNotification('Successfully joined the group!');
+                } else {
+                    joinBtn.textContent = 'Join Group';
+                    joinBtn.classList.remove('joined');
+                    showNotification('You have left the group');
+                }
+            });
+        }
+
+        // Show notification
+        function showNotification(message) {
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 90px;
+                right: 20px;
+                background-color: #0D1B2A;
+                color: white;
+                padding: 1rem 1.5rem;
+                border-radius: 8px;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+                z-index: 2000;
+                animation: slideIn 0.3s ease;
+            `;
+            notification.textContent = message;
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.style.animation = 'slideOut 0.3s ease';
+                setTimeout(() => {
+                    document.body.removeChild(notification);
+                }, 300);
+            }, 3000);
+        }
+
+        // Add animations
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes slideIn {
+                from {
+                    transform: translateX(400px);
+                    opacity: 0;
+                }
+                to {
+                    transform: translateX(0);
+                    opacity: 1;
+                }
+            }
+            
+            @keyframes slideOut {
+                from {
+                    transform: translateX(0);
+                    opacity: 1;
+                }
+                to {
+                    transform: translateX(400px);
+                    opacity: 0;
+                }
+            }
+        `;
+        document.head.appendChild(style);
+
+        // Initialize page when DOM is loaded
+        document.addEventListener('DOMContentLoaded', initializePage);
+    </script>
+</body>
+</html>
