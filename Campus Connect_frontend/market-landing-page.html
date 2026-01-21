@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Campus Market - Campus Connect</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/market-landing-page.css">
+    <link rel="stylesheet" href="css/nav.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header" id="header">
+        <!--Generated dynamically by js-->
+    </header>
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Page Header -->
+        <div class="page-header">
+            <h1 class="page-title">Campus Market</h1>
+            <p class="page-subtitle">Buy and sell products within your campus community.</p>
+        </div>
+
+        <!-- Filter Section -->
+        <div class="filter-section">
+            <div class="filter-container">
+                <div class="filter-group">
+                    <label class="filter-label">Category</label>
+                    <select class="filter-select" id="categoryFilter">
+                        <option value="">All Categories</option>
+                        <option value="electronics">Electronics</option>
+                        <option value="books">Books</option>
+                        <option value="accessories">Accessories</option>
+                        <option value="furniture">Furniture</option>
+                        <option value="clothing">Clothing</option>
+                    </select>
+                </div>
+                
+                <div class="filter-group">
+                    <label class="filter-label">Price Range</label>
+                    <select class="filter-select" id="priceFilter">
+                        <option value="">All Prices</option>
+                        <option value="0-25">$0 - $25</option>
+                        <option value="25-50">$25 - $50</option>
+                        <option value="50-100">$50 - $100</option>
+                        <option value="100+">$100+</option>
+                    </select>
+                </div>
+                
+                <div class="filter-group">
+                    <label class="filter-label">Sort By</label>
+                    <select class="filter-select" id="sortFilter">
+                        <option value="newest">Newest</option>
+                        <option value="price-low">Lowest Price</option>
+                        <option value="price-high">Highest Price</option>
+                        <option value="popularity">Most Popular</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <!-- Products Grid -->
+        <div class="products-grid" id="productsGrid">
+            <!-- Product cards will be populated by JavaScript -->
+        </div>
+
+        <!-- Load More Button -->
+        <button class="load-more-btn" id="loadMoreBtn">Load More Products</button>
+
+        <!-- Pagination -->
+        <div class="pagination">
+            <button class="pagination-btn" id="prevBtn">← Previous</button>
+            <button class="pagination-btn active">1</button>
+            <button class="pagination-btn">2</button>
+            <button class="pagination-btn">3</button>
+            <button class="pagination-btn" id="nextBtn">Next →</button>
+        </div>
+        
+    </main>
+    <!-- Footer -->
+    <footer class="footer" id="footer">
+        <!--Generated dynamically by js-->
+    </footer>
+
+    <!-- Product Details Modal -->
+    <div id="productModal" class="modal">
+        <div class="modal-content">
+            <span class="close" id="closeModal">&times;</span>
+            <div class="modal-product-details">
+                <div class="modal-image" id="modalImage"></div>
+                <div class="modal-info">
+                    <h2 id="modalTitle">Product Name</h2>
+                    <div class="modal-price" id="modalPrice">$0.00</div>
+                    <div class="modal-description" id="modalDescription">
+                        Product description goes here...
+                    </div>
+                    <div class="seller-info">
+                        <h3>Seller Information</h3>
+                        <p id="modalSeller">Seller Name</p>
+                        <p>📧 seller@university.edu</p>
+                        <p>📱 (555) 123-4567</p>
+                    </div>
+                    <button class="contact-seller-btn">Contact Seller</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const nav_urls = `
+                    <li><a href="home.html">Home</a></li>
+                    <li><a href="qa.html">Ask Questions</a></li>
+                    <li><a href="market.html">Sell Books</a></li>
+                    <li><a href="notes.html">Notes</a></li>
+                    <li><a href="group.html">Groups</a></li>
+                    `
+        const login = `
+        <div class="search-container">
+                <input type="text" class="search-bar" placeholder="Search...">
+                <a href="login.html" class="btn-primary">Login</a>
+            </div>`
+        const logout = `
+            <div class="search-container">
+                <input type="text" class="search-bar" placeholder="Search...">
+            </div>
+            <div class="user-dropdown">
+                <div class="user-avatar">JS</div>
+                <div class="dropdown-menu">
+                    <a href="#"><i class="fas fa-user"></i> Profile</a>
+                    <a href="#"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                </div>
+            </div>
+        `
+
+
+        const footer_urls = `
+                    <a href="#">About Us</a>
+                    <a href="#">Contact</a>
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Terms of Service</a>
+                    <a href="#">Help Center</a>`
+        const footer_urls_2 = `
+                    <a href="qa.html">Ask Questions</a>
+                    <a href="market.html">Sell Books</a>
+                    <a href="notes.html">Share Notes</a>
+                    <a href="group.html">Create Groups</a>
+                    <a href="home">Campus Events</a>`
+    </script>
+    <script src="css/index.js"></script>
+
+    <script>
+        // Sample product data
+        const products = [
+            {
+                id: 1,
+                name: "MacBook Air M1",
+                description: "Barely used MacBook Air with M1 chip, perfect for students.",
+                price: 750,
+                seller: "Sarah Johnson",
+                image: "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=400&h=300&fit=crop",
+                category: "electronics",
+                fullDescription: "This MacBook Air M1 is in excellent condition with minimal signs of use. Comes with original charger and box. Perfect for coding, design work, and everyday tasks. Battery life is still excellent, getting 15+ hours of use. No scratches on the screen and keyboard is in perfect condition."
+            },
+            {
+                id: 2,
+                name: "Calculus Textbook",
+                description: "Stewart Calculus 8th Edition, excellent condition.",
+                price: 45,
+                seller: "Mike Chen",
+                image: "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=400&h=300&fit=crop",
+                category: "books",
+                fullDescription: "Stewart Calculus 8th Edition in excellent condition. All pages intact, minimal highlighting. Perfect for MATH 141/142. Comes with solution manual PDF. Originally paid $300, selling for fraction of the price to help fellow students."
+            },
+            {
+                id: 3,
+                name: "Wireless Headphones",
+                description: "Sony WH-1000XM4 with active noise cancellation.",
+                price: 180,
+                seller: "Emma Wilson",
+                image: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400&h=300&fit=crop",
+                category: "electronics",
+                fullDescription: "Sony WH-1000XM4 wireless headphones with industry-leading noise cancellation. Great for studying in noisy environments or enjoying music. 30-hour battery life, quick charge feature. Comes with carrying case and all original accessories."
+            },
+            {
+                id: 4,
+                name: "Study Desk Lamp",
+                description: "Adjustable LED desk lamp with USB charging port.",
+                price: 25,
+                seller: "Alex Rodriguez",
+                image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=300&fit=crop",
+                category: "accessories",
+                fullDescription: "Modern LED desk lamp with adjustable brightness and color temperature. Perfect for late-night study sessions. Features USB charging port for your devices. Eye-caring LED technology reduces eye strain during long study hours."
+            },
+            {
+                id: 5,
+                name: "Dorm Room Chair",
+                description: "Comfortable ergonomic chair, perfect for studying.",
+                price: 85,
+                seller: "Jessica Lee",
+                image: "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=400&h=300&fit=crop",
+                category: "furniture",
+                fullDescription: "Ergonomic desk chair in excellent condition. Adjustable height and lumbar support make it perfect for long study sessions. Easy to assemble and fits perfectly in dorm rooms. Selling because I'm graduating and moving to a furnished apartment."
+            },
+            {
+                id: 6,
+                name: "University Hoodie",
+                description: "Official university hoodie, size M, barely worn.",
+                price: 30,
+                seller: "David Park",
+                image: "https://images.unsplash.com/photo-1556821840-3a63f95609a7?w=400&h=300&fit=crop",
+                category: "clothing",
+                fullDescription: "Official university hoodie in size Medium. Barely worn, purchased from campus bookstore for $65. Made from high-quality cotton blend, very comfortable and warm. Perfect for showing school spirit or staying cozy during cold study sessions."
+            }
+        ];
+
+        // Initialize the page
+        document.addEventListener('DOMContentLoaded', function() {
+            renderProducts(products);
+            setupEventListeners();
+        });
+
+        // Render products
+        function renderProducts(productsToRender) {
+            const grid = document.getElementById('productsGrid');
+            grid.innerHTML = '';
+
+            productsToRender.forEach(product => {
+                const productCard = document.createElement('div');
+                productCard.className = 'product-card';
+                productCard.innerHTML = `
+                    <div class="product-image" style="background-image: url('${product.image}')"></div>
+                    <div class="product-info">
+                        <h3 class="product-name">${product.name}</h3>
+                        <p class="product-description">${product.description}</p>
+                        <div class="product-price">$${product.price}</div>
+                        <p class="product-seller">Seller: ${product.seller}</p>
+                        <button class="view-details-btn" onclick="openProductModal(${product.id})">View Details</button>
+                    </div>
+                `;
+                grid.appendChild(productCard);
+            });
+        }
+
+        // Setup event listeners
+        function setupEventListeners() {
+            // Filter listeners
+            document.getElementById('categoryFilter').addEventListener('change', filterProducts);
+            document.getElementById('priceFilter').addEventListener('change', filterProducts);
+            document.getElementById('sortFilter').addEventListener('change', filterProducts);
+
+            // Modal listeners
+            document.getElementById('closeModal').addEventListener('click', closeProductModal);
+            document.getElementById('productModal').addEventListener('click', function(e) {
+                if (e.target === this) {
+                    closeProductModal();
+                }
+            });
+
+            // Search functionality
+            document.querySelector('.search-bar').addEventListener('input', searchProducts);
+        }
+
+        // Filter products
+        function filterProducts() {
+            let filteredProducts = [...products];
+            
+            const category = document.getElementById('categoryFilter').value;
+            const priceRange = document.getElementById('priceFilter').value;
+            const sortBy = document.getElementById('sortFilter').value;
+
+            // Filter by category
+            if (category) {
+                filteredProducts = filteredProducts.filter(product => product.category === category);
+            }
+
+            // Filter by price range
+            if (priceRange) {
+                const [min, max] = priceRange.split('-');
+                if (max === undefined) {
+                    filteredProducts = filteredProducts.filter(product => product.price >= parseInt(min));
+                } else {
+                    filteredProducts = filteredProducts.filter(product => 
+                        product.price >= parseInt(min) && product.price <= parseInt(max)
+                    );
+                }
+            }
+
+            // Sort products
+            switch (sortBy) {
+                case 'price-low':
+                    filteredProducts.sort((a, b) => a.price - b.price);
+                    break;
+                case 'price-high':
+                    filteredProducts.sort((a, b) => b.price - a.price);
+                    break;
+                case 'newest':
+                    filteredProducts.sort((a, b) => b.id - a.id);
+                    break;
+                case 'popularity':
+                    filteredProducts.sort((a, b) => Math.random() - 0.5);
+                    break;
+            }
+
+            renderProducts(filteredProducts);
+        }
+
+        // Search products
+        function searchProducts(e) {
+            const searchTerm = e.target.value.toLowerCase();
+            const filteredProducts = products.filter(product => 
+                product.name.toLowerCase().includes(searchTerm) ||
+                product.description.toLowerCase().includes(searchTerm) ||
+                product.seller.toLowerCase().includes(searchTerm)
+            );
+            renderProducts(filteredProducts);
+        }
+
+        // Open product modal
+        function openProductModal(productId) {
+            const product = products.find(p => p.id === productId);
+            if (!product) return;
+
+            document.getElementById('modalImage').style.backgroundImage = `url('${product.image}')`;
+            document.getElementById('modalTitle').textContent = product.name;
+            document.getElementById('modalPrice').textContent = `$${product.price}`;
+            document.getElementById('modalDescription').textContent = product.fullDescription;
+            document.getElementById('modalSeller').textContent = product.seller;
+            
+            document.getElementById('productModal').style.display = 'block';
+            document.body.style.overflow = 'hidden';
+        }
+
+        // Close product modal
+        function closeProductModal() {
+            document.getElementById('productModal').style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+
+        // Load more functionality
+        document.getElementById('loadMoreBtn').addEventListener('click', function() {
+            // Simulate loading more products
+            this.textContent = 'Loading...';
+            setTimeout(() => {
+                this.textContent = 'Load More Products';
+                // In a real application, you would fetch more products here
+                alert('More products would be loaded here!');
+            }, 1000);
+        });
+
+        // Pagination functionality
+        document.querySelectorAll('.pagination-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                if (this.id === 'prevBtn' || this.id === 'nextBtn') return;
+                
+                document.querySelector('.pagination-btn.active').classList.remove('active');
+                this.classList.add('active');
+            });
+        });
+    </script>
+</body>
+</html>

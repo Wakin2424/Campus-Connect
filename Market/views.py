@@ -21,13 +21,10 @@ def Home(request):
         'papers':papers,
         'study_guides':study_guides
     }
-    return render(request, 'Market/market.html', context)
+    return render(request, 'Market/market-landing-page.html', context)
 
-def productLibrary(request, category):
-    
-
-    context = {}
-    return render(request, 'Market/market.html', context)
+def productLibrary(request):
+    return render(request, 'Market/market.html')
 
 def loadProducts(request):
     pass

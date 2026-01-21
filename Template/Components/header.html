@@ -100,6 +100,7 @@ const login= `
 <!-- Unauthenticated page -->
 {% partialdef guestDynamicHeader %}
 <script>
+    const home = `<a href="{%url 'home'%}" class="logo">Campus Connect</a>`
     {% include "Components/header.html#navigationUrls" %}
     {% include "Components/header.html#authButton" %}
 </script>

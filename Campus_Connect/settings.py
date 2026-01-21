@@ -111,6 +111,7 @@ CHANNEL_LAYERS = {
     }
 }
 
+
 # for configuring redis in CHANNELS_LAYERS
 """
         'BACKEND': 'channels_redis.core.RedisChannelLayer',
@@ -130,6 +131,14 @@ DATABASES = {
         'HOST': env('DB_HOST'),
         'PASSWORD': env('DB_PASSWORD'),
         'PORT': env('DB_PORT')
+    }
+}
+
+# Cache
+CACHES = {
+    "default": {
+        "BACKEND": "django.core.cache.backends.db.DatabaseCache",
+        "LOCATION": "django_cache",
     }
 }
 

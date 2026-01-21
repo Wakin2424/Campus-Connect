@@ -1,9 +1,22 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, logout, authenticate, get_user_model
+from django.core.cache import cache
 from django.http import Http404
+from django.urls import reverse
 from . import form as Form
 from . import models
 import os, uuid
+
+#
+def getToken(user_id):
+    token = uuid.uuid4().hex[:15].upper()
+    cache.set(token, user_id, 500)
+    return token
+
+def authenticateToken(token):
+    token = cache.get(token)
+    return token
+
 # Create your views here.
 def Login(request):
     if request.method == 'POST':
@@ -11,10 +24,18 @@ def Login(request):
 
         if user != None:
             login(request, user)
+            #previous_url = request.session.get('previous_url')
+            #print(previous_url)
+
+            #if previous_url != None:
+            #    return redirect(previous_url)
             return redirect('home')
         else:
             return render(request, 'Auth/login.html', {'msg_bool':True, 'error':"Invalid Credentials"})
     else:
+        previous_url = request.META.get('HTTP_REFERER') if request.META.get('HTTP_REFERER') != None else request.build_absolute_uri('home')
+        #request.session['previous_url'] = previous_url
+
         return render(request, 'Auth/login.html', {'msg_bool':False})
 
 def Logout(request):
@@ -158,4 +179,47 @@ def EditProfile(request):
         return render(request, 'Auth/edit_profile.html', context)
 
 def forgotPassword(request):
-    pass
+    if request.method == 'POST':
+        email = request.POST.get('email')
+
+        User = get_user_model()
+        user = User.objects.filter(email=email)
+        
+        if user.exists():
+            user = user.first()
+
+            from Mail.views import sendForgotPasswordURL
+            
+            token = getToken(user.pk)
+            url = request.build_absolute_uri(reverse('reset_password', kwargs={'uidb64': uuid.uuid4(), 'token': token}))
+            sendForgotPasswordURL(url, user.email)
+
+        return redirect('login')
+        
+    return render(request, 'Auth/forgot-password.html')
+
+def resetPassword(request, uidb64, token):
+    user_id = authenticateToken(token)
+    
+    if user_id == None:
+        raise Http404('The request has expired!')
+    
+    if request.method == 'POST':
+        new_password = request.POST.get('password')
+
+        if new_password == None:
+            # redirect reset password error
+            return redirect('login')
+
+        User = get_user_model()
+
+        user = User.objects.get(id=user_id)
+        user.set_password(new_password)
+        user.save()
+        
+        return redirect('login')
+    
+    context = {
+        'token' : token
+    }
+    return render(request, 'Auth/reset-password.html', context)

@@ -14,6 +14,9 @@ def Myprofile(request):
     
     questions = models.Qa.objects.filter(user=user).values('question', 'views', 'likes', 'code', 'created_at')
     notes = models.Notes.objects.filter(user=user).values('code', 'title', 'description', 'views', 'uploaded_at')
+    products = models.Product.objects.filter(user=user)
+    groups = models.GroupMember.objects.filter(user=user)
+
     total_uploads = len(questions) + len(notes)
     total_views = 0
     percentage = 0
@@ -41,9 +44,12 @@ def Myprofile(request):
     context = {
         'notes': notes,
         'questions': questions,
+        'products': products,
+        'groups': groups,
         'percentage': percentage,
         'total_uploads':total_uploads,
         'total_views':total_views,
+        'groups_joined': len(groups),
         'rating': rating,
     }
     return render(request, 'User/profile.html', context)
@@ -58,11 +64,16 @@ def Otherprofile(request, account):
     
     notes = models.Notes.objects.filter(user=user).values('code', 'title', 'description', 'views', 'uploaded_at')
     questions = models.Qa.objects.filter(user=user).values('question', 'views', 'likes', 'code', 'created_at')
+    products = models.Product.objects.filter(user=user)
+    groups = models.GroupMember.objects.filter(user=user)
 
     context = {
         'account':user,
         'notes': notes,
+        'products': products,
+        'groups': groups,
         'questions': questions,
-        'total_uploads': questions
+        'total_uploads': questions,
+        'groups_joined': len(groups),
     }
     return render(request, 'User/user.html', context)

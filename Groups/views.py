@@ -12,6 +12,25 @@ def groupHomeRender(request):
     }
     return render(request, 'Groups/group-landing-page.html', context)
 
+def groupDetailRender(request, group):
+    group = get_object_or_404(models.Group, slug=group)
+    members = models.GroupMember.objects.filter(group=group)
+    is_member = False
+
+    if request.user.is_authenticated:
+        user = models.AuthCustomuser.objects.get(id=request.user.id)
+
+        if members.filter(user=user).exists():
+            is_member = True
+    
+    context = {
+        'group' : group,
+        'members' : members,
+        'is_member' : is_member
+    }
+
+    return render(request, 'Groups/group-detail.html', context)
+
 def chatRoomRender(request, group):
     group = get_object_or_404(models.Group, slug=group)
     messages = models.GroupMessages.objects.get(group=group)

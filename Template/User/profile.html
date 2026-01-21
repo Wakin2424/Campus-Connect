@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Campus Connect - Profile</title>
+    <title>My Profile</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <link rel="stylesheet" href="{%static 'CSS/profile.css'%}">
@@ -121,47 +121,40 @@
 
                 <div id="books" class="tab-content">
                     <div class="uploads-grid">
+                        {% for product in products %}
                         <div class="upload-card">
-                            <div class="upload-title">Introduction to Computer Science (9th Ed.)</div>
-                            <div class="upload-description">Excellent condition textbook with minimal highlighting. Perfect for CS101.</div>
+                            <div class="upload-title">{{product.name}}</div>
+                            <div class="upload-description">{{product.description|slice:":10"}}</div>
                             <div class="upload-meta">
-                                <span><i class="fas fa-eye"></i> 89 views</span>
                                 <span class="rating"><i class="fas fa-star"></i> 5.0</span>
                             </div>
                             <div class="upload-meta">
-                                <span>Listed: March 1, 2025</span>
-                                <a href="#" class="view-link">View Details <i class="fas fa-arrow-right"></i></a>
+                                <span>Listed: <span class="datetime">{{product.created_at}}</span></span>
+                                <a href="{%url 'product_detail' id=product.slug %}" class="view-link">View Details <i class="fas fa-arrow-right"></i></a>
                             </div>
                         </div>
-                        <div class="upload-card">
-                            <div class="upload-title">Organic Chemistry Textbook</div>
-                            <div class="upload-description">Complete with solution manual. Great for CHEM301 and CHEM302.</div>
-                            <div class="upload-meta">
-                                <span><i class="fas fa-eye"></i> 156 views</span>
-                                <span class="rating"><i class="fas fa-star"></i> 4.8</span>
-                            </div>
-                            <div class="upload-meta">
-                                <span>Listed: January 20, 2025</span>
-                                <a href="#" class="view-link">View Details <i class="fas fa-arrow-right"></i></a>
-                            </div>
-                        </div>
+
+                        {% endfor %}
+
                     </div>
                 </div>
 
                 <div id="other" class="tab-content">
                     <div class="uploads-grid">
+                        {% for group in groups %}
                         <div class="upload-card">
-                            <div class="upload-title">Study Group Schedule</div>
-                            <div class="upload-description">Weekly study group schedule for Computer Science students.</div>
+                            <div class="upload-title">{{group.name}}</div>
+                            <div class="upload-description">{{group.description|slice:":20"}}...</div>
                             <div class="upload-meta">
-                                <span><i class="fas fa-eye"></i> 178 views</span>
+                                <span><i class="fas fa-eye"></i> {{group.members_no}} members</span>
                                 <span class="rating"><i class="fas fa-star"></i> 4.5</span>
                             </div>
                             <div class="upload-meta">
-                                <span>Posted: March 5, 2025</span>
-                                <a href="#" class="view-link">View Details <i class="fas fa-arrow-right"></i></a>
+                                <span>Posted: {{group.created_at}}</span>
+                                <a href="{%url 'group_detail' group=group.group.slug %}" class="view-link">View Details <i class="fas fa-arrow-right"></i></a>
                             </div>
                         </div>
+                        {% endfor %}
                     </div>
                 </div>
             </div>
