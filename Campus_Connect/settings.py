@@ -55,6 +55,7 @@ INSTALLED_APPS = [
     'social_django',
     'channels',
     'template_partials',
+    #'anymail',
     
     #apps
     'Home',
@@ -194,9 +195,9 @@ AUTHENTICATION_BACKENDS = (
 SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = env('SOCIAL_KEY') 
 SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = env('SOCIAL_SECRET')
 
-LOGIN_URL = 'login'
-LOGIN_REDIRECT_URL = 'home'  
-LOGOUT_REDIRECT_URL = 'home'
+LOGIN_URL = '/auth/'
+LOGIN_REDIRECT_URL = '/'  
+LOGOUT_REDIRECT_URL = '/'
 
 SOCIAL_AUTH_GOOGLE_OAUTH2_SCOPE = ['email', 'profile']
 

@@ -191,8 +191,9 @@ def forgotPassword(request):
             from Mail.views import sendForgotPasswordURL
             
             token = getToken(user.pk)
-            url = request.build_absolute_uri(reverse('reset_password', kwargs={'uidb64': uuid.uuid4(), 'token': token}))
-            sendForgotPasswordURL(url, user.email)
+            url = request.build_absolute_uri(reverse('reset_password', kwargs={'uidb64': str(uuid.uuid4()), 'token': token}))
+            print(f"token: {token}, url:{url}")
+            sendForgotPasswordURL(url, user.email, user.first_name)
 
         return redirect('login')
         
@@ -205,11 +206,11 @@ def resetPassword(request, uidb64, token):
         raise Http404('The request has expired!')
     
     if request.method == 'POST':
-        new_password = request.POST.get('password')
+        new_password = request.POST.get('newPassword')
 
         if new_password == None:
             # redirect reset password error
-            return redirect('login')
+            return redirect('reset_password_fail')
 
         User = get_user_model()
 
@@ -217,9 +218,15 @@ def resetPassword(request, uidb64, token):
         user.set_password(new_password)
         user.save()
         
-        return redirect('login')
+        return redirect('reset_password_success')
     
     context = {
         'token' : token
     }
     return render(request, 'Auth/reset-password.html', context)
+
+def resetPasswordSuccess(request):
+    return render(request, 'Auth/password-reset-success.html')
+
+def resetPasswordFailed(request):
+    return render(request, 'Auth/password-reset-fail.html')
