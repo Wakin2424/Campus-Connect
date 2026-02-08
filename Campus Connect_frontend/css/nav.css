@@ -175,6 +175,31 @@
     background: #f8f9fa;
 }
 
+.logout-icon {
+    color: #e63946;              /* red logout color */
+    font-size: 1.4rem;
+    cursor: pointer;
+    transition: 
+        color 0.25s ease,
+        transform 0.25s ease,
+        background-color 0.25s ease;
+    padding: 8px;
+    border-radius: 50%;
+}
+
+/* Hover effect */
+.logout-icon:hover {
+    color: #ffffff;
+    background-color: #e63946;   /* red background */
+    transform: scale(1.15) rotate(-10deg);
+}
+
+/* Optional active (click) effect */
+.logout-icon:active {
+    transform: scale(0.95);
+}
+
+
 /* Mobile Menu Toggle */
 .mobile-toggle {
     display: none;

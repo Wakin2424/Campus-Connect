@@ -203,7 +203,7 @@ def resetPassword(request, uidb64, token):
     user_id = authenticateToken(token)
     
     if user_id == None:
-        raise Http404('The request has expired!')
+        return redirect('reset_password_fail')
     
     if request.method == 'POST':
         new_password = request.POST.get('newPassword')

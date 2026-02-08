@@ -68,15 +68,37 @@
             <button class="control-btn btn-primary" onClick = 'postAnswer()'>
                 <i class="fas fa-edit"></i> Post Answer
             </button>
-            <button class="control-btn btn-secondary" onclick="askCodinAI()">
-                <i class="fas fa-robot"></i> Ask Codin AI
+            {% if ai %}
+            <button class="control-btn btn-secondary" id="Modulo-btn" onclick="askModulo()" style="background-color: #202a35; color: rgb(165, 165, 165);" disabled>
+                <i class="fas fa-robot"></i> Ask Modulo AI
             </button>
+
+            {% else %}
+            <button class="control-btn btn-secondary" id="Modulo-btn" onclick="askModulo()">
+                <i class="fas fa-robot"></i> Ask Modulo AI
+            </button>
+            {% endif %}
         </div>
 
         <!-- Answers Section -->
         <div class="answers-section" id="answers-section">
             <h2 class="section-title">Answers ({{question.answer_len}})</h2>
             {% for answer in answers %}
+            {% if answer.user__is_staff %}
+
+            <div style='height: 6rem;'></div>
+                <div class="answer-card ai-answer">
+                    <div class="ai-badge">
+                        <i class="fas fa-robot"></i> AI Answer
+                    </div>
+                    <div class="answer-text">
+                        {{answer.answer|safe}}
+                    </div>
+                </div>
+            </div>
+
+            {% else %}
+            <div class="answer-card">
                 <div class="answer-text" id='{{answer.code}}' data-Images = '{{answer.images}}'>
                 {{answer.answer|safe}}
                 </div>
@@ -86,13 +108,13 @@
                     {% else %}
                     <div class="avatar">{{answer.user__first_name|upper|slice:":1" }}{{answer.user__last_name|upper|slice:":1" }}</div>
                     {% endif %}
-                    <span>Answered by <strong>{{answer.user__first_name}} {{answer.user__last_name}}</strong> • {{answer.created_at}} ago</span>
+                    <span>Answered by  <strong>{{answer.user__first_name}} {{answer.user__last_name}}</strong> • {{answer.created_at}} ago</span>
                 </div>
                 </a>
                 <div class="vote-buttons">
                     {% if user.is_authenticated %}
                         {% if answer.likes.1 %}
-                        <button class="vote-btn" id='like-btn-{{answer.code}}' style="background-color:#0D1B2A ; color: white;" disabled>
+                        <button class="active vote-btn" id='like-btn-{{answer.code}}' disabled>
                             <i class="fas fa-chevron-up"></i> <span class='vote-value'>{{answer.like.0}}</span>
                         </button>
                         {% else %}
@@ -107,7 +129,9 @@
                         </button>
                     </a>
                     {% endif %}
+                </div>
             </div>
+            {% endif %}
             {% endfor %}
         </div>
     </div>
@@ -183,8 +207,7 @@
                 if(data.status){
                     let voteBtn = document.getElementById(`like-btn-${answer}`)
                     
-                    voteBtn.style.backgroundColor = '#0D1B2A';
-                    voteBtn.style.color = 'white';
+                    voteBtn.className = "active vote-btn";
                     voteBtn.disabled = true;
 
                 } 
@@ -290,7 +313,75 @@
             {% endif %}
         }
 
-        function askCodinAI() {
+        {% if not ai %}
+        function askModulo(){
+            // Open AI window and show loading
+            const aiWindow = document.getElementById('aiWindow');
+            const aiContent = document.getElementById('aiContent');
+            const aiLoading = document.getElementById('aiLoading');
+            const aiButton = document.getElementById('Modulo-btn');
+
+            aiButton.disabled = true;
+            aiButton.style.backgroundColor = '#202a35';
+            aiButton.style.color = 'rgb(165, 165, 165)';
+            
+            aiWindow.classList.add('active');
+            aiLoading.style.display = 'flex';
+
+            // Make API call to get AI answer
+            fetch('{%url "AIanswer" id=question.code %}', {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-CSRFToken": getCookie("csrftoken")  // ✅ Include CSRF token
+                },
+                body:JSON.stringify({
+                    'id': '{{question.code}}',
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                // if successful, display AI answer
+                if(data.status){
+                    aiLoading.style.display = 'none';
+                    const aiAnswerHTML = `
+                    <div style='height: 6rem;'></div>
+                    <div class="answer-card ai-answer">
+                        <div class="ai-badge">
+                            <i class="fas fa-robot"></i> AI Answer
+                        </div>
+                        <div class="answer-text">
+                                ${data.answer}
+                        </div>
+                    </div>
+                    `;
+
+                    aiContent.innerHTML = `
+                        <div class="answer-text">
+                                ${data.answer}
+                        </div>
+                    `;
+
+
+                    
+                    setTimeout(() => {
+                        addAIAnswerToSection(aiAnswerHTML);
+                    }, 1000);
+
+                } 
+
+                else{
+                    aiButton.disabled = false;
+                    aiButton.style.backgroundColor = '#0D1B2A';
+                    aiButton.style.color = 'white';
+                    closeAI();
+                    showNotification('Failed to get AI answer. Please try again later.');
+                }
+            })
+        }
+        {% endif %}
+
+        function askAI() {
             const aiWindow = document.getElementById('aiWindow');
             const aiContent = document.getElementById('aiContent');
             const aiLoading = document.getElementById('aiLoading');
@@ -345,61 +436,9 @@
             document.getElementById('aiWindow').classList.remove('active');
         }
 
-        function addAIAnswerToSection() {
+        function addAIAnswerToSection(answer) {
             const answersSection = document.querySelector('.answers-section');
-            const aiAnswerHTML = `
-                <div class="answer-card ai-answer">
-                    <div class="ai-badge">
-                        <i class="fas fa-robot"></i> AI Answer
-                    </div>
-                    <div class="answer-text">
-                        <strong>Binary Search Implementation:</strong><br><br>
-                        
-                        Here's a comprehensive solution with both iterative and recursive approaches:
-                        
-                        <pre><code># Iterative Binary Search
-def binary_search_iterative(arr, target):
-    left, right = 0, len(arr) - 1
-    
-    while left <= right:
-        mid = left + (right - left) // 2  # Avoid overflow
-        
-        if arr[mid] == target:
-            return mid
-        elif arr[mid] < target:
-            left = mid + 1
-        else:
-            right = mid - 1
-    
-    return -1
-
-# Example usage:
-arr = [1, 3, 5, 7, 9, 11, 13, 15]
-result = binary_search_iterative(arr, 7)
-print(f"Element found at index: {result}")  # Output: 3</code></pre>
-
-                        <strong>Key Points:</strong><br>
-                        • Time Complexity: O(log n)<br>
-                        • Space Complexity: O(1) for iterative, O(log n) for recursive<br>
-                        • Array must be sorted<br>
-                        • Use <code>left + (right - left) // 2</code> to prevent integer overflow
-                    </div>
-                    <div class="user-info">
-                        <div class="avatar" style="background: linear-gradient(135deg, #1E90FF, #0D1B2A)">
-                            <i class="fas fa-robot"></i>
-                        </div>
-                        <span>Answered by <strong>Codin AI</strong> • Just now</span>
-                    </div>
-                    <div class="vote-buttons">
-                        <button class="vote-btn" onclick="toggleVote(this, 'up')">
-                            <i class="fas fa-chevron-up"></i> <span>0</span>
-                        </button>
-                        <button class="vote-btn" onclick="toggleVote(this, 'down')">
-                            <i class="fas fa-chevron-down"></i> <span>0</span>
-                        </button>
-                    </div>
-                </div>
-            `;
+            const aiAnswerHTML = `${answer}`;
             
             answersSection.insertAdjacentHTML('beforeend', aiAnswerHTML);
             

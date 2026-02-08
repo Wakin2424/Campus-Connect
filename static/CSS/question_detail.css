@@ -152,8 +152,10 @@ body {
 }
 
 .ai-answer {
+    padding-top: 60px;
     border-left: 4px solid #1E90FF;
     background: linear-gradient(135deg, #f8fbff 0%, #ffffff 100%);
+    overflow-wrap: break-word;
 }
 
 .ai-badge {

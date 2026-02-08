@@ -1,13 +1,16 @@
 from django.shortcuts import render, redirect
-from django.http import Http404, JsonResponse
+from django.http import Http404, HttpResponseForbidden, JsonResponse
 from django.shortcuts import get_object_or_404
 from django.contrib.auth import get_user_model
 from django.db.models import Count
+from django.conf import settings
 import Auth.models as models
 import json, os, uuid
 import datetime as dt
+from google import genai
 
 User = get_user_model()
+AI_model = genai.Client(api_key=settings.GOOGLE_API_KEY)
 # Create your views here.
 def Home(request):
     trend_tag = request.GET.get('tag')
@@ -141,6 +144,8 @@ def Question(request, id):
     courses = models.Question_subjects.objects.filter(question=question)
     images_list = models.Image_reference.objects.filter(question=question)
     images = []
+    ai = False
+
     if len(images_list) > 0:
         for img in images_list:
             images.append(img.image.file.url)
@@ -161,14 +166,18 @@ def Question(request, id):
             rating += rate.rating
         rating = rating/(len(ratings) if len(ratings) != 0 else 1)
 
-    answers = models.Answers.objects.filter(question=question).order_by('-likes', '-created_at').values('answer', 'created_at', 'user__first_name', 'user__last_name', 'user__username', 'code', 'likes', 'user__image')
+    answers = models.Answers.objects.filter(question=question).order_by('-likes', '-created_at').values('answer', 'created_at', 'user__first_name', 'user__last_name', 'user__username', 'user__is_staff', 'ai', 'code', 'likes', 'user__image')
 
     for answer in answers:
+        if answer['ai']:
+            ai = True
+
         like = models.Likes.objects.filter(question=question, answer__code=answer['code'])
         if request.user.is_authenticated:
             answer['likes'] = [len(like), True if len(models.Likes.objects.filter(user=me, question=question, answer__code=answer['code'])) > 0 else False]
         else:
             answer['likes'] = len(like)
+
         
         answer['user__image'] = models.Images.objects.get(image_id=answer['user__image']) if answer['user__image'] != None else answer['user__image']
     
@@ -182,9 +191,11 @@ def Question(request, id):
         question_likes = [ len(models.Likes.objects.filter( question=question, answer=None)),True if len(models.Likes.objects.filter(user=me, question=question, answer=None)) > 0 else False]
     else:
         question_likes = len(models.Likes.objects.filter( question=question, answer=None))
+
     context = {
         'seeker':user,
         'id':id,
+        'ai': ai,
         'question':question,
         'courses' :courses,
         'images'  : images,
@@ -200,7 +211,7 @@ def Answerhome(requeest):
 
 def Answer(request, id):
     if not request.user.is_authenticated or not request.user.is_verified:
-        raise Http404('Invalid Request. Please ensure you are a verified member')
+        raise HttpResponseForbidden('Invalid Request. Please ensure you are a verified member')
     
     if request.method == 'POST':
         status = True
@@ -256,6 +267,39 @@ def Answer(request, id):
             'images'  : images,
             }
         return render(request, 'QuestionAnswer/answer.html', context)
+
+def saveAIanswer(question, answer):
+    user = models.AuthCustomuser.objects.get(username='ModuloAI')
+    answer = models.Answers.objects.create(user=user, question=question, answer=answer, ai=True,code=uuid.uuid4())
+    answer.save()
+
+def AIanswer(request, id):
+    if request.method == 'POST':
+        question = get_object_or_404(models.Qa, code=id)
+
+        prompt = f"""
+            Answer the following question: {question.question}
+            Description: {question.description}
+            provide the answer in form of html text that is to be inserted in a html div element. If the question contains code, provide the answer in a code block with the appropriate language tag for syntax highlighting. If the question is asking for steps or a process, provide the answer in an ordered list format. If the question is asking for multiple solutions or methods, provide the answer in an unordered list format. Always ensure that the answer is clear, concise, and directly addresses the question asked.
+        """
+        try:
+            response = AI_model.models.generate_content(
+                model='gemini-3-flash-preview',
+                contents=prompt,
+            )
+
+            saveAIanswer(question, response.text)
+        except Exception as e:
+            print(e)
+            return JsonResponse({'status':False})
+
+        context = {
+            'status':True,
+            'answer':response.text
+        }
+        
+        return JsonResponse(context)
+    return JsonResponse({'status':False})
 
 def Vote(request):
     if request.method == 'POST' and request.user.is_authenticated:

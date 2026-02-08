@@ -180,6 +180,7 @@ class Answers(models.Model):
     user = models.ForeignKey(AuthCustomuser, blank=True, null=True, on_delete=models.CASCADE, related_name='answer')
     question = models.ForeignKey('qa', blank=True, null=True, on_delete=models.CASCADE, related_name='answer')
     answer = models.TextField()
+    ai = models.BooleanField(default=False)
     created_at = models.DateTimeField(blank=True, default=str(dt.datetime.now()))
 
     def __str__(self):
