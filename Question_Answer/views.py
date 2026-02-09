@@ -137,7 +137,7 @@ def Question_form(request):
         }
         return render(request, 'QuestionAnswer/question_form.html', context)
 
-def Question(request, id):
+def questionDetail(request, id):
     question = get_object_or_404(models.Qa, code=id)
     User = get_user_model()
     user = User.objects.get(id=question.user.id)
@@ -267,39 +267,6 @@ def Answer(request, id):
             'images'  : images,
             }
         return render(request, 'QuestionAnswer/answer.html', context)
-
-def saveAIanswer(question, answer):
-    user = models.AuthCustomuser.objects.get(username='ModuloAI')
-    answer = models.Answers.objects.create(user=user, question=question, answer=answer, ai=True,code=uuid.uuid4())
-    answer.save()
-
-def AIanswer(request, id):
-    if request.method == 'POST':
-        question = get_object_or_404(models.Qa, code=id)
-
-        prompt = f"""
-            Answer the following question: {question.question}
-            Description: {question.description}
-            provide the answer in form of html text that is to be inserted in a html div element. If the question contains code, provide the answer in a code block with the appropriate language tag for syntax highlighting. If the question is asking for steps or a process, provide the answer in an ordered list format. If the question is asking for multiple solutions or methods, provide the answer in an unordered list format. Always ensure that the answer is clear, concise, and directly addresses the question asked.
-        """
-        try:
-            response = AI_model.models.generate_content(
-                model='gemini-3-flash-preview',
-                contents=prompt,
-            )
-
-            saveAIanswer(question, response.text)
-        except Exception as e:
-            print(e)
-            return JsonResponse({'status':False})
-
-        context = {
-            'status':True,
-            'answer':response.text
-        }
-        
-        return JsonResponse(context)
-    return JsonResponse({'status':False})
 
 def Vote(request):
     if request.method == 'POST' and request.user.is_authenticated:

@@ -33,6 +33,7 @@ urlpatterns = [
     path('Groups/', include('Groups.urls')),
     path('chat/', include('Chat.urls')),
     path('api/mails/', include('Mail.urls')),
+    path('api/ai/modulo/', include('AI_model.urls')),
 ]
 
 
