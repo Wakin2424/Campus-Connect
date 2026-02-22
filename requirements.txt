@@ -24,4 +24,6 @@ channels_redis==4.3.0
 django-template-partials==25.3
 psycopg2-binary
 psycopg2
+google-genai==1.62.0
+celery==5.6.2
 

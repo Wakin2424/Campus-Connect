@@ -193,7 +193,10 @@ def forgotPassword(request):
             token = getToken(user.pk)
             url = request.build_absolute_uri(reverse('reset_password', kwargs={'uidb64': str(uuid.uuid4()), 'token': token}))
             print(f"token: {token}, url:{url}")
+            #django normal mail
             sendForgotPasswordURL(url, user.email, user.first_name)
+            #celery mail
+            #sendForgotPasswordURL.delay(url, user.email, user.first_name)
 
         return redirect('login')
         

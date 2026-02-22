@@ -1,9 +1,13 @@
 from channels.generic.websocket import AsyncWebsocketConsumer
 from channels.db import database_sync_to_async
+from .task import ai_respond_task
 import json
 import datetime
 
 class ChatConsumer(AsyncWebsocketConsumer):
+    chat_history = ""
+    ai_is_active = [False]
+
     async def connect(self):
         try:
             self.user = self.scope['user']
@@ -16,6 +20,8 @@ class ChatConsumer(AsyncWebsocketConsumer):
             
             self.room_name = self.scope['url_route']["kwargs"]['room_name']
             self.room_group_name = f"chat_{self.room_name}"
+
+            await self.getChatHistory()
 
             is_member = await self.user_GroupValidation(self.room_name, self.user)
 
@@ -52,16 +58,58 @@ class ChatConsumer(AsyncWebsocketConsumer):
             return
 
         try:
-            await self.channel_layer.group_send(
-                self.room_group_name,
-                {
-                    "type": "chatMessage",
-                    "message": message,
-                    'username': f"{self.user.first_name}",
-                    'image_url': self.image_url,
-                    "timestamp": datetime.datetime.now().isoformat(),
-                }
-            )
+            if '@modulo' in message:
+                # Sending user details first
+                await self.channel_layer.group_send(
+                    self.room_group_name,
+                    {
+                        "type": "chatMessage",
+                        "message": message,
+                        'username': f"{self.user.first_name}",
+                        'image_url': self.image_url,
+                        "timestamp": datetime.datetime.now().isoformat(),
+                        "ai_typing": False,
+                    }
+                )
+                # Sending AI loading message
+                await self.channel_layer.group_send(
+                    self.room_group_name,
+                    {
+                        "type": "chatMessage",
+                        "message": "typing...",
+                        "username": "moduloAI",
+                        "image_url": None,
+                        "timestamp": datetime.datetime.now().isoformat(),
+                        "ai_typing": True,
+                    }
+                )
+
+                # 3️⃣ Send task to background worker
+                self.ai_is_active[0] = True
+                print('activating AI')
+                ai_respond_task.delay(
+                    prompt=message,
+                    room_group_name=self.room_group_name,
+                    chat_history=self.chat_history,
+                    ai_is_active=self.ai_is_active
+                )
+
+
+                # save chat history for ai response generation
+                self.chat_history += f"chat: {message}\n"
+
+            else:
+                await self.channel_layer.group_send(
+                    self.room_group_name,
+                    {
+                        "type": "chatMessage",
+                        "message": message,
+                        'username': f"{self.user.first_name}",
+                        'image_url': self.image_url,
+                        "timestamp": datetime.datetime.now().isoformat(),
+                        "ai_typing": False,
+                    }
+                )
         except Exception as e:
             print('group send failed: ', e)
 
@@ -72,10 +120,16 @@ class ChatConsumer(AsyncWebsocketConsumer):
                 'username': event["username"],
                 'image_url': event['image_url'],
                 "timestamp": event["timestamp"],
+                'ai_typing': event["ai_typing"],
             }))
         
         except Exception as e:
             await self.close()
+    
+    def generateAIresponse(self, new_message):
+        from AI_model import views
+        response = views.aiGroupChat(self.chat_history, new_message)
+        return response
     
     @database_sync_to_async
     def saveMessage(self, text):
@@ -96,7 +150,8 @@ class ChatConsumer(AsyncWebsocketConsumer):
                 'username':self.user.username,
                 'message': text,
                 'image_url': self.image_url,
-                'timestamp': f'{datetime.datetime.now().isoformat()}'
+                'timestamp': f'{datetime.datetime.now().isoformat()}',
+                'ai': False
             }
             message.messages.append(data)
             message.msg_index += 1
@@ -135,4 +190,24 @@ class ChatConsumer(AsyncWebsocketConsumer):
         except:
             self.image_url = None
             return 
+        
+    @database_sync_to_async
+    def getChatHistory(self):
+        try:
+            from Auth import models
 
+            group = models.Group.objects.get(slug=self.room_name)
+            if models.GroupMessages.objects.filter(group=group).exists():
+                messages = models.GroupMessages.objects.get(group=group)
+                self.temporarySaveChatHistory(messages.messages)
+                return
+            else:
+                return []
+        
+        except Exception as e:
+            print("failed to get chat history", e)
+            return []
+
+    def temporarySaveChatHistory(self, messages):
+        for message in messages:
+            self.chat_history += f"chat: {message['message']}\n"

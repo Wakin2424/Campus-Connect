@@ -3,20 +3,22 @@ from django.http import Http404, HttpResponseForbidden, JsonResponse
 from django.shortcuts import get_object_or_404
 from django.contrib.auth import get_user_model
 from django.conf import settings
-from Auth import models
 from google import genai
+import uuid
 
 AI_model = genai.Client(api_key=settings.GOOGLE_API_KEY)
 
 # Create your views here.
 def saveAIanswer(question, answer):
-    user = models.AuthCustomuser.objects.get(username='ModuloAI')
-    answer = models.Answers.objects.create(user=user, question=question, answer=answer, ai=True,code=uuid.uuid4())
+    from Auth import models as Models
+    user = Models.AuthCustomuser.objects.get(username='ModuloAI')
+    answer = Models.Answers.objects.create(user=user, question=question, answer=answer, ai=True,code=uuid.uuid4())
     answer.save()
 
 def AIanswer(request, id):
+    from Auth import models as Models
     if request.method == 'POST':
-        question = get_object_or_404(models.Qa, code=id)
+        question = get_object_or_404(Models.Qa, code=id)
 
         prompt = f"""
             Answer the following question: {question.question}
@@ -46,7 +48,7 @@ def aiGroupChat(chat_history, new_message):
     prompt = f"""
         You are a helpful assistant for a group chat. The following is the chat history:
         {chat_history}
-        A new message has been sent in the group chat: {new_message}
+        A new message directed to you has been sent in the group chat: {new_message}
         Please provide a helpful and relevant response to the new message, taking into account the context of the previous messages in the chat history and keep it short and concise.
     """
     try:

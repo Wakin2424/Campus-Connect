@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.core.mail import send_mail, EmailMultiAlternatives
-
+#from celery import shared_task
 from Auth import models
 
 # Create your views here.
@@ -13,6 +13,8 @@ def postTransactionMessage():
 def clientNotification():
     pass
 
+
+#@shared_task(bind=True, autoretry_for=(Exception,), retry_backoff=10, retry_kwargs={"max_retries": 5})
 def sendForgotPasswordURL(reset_url, user_email, first_name):
     subject = "Reset Password - Campus Connect"
     to = [user_email]

@@ -1,0 +1,1027 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>About Us — Campus Connect</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Manrope:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <style>
+    /* ══════════════════════════ TOKENS ══════════════════════════ */
+    :root {
+      --navy:       #0D1B2A;
+      --navy-700:   #1A2E45;
+      --navy-500:   #234567;
+      --blue:       #1E90FF;
+      --blue-400:   #4FACFF;
+      --blue-tint:  #EBF5FF;
+      --blue-tint2: #F5FAFF;
+      --white:      #FFFFFF;
+      --off-white:  #F8FAFC;
+      --text-dark:  #0F172A;
+      --text-body:  #334155;
+      --text-muted: #64748B;
+      --border:     #E2E8F0;
+      --border-lt:  #F1F5F9;
+      --sh-xs: 0 1px 4px rgba(13,27,42,.07);
+      --sh-sm: 0 3px 12px rgba(13,27,42,.09);
+      --sh-md: 0 8px 32px rgba(13,27,42,.12);
+      --sh-lg: 0 20px 64px rgba(13,27,42,.16);
+      --r-sm: 8px; --r-md: 14px; --r-lg: 22px; --r-xl: 32px;
+      --font-d: 'Syne', sans-serif;
+      --font-b: 'Manrope', sans-serif;
+      --nav-h: 70px;
+    }
+    *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+    html { scroll-behavior:smooth; scroll-padding-top:calc(var(--nav-h) + 16px); }
+    body {
+      font-family: var(--font-b);
+      background: var(--white);
+      color: var(--text-body);
+      line-height: 1.8;
+      font-size: 16px;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+    a { text-decoration: none; color: inherit; }
+    .container { max-width:1200px; margin:0 auto; padding:0 32px; }
+
+    /* ══════════════════════════ HEADER ══════════════════════════ */
+    .hdr {
+      position: sticky; top:0; z-index:300;
+      height: var(--nav-h);
+      background: rgba(255,255,255,.96);
+      backdrop-filter: blur(14px);
+      border-bottom: 1.5px solid var(--border);
+      box-shadow: var(--sh-xs);
+      transition: box-shadow .25s;
+    }
+    .hdr.scrolled { box-shadow: 0 4px 20px rgba(13,27,42,.13); }
+    .nav-inner {
+      max-width:1200px; margin:0 auto; padding:0 32px;
+      height:100%; display:flex; align-items:center;
+      justify-content:space-between; gap:24px;
+    }
+    .logo { display:flex; align-items:center; gap:11px; }
+    .logo-mark {
+      width:42px; height:42px; background:var(--navy);
+      border-radius:11px; display:grid; place-items:center;
+      position:relative; overflow:hidden; flex-shrink:0;
+    }
+    .logo-mark::after {
+      content:''; position:absolute; inset:0;
+      background:linear-gradient(135deg,rgba(30,144,255,.35) 0%,transparent 55%);
+    }
+    .logo-mark svg { width:24px; height:24px; position:relative; z-index:1; }
+    .logo-word { font-family:var(--font-d); font-size:1.25rem; font-weight:700; color:var(--navy); letter-spacing:-.3px; }
+    .logo-word em { font-style:normal; color:var(--blue); }
+    .nav-links { display:flex; align-items:center; gap:2px; list-style:none; }
+    .nav-links a {
+      display:block; padding:8px 15px;
+      font-size:.875rem; font-weight:500; color:var(--text-body);
+      border-radius:var(--r-sm); transition:background .15s,color .15s;
+    }
+    .nav-links a:hover { background:var(--blue-tint); color:var(--blue); }
+    .nav-links a.active { color:var(--blue); font-weight:600; }
+    .btn-nav-cta {
+      background:var(--navy) !important; color:var(--white) !important;
+      padding:9px 22px !important; border-radius:10px !important;
+      font-weight:600 !important;
+      box-shadow:0 2px 10px rgba(13,27,42,.25) !important;
+      transition:background .18s,transform .12s,box-shadow .18s !important;
+    }
+    .btn-nav-cta:hover {
+      background:var(--blue) !important; transform:translateY(-1px);
+      box-shadow:0 4px 16px rgba(30,144,255,.4) !important;
+    }
+    .hamburger {
+      display:none; flex-direction:column; gap:5px;
+      background:none; border:none; cursor:pointer; padding:4px;
+    }
+    .hamburger span {
+      display:block; width:24px; height:2px;
+      background:var(--navy); border-radius:2px; transition:.3s;
+    }
+
+    /* ══════════════════════════ HERO ══════════════════════════ */
+    .hero {
+      min-height:calc(100vh - var(--nav-h));
+      background:var(--navy); position:relative;
+      display:flex; align-items:center;
+      overflow:hidden; padding:80px 0 60px;
+    }
+    .hero-bg {
+      position:absolute; inset:0; pointer-events:none;
+      background-image:radial-gradient(circle,rgba(30,144,255,.18) 1.5px,transparent 1.5px);
+      background-size:36px 36px;
+    }
+    .hero-orb {
+      position:absolute; border-radius:50%;
+      filter:blur(90px); pointer-events:none;
+    }
+    .orb1 { width:560px; height:560px; background:rgba(30,144,255,.12); top:-140px; left:-100px; }
+    .orb2 { width:400px; height:400px; background:rgba(30,144,255,.08); bottom:-80px; right:-60px; }
+    .hero-vline {
+      position:absolute; top:0; right:28%;
+      width:1.5px; height:100%;
+      background:linear-gradient(to bottom,transparent,rgba(30,144,255,.25) 40%,transparent);
+    }
+    .hero-grid {
+      width:100%; display:grid;
+      grid-template-columns:1fr 1fr; align-items:center;
+      gap:64px; position:relative; z-index:1;
+    }
+    .hero-eyebrow {
+      display:inline-flex; align-items:center; gap:9px;
+      background:rgba(30,144,255,.15); border:1px solid rgba(30,144,255,.3);
+      color:var(--blue-400); font-size:.75rem; font-weight:700;
+      letter-spacing:.12em; text-transform:uppercase;
+      padding:7px 16px; border-radius:50px; margin-bottom:28px;
+    }
+    .eyebrow-dot {
+      width:7px; height:7px; background:var(--blue);
+      border-radius:50%; animation:blink 2.4s ease-in-out infinite;
+    }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:.3} }
+    .hero-h1 {
+      font-family:var(--font-d); font-size:clamp(2.6rem,5.5vw,4.4rem);
+      font-weight:800; color:var(--white); line-height:1.06;
+      letter-spacing:-1.5px; margin-bottom:28px;
+    }
+    .hero-h1 .hl {
+      color:var(--blue-400); position:relative; display:inline-block;
+    }
+    .hero-h1 .hl::after {
+      content:''; position:absolute; left:0; bottom:-4px;
+      width:100%; height:3px; background:var(--blue); border-radius:2px;
+      transform:scaleX(0); transform-origin:left;
+      animation:lineGrow 1.2s .8s cubic-bezier(.22,.68,0,1.2) forwards;
+    }
+    @keyframes lineGrow { to { transform:scaleX(1); } }
+    .hero-desc { font-size:1.05rem; color:rgba(255,255,255,.65); line-height:1.85; margin-bottom:40px; max-width:480px; }
+    .hero-btns { display:flex; align-items:center; gap:16px; flex-wrap:wrap; }
+    .btn-primary {
+      display:inline-flex; align-items:center; gap:9px;
+      background:var(--blue); color:var(--white);
+      font-family:var(--font-d); font-size:.925rem; font-weight:600;
+      padding:14px 28px; border-radius:var(--r-md);
+      box-shadow:0 4px 20px rgba(30,144,255,.45);
+      transition:transform .18s,box-shadow .18s,background .18s;
+    }
+    .btn-primary:hover { transform:translateY(-2px); box-shadow:0 8px 30px rgba(30,144,255,.55); background:#1a82f0; }
+    .btn-primary svg { transition:transform .2s; }
+    .btn-primary:hover svg { transform:translateX(3px); }
+    .btn-ghost {
+      display:inline-flex; align-items:center; gap:8px;
+      color:rgba(255,255,255,.75); font-size:.9rem; font-weight:500;
+      padding:14px 20px; border-radius:var(--r-md);
+      border:1.5px solid rgba(255,255,255,.15);
+      transition:color .18s,border-color .18s,background .18s;
+    }
+    .btn-ghost:hover { color:var(--white); border-color:rgba(255,255,255,.4); background:rgba(255,255,255,.06); }
+    .hero-stats { display:flex; gap:36px; margin-top:48px; flex-wrap:wrap; }
+    .stat-num { font-family:var(--font-d); font-size:2rem; font-weight:800; color:var(--white); line-height:1; letter-spacing:-1px; display:block; }
+    .stat-num .c { color:var(--blue); }
+    .stat-lbl { font-size:.78rem; font-weight:500; color:rgba(255,255,255,.45); text-transform:uppercase; letter-spacing:.07em; margin-top:4px; display:block; }
+    /* Hero visual */
+    .hero-visual { display:flex; justify-content:center; align-items:center; }
+    .hero-illus { width:100%; max-width:520px; position:relative; }
+    .float-card {
+      position:absolute;
+      background:rgba(255,255,255,.08); backdrop-filter:blur(12px);
+      border:1px solid rgba(255,255,255,.15); border-radius:var(--r-md);
+      padding:12px 16px; display:flex; align-items:center; gap:10px;
+      animation:float 6s ease-in-out infinite;
+    }
+    .fc1 { top:8%; left:-5%; animation-delay:0s; }
+    .fc2 { bottom:18%; right:-8%; animation-delay:2s; }
+    .fc3 { top:42%; right:-12%; animation-delay:4s; }
+    @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
+    .fc-ico { width:34px; height:34px; background:var(--blue); border-radius:8px; display:grid; place-items:center; flex-shrink:0; }
+    .fc-ico svg { width:17px; height:17px; }
+    .fc-body strong { display:block; font-size:.8rem; font-weight:700; color:var(--white); }
+    .fc-body span { font-size:.7rem; color:rgba(255,255,255,.55); }
+    .hero-wave { position:absolute; bottom:-1px; left:0; right:0; }
+
+    /* ══════════════════════════ IMPACT BAR ══════════════════════════ */
+    .impact-bar {
+      background:linear-gradient(135deg,var(--navy) 0%,var(--navy-500) 100%);
+      padding:72px 0; position:relative; overflow:hidden;
+    }
+    .impact-bar::before {
+      content:''; position:absolute; inset:0;
+      background-image:radial-gradient(circle,rgba(30,144,255,.1) 1px,transparent 1px);
+      background-size:30px 30px;
+    }
+    .impact-grid {
+      display:grid; grid-template-columns:repeat(4,1fr);
+      gap:40px; text-align:center; position:relative; z-index:1;
+    }
+    .impact-num {
+      font-family:var(--font-d); font-size:3rem; font-weight:800;
+      color:var(--white); letter-spacing:-2px; line-height:1; display:block;
+    }
+    .impact-num .plus { color:var(--blue); }
+    .impact-lbl {
+      font-size:.82rem; font-weight:500; color:rgba(255,255,255,.5);
+      text-transform:uppercase; letter-spacing:.09em;
+      margin-top:8px; display:block;
+    }
+
+    /* ══════════════════════════ SHARED SECTION ══════════════════════════ */
+    section { padding:100px 0; }
+    .eyebrow-tag {
+      display:inline-flex; align-items:center; gap:8px;
+      font-size:.72rem; font-weight:700; letter-spacing:.12em;
+      text-transform:uppercase; color:var(--blue); margin-bottom:16px;
+    }
+    .eyebrow-tag::before { content:''; display:inline-block; width:20px; height:2.5px; background:var(--blue); border-radius:2px; }
+    .sec-title { font-family:var(--font-d); font-size:clamp(2rem,4vw,3rem); font-weight:800; color:var(--navy); line-height:1.12; letter-spacing:-1px; }
+    .sec-sub { font-size:.98rem; color:var(--text-muted); max-width:560px; line-height:1.8; margin-top:16px; }
+
+    /* ══════════════════════════ STORY ══════════════════════════ */
+    .story { background:var(--off-white); }
+    .story-inner { display:grid; grid-template-columns:1fr 1fr; gap:80px; align-items:center; }
+    .story-text p { font-size:.965rem; color:var(--text-body); line-height:1.9; margin-bottom:18px; }
+    .story-text p:last-child { margin-bottom:0; }
+    .story-text strong { color:var(--navy); font-weight:600; }
+    .story-visual { position:relative; }
+    .story-img {
+      border-radius:var(--r-xl); overflow:hidden; box-shadow:var(--sh-lg);
+      aspect-ratio:4/5;
+      background:linear-gradient(135deg,var(--navy) 0%,var(--navy-500) 100%);
+      display:flex; align-items:center; justify-content:center;
+    }
+    /* Timeline beside the image */
+    .tl {
+      position:absolute; left:-52px; top:50%;
+      transform:translateY(-50%); display:flex; flex-direction:column;
+    }
+    .tl-item { display:flex; align-items:flex-start; gap:14px; }
+    .tl-left { display:flex; flex-direction:column; align-items:center; }
+    .tl-dot {
+      width:14px; height:14px; border:2.5px solid var(--blue);
+      border-radius:50%; background:var(--white); flex-shrink:0;
+    }
+    .tl-dot.on { background:var(--blue); }
+    .tl-line { width:2px; flex:1; min-height:32px; background:linear-gradient(to bottom,var(--blue),rgba(30,144,255,.1)); }
+    .tl-item:last-child .tl-line { display:none; }
+    .tl-card {
+      background:var(--white); border:1.5px solid var(--border);
+      border-radius:var(--r-sm); padding:10px 16px; margin-bottom:8px;
+      box-shadow:var(--sh-xs); white-space:nowrap;
+    }
+    .tl-yr { font-size:.7rem; font-weight:700; color:var(--blue); text-transform:uppercase; letter-spacing:.08em; }
+    .tl-desc { font-size:.8rem; color:var(--text-dark); font-weight:500; }
+
+    /* ══════════════════════════ MISSION/VISION ══════════════════════════ */
+    .mission { background:var(--white); }
+    .mv-head { text-align:center; margin-bottom:60px; }
+    .mv-grid { display:grid; grid-template-columns:1fr 1fr; gap:28px; }
+    .mv-card {
+      border-radius:var(--r-xl); padding:48px 44px;
+      position:relative; overflow:hidden;
+      transition:transform .25s,box-shadow .25s;
+    }
+    .mv-card:hover { transform:translateY(-4px); box-shadow:var(--sh-lg); }
+    .mv-mission { background:var(--navy); box-shadow:var(--sh-md); }
+    .mv-mission::before {
+      content:''; position:absolute; top:-60px; right:-60px;
+      width:200px; height:200px; background:rgba(30,144,255,.12); border-radius:50%;
+    }
+    .mv-vision { background:var(--blue-tint); border:2px solid rgba(30,144,255,.2); }
+    .mv-tag {
+      display:inline-flex; align-items:center; gap:7px;
+      font-size:.7rem; font-weight:700; letter-spacing:.12em; text-transform:uppercase;
+      padding:5px 12px; border-radius:50px; margin-bottom:22px;
+    }
+    .mv-mission .mv-tag { background:rgba(30,144,255,.2); color:var(--blue-400); }
+    .mv-vision .mv-tag { background:rgba(30,144,255,.1); color:var(--blue); }
+    .mv-icon { width:56px; height:56px; border-radius:14px; display:grid; place-items:center; margin-bottom:24px; }
+    .mv-mission .mv-icon { background:rgba(255,255,255,.1); }
+    .mv-vision .mv-icon { background:rgba(30,144,255,.15); }
+    .mv-icon svg { width:28px; height:28px; }
+    .mv-card h3 { font-family:var(--font-d); font-size:1.65rem; font-weight:800; margin-bottom:16px; letter-spacing:-.5px; }
+    .mv-mission h3 { color:var(--white); }
+    .mv-vision h3 { color:var(--navy); }
+    .mv-card p { font-size:.965rem; line-height:1.85; }
+    .mv-mission p { color:rgba(255,255,255,.7); }
+    .mv-vision p { color:var(--text-body); }
+
+    /* ══════════════════════════ VALUES ══════════════════════════ */
+    .values { background:var(--off-white); }
+    .val-head { text-align:center; margin-bottom:64px; }
+    .val-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:22px; }
+    .val-card {
+      background:var(--white); border:1.5px solid var(--border);
+      border-radius:var(--r-lg); padding:36px 28px;
+      position:relative; overflow:hidden;
+      transition:transform .22s,box-shadow .22s,border-color .22s;
+    }
+    .val-card:hover { transform:translateY(-5px); box-shadow:var(--sh-md); border-color:rgba(30,144,255,.3); }
+    .val-card::before {
+      content:''; position:absolute; top:0; left:0; right:0;
+      height:3px; background:linear-gradient(90deg,var(--navy),var(--blue));
+      opacity:0; transition:opacity .22s;
+    }
+    .val-card:hover::before { opacity:1; }
+    .val-ico {
+      width:52px; height:52px; background:var(--blue-tint);
+      border-radius:var(--r-md); display:grid; place-items:center;
+      margin-bottom:22px; transition:background .22s;
+    }
+    .val-card:hover .val-ico { background:var(--navy); }
+    .val-ico svg { width:26px; height:26px; }
+    .val-card:hover .val-ico svg * { stroke:white !important; }
+    .val-title { font-family:var(--font-d); font-size:1.05rem; font-weight:700; color:var(--navy); margin-bottom:10px; }
+    .val-desc { font-size:.875rem; color:var(--text-muted); line-height:1.75; }
+
+    /* ══════════════════════════ TEAM ══════════════════════════ */
+    .team { background:var(--white); }
+    .team-head { text-align:center; margin-bottom:64px; }
+    .team-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:26px; }
+    .team-card {
+      background:var(--white); border:1.5px solid var(--border);
+      border-radius:var(--r-lg); padding:32px 24px 28px;
+      text-align:center; position:relative; overflow:hidden;
+      transition:transform .24s,box-shadow .24s,border-color .24s;
+    }
+    .team-card:hover { transform:translateY(-6px); box-shadow:var(--sh-md); border-color:rgba(30,144,255,.25); }
+    .avatar {
+      width:88px; height:88px; border-radius:50%;
+      margin:0 auto 18px; display:flex; align-items:center; justify-content:center;
+      font-family:var(--font-d); font-size:1.6rem; font-weight:800; color:var(--white);
+      position:relative; flex-shrink:0;
+    }
+    .av-ring {
+      position:absolute; inset:-3px; border-radius:50%;
+      border:2px solid transparent;
+      background:linear-gradient(var(--white),var(--white)) padding-box,
+                 linear-gradient(135deg,var(--blue),var(--navy)) border-box;
+      transition:all .24s;
+    }
+    .team-card:hover .av-ring {
+      background:linear-gradient(var(--white),var(--white)) padding-box,
+                 linear-gradient(135deg,var(--navy),var(--blue)) border-box;
+    }
+    .av1 { background:linear-gradient(135deg,#0D1B2A,#234567); }
+    .av2 { background:linear-gradient(135deg,#1E3A6E,#1E90FF); }
+    .av3 { background:linear-gradient(135deg,#0F4C81,#4FACFF); }
+    .av4 { background:linear-gradient(135deg,#0D1B2A,#2A4A72); }
+    .t-name { font-family:var(--font-d); font-size:1.02rem; font-weight:700; color:var(--navy); margin-bottom:4px; }
+    .t-role { font-size:.775rem; font-weight:600; color:var(--blue); text-transform:uppercase; letter-spacing:.08em; margin-bottom:12px; }
+    .t-desc { font-size:.85rem; color:var(--text-muted); line-height:1.7; }
+    .t-socials {
+      display:flex; justify-content:center; gap:8px; margin-top:18px;
+      opacity:0; transform:translateY(8px); transition:opacity .22s,transform .22s;
+    }
+    .team-card:hover .t-socials { opacity:1; transform:translateY(0); }
+    .t-soc {
+      width:30px; height:30px; background:var(--off-white);
+      border:1.5px solid var(--border); border-radius:7px;
+      display:grid; place-items:center; transition:background .15s,border-color .15s;
+    }
+    .t-soc:hover { background:var(--blue-tint); border-color:rgba(30,144,255,.3); }
+    .t-soc svg { width:13px; height:13px; fill:var(--text-muted); }
+    .t-soc:hover svg { fill:var(--blue); }
+
+    /* ══════════════════════════ CTA ══════════════════════════ */
+    .cta-sec { background:var(--white); padding:100px 0; }
+    .cta-card {
+      background:var(--navy); border-radius:var(--r-xl);
+      padding:80px 64px; text-align:center;
+      position:relative; overflow:hidden; box-shadow:var(--sh-lg);
+    }
+    .cta-card::before {
+      content:''; position:absolute; top:-80px; left:50%; transform:translateX(-50%);
+      width:600px; height:300px;
+      background:radial-gradient(ellipse,rgba(30,144,255,.2) 0%,transparent 70%);
+      pointer-events:none;
+    }
+    .cta-ring {
+      position:absolute; border:1.5px solid rgba(30,144,255,.12);
+      border-radius:50%; pointer-events:none;
+    }
+    .cr1 { width:300px; height:300px; top:-100px; right:-60px; }
+    .cr2 { width:200px; height:200px; bottom:-60px; left:-40px; }
+    .cr3 { width:150px; height:150px; top:20px; left:10%; }
+    .cta-chip {
+      display:inline-flex; align-items:center; gap:7px;
+      background:rgba(30,144,255,.15); border:1px solid rgba(30,144,255,.3);
+      color:var(--blue-400); font-size:.72rem; font-weight:700;
+      letter-spacing:.1em; text-transform:uppercase;
+      padding:6px 14px; border-radius:50px; margin-bottom:28px;
+      position:relative; z-index:1;
+    }
+    .cta-h2 {
+      font-family:var(--font-d); font-size:clamp(2rem,4.5vw,3.4rem);
+      font-weight:800; color:var(--white); line-height:1.1;
+      letter-spacing:-1.2px; margin-bottom:20px; position:relative; z-index:1;
+    }
+    .cta-desc {
+      font-size:1.02rem; color:rgba(255,255,255,.6);
+      max-width:520px; margin:0 auto 44px; line-height:1.8;
+      position:relative; z-index:1;
+    }
+    .cta-btns { display:flex; justify-content:center; align-items:center; gap:16px; flex-wrap:wrap; position:relative; z-index:1; }
+    .btn-cta-main {
+      display:inline-flex; align-items:center; gap:10px;
+      background:var(--blue); color:var(--white);
+      font-family:var(--font-d); font-size:1rem; font-weight:700;
+      padding:16px 34px; border-radius:var(--r-md);
+      box-shadow:0 6px 28px rgba(30,144,255,.5);
+      transition:transform .2s,box-shadow .2s,background .2s;
+    }
+    .btn-cta-main:hover { transform:translateY(-3px); box-shadow:0 12px 40px rgba(30,144,255,.6); background:#1a82f0; }
+    .btn-cta-main svg { transition:transform .2s; }
+    .btn-cta-main:hover svg { transform:translateX(4px); }
+    .btn-cta-ghost {
+      display:inline-flex; align-items:center; gap:8px;
+      color:rgba(255,255,255,.7); font-size:.92rem; font-weight:500;
+      padding:16px 24px; border:1.5px solid rgba(255,255,255,.18);
+      border-radius:var(--r-md); transition:color .18s,border-color .18s,background .18s;
+    }
+    .btn-cta-ghost:hover { color:var(--white); border-color:rgba(255,255,255,.4); background:rgba(255,255,255,.06); }
+
+    /* ══════════════════════════ FOOTER ══════════════════════════ */
+    .ftr { background:var(--navy); }
+    .ftr-inner { max-width:1200px; margin:0 auto; padding:72px 32px 0; }
+    .ftr-grid {
+      display:grid; grid-template-columns:1.8fr 1fr 1fr 1fr;
+      gap:52px; padding-bottom:52px;
+      border-bottom:1px solid rgba(255,255,255,.07);
+    }
+    .ftr-brand-logo-word { color:var(--white); }
+    .ftr-brand-logo-word em { color:var(--blue-400); font-style:normal; }
+    .ftr-brand p { font-size:.87rem; color:rgba(255,255,255,.45); line-height:1.8; margin-top:16px; max-width:280px; }
+    .ftr-socials { display:flex; gap:9px; margin-top:22px; }
+    .fsoc {
+      width:36px; height:36px;
+      background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.1);
+      border-radius:9px; display:grid; place-items:center;
+      transition:background .15s,border-color .15s,transform .15s;
+    }
+    .fsoc:hover { background:rgba(30,144,255,.2); border-color:rgba(30,144,255,.4); transform:translateY(-2px); }
+    .fsoc svg { width:15px; height:15px; fill:rgba(255,255,255,.65); }
+    .fsoc:hover svg { fill:var(--blue-400); }
+    .ftr-col h5 { font-size:.72rem; font-weight:700; letter-spacing:.11em; text-transform:uppercase; color:var(--white); margin-bottom:20px; }
+    .ftr-col ul { list-style:none; }
+    .ftr-col li { margin-bottom:11px; }
+    .ftr-col a { font-size:.875rem; color:rgba(255,255,255,.48); transition:color .15s,padding-left .15s; display:inline-block; }
+    .ftr-col a:hover { color:rgba(255,255,255,.92); padding-left:4px; }
+    .ftr-col a.curr { color:var(--blue-400); font-weight:600; }
+    .ftr-bottom {
+      padding:26px 0; display:flex; justify-content:space-between; align-items:center;
+      gap:16px; flex-wrap:wrap;
+    }
+    .ftr-copy { font-size:.8rem; color:rgba(255,255,255,.28); }
+    .ftr-legal { display:flex; gap:22px; }
+    .ftr-legal a { font-size:.8rem; color:rgba(255,255,255,.32); transition:color .15s; }
+    .ftr-legal a:hover { color:rgba(255,255,255,.75); }
+
+    /* ══════════════════════════ REVEAL ══════════════════════════ */
+    .reveal { opacity:0; transform:translateY(32px); transition:opacity .65s cubic-bezier(.22,.68,0,1.2),transform .65s cubic-bezier(.22,.68,0,1.2); }
+    .reveal.in { opacity:1; transform:translateY(0); }
+    .d1 { transition-delay:.1s; }
+    .d2 { transition-delay:.2s; }
+    .d3 { transition-delay:.3s; }
+    .d4 { transition-delay:.4s; }
+
+    /* ══════════════════════════ RESPONSIVE ══════════════════════════ */
+    @media (max-width:1100px) {
+      .val-grid { grid-template-columns:repeat(2,1fr); }
+      .team-grid { grid-template-columns:repeat(2,1fr); }
+      .impact-grid { grid-template-columns:repeat(2,1fr); gap:32px; }
+      .ftr-grid { grid-template-columns:1fr 1fr; gap:36px; }
+    }
+    @media (max-width:860px) {
+      .hero-grid { grid-template-columns:1fr; gap:48px; text-align:center; }
+      .hero-desc,.hero-btns { max-width:100%; }
+      .hero-btns { justify-content:center; }
+      .hero-stats { justify-content:center; }
+      .hero-visual { display:none; }
+      .story-inner { grid-template-columns:1fr; gap:48px; }
+      .story-visual { order:-1; max-width:480px; margin:0 auto; }
+      .tl { display:none; }
+      .mv-grid { grid-template-columns:1fr; }
+      .cta-card { padding:52px 32px; }
+    }
+    @media (max-width:640px) {
+      .nav-links { display:none; flex-direction:column; }
+      .nav-links.open {
+        display:flex; position:absolute; top:var(--nav-h); left:0; right:0;
+        background:var(--white); border-bottom:1.5px solid var(--border);
+        padding:16px 24px; box-shadow:var(--sh-md); gap:4px;
+      }
+      .hamburger { display:flex; }
+      section { padding:72px 0; }
+      .hero { padding:60px 0 50px; }
+      .val-grid,.team-grid { grid-template-columns:1fr; }
+      .impact-grid { grid-template-columns:1fr 1fr; }
+      .ftr-grid { grid-template-columns:1fr; }
+      .ftr-bottom { flex-direction:column; align-items:flex-start; }
+      .container { padding:0 20px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ═══════════ HEADER ═══════════ -->
+<header class="hdr" id="hdr">
+  <div class="nav-inner">
+    <a href="#" class="logo">
+      <div class="logo-mark">
+        <svg viewBox="0 0 24 24" fill="none">
+          <path d="M12 2L2 7.5l10 5.5 10-5.5L12 2Z" fill="white" fill-opacity=".95"/>
+          <path d="M2 13.5l10 5.5 10-5.5" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M2 18.5l10 5.5 10-5.5" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" stroke-opacity=".4"/>
+        </svg>
+      </div>
+      <span class="logo-word">Campus<em>Connect</em></span>
+    </a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#">Home</a></li>
+      <li><a href="#">Market</a></li>
+      <li><a href="#">Groups</a></li>
+      <li><a href="#">Notes</a></li>
+      <li><a href="#" class="active">About</a></li>
+      <li><a href="#" class="btn-nav-cta">Contact</a></li>
+    </ul>
+    <button class="hamburger" id="ham" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<!-- ═══════════ HERO ═══════════ -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-orb orb1"></div>
+  <div class="hero-orb orb2"></div>
+  <div class="hero-vline"></div>
+  <div class="container">
+    <div class="hero-grid">
+      <!-- Text -->
+      <div class="hero-text">
+        <div class="hero-eyebrow"><span class="eyebrow-dot"></span>About Campus Connect</div>
+        <h1 class="hero-h1">Connecting Students.<br/><span class="hl">Empowering</span> Growth.</h1>
+        <p class="hero-desc">Campus Connect is the all-in-one student platform — trade textbooks, join study groups, share notes, and build real connections across your campus. Everything student life needs, in one place.</p>
+        <div class="hero-btns">
+          <a href="#" class="btn-primary">
+            Get Started Free
+            <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M3.5 9h11M9.5 4.5l5 4.5-5 4.5" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+          <a href="#story" class="btn-ghost">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6.5" stroke="rgba(255,255,255,.6)" stroke-width="1.4"/><path d="M8 5v3.5l2 2" stroke="rgba(255,255,255,.6)" stroke-width="1.4" stroke-linecap="round"/></svg>
+            Our Story
+          </a>
+        </div>
+        <div class="hero-stats">
+          <div><span class="stat-num">50<span class="c">K+</span></span><span class="stat-lbl">Students</span></div>
+          <div><span class="stat-num">120<span class="c">+</span></span><span class="stat-lbl">Campuses</span></div>
+          <div><span class="stat-num">98<span class="c" style="font-size:1.2rem">%</span></span><span class="stat-lbl">Satisfaction</span></div>
+        </div>
+      </div>
+      <!-- Visual -->
+      <div class="hero-visual">
+        <div class="hero-illus">
+          <svg viewBox="0 0 480 420" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="40" y="60" width="400" height="300" rx="24" fill="rgba(255,255,255,.04)" stroke="rgba(255,255,255,.08)" stroke-width="1.5"/>
+            <circle cx="240" cy="210" r="72" fill="rgba(30,144,255,.1)" stroke="rgba(30,144,255,.25)" stroke-width="1.5"/>
+            <circle cx="240" cy="210" r="50" fill="rgba(30,144,255,.12)" stroke="rgba(30,144,255,.3)" stroke-width="1"/>
+            <circle cx="240" cy="210" r="30" fill="rgba(30,144,255,.2)"/>
+            <path d="M240 192l-18 9 18 9 18-9-18-9Z" fill="white" fill-opacity=".9"/>
+            <path d="M222 210l18 9 18-9" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M222 218l18 9 18-9" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" stroke-opacity=".4"/>
+            <!-- spokes -->
+            <line x1="240" y1="140" x2="155" y2="105" stroke="rgba(30,144,255,.3)" stroke-width="1.5" stroke-dasharray="4 4"/>
+            <line x1="240" y1="140" x2="325" y2="105" stroke="rgba(30,144,255,.3)" stroke-width="1.5" stroke-dasharray="4 4"/>
+            <line x1="172" y1="215" x2="126" y2="232" stroke="rgba(30,144,255,.3)" stroke-width="1.5" stroke-dasharray="4 4"/>
+            <line x1="308" y1="215" x2="354" y2="232" stroke="rgba(30,144,255,.3)" stroke-width="1.5" stroke-dasharray="4 4"/>
+            <line x1="240" y1="282" x2="196" y2="328" stroke="rgba(30,144,255,.3)" stroke-width="1.5" stroke-dasharray="4 4"/>
+            <line x1="240" y1="282" x2="284" y2="328" stroke="rgba(30,144,255,.3)" stroke-width="1.5" stroke-dasharray="4 4"/>
+            <!-- nodes -->
+            <circle cx="240" cy="140" r="5" fill="#1E90FF" fill-opacity=".9"/>
+            <circle cx="172" cy="215" r="5" fill="#1E90FF" fill-opacity=".9"/>
+            <circle cx="308" cy="215" r="5" fill="#1E90FF" fill-opacity=".9"/>
+            <circle cx="240" cy="282" r="5" fill="#1E90FF" fill-opacity=".9"/>
+            <!-- node labels -->
+            <rect x="120" y="88" width="70" height="34" rx="8" fill="rgba(13,27,42,.6)" stroke="rgba(30,144,255,.45)" stroke-width="1.3"/>
+            <text x="155" y="110" text-anchor="middle" font-family="Syne,sans-serif" font-size="9" fill="rgba(255,255,255,.75)" font-weight="700">STUDENT</text>
+            <rect x="290" y="88" width="70" height="34" rx="8" fill="rgba(13,27,42,.6)" stroke="rgba(30,144,255,.45)" stroke-width="1.3"/>
+            <text x="325" y="110" text-anchor="middle" font-family="Syne,sans-serif" font-size="9" fill="rgba(255,255,255,.75)" font-weight="700">STUDENT</text>
+            <rect x="94" y="214" width="58" height="32" rx="8" fill="rgba(13,27,42,.6)" stroke="rgba(30,144,255,.45)" stroke-width="1.3"/>
+            <text x="123" y="234" text-anchor="middle" font-family="Syne,sans-serif" font-size="8.5" fill="rgba(255,255,255,.75)" font-weight="700">MARKET</text>
+            <rect x="328" y="214" width="58" height="32" rx="8" fill="rgba(13,27,42,.6)" stroke="rgba(30,144,255,.45)" stroke-width="1.3"/>
+            <text x="357" y="234" text-anchor="middle" font-family="Syne,sans-serif" font-size="8.5" fill="rgba(255,255,255,.75)" font-weight="700">GROUPS</text>
+            <rect x="165" y="316" width="52" height="32" rx="8" fill="rgba(13,27,42,.6)" stroke="rgba(30,144,255,.45)" stroke-width="1.3"/>
+            <text x="191" y="336" text-anchor="middle" font-family="Syne,sans-serif" font-size="8.5" fill="rgba(255,255,255,.75)" font-weight="700">NOTES</text>
+            <rect x="263" y="316" width="52" height="32" rx="8" fill="rgba(13,27,42,.6)" stroke="rgba(30,144,255,.45)" stroke-width="1.3"/>
+            <text x="289" y="336" text-anchor="middle" font-family="Syne,sans-serif" font-size="8.5" fill="rgba(255,255,255,.75)" font-weight="700">EVENTS</text>
+          </svg>
+          <!-- Floating cards -->
+          <div class="float-card fc1">
+            <div class="fc-ico"><svg viewBox="0 0 18 18" fill="none"><path d="M9 2L2 6l7 4 7-4L9 2Z" stroke="white" stroke-width="1.6" stroke-linecap="round"/><path d="M2 10l7 4 7-4" stroke="white" stroke-width="1.6" stroke-linecap="round"/></svg></div>
+            <div class="fc-body"><strong>50K+ Students</strong><span>Active this week</span></div>
+          </div>
+          <div class="float-card fc2">
+            <div class="fc-ico"><svg viewBox="0 0 18 18" fill="none"><rect x="2" y="3" width="14" height="12" rx="3" stroke="white" stroke-width="1.6"/><path d="M6 8h6M6 11h4" stroke="white" stroke-width="1.4" stroke-linecap="round"/></svg></div>
+            <div class="fc-body"><strong>12K Notes Shared</strong><span>This semester</span></div>
+          </div>
+          <div class="float-card fc3">
+            <div class="fc-ico"><svg viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="7" stroke="white" stroke-width="1.6"/><path d="M6 9l2 2 4-4" stroke="white" stroke-width="1.6" stroke-linecap="round"/></svg></div>
+            <div class="fc-body"><strong>Verified Platform</strong><span>Trusted by students</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <svg class="hero-wave" viewBox="0 0 1440 60" preserveAspectRatio="none" fill="none">
+    <path d="M0 60C360 20 720 0 1080 0C1260 0 1380 12 1440 24V60H0Z" fill="#F8FAFC"/>
+  </svg>
+</section>
+
+<!-- ═══════════ IMPACT BAR ═══════════ -->
+<div class="impact-bar">
+  <div class="container">
+    <div class="impact-grid">
+      <div class="reveal"><span class="impact-num">50<span class="plus">K+</span></span><span class="impact-lbl">Active Students</span></div>
+      <div class="reveal d1"><span class="impact-num">120<span class="plus">+</span></span><span class="impact-lbl">Partner Campuses</span></div>
+      <div class="reveal d2"><span class="impact-num">35<span class="plus">K+</span></span><span class="impact-lbl">Marketplace Listings</span></div>
+      <div class="reveal d3"><span class="impact-num">4.9<span class="plus">★</span></span><span class="impact-lbl">Average Rating</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ OUR STORY ═══════════ -->
+<section class="story" id="story">
+  <div class="container">
+    <div class="story-inner">
+      <div class="story-text reveal">
+        <div class="eyebrow-tag">Our Story</div>
+        <h2 class="sec-title">Born in a dorm room.<br/>Built for every student.</h2>
+        <p class="sec-sub" style="margin-bottom:32px;">The story of how frustration became a platform.</p>
+        <p>Campus Connect was born out of a simple frustration. In 2022, a group of university students were tired of hunting through scattered group chats to sell old textbooks, missing study group announcements buried in email threads, and having no central place to access shared notes. So they built one.</p>
+        <p>What started as a small internal tool for three friends quickly spread across their campus. Within weeks, hundreds of students were signing up. The problem was universal — every student on every campus was dealing with the same fragmented, inefficient campus life experience.</p>
+        <p><strong>Campus Connect solves this</strong> by bringing everything together: a peer marketplace for textbooks and supplies, organized study groups, collaborative note-sharing, and a vibrant community — all under one roof. No more chaos. Just seamless student life.</p>
+        <p>Today, we serve over <strong>50,000 students</strong> across <strong>120+ campuses</strong> — and we're just getting started. Every feature we build starts with the same question: <em>What do students actually need?</em></p>
+      </div>
+      <div class="story-visual reveal d2">
+        <!-- Timeline -->
+        <div class="tl">
+          <div class="tl-item">
+            <div class="tl-left"><div class="tl-dot on"></div><div class="tl-line"></div></div>
+            <div class="tl-card"><div class="tl-yr">2022</div><div class="tl-desc">Founded at State University</div></div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-left"><div class="tl-dot on"></div><div class="tl-line"></div></div>
+            <div class="tl-card"><div class="tl-yr">2023</div><div class="tl-desc">Reached 10,000 students</div></div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-left"><div class="tl-dot on"></div><div class="tl-line"></div></div>
+            <div class="tl-card"><div class="tl-yr">2024</div><div class="tl-desc">Expanded to 80+ campuses</div></div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-left"><div class="tl-dot"></div></div>
+            <div class="tl-card"><div class="tl-yr">2025</div><div class="tl-desc">50K+ students nationwide</div></div>
+          </div>
+        </div>
+        <div class="story-img">
+          <svg viewBox="0 0 360 440" fill="none" style="width:100%;height:100%;padding:36px;">
+            <circle cx="180" cy="220" r="150" fill="rgba(30,144,255,.06)" stroke="rgba(30,144,255,.12)" stroke-width="1"/>
+            <rect x="80" y="160" width="90" height="120" rx="8" fill="rgba(30,144,255,.18)" stroke="rgba(30,144,255,.4)" stroke-width="1.5"/>
+            <rect x="88" y="168" width="90" height="120" rx="8" fill="rgba(30,144,255,.12)" stroke="rgba(30,144,255,.3)" stroke-width="1.5"/>
+            <rect x="96" y="176" width="90" height="120" rx="8" fill="rgba(255,255,255,.07)" stroke="rgba(255,255,255,.18)" stroke-width="1.5"/>
+            <text x="141" y="240" text-anchor="middle" font-family="Syne,sans-serif" font-size="10.5" fill="rgba(255,255,255,.7)" font-weight="700">TEXTBOOKS</text>
+            <path d="M116 252h50" stroke="rgba(255,255,255,.3)" stroke-width="1.5" stroke-linecap="round"/>
+            <path d="M122 260h38" stroke="rgba(255,255,255,.2)" stroke-width="1.5" stroke-linecap="round"/>
+            <rect x="190" y="118" width="112" height="82" rx="12" fill="rgba(30,144,255,.22)" stroke="rgba(30,144,255,.5)" stroke-width="1.5"/>
+            <text x="246" y="147" text-anchor="middle" font-family="Syne,sans-serif" font-size="10" fill="rgba(255,255,255,.8)" font-weight="700">GROUPS</text>
+            <path d="M204 162h88M204 172h64" stroke="rgba(255,255,255,.4)" stroke-width="1.5" stroke-linecap="round"/>
+            <path d="M202 202l12-8" stroke="rgba(30,144,255,.5)" stroke-width="1.5" stroke-linecap="round"/>
+            <rect x="118" y="304" width="144" height="88" rx="12" fill="rgba(255,255,255,.07)" stroke="rgba(255,255,255,.18)" stroke-width="1.5"/>
+            <text x="190" y="328" text-anchor="middle" font-family="Syne,sans-serif" font-size="10" fill="rgba(255,255,255,.8)" font-weight="700">SHARED NOTES</text>
+            <path d="M136 344h108M136 354h84M136 364h96" stroke="rgba(255,255,255,.25)" stroke-width="1.4" stroke-linecap="round"/>
+            <path d="M308 96 l3 7 7 3-7 3-3 7-3-7-7-3 7-3Z" fill="rgba(30,144,255,.65)"/>
+            <path d="M56 278 l2 5 5 2-5 2-2 5-2-5-5-2 5-2Z" fill="rgba(30,144,255,.5)"/>
+            <path d="M320 298 l2 4 4 2-4 2-2 4-2-4-4-2 4-2Z" fill="rgba(255,255,255,.3)"/>
+            <circle cx="66" cy="158" r="5" fill="rgba(30,144,255,.4)"/>
+            <circle cx="330" cy="198" r="4" fill="rgba(255,255,255,.2)"/>
+            <rect x="138" y="58" width="84" height="36" rx="18" fill="rgba(30,144,255,.3)" stroke="rgba(30,144,255,.5)" stroke-width="1.5"/>
+            <text x="180" y="81" text-anchor="middle" font-family="Syne,sans-serif" font-size="12" fill="white" font-weight="700">Est. 2022</text>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ MISSION & VISION ═══════════ -->
+<section class="mission">
+  <div class="container">
+    <div class="mv-head reveal">
+      <div class="eyebrow-tag">What Drives Us</div>
+      <h2 class="sec-title">Mission &amp; Vision</h2>
+      <p class="sec-sub" style="margin:16px auto 0;text-align:center;">Every decision we make is grounded in our mission and guided by our vision for the future of student life.</p>
+    </div>
+    <div class="mv-grid">
+      <div class="mv-card mv-mission reveal">
+        <div class="mv-tag">
+          <svg width="10" height="10" viewBox="0 0 10 10" fill="currentColor"><circle cx="5" cy="5" r="5"/></svg>
+          Our Mission
+        </div>
+        <div class="mv-icon">
+          <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+            <circle cx="14" cy="14" r="10" stroke="rgba(30,144,255,.7)" stroke-width="1.8"/>
+            <circle cx="14" cy="14" r="5" stroke="rgba(30,144,255,.9)" stroke-width="1.8"/>
+            <circle cx="14" cy="14" r="2" fill="#1E90FF"/>
+            <path d="M14 2v4M14 22v4M2 14h4M22 14h4" stroke="rgba(30,144,255,.5)" stroke-width="1.6" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <h3>Empower Every Student</h3>
+        <p>To create an inclusive, safe, and empowering digital campus environment where every student — regardless of background — has equal access to academic resources, community connections, and peer-to-peer opportunities that make campus life richer and more successful.</p>
+      </div>
+      <div class="mv-card mv-vision reveal d2">
+        <div class="mv-tag">
+          <svg width="10" height="10" viewBox="0 0 10 10" fill="currentColor"><circle cx="5" cy="5" r="5"/></svg>
+          Our Vision
+        </div>
+        <div class="mv-icon">
+          <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+            <path d="M4 22L10 14l6 4 8-10" stroke="#1E90FF" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/>
+            <circle cx="22" cy="6" r="4" stroke="#0D1B2A" stroke-width="1.6" fill="rgba(30,144,255,.15)"/>
+          </svg>
+        </div>
+        <h3>The Future of Campus Life</h3>
+        <p>To become the world's most trusted student super-platform — a single destination where every aspect of academic and campus life is simplified, connected, and supercharged. We envision a future where no student feels isolated, uninformed, or unsupported.</p>
+        <p style="margin-top:14px;font-size:.88rem;">By 2030, we aim to serve <strong style="color:var(--navy)">1 million students</strong> across <strong style="color:var(--navy)">500+ universities</strong> globally, redefining what it means to belong to a campus community.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ CORE VALUES ═══════════ -->
+<section class="values">
+  <div class="container">
+    <div class="val-head reveal">
+      <div class="eyebrow-tag">What We Stand For</div>
+      <h2 class="sec-title">Our Core Values</h2>
+      <p class="sec-sub" style="margin:16px auto 0;text-align:center;">Four principles that guide every feature we build, every policy we write, and every decision we make.</p>
+    </div>
+    <div class="val-grid">
+      <div class="val-card reveal">
+        <div class="val-ico">
+          <svg width="26" height="26" viewBox="0 0 26 26" fill="none">
+            <circle cx="9" cy="9" r="4" stroke="#1E90FF" stroke-width="1.7"/>
+            <circle cx="19" cy="9" r="4" stroke="#1E90FF" stroke-width="1.7"/>
+            <path d="M3 22c0-4 2.7-7 6-7h8c3.3 0 6 3 6 7" stroke="#1E90FF" stroke-width="1.7" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div class="val-title">Community</div>
+        <p class="val-desc">We believe students thrive when they feel a genuine sense of belonging. Every feature we build strengthens bonds between students, creating a campus community that extends beyond physical boundaries.</p>
+      </div>
+      <div class="val-card reveal d1">
+        <div class="val-ico">
+          <svg width="26" height="26" viewBox="0 0 26 26" fill="none">
+            <path d="M13 3L5 10l8 2 8-2-8-7Z" stroke="#1E90FF" stroke-width="1.7" stroke-linejoin="round"/>
+            <path d="M5 10v8l8 5 8-5v-8" stroke="#1E90FF" stroke-width="1.7" stroke-linejoin="round"/>
+            <path d="M13 12v11" stroke="#1E90FF" stroke-width="1.7" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div class="val-title">Innovation</div>
+        <p class="val-desc">Student life is constantly evolving, and so are we. We continuously reinvent our platform with fresh ideas, cutting-edge technology, and student-first thinking to stay ahead of what campus life demands.</p>
+      </div>
+      <div class="val-card reveal d2">
+        <div class="val-ico">
+          <svg width="26" height="26" viewBox="0 0 26 26" fill="none">
+            <path d="M13 3l2.5 7h7.5l-6 4.5 2.5 7L13 17.5 7 21.5l2.5-7L3 10h7.5L13 3Z" stroke="#1E90FF" stroke-width="1.7" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <div class="val-title">Integrity</div>
+        <p class="val-desc">Trust is the cornerstone of any student community. We operate with complete transparency, enforce fair policies, and hold ourselves accountable to the same standards we expect from our users.</p>
+      </div>
+      <div class="val-card reveal d3">
+        <div class="val-ico">
+          <svg width="26" height="26" viewBox="0 0 26 26" fill="none">
+            <rect x="3" y="10" width="8" height="13" rx="2" stroke="#1E90FF" stroke-width="1.7"/>
+            <rect x="15" y="6" width="8" height="17" rx="2" stroke="#1E90FF" stroke-width="1.7"/>
+            <path d="M11 15h4M11 19h4" stroke="#1E90FF" stroke-width="1.7" stroke-linecap="round"/>
+            <circle cx="7" cy="6" r="3" stroke="#1E90FF" stroke-width="1.7"/>
+            <circle cx="19" cy="3" r="2" stroke="#1E90FF" stroke-width="1.7"/>
+          </svg>
+        </div>
+        <div class="val-title">Collaboration</div>
+        <p class="val-desc">Great things happen when students work together. We break down silos, bridge gaps between departments, and create tools that make peer collaboration — in study groups or the marketplace — effortless.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ TEAM ═══════════ -->
+<section class="team">
+  <div class="container">
+    <div class="team-head reveal">
+      <div class="eyebrow-tag">The People Behind It</div>
+      <h2 class="sec-title">Meet the Team</h2>
+      <p class="sec-sub" style="margin:16px auto 0;text-align:center;max-width:500px;">A passionate group of former students, educators, and technologists united by one goal — making campus life better for everyone.</p>
+    </div>
+    <div class="team-grid">
+
+      <div class="team-card reveal">
+        <div class="avatar av1"><div class="av-ring"></div>AO</div>
+        <div class="t-name">Alex Okonkwo</div>
+        <div class="t-role">Co-Founder &amp; CEO</div>
+        <p class="t-desc">Former CS grad who coded the first version of Campus Connect between lectures. Passionate about edtech and student wellbeing.</p>
+        <div class="t-socials">
+          <a href="#" class="t-soc"><svg viewBox="0 0 16 16"><path d="M13 2H10.5L8 5.5 5.5 2H2L6.5 8 2 14H4.5L8 10l3.5 4H14L9.5 8 13 2Z"/></svg></a>
+          <a href="#" class="t-soc"><svg viewBox="0 0 16 16"><rect x="2" y="2" width="12" height="12" rx="2.5" stroke-width="1.4" fill="none" stroke="currentColor"/><path d="M5 7.5v4M5 5.5v.5M8.5 11.5v-3c0-1.5 3-2 3 0v3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg></a>
+        </div>
+      </div>
+
+      <div class="team-card reveal d1">
+        <div class="avatar av2"><div class="av-ring"></div>SM</div>
+        <div class="t-name">Sofia Martinez</div>
+        <div class="t-role">Co-Founder &amp; CPO</div>
+        <p class="t-desc">UX researcher turned product visionary. Sofia designed the first Campus Connect interface based on 300+ student interviews.</p>
+        <div class="t-socials">
+          <a href="#" class="t-soc"><svg viewBox="0 0 16 16"><path d="M13 2H10.5L8 5.5 5.5 2H2L6.5 8 2 14H4.5L8 10l3.5 4H14L9.5 8 13 2Z"/></svg></a>
+          <a href="#" class="t-soc"><svg viewBox="0 0 16 16"><rect x="2" y="2" width="12" height="12" rx="2.5" stroke-width="1.4" fill="none" stroke="currentColor"/><path d="M5 7.5v4M5 5.5v.5M8.5 11.5v-3c0-1.5 3-2 3 0v3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg></a>
+        </div>
+      </div>
+
+      <div class="team-card reveal d2">
+        <div class="avatar av3"><div class="av-ring"></div>JP</div>
+        <div class="t-name">James Park</div>
+        <div class="t-role">Head of Engineering</div>
+        <p class="t-desc">Full-stack engineer with a knack for building systems that scale. James ensures Campus Connect stays fast and reliable for every student.</p>
+        <div class="t-socials">
+          <a href="#" class="t-soc"><svg viewBox="0 0 16 16"><path d="M13 2H10.5L8 5.5 5.5 2H2L6.5 8 2 14H4.5L8 10l3.5 4H14L9.5 8 13 2Z"/></svg></a>
+          <a href="#" class="t-soc"><svg viewBox="0 0 16 16"><rect x="2" y="2" width="12" height="12" rx="2.5" stroke-width="1.4" fill="none" stroke="currentColor"/><path d="M5 7.5v4M5 5.5v.5M8.5 11.5v-3c0-1.5 3-2 3 0v3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg></a>
+        </div>
+      </div>
+
+      <div class="team-card reveal d3">
+        <div class="avatar av4"><div class="av-ring"></div>LN</div>
+        <div class="t-name">Lena Nguyen</div>
+        <div class="t-role">Head of Community</div>
+        <p class="t-desc">Former student council president turned community builder. Lena ensures every voice on Campus Connect is heard and every student feels welcome.</p>
+        <div class="t-socials">
+          <a href="#" class="t-soc"><svg viewBox="0 0 16 16"><path d="M13 2H10.5L8 5.5 5.5 2H2L6.5 8 2 14H4.5L8 10l3.5 4H14L9.5 8 13 2Z"/></svg></a>
+          <a href="#" class="t-soc"><svg viewBox="0 0 16 16"><rect x="2" y="2" width="12" height="12" rx="2.5" stroke-width="1.4" fill="none" stroke="currentColor"/><path d="M5 7.5v4M5 5.5v.5M8.5 11.5v-3c0-1.5 3-2 3 0v3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg></a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ CTA ═══════════ -->
+<section class="cta-sec">
+  <div class="container">
+    <div class="cta-card reveal">
+      <div class="cta-ring cr1"></div>
+      <div class="cta-ring cr2"></div>
+      <div class="cta-ring cr3"></div>
+      <div class="cta-chip">
+        <svg width="10" height="10" viewBox="0 0 10 10" fill="#1E90FF"><circle cx="5" cy="5" r="5"/></svg>
+        Join Today — It's Free
+      </div>
+      <h2 class="cta-h2">Ready to Transform<br/>Your Campus Life?</h2>
+      <p class="cta-desc">Join over 50,000 students already using Campus Connect to buy, sell, collaborate, and grow. Your entire campus experience — reimagined.</p>
+      <div class="cta-btns">
+        <a href="#" class="btn-cta-main">
+          Get Started Free
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M3.5 9h11M9.5 4.5l5 4.5-5 4.5" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+        <a href="#" class="btn-cta-ghost">
+          Learn More
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4.5l4 3.5-4 3.5" stroke="rgba(255,255,255,.7)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ FOOTER ═══════════ -->
+<footer class="ftr">
+  <div class="ftr-inner">
+    <div class="ftr-grid">
+      <div class="ftr-brand">
+        <a href="#" class="logo">
+          <div class="logo-mark">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M12 2L2 7.5l10 5.5 10-5.5L12 2Z" fill="white" fill-opacity=".95"/><path d="M2 13.5l10 5.5 10-5.5" stroke="white" stroke-width="1.8" stroke-linecap="round"/><path d="M2 18.5l10 5.5 10-5.5" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-opacity=".4"/></svg>
+          </div>
+          <span class="logo-word ftr-brand-logo-word">Campus<em>Connect</em></span>
+        </a>
+        <p>The all-in-one platform for student life. Connecting students, empowering collaboration, and simplifying campus living — one campus at a time.</p>
+        <div class="ftr-socials">
+          <a href="#" class="fsoc" aria-label="Twitter"><svg viewBox="0 0 16 16"><path d="M13 2H10.5L8 5.5 5.5 2H2L6.5 8 2 14H4.5L8 10l3.5 4H14L9.5 8 13 2Z"/></svg></a>
+          <a href="#" class="fsoc" aria-label="Instagram"><svg viewBox="0 0 16 16"><rect x="2" y="2" width="12" height="12" rx="3" stroke-width="1.4" fill="none" stroke="rgba(255,255,255,.65)"/><circle cx="8" cy="8" r="2.5" stroke-width="1.3" fill="none" stroke="rgba(255,255,255,.65)"/><circle cx="11.5" cy="4.5" r=".8" fill="rgba(255,255,255,.65)"/></svg></a>
+          <a href="#" class="fsoc" aria-label="LinkedIn"><svg viewBox="0 0 16 16"><rect x="2" y="2" width="12" height="12" rx="2" stroke-width="1.4" fill="none" stroke="rgba(255,255,255,.65)"/><path d="M5 7.5v4M5 5.5v.5M8.5 11.5v-3c0-1.5 3-2 3 0v3" stroke="rgba(255,255,255,.65)" stroke-width="1.3" stroke-linecap="round"/></svg></a>
+          <a href="#" class="fsoc" aria-label="YouTube"><svg viewBox="0 0 16 16"><rect x="2" y="3" width="12" height="10" rx="2.5" stroke-width="1.4" fill="none" stroke="rgba(255,255,255,.65)"/><path d="M6.5 5.5l4 2.5-4 2.5V5.5Z" fill="rgba(255,255,255,.65)"/></svg></a>
+        </div>
+      </div>
+      <div class="ftr-col">
+        <h5>Platform</h5>
+        <ul>
+          <li><a href="#">Home</a></li>
+          <li><a href="#">Marketplace</a></li>
+          <li><a href="#">Study Groups</a></li>
+          <li><a href="#">Notes Sharing</a></li>
+          <li><a href="#">Events</a></li>
+        </ul>
+      </div>
+      <div class="ftr-col">
+        <h5>Company</h5>
+        <ul>
+          <li><a href="#" class="curr">About Us</a></li>
+          <li><a href="#">Our Story</a></li>
+          <li><a href="#">Careers</a></li>
+          <li><a href="#">Blog</a></li>
+          <li><a href="#">Press Kit</a></li>
+        </ul>
+      </div>
+      <div class="ftr-col">
+        <h5>Support</h5>
+        <ul>
+          <li><a href="#">Contact Us</a></li>
+          <li><a href="#">Help Center</a></li>
+          <li><a href="#">Privacy Policy</a></li>
+          <li><a href="#">Terms &amp; Conditions</a></li>
+          <li><a href="#">Accessibility</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="ftr-bottom">
+      <span class="ftr-copy">© 2025 Campus Connect, Inc. All rights reserved. Made with ♥ for students everywhere.</span>
+      <div class="ftr-legal">
+        <a href="#">Privacy</a>
+        <a href="#">Terms</a>
+        <a href="#">Cookies</a>
+        <a href="#">Sitemap</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  /* Mobile nav */
+  const ham = document.getElementById('ham');
+  const navLinks = document.getElementById('navLinks');
+  ham.addEventListener('click', () => {
+    navLinks.classList.toggle('open');
+    const s = ham.querySelectorAll('span');
+    if (navLinks.classList.contains('open')) {
+      s[0].style.transform = 'rotate(45deg) translate(5px,5px)';
+      s[1].style.opacity = '0';
+      s[2].style.transform = 'rotate(-45deg) translate(5px,-5px)';
+    } else {
+      s.forEach(x => { x.style.transform=''; x.style.opacity=''; });
+    }
+  });
+
+  /* Sticky header shadow */
+  const hdr = document.getElementById('hdr');
+  window.addEventListener('scroll', () => {
+    hdr.classList.toggle('scrolled', window.scrollY > 10);
+  }, { passive: true });
+
+  /* Scroll reveal */
+  const revEls = document.querySelectorAll('.reveal');
+  const revObs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add('in'); revObs.unobserve(e.target); }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+  revEls.forEach(el => revObs.observe(el));
+
+  /* Count-up for impact bar */
+  const countEls = document.querySelectorAll('.impact-num');
+  const countObs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (!e.isIntersecting) return;
+      const el = e.target;
+      const raw = el.textContent;
+      const match = raw.match(/[\d.]+/);
+      if (!match) return;
+      const target = parseFloat(match[0]);
+      const isFloat = raw.includes('.');
+      const suffix = raw.replace(/[\d.]+/, '');
+      let start = null;
+      const dur = 1800;
+      const step = (ts) => {
+        if (!start) start = ts;
+        const p = Math.min((ts - start) / dur, 1);
+        const ease = 1 - Math.pow(1 - p, 3);
+        el.textContent = (isFloat ? (ease * target).toFixed(1) : Math.floor(ease * target)) + suffix;
+        if (p < 1) requestAnimationFrame(step);
+      };
+      requestAnimationFrame(step);
+      countObs.unobserve(el);
+    });
+  }, { threshold: 0.5 });
+  countEls.forEach(el => countObs.observe(el));
+</script>
+</body>
+</html>

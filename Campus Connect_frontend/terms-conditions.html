@@ -1,0 +1,1625 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Terms & Conditions — Campus Connect</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,600;0,9..144,700;0,9..144,900;1,9..144,300&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ============================================
+       TOKENS & RESET
+    ============================================ */
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --navy:         #0D1B2A;
+      --navy-700:     #152336;
+      --navy-600:     #1C3050;
+      --navy-400:     #2A4A72;
+      --blue:         #1E90FF;
+      --blue-400:     #4FACFF;
+      --blue-tint:    #EBF5FF;
+      --blue-tint2:   #F0F8FF;
+      --amber:        #F59E0B;
+      --amber-tint:   #FFFBEB;
+      --green-tint:   #F0FDF4;
+      --green:        #16A34A;
+      --text-dark:    #0F172A;
+      --text-body:    #334155;
+      --text-muted:   #64748B;
+      --text-faint:   #94A3B8;
+      --border:       #E2E8F0;
+      --border-light: #F1F5F9;
+      --white:        #FFFFFF;
+      --bg:           #F8FAFC;
+      --shadow-xs:    0 1px 3px rgba(13,27,42,.06);
+      --shadow-sm:    0 2px 8px rgba(13,27,42,.08);
+      --shadow-md:    0 8px 28px rgba(13,27,42,.11);
+      --shadow-lg:    0 20px 60px rgba(13,27,42,.14);
+      --r-sm:         6px;
+      --r-md:         10px;
+      --r-lg:         16px;
+      --font-serif:   'Fraunces', Georgia, serif;
+      --font-sans:    'Instrument Sans', system-ui, sans-serif;
+      --nav-h:        68px;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      scroll-padding-top: calc(var(--nav-h) + 24px);
+    }
+
+    body {
+      font-family: var(--font-sans);
+      background: var(--bg);
+      color: var(--text-body);
+      font-size: 15.5px;
+      line-height: 1.85;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    /* ============================================
+       HEADER
+    ============================================ */
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 200;
+      height: var(--nav-h);
+      background: var(--white);
+      border-bottom: 1.5px solid var(--border);
+      box-shadow: var(--shadow-xs);
+    }
+
+    .nav-wrap {
+      max-width: 1240px;
+      margin: 0 auto;
+      padding: 0 32px;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+    }
+
+    /* Logo */
+    .logo { display: flex; align-items: center; gap: 11px; }
+
+    .logo-mark {
+      width: 40px; height: 40px;
+      background: var(--navy);
+      border-radius: 10px;
+      display: grid;
+      place-items: center;
+      flex-shrink: 0;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .logo-mark::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(30,144,255,.3) 0%, transparent 60%);
+    }
+
+    .logo-mark svg { width: 22px; height: 22px; position: relative; z-index: 1; }
+
+    .logo-wordmark {
+      font-family: var(--font-serif);
+      font-size: 1.22rem;
+      font-weight: 700;
+      color: var(--navy);
+      letter-spacing: -0.4px;
+    }
+
+    .logo-wordmark em {
+      font-style: normal;
+      color: var(--blue);
+    }
+
+    /* Nav links */
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 2px;
+      list-style: none;
+    }
+
+    .nav-links li a {
+      display: block;
+      padding: 7px 14px;
+      font-size: .875rem;
+      font-weight: 500;
+      color: var(--text-body);
+      border-radius: var(--r-sm);
+      transition: background .15s, color .15s;
+      letter-spacing: .01em;
+    }
+
+    .nav-links li a:hover {
+      background: var(--blue-tint);
+      color: var(--blue);
+    }
+
+    .nav-links li a.active {
+      color: var(--blue);
+      background: var(--blue-tint);
+    }
+
+    .btn-login {
+      background: var(--navy) !important;
+      color: var(--white) !important;
+      padding: 8px 20px !important;
+      border-radius: 8px !important;
+      font-weight: 600 !important;
+      transition: background .18s, transform .1s !important;
+    }
+
+    .btn-login:hover {
+      background: var(--navy-600) !important;
+      transform: translateY(-1px);
+    }
+
+    /* Hamburger */
+    .nav-toggle {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      border: none;
+      background: none;
+      cursor: pointer;
+      padding: 4px;
+    }
+
+    .nav-toggle span {
+      display: block;
+      width: 23px; height: 2px;
+      background: var(--navy);
+      border-radius: 2px;
+      transition: .3s;
+    }
+
+    /* ============================================
+       PAGE HERO
+    ============================================ */
+    .page-hero {
+      background: var(--navy);
+      position: relative;
+      padding: 80px 32px 96px;
+      overflow: hidden;
+    }
+
+    /* Geometric pattern */
+    .page-hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image:
+        radial-gradient(circle at 25% 50%, rgba(30,144,255,.15) 0%, transparent 55%),
+        radial-gradient(circle at 75% 20%, rgba(30,144,255,.08) 0%, transparent 40%);
+      pointer-events: none;
+    }
+
+    /* Grid lines */
+    .hero-grid {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      opacity: .04;
+      background-image:
+        linear-gradient(var(--white) 1px, transparent 1px),
+        linear-gradient(90deg, var(--white) 1px, transparent 1px);
+      background-size: 60px 60px;
+    }
+
+    /* Wave bottom */
+    .hero-wave {
+      position: absolute;
+      bottom: -1px; left: 0; right: 0;
+      height: 56px;
+    }
+
+    .hero-inner {
+      max-width: 900px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+      text-align: center;
+    }
+
+    .hero-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(30,144,255,.14);
+      border: 1px solid rgba(30,144,255,.3);
+      color: var(--blue-400);
+      font-size: .75rem;
+      font-weight: 600;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      padding: 6px 16px;
+      border-radius: 50px;
+      margin-bottom: 28px;
+    }
+
+    .hero-chip .dot {
+      width: 7px; height: 7px;
+      background: var(--blue);
+      border-radius: 50%;
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: .5; transform: scale(.85); }
+    }
+
+    .hero-title {
+      font-family: var(--font-serif);
+      font-size: clamp(2.6rem, 6vw, 4.2rem);
+      font-weight: 900;
+      color: var(--white);
+      line-height: 1.08;
+      letter-spacing: -1px;
+      margin-bottom: 20px;
+    }
+
+    .hero-title .amp {
+      font-style: italic;
+      color: rgba(255,255,255,.55);
+    }
+
+    .hero-meta {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+
+    .hero-meta-item {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      color: rgba(255,255,255,.55);
+      font-size: .85rem;
+    }
+
+    .hero-meta-item svg { opacity: .7; }
+
+    .hero-meta-item strong {
+      color: rgba(255,255,255,.85);
+      font-weight: 500;
+    }
+
+    /* ============================================
+       LAYOUT
+    ============================================ */
+    .layout {
+      max-width: 1240px;
+      margin: 0 auto;
+      padding: 56px 32px 96px;
+      display: grid;
+      grid-template-columns: 268px 1fr;
+      gap: 48px;
+      align-items: start;
+    }
+
+    /* ============================================
+       SIDEBAR
+    ============================================ */
+    .sidebar { position: sticky; top: calc(var(--nav-h) + 20px); }
+
+    .toc-panel {
+      background: var(--white);
+      border: 1.5px solid var(--border);
+      border-radius: var(--r-lg);
+      box-shadow: var(--shadow-sm);
+      overflow: hidden;
+    }
+
+    .toc-header {
+      padding: 18px 22px 16px;
+      border-bottom: 1.5px solid var(--border-light);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .toc-header-icon {
+      width: 30px; height: 30px;
+      background: var(--navy);
+      border-radius: 7px;
+      display: grid;
+      place-items: center;
+    }
+
+    .toc-header-icon svg { width: 14px; height: 14px; }
+
+    .toc-header h3 {
+      font-family: var(--font-serif);
+      font-size: .92rem;
+      font-weight: 700;
+      color: var(--navy);
+    }
+
+    .toc-list { padding: 10px 0 14px; }
+
+    .toc-item {
+      display: flex;
+      align-items: center;
+      gap: 0;
+      position: relative;
+    }
+
+    .toc-item a {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      width: 100%;
+      padding: 8px 22px;
+      font-size: .825rem;
+      font-weight: 500;
+      color: var(--text-muted);
+      transition: background .14s, color .14s;
+      border-left: 3px solid transparent;
+      line-height: 1.4;
+    }
+
+    .toc-item a:hover {
+      background: var(--blue-tint2);
+      color: var(--navy);
+      border-left-color: rgba(30,144,255,.35);
+    }
+
+    .toc-item a.active {
+      background: var(--blue-tint);
+      color: var(--blue);
+      border-left-color: var(--blue);
+      font-weight: 600;
+    }
+
+    .toc-num {
+      min-width: 22px; height: 22px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 5px;
+      font-size: .7rem;
+      font-weight: 700;
+      background: var(--border-light);
+      color: var(--text-muted);
+      transition: background .14s, color .14s;
+      flex-shrink: 0;
+    }
+
+    .toc-item a.active .toc-num {
+      background: var(--blue);
+      color: var(--white);
+    }
+
+    .toc-divider {
+      height: 1px;
+      background: var(--border-light);
+      margin: 6px 22px;
+    }
+
+    /* Version badge in sidebar */
+    .toc-footer {
+      padding: 14px 22px;
+      border-top: 1.5px solid var(--border-light);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .toc-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      background: var(--green-tint);
+      color: var(--green);
+      font-size: .72rem;
+      font-weight: 600;
+      padding: 4px 10px;
+      border-radius: 50px;
+      border: 1px solid rgba(22,163,74,.2);
+    }
+
+    .toc-badge::before {
+      content: '';
+      width: 6px; height: 6px;
+      background: var(--green);
+      border-radius: 50%;
+    }
+
+    /* ============================================
+       MAIN CONTENT
+    ============================================ */
+    .main { min-width: 0; }
+
+    /* Alert banner */
+    .read-notice {
+      background: linear-gradient(135deg, var(--blue-tint) 0%, #F0F9FF 100%);
+      border: 1.5px solid rgba(30,144,255,.22);
+      border-radius: var(--r-md);
+      padding: 18px 22px;
+      display: flex;
+      gap: 14px;
+      align-items: flex-start;
+      margin-bottom: 36px;
+    }
+
+    .notice-icon {
+      width: 36px; height: 36px;
+      background: var(--blue);
+      border-radius: 8px;
+      display: grid;
+      place-items: center;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    .notice-icon svg { width: 18px; height: 18px; }
+
+    .notice-text p {
+      font-size: .875rem;
+      color: var(--text-body);
+      line-height: 1.65;
+    }
+
+    .notice-text strong { color: var(--navy); font-weight: 600; }
+
+    /* Quick TOC */
+    .quick-toc {
+      background: var(--white);
+      border: 1.5px solid var(--border);
+      border-radius: var(--r-md);
+      padding: 24px 28px;
+      margin-bottom: 36px;
+      box-shadow: var(--shadow-xs);
+    }
+
+    .quick-toc-title {
+      font-family: var(--font-serif);
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 9px;
+    }
+
+    .qtoc-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3px 32px;
+    }
+
+    .qtoc-grid a {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: .845rem;
+      color: var(--text-muted);
+      padding: 5px 0;
+      border-bottom: 1px solid transparent;
+      transition: color .14s;
+      font-weight: 500;
+    }
+
+    .qtoc-grid a:hover { color: var(--blue); }
+
+    .qtoc-grid a .n {
+      font-size: .7rem;
+      font-weight: 700;
+      color: var(--blue);
+      min-width: 18px;
+    }
+
+    /* ── SECTION CARDS ── */
+    .section-card {
+      background: var(--white);
+      border: 1.5px solid var(--border);
+      border-radius: var(--r-lg);
+      box-shadow: var(--shadow-xs);
+      overflow: hidden;
+      margin-bottom: 20px;
+      transition: box-shadow .2s, border-color .2s;
+      scroll-margin-top: calc(var(--nav-h) + 28px);
+    }
+
+    .section-card:hover {
+      box-shadow: var(--shadow-md);
+      border-color: rgba(30,144,255,.2);
+    }
+
+    .section-card-head {
+      display: flex;
+      align-items: flex-start;
+      gap: 18px;
+      padding: 28px 32px 24px;
+      border-bottom: 1.5px solid var(--border-light);
+    }
+
+    .section-badge {
+      width: 42px; height: 42px;
+      background: var(--navy);
+      color: var(--white);
+      border-radius: 10px;
+      display: grid;
+      place-items: center;
+      font-family: var(--font-serif);
+      font-size: .95rem;
+      font-weight: 700;
+      flex-shrink: 0;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .section-badge::after {
+      content: '';
+      position: absolute;
+      top: -8px; left: -8px;
+      width: 20px; height: 20px;
+      background: rgba(30,144,255,.25);
+      border-radius: 50%;
+    }
+
+    .section-badge span { position: relative; z-index: 1; }
+
+    .section-head-text { flex: 1; min-width: 0; }
+
+    .section-head-text h2 {
+      font-family: var(--font-serif);
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--navy);
+      line-height: 1.3;
+      letter-spacing: -.2px;
+    }
+
+    .section-head-text .section-tagline {
+      font-size: .8rem;
+      color: var(--text-faint);
+      margin-top: 3px;
+      font-style: italic;
+    }
+
+    .section-body { padding: 26px 32px 30px; }
+
+    .section-body p {
+      color: var(--text-body);
+      font-size: .935rem;
+      margin-bottom: 14px;
+    }
+
+    .section-body p:last-child { margin-bottom: 0; }
+
+    .section-body strong { color: var(--text-dark); font-weight: 600; }
+
+    .section-body h4 {
+      font-family: var(--font-serif);
+      font-size: .95rem;
+      font-weight: 700;
+      color: var(--navy);
+      margin: 20px 0 10px;
+    }
+
+    .section-body ul,
+    .section-body ol {
+      padding-left: 22px;
+      margin-bottom: 16px;
+    }
+
+    .section-body li {
+      font-size: .925rem;
+      color: var(--text-body);
+      margin-bottom: 8px;
+      line-height: 1.75;
+      padding-left: 4px;
+    }
+
+    .section-body ul li::marker { color: var(--blue); font-size: .7em; }
+    .section-body ol li::marker { color: var(--navy); font-weight: 700; }
+
+    /* Inset boxes */
+    .callout {
+      display: flex;
+      gap: 13px;
+      padding: 15px 18px;
+      border-radius: var(--r-sm);
+      margin: 18px 0;
+      font-size: .88rem;
+      line-height: 1.65;
+    }
+
+    .callout-icon { flex-shrink: 0; margin-top: 1px; font-size: 1.1rem; }
+
+    .callout.info {
+      background: var(--blue-tint);
+      border-left: 3.5px solid var(--blue);
+      color: #1e3a5f;
+    }
+
+    .callout.warning {
+      background: var(--amber-tint);
+      border-left: 3.5px solid var(--amber);
+      color: #78350f;
+    }
+
+    .callout.success {
+      background: var(--green-tint);
+      border-left: 3.5px solid var(--green);
+      color: #14532d;
+    }
+
+    /* Contact grid */
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-top: 20px;
+    }
+
+    .contact-card {
+      background: var(--bg);
+      border: 1.5px solid var(--border);
+      border-radius: var(--r-md);
+      padding: 16px 20px;
+      transition: border-color .15s, box-shadow .15s;
+    }
+
+    .contact-card:hover {
+      border-color: rgba(30,144,255,.35);
+      box-shadow: 0 2px 12px rgba(30,144,255,.09);
+    }
+
+    .cc-label {
+      font-size: .7rem;
+      font-weight: 700;
+      letter-spacing: .09em;
+      text-transform: uppercase;
+      color: var(--text-faint);
+      margin-bottom: 6px;
+    }
+
+    .cc-value {
+      font-size: .88rem;
+      color: var(--blue);
+      font-weight: 600;
+    }
+
+    .cc-sub {
+      font-size: .77rem;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    /* Prohibition tag list */
+    .tag-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 14px 0;
+    }
+
+    .tag-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background: #FFF1F2;
+      border: 1px solid #FECDD3;
+      color: #9F1239;
+      font-size: .77rem;
+      font-weight: 600;
+      padding: 5px 11px;
+      border-radius: 50px;
+    }
+
+    .tag-item::before { content: '✕'; font-size: .65rem; }
+
+    /* ============================================
+       BACK TO TOP
+    ============================================ */
+    #btt {
+      position: fixed;
+      bottom: 36px;
+      right: 36px;
+      width: 48px; height: 48px;
+      background: var(--navy);
+      color: var(--white);
+      border: none;
+      border-radius: var(--r-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 4px 20px rgba(13,27,42,.28);
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(14px);
+      transition: opacity .3s, transform .3s, background .18s;
+      z-index: 150;
+    }
+
+    #btt.show { opacity: 1; pointer-events: auto; transform: translateY(0); }
+    #btt:hover { background: var(--blue); }
+
+    #btt svg { width: 20px; height: 20px; }
+
+    /* ============================================
+       FOOTER
+    ============================================ */
+    .site-footer {
+      background: var(--navy);
+      color: rgba(255,255,255,.6);
+    }
+
+    .footer-wrap {
+      max-width: 1240px;
+      margin: 0 auto;
+      padding: 64px 32px 40px;
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 1.6fr 1fr 1fr 1fr;
+      gap: 48px;
+      padding-bottom: 48px;
+      border-bottom: 1px solid rgba(255,255,255,.08);
+    }
+
+    .footer-brand-col .logo-wordmark { color: var(--white); font-size: 1.15rem; }
+    .footer-brand-col .logo-wordmark em { color: var(--blue-400); }
+
+    .footer-brand-col p {
+      font-size: .855rem;
+      line-height: 1.75;
+      margin-top: 14px;
+      color: rgba(255,255,255,.45);
+    }
+
+    .footer-socials {
+      display: flex;
+      gap: 8px;
+      margin-top: 18px;
+    }
+
+    .social-btn {
+      width: 34px; height: 34px;
+      background: rgba(255,255,255,.07);
+      border: 1px solid rgba(255,255,255,.1);
+      border-radius: 8px;
+      display: grid;
+      place-items: center;
+      transition: background .15s, border-color .15s;
+    }
+
+    .social-btn:hover {
+      background: rgba(30,144,255,.25);
+      border-color: rgba(30,144,255,.4);
+    }
+
+    .social-btn svg { width: 15px; height: 15px; fill: rgba(255,255,255,.7); }
+
+    .footer-col h5 {
+      font-size: .73rem;
+      font-weight: 700;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--white);
+      margin-bottom: 18px;
+    }
+
+    .footer-col ul { list-style: none; }
+
+    .footer-col li { margin-bottom: 10px; }
+
+    .footer-col a {
+      font-size: .87rem;
+      color: rgba(255,255,255,.5);
+      transition: color .14s;
+    }
+
+    .footer-col a:hover { color: rgba(255,255,255,.95); }
+
+    .footer-col a.current-page {
+      color: var(--blue-400);
+      font-weight: 600;
+    }
+
+    .footer-bottom {
+      padding-top: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .footer-copy {
+      font-size: .8rem;
+      color: rgba(255,255,255,.3);
+    }
+
+    .footer-legal {
+      display: flex;
+      gap: 20px;
+    }
+
+    .footer-legal a {
+      font-size: .8rem;
+      color: rgba(255,255,255,.35);
+      transition: color .14s;
+    }
+
+    .footer-legal a:hover { color: rgba(255,255,255,.75); }
+
+    /* ============================================
+       RESPONSIVE
+    ============================================ */
+    @media (max-width: 1000px) {
+      .layout {
+        grid-template-columns: 1fr;
+        gap: 28px;
+        padding: 40px 24px 72px;
+      }
+
+      .sidebar { position: static; }
+
+      .toc-list {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+        padding: 14px;
+      }
+
+      .toc-item { width: auto; }
+
+      .toc-item a {
+        border: 1.5px solid var(--border);
+        border-radius: 50px;
+        padding: 5px 12px;
+        gap: 6px;
+        border-left: 1.5px solid var(--border);
+      }
+
+      .toc-item a.active {
+        border-color: var(--blue);
+        background: var(--blue-tint);
+        border-left-color: var(--blue);
+      }
+
+      .toc-divider { display: none; }
+
+      .footer-grid { grid-template-columns: 1fr 1fr; gap: 32px; }
+    }
+
+    @media (max-width: 680px) {
+      .nav-links { display: none; flex-direction: column; }
+      .nav-links.open {
+        display: flex;
+        position: absolute;
+        top: var(--nav-h);
+        left: 0; right: 0;
+        background: var(--white);
+        border-bottom: 1.5px solid var(--border);
+        padding: 16px 20px;
+        box-shadow: var(--shadow-md);
+        gap: 4px;
+      }
+      .nav-toggle { display: flex; }
+      .page-hero { padding: 52px 20px 72px; }
+      .section-card-head, .section-body { padding: 20px; }
+      .quick-toc { display: none; }
+      .qtoc-grid { grid-template-columns: 1fr; }
+      .contact-grid { grid-template-columns: 1fr; }
+      .footer-grid { grid-template-columns: 1fr; gap: 24px; }
+      .footer-socials { display: none; }
+      .footer-bottom { flex-direction: column; align-items: flex-start; }
+      #btt { bottom: 20px; right: 20px; }
+    }
+
+    /* ============================================
+       ENTRANCE ANIMATIONS
+    ============================================ */
+    @keyframes rise {
+      from { opacity: 0; transform: translateY(22px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .section-card {
+      animation: rise .5s cubic-bezier(.22,.68,0,1.2) both;
+    }
+
+    .section-card:nth-child(1)  { animation-delay: .04s; }
+    .section-card:nth-child(2)  { animation-delay: .08s; }
+    .section-card:nth-child(3)  { animation-delay: .12s; }
+    .section-card:nth-child(4)  { animation-delay: .16s; }
+    .section-card:nth-child(5)  { animation-delay: .20s; }
+    .section-card:nth-child(6)  { animation-delay: .24s; }
+    .section-card:nth-child(7)  { animation-delay: .28s; }
+    .section-card:nth-child(8)  { animation-delay: .32s; }
+    .section-card:nth-child(9)  { animation-delay: .36s; }
+    .section-card:nth-child(10) { animation-delay: .40s; }
+    .section-card:nth-child(11) { animation-delay: .44s; }
+
+    .read-notice, .quick-toc {
+      animation: rise .45s cubic-bezier(.22,.68,0,1.2) .02s both;
+    }
+  </style>
+</head>
+<body>
+
+<!-- ========================================
+     HEADER
+======================================== -->
+<header class="site-header">
+  <div class="nav-wrap">
+
+    <a href="#" class="logo">
+      <div class="logo-mark">
+        <svg viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M11 2L1.5 7.5l9.5 5 9.5-5L11 2Z" fill="white" fill-opacity=".95"/>
+          <path d="M1.5 12.5l9.5 5 9.5-5" stroke="white" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M1.5 17l9.5 5 9.5-5" stroke="white" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" stroke-opacity=".45"/>
+        </svg>
+      </div>
+      <span class="logo-wordmark">Campus<em>Connect</em></span>
+    </a>
+
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#">Home</a></li>
+      <li><a href="#">Market</a></li>
+      <li><a href="#">Groups</a></li>
+      <li><a href="#">Notes</a></li>
+      <li><a href="#" class="btn-login">Login</a></li>
+    </ul>
+
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation">
+      <span></span><span></span><span></span>
+    </button>
+
+  </div>
+</header>
+
+
+<!-- ========================================
+     HERO
+======================================== -->
+<section class="page-hero">
+  <div class="hero-grid"></div>
+
+  <div class="hero-inner">
+    <div class="hero-chip">
+      <span class="dot"></span>
+      Legal Agreement
+    </div>
+
+    <h1 class="hero-title">
+      Terms <span class="amp">&amp;</span> Conditions
+    </h1>
+
+    <div class="hero-meta">
+      <div class="hero-meta-item">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><rect x="1" y="2" width="12" height="11" rx="2" stroke="white" stroke-width="1.3"/><path d="M1 5.5h12" stroke="white" stroke-width="1.3"/><path d="M4.5 1v2M9.5 1v2" stroke="white" stroke-width="1.3" stroke-linecap="round"/></svg>
+        <span>Effective: <strong>January 1, 2025</strong></span>
+      </div>
+      <div class="hero-meta-item">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="5.5" stroke="white" stroke-width="1.3"/><path d="M7 4.5v3l1.5 1.5" stroke="white" stroke-width="1.3" stroke-linecap="round"/></svg>
+        <span>Last Updated: <strong>June 15, 2025</strong></span>
+      </div>
+      <div class="hero-meta-item">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 1.5C5 1.5 3 3 3 5.5c0 3.5 4 7 4 7s4-3.5 4-7c0-2.5-2-4-4-4Z" stroke="white" stroke-width="1.3"/><circle cx="7" cy="5.5" r="1.2" stroke="white" stroke-width="1.2"/></svg>
+        <span>Version: <strong>v3.1</strong></span>
+      </div>
+    </div>
+  </div>
+
+  <svg class="hero-wave" viewBox="0 0 1440 56" preserveAspectRatio="none" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0 56C240 18 480 0 720 0C960 0 1200 18 1440 56H0Z" fill="#F8FAFC"/>
+  </svg>
+</section>
+
+
+<!-- ========================================
+     MAIN LAYOUT
+======================================== -->
+<div class="layout">
+
+  <!-- ── SIDEBAR ── -->
+  <aside class="sidebar">
+    <div class="toc-panel">
+
+      <div class="toc-header">
+        <div class="toc-header-icon">
+          <svg viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="1.5" y="2" width="11" height="1.5" rx=".75" fill="white"/>
+            <rect x="1.5" y="6.25" width="8" height="1.5" rx=".75" fill="white"/>
+            <rect x="1.5" y="10.5" width="9.5" height="1.5" rx=".75" fill="white"/>
+          </svg>
+        </div>
+        <h3>Contents</h3>
+      </div>
+
+      <nav class="toc-list" id="tocList">
+        <div class="toc-item"><a href="#s1" class="active"><span class="toc-num">1</span>Introduction</a></div>
+        <div class="toc-item"><a href="#s2"><span class="toc-num">2</span>User Accounts</a></div>
+        <div class="toc-divider"></div>
+        <div class="toc-item"><a href="#s3"><span class="toc-num">3</span>Marketplace Rules</a></div>
+        <div class="toc-item"><a href="#s4"><span class="toc-num">4</span>Community Guidelines</a></div>
+        <div class="toc-divider"></div>
+        <div class="toc-item"><a href="#s5"><span class="toc-num">5</span>Payments &amp; Transactions</a></div>
+        <div class="toc-item"><a href="#s6"><span class="toc-num">6</span>Intellectual Property</a></div>
+        <div class="toc-divider"></div>
+        <div class="toc-item"><a href="#s7"><span class="toc-num">7</span>Prohibited Activities</a></div>
+        <div class="toc-item"><a href="#s8"><span class="toc-num">8</span>Limitation of Liability</a></div>
+        <div class="toc-divider"></div>
+        <div class="toc-item"><a href="#s9"><span class="toc-num">9</span>Termination</a></div>
+        <div class="toc-item"><a href="#s10"><span class="toc-num">10</span>Changes to Terms</a></div>
+        <div class="toc-divider"></div>
+        <div class="toc-item"><a href="#s11"><span class="toc-num">11</span>Contact Information</a></div>
+      </nav>
+
+      <div class="toc-footer">
+        <span class="toc-badge">Current Version</span>
+      </div>
+
+    </div>
+  </aside>
+
+  <!-- ── MAIN ── -->
+  <main class="main">
+
+    <!-- Read notice -->
+    <div class="read-notice">
+      <div class="notice-icon">
+        <svg viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="9" cy="9" r="7" stroke="white" stroke-width="1.6"/>
+          <path d="M9 8v5" stroke="white" stroke-width="1.8" stroke-linecap="round"/>
+          <circle cx="9" cy="5.5" r="1" fill="white"/>
+        </svg>
+      </div>
+      <div class="notice-text">
+        <p><strong>Please read these terms carefully.</strong> By accessing or using Campus Connect, you confirm that you have read, understood, and agree to be bound by these Terms &amp; Conditions and our <a href="#" style="color:var(--blue);text-decoration:underline;">Privacy Policy</a>. If you disagree, please discontinue use immediately.</p>
+      </div>
+    </div>
+
+    <!-- Quick TOC -->
+    <div class="quick-toc">
+      <div class="quick-toc-title">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M2 4h12M2 8h8M2 12h10" stroke="#0D1B2A" stroke-width="1.6" stroke-linecap="round"/></svg>
+        Quick Navigation
+      </div>
+      <div class="qtoc-grid">
+        <a href="#s1"><span class="n">01.</span> Introduction</a>
+        <a href="#s7"><span class="n">07.</span> Prohibited Activities</a>
+        <a href="#s2"><span class="n">02.</span> User Accounts</a>
+        <a href="#s8"><span class="n">08.</span> Limitation of Liability</a>
+        <a href="#s3"><span class="n">03.</span> Marketplace Rules</a>
+        <a href="#s9"><span class="n">09.</span> Termination</a>
+        <a href="#s4"><span class="n">04.</span> Community Guidelines</a>
+        <a href="#s10"><span class="n">10.</span> Changes to Terms</a>
+        <a href="#s5"><span class="n">05.</span> Payments &amp; Transactions</a>
+        <a href="#s11"><span class="n">11.</span> Contact Information</a>
+        <a href="#s6"><span class="n">06.</span> Intellectual Property</a>
+      </div>
+    </div>
+
+    <!-- ─────────────────────────
+         SECTION 1 – Introduction
+    ───────────────────────────── -->
+    <article class="section-card" id="s1">
+      <div class="section-card-head">
+        <div class="section-badge"><span>01</span></div>
+        <div class="section-head-text">
+          <h2>Introduction</h2>
+          <p class="section-tagline">Who we are and what this agreement covers</p>
+        </div>
+      </div>
+      <div class="section-body">
+        <p>Welcome to <strong>Campus Connect</strong> — a digital platform designed exclusively for students, educators, and campus communities to connect, collaborate, trade, and share academic resources. By accessing our website, mobile application, or any related service, you enter into a binding legal agreement with us.</p>
+        <p>These Terms &amp; Conditions govern the relationship between you (<strong>"User"</strong>, <strong>"you"</strong>) and <strong>Campus Connect, Inc.</strong> (<strong>"we"</strong>, <strong>"us"</strong>, <strong>"the Platform"</strong>). They apply to all visitors, registered users, buyers, sellers, group members, and anyone who accesses or uses any part of our services.</p>
+        <div class="callout info">
+          <span class="callout-icon">📋</span>
+          <div>By creating an account or continuing to use Campus Connect in any capacity, you acknowledge that you have read, understood, and agree to be bound by these Terms, our Privacy Policy, and any additional guidelines or policies we publish. If you do not agree, you must discontinue use immediately.</div>
+        </div>
+        <p>These Terms are governed by applicable law and represent the complete agreement between you and Campus Connect with respect to your use of the platform, superseding any prior agreements.</p>
+      </div>
+    </article>
+
+    <!-- ─────────────────────────
+         SECTION 2 – User Accounts
+    ───────────────────────────── -->
+    <article class="section-card" id="s2">
+      <div class="section-card-head">
+        <div class="section-badge"><span>02</span></div>
+        <div class="section-head-text">
+          <h2>User Accounts</h2>
+          <p class="section-tagline">Registration, eligibility, and account responsibilities</p>
+        </div>
+      </div>
+      <div class="section-body">
+        <p>To access most features of Campus Connect, you must register and maintain an active user account. When creating your account, you agree to:</p>
+        <ul>
+          <li>Provide <strong>accurate, complete, and current</strong> registration information at all times.</li>
+          <li>Use a valid email address that you own and have full access to.</li>
+          <li>Maintain the confidentiality and security of your password — never share login credentials with others.</li>
+          <li>Notify us <strong>immediately</strong> at security@campusconnect.edu upon discovering any unauthorized use of your account.</li>
+          <li>Be solely and fully responsible for all activity that occurs under your account, authorized or not.</li>
+        </ul>
+
+        <h4>Eligibility</h4>
+        <p>Campus Connect is intended for individuals aged <strong>16 and older</strong>. By creating an account, you confirm you meet this requirement. Users aged 16–17 must have verifiable parental or guardian consent where required by applicable local law.</p>
+
+        <h4>Account Verification</h4>
+        <p>We may require verification of your student or faculty status via your institutional email or valid identification. Accounts using fraudulent information are subject to immediate and permanent suspension without notice.</p>
+
+        <div class="callout warning">
+          <span class="callout-icon">⚠️</span>
+          <div><strong>One Account Policy:</strong> Each individual may maintain only one active account. Creating multiple accounts to circumvent suspensions, bans, or platform restrictions is a serious violation and may result in permanent removal from the platform.</div>
+        </div>
+      </div>
+    </article>
+
+    <!-- ─────────────────────────
+         SECTION 3 – Marketplace
+    ───────────────────────────── -->
+    <article class="section-card" id="s3">
+      <div class="section-card-head">
+        <div class="section-badge"><span>03</span></div>
+        <div class="section-head-text">
+          <h2>Marketplace Rules</h2>
+          <p class="section-tagline">Buying, selling, and trading on Campus Connect</p>
+        </div>
+      </div>
+      <div class="section-body">
+        <p>The Campus Connect Marketplace allows verified users to buy, sell, and trade items within the campus community. All participants must adhere to the following rules to ensure a safe and fair environment.</p>
+
+        <h4>Permitted Listings</h4>
+        <p>Users may list the following types of items and services:</p>
+        <ul>
+          <li>Textbooks, study guides, and printed academic materials.</li>
+          <li>Electronics and campus accessories (laptops, calculators, headphones, etc.).</li>
+          <li>Tutoring, mentoring, and academic support services.</li>
+          <li>Handmade crafts, art, and other lawful personal items.</li>
+          <li>Event tickets for on-campus activities.</li>
+        </ul>
+
+        <h4>Prohibited Listings</h4>
+        <div class="tag-list">
+          <span class="tag-item">Counterfeit goods</span>
+          <span class="tag-item">Stolen property</span>
+          <span class="tag-item">Controlled substances</span>
+          <span class="tag-item">Alcohol &amp; tobacco</span>
+          <span class="tag-item">Weapons &amp; explosives</span>
+          <span class="tag-item">Completed assignments</span>
+          <span class="tag-item">Essay writing services</span>
+          <span class="tag-item">Copyrighted pirated material</span>
+          <span class="tag-item">Adult content or services</span>
+          <span class="tag-item">Hazardous materials</span>
+        </div>
+
+        <div class="callout warning">
+          <span class="callout-icon">⚠️</span>
+          <div>Campus Connect acts <strong>solely as a facilitating platform</strong> for peer-to-peer transactions. We are not a party to any sale agreement and hold no responsibility for the quality, safety, legality, delivery, or accuracy of any listed items.</div>
+        </div>
+
+        <p><strong>Listing Accuracy:</strong> Sellers must ensure all product descriptions, images, and pricing are truthful and not misleading. We reserve the right to remove non-compliant listings without prior notice.</p>
+
+        <p><strong>Dispute Resolution:</strong> Disputes between buyers and sellers should first be resolved directly between parties. Campus Connect may assist with mediation at its sole discretion but is under no obligation to intervene or guarantee outcomes.</p>
+      </div>
+    </article>
+
+    <!-- ─────────────────────────
+         SECTION 4 – Community
+    ───────────────────────────── -->
+    <article class="section-card" id="s4">
+      <div class="section-card-head">
+        <div class="section-badge"><span>04</span></div>
+        <div class="section-head-text">
+          <h2>Group &amp; Community Guidelines</h2>
+          <p class="section-tagline">How to participate respectfully in groups and communities</p>
+        </div>
+      </div>
+      <div class="section-body">
+        <p>Campus Connect's community features are designed to foster meaningful connections and academic collaboration. All users engaging in groups, forums, or public spaces must abide by the following community standards:</p>
+        <ul>
+          <li><strong>Respect &amp; Inclusion:</strong> Treat every member with dignity and respect, regardless of background, ethnicity, gender, religion, or viewpoint.</li>
+          <li><strong>Relevance:</strong> Keep all posts and discussions relevant to the group's stated purpose and academic focus.</li>
+          <li><strong>No Spam or Solicitation:</strong> Do not post repetitive, unsolicited, or commercially motivated content unrelated to the group.</li>
+          <li><strong>Zero Harassment:</strong> Bullying, threatening, stalking, or harassing any member in any form is strictly forbidden and may be reported to university authorities.</li>
+          <li><strong>Administrator Responsibility:</strong> Group owners and administrators are responsible for moderating their groups and enforcing these guidelines. Failure to do so may result in group dissolution.</li>
+          <li><strong>Privacy Protection:</strong> Never share personal information — including phone numbers, addresses, or private photos — about other members without their explicit, documented consent.</li>
+          <li><strong>Content Standards:</strong> Do not post hateful, discriminatory, sexually explicit, or otherwise harmful content in any community space.</li>
+        </ul>
+
+        <div class="callout info">
+          <span class="callout-icon">💡</span>
+          <div>Campus Connect reserves the right to remove posts, dissolve groups, warn users, or take disciplinary action against any user who violates these community standards. Repeated or severe violations will result in permanent account suspension.</div>
+        </div>
+      </div>
+    </article>
+
+    <!-- ─────────────────────────
+         SECTION 5 – Payments
+    ───────────────────────────── -->
+    <article class="section-card" id="s5">
+      <div class="section-card-head">
+        <div class="section-badge"><span>05</span></div>
+        <div class="section-head-text">
+          <h2>Payments &amp; Transactions</h2>
+          <p class="section-tagline">Fees, payment processing, and refund policies</p>
+        </div>
+      </div>
+      <div class="section-body">
+        <p>Where applicable, Campus Connect integrates with third-party payment processors to facilitate secure transactions between users. By using any payment feature, you agree to the following terms:</p>
+
+        <h4>Payment Processing</h4>
+        <p>All financial transactions are processed by trusted third-party providers (such as Stripe or PayPal). By completing a transaction, you also agree to their respective terms of service and privacy policies. Campus Connect does <strong>not</strong> store full payment card details on its servers.</p>
+
+        <h4>Platform Fees</h4>
+        <p>Campus Connect may charge a service fee on marketplace transactions. All applicable fees will be <strong>clearly disclosed</strong> prior to checkout — you will never be charged without prior notice and consent.</p>
+
+        <h4>Refunds</h4>
+        <p>Refund eligibility is governed by each seller's individual policy. Campus Connect does not guarantee refunds on peer-to-peer transactions. However, in verified cases of fraud or material misrepresentation, users may submit a formal dispute through our Trust &amp; Safety team.</p>
+
+        <ul>
+          <li>All prices are displayed in the applicable local currency unless otherwise stated.</li>
+          <li>You are solely responsible for any applicable taxes, duties, or local levies arising from your transactions.</li>
+          <li>Chargebacks or fraudulent payment claims may result in immediate account suspension.</li>
+          <li>Subscription fees (if applicable) are billed in advance and are non-refundable upon use.</li>
+        </ul>
+
+        <div class="callout success">
+          <span class="callout-icon">✅</span>
+          <div>Campus Connect is not a financial institution. We do not offer banking, lending, investment, or financial advisory services. For payment-related queries, contact your payment processor directly.</div>
+        </div>
+      </div>
+    </article>
+
+    <!-- ─────────────────────────
+         SECTION 6 – IP
+    ───────────────────────────── -->
+    <article class="section-card" id="s6">
+      <div class="section-card-head">
+        <div class="section-badge"><span>06</span></div>
+        <div class="section-head-text">
+          <h2>Intellectual Property</h2>
+          <p class="section-tagline">Ownership rights for platform and user-generated content</p>
+        </div>
+      </div>
+      <div class="section-body">
+        <p>All content, software, interfaces, design systems, branding, logos, and features present on Campus Connect are the exclusive property of <strong>Campus Connect, Inc.</strong> and are protected under applicable intellectual property and copyright laws.</p>
+
+        <h4>Platform Content</h4>
+        <p>You may not copy, reproduce, republish, upload, post, transmit, modify, distribute, or create derivative works from any Campus Connect proprietary content without obtaining explicit, written permission from us.</p>
+
+        <h4>User-Generated Content</h4>
+        <p>By submitting notes, listings, posts, comments, images, or any other content to the platform, you grant Campus Connect a <strong>non-exclusive, royalty-free, perpetual, worldwide license</strong> to store, display, distribute, and promote that content within the scope of our services.</p>
+
+        <ul>
+          <li>You retain full ownership of all original content you create and share.</li>
+          <li>You represent and warrant that you have the legal right to share any content you upload.</li>
+          <li>You confirm that your content does not infringe the intellectual property rights of any third party.</li>
+          <li>Campus Connect may remove content that is credibly reported to infringe third-party rights, without prior notice.</li>
+        </ul>
+
+        <div class="callout info">
+          <span class="callout-icon">⚖️</span>
+          <div><strong>Copyright Complaints (DMCA):</strong> If you believe your intellectual property has been infringed on our platform, contact us at <a href="mailto:legal@campusconnect.edu" style="color:var(--blue)">legal@campusconnect.edu</a> with a full description of the alleged infringement, your contact information, and supporting evidence.</div>
+        </div>
+      </div>
+    </article>
+
+    <!-- ─────────────────────────
+         SECTION 7 – Prohibited
+    ───────────────────────────── -->
+    <article class="section-card" id="s7">
+      <div class="section-card-head">
+        <div class="section-badge"><span>07</span></div>
+        <div class="section-head-text">
+          <h2>Prohibited Activities</h2>
+          <p class="section-tagline">Actions that are strictly forbidden on the platform</p>
+        </div>
+      </div>
+      <div class="section-body">
+        <p>To protect our users and maintain the integrity of Campus Connect, the following activities are strictly prohibited. Violations may result in immediate suspension and legal action:</p>
+        <ol>
+          <li>Hacking, attempting unauthorized access, or disrupting platform infrastructure, servers, or data.</li>
+          <li>Using automated bots, scrapers, crawlers, or scripts to extract, harvest, or aggregate data from the platform.</li>
+          <li>Impersonating any individual, organization, faculty member, or Campus Connect staff.</li>
+          <li>Posting defamatory, discriminatory, racist, sexist, violent, or otherwise offensive content.</li>
+          <li>Facilitating, promoting, or enabling academic dishonesty, plagiarism, or contract cheating in any form.</li>
+          <li>Manipulating platform ratings, reviews, search rankings, or trust and safety systems.</li>
+          <li>Distributing spam, chain messages, or any unsolicited mass communications.</li>
+          <li>Collecting or harvesting personal information from other users without explicit, informed consent.</li>
+          <li>Uploading malware, viruses, trojans, or any malicious code that could harm users or the platform.</li>
+          <li>Engaging in any unlawful activity or using the platform to facilitate illegal acts of any kind.</li>
+        </ol>
+
+        <div class="callout warning">
+          <span class="callout-icon">⚠️</span>
+          <div>Serious violations may be referred to law enforcement authorities, university disciplinary bodies, or other relevant institutions. Campus Connect cooperates fully with lawful investigations involving platform misuse.</div>
+        </div>
+      </div>
+    </article>
+
+    <!-- ─────────────────────────
+         SECTION 8 – Liability
+    ───────────────────────────── -->
+    <article class="section-card" id="s8">
+      <div class="section-card-head">
+        <div class="section-badge"><span>08</span></div>
+        <div class="section-head-text">
+          <h2>Limitation of Liability</h2>
+          <p class="section-tagline">The extent of our legal responsibility to you</p>
+        </div>
+      </div>
+      <div class="section-body">
+        <p>To the maximum extent permitted by applicable law, <strong>Campus Connect, Inc.</strong>, its officers, directors, employees, agents, licensors, and service providers shall not be liable for any indirect, incidental, special, consequential, exemplary, or punitive damages arising from or in connection with your use of the platform.</p>
+
+        <p>This includes, without limitation:</p>
+        <ul>
+          <li>Loss of data, revenue, profits, business, or goodwill arising from platform use.</li>
+          <li>Damages resulting from unauthorized access to, or alteration of, your account or transmissions.</li>
+          <li>Outcomes — financial or otherwise — of marketplace transactions between users.</li>
+          <li>Content posted, shared, or transmitted by other users on the platform.</li>
+          <li>Temporary or permanent unavailability, downtime, or loss of functionality of the platform.</li>
+          <li>Third-party actions or failures, including payment processors, hosting providers, or linked services.</li>
+        </ul>
+
+        <h4>Disclaimer of Warranties</h4>
+        <p>Campus Connect is provided strictly on an <strong>"as is"</strong> and <strong>"as available"</strong> basis. We make no warranties — express, implied, statutory, or otherwise — regarding fitness for a particular purpose, merchantability, accuracy, or non-infringement.</p>
+
+        <div class="callout info">
+          <span class="callout-icon">⚖️</span>
+          <div>Our total aggregate liability for any claim arising under these Terms shall not exceed the greater of: (a) the total amount you paid Campus Connect in the 12 months preceding the claim, or (b) <strong>USD $100</strong>. Some jurisdictions do not allow liability limitations — in such cases, the maximum extent permitted by local law applies.</div>
+        </div>
+      </div>
+    </article>
+
+    <!-- ─────────────────────────
+         SECTION 9 – Termination
+    ───────────────────────────── -->
+    <article class="section-card" id="s9">
+      <div class="section-card-head">
+        <div class="section-badge"><span>09</span></div>
+        <div class="section-head-text">
+          <h2>Termination</h2>
+          <p class="section-tagline">How and when accounts can be suspended or closed</p>
+        </div>
+      </div>
+      <div class="section-body">
+        <h4>Termination by You</h4>
+        <p>You may delete your account at any time through the <strong>Account Settings</strong> page. Upon deletion request, we will process the removal of your personal data in accordance with our Privacy Policy. Note that certain data may be retained as required by law or for legitimate business purposes.</p>
+
+        <h4>Termination by Campus Connect</h4>
+        <p>We reserve the right to suspend or permanently terminate your account, with or without prior notice, in the following circumstances:</p>
+        <ul>
+          <li>You have violated any provision of these Terms &amp; Conditions or our Community Guidelines.</li>
+          <li>We reasonably believe your actions pose a legal, reputational, or safety risk to users or the platform.</li>
+          <li>We are legally required to do so by a court order, regulatory authority, or law enforcement.</li>
+          <li>Your account has been identified as fraudulent, inactive, or abandoned per our policies.</li>
+          <li>We cease to operate the platform or a specific feature you rely upon.</li>
+        </ul>
+
+        <h4>Effect of Termination</h4>
+        <p>Upon termination — by either party — your license to access and use Campus Connect ceases immediately. All rights granted under these Terms are revoked. Sections covering intellectual property, limitations of liability, indemnification, and dispute resolution shall <strong>survive termination</strong> and remain in full force.</p>
+      </div>
+    </article>
+
+    <!-- ─────────────────────────
+         SECTION 10 – Changes
+    ───────────────────────────── -->
+    <article class="section-card" id="s10">
+      <div class="section-card-head">
+        <div class="section-badge"><span>10</span></div>
+        <div class="section-head-text">
+          <h2>Changes to Terms</h2>
+          <p class="section-tagline">How we notify you of updates to this agreement</p>
+        </div>
+      </div>
+      <div class="section-body">
+        <p>Campus Connect reserves the right to modify, update, or replace any portion of these Terms &amp; Conditions at any time, at our sole discretion. For <strong>material changes</strong>, we will notify users through one or more of the following channels:</p>
+        <ul>
+          <li>A prominent notice displayed on the Campus Connect homepage or dashboard.</li>
+          <li>An email notification sent to the primary address associated with your account.</li>
+          <li>An in-app banner or push notification.</li>
+          <li>An updated "Last Modified" date reflected at the top of this document.</li>
+        </ul>
+
+        <div class="callout info">
+          <span class="callout-icon">📢</span>
+          <div>Your <strong>continued use</strong> of Campus Connect following the posting of revised Terms constitutes your acceptance of those changes. If you disagree with any updated terms, you must stop using the platform and may delete your account.</div>
+        </div>
+
+        <p>Non-material changes — such as grammatical corrections, formatting updates, or minor clarifications that do not affect your rights — may be made without formal notification. It remains your responsibility to stay informed by reviewing these Terms periodically.</p>
+
+        <p>When changes are significant, we will provide at least <strong>14 days' advance notice</strong> before the new terms take effect, allowing you adequate time to review and decide whether to continue using the platform.</p>
+      </div>
+    </article>
+
+    <!-- ─────────────────────────
+         SECTION 11 – Contact
+    ───────────────────────────── -->
+    <article class="section-card" id="s11">
+      <div class="section-card-head">
+        <div class="section-badge"><span>11</span></div>
+        <div class="section-head-text">
+          <h2>Contact Information</h2>
+          <p class="section-tagline">How to reach us with questions, concerns, or legal matters</p>
+        </div>
+      </div>
+      <div class="section-body">
+        <p>If you have any questions, concerns, complaints, or requests regarding these Terms &amp; Conditions, our team is committed to providing timely and helpful responses. Please reach out using the most appropriate channel below:</p>
+
+        <div class="contact-grid">
+          <div class="contact-card">
+            <div class="cc-label">General Support</div>
+            <div class="cc-value">hello@campusconnect.edu</div>
+            <div class="cc-sub">Responds within 1–2 business days</div>
+          </div>
+          <div class="contact-card">
+            <div class="cc-label">Legal &amp; Compliance</div>
+            <div class="cc-value">legal@campusconnect.edu</div>
+            <div class="cc-sub">Mark urgent matters "LEGAL URGENT"</div>
+          </div>
+          <div class="contact-card">
+            <div class="cc-label">Trust &amp; Safety</div>
+            <div class="cc-value">safety@campusconnect.edu</div>
+            <div class="cc-sub">Report abuse, fraud, or violations</div>
+          </div>
+          <div class="contact-card">
+            <div class="cc-label">Mailing Address</div>
+            <div class="cc-value">123 Campus Ave, Suite 400</div>
+            <div class="cc-sub">University District, CA 90210, USA</div>
+          </div>
+        </div>
+
+        <p style="margin-top:22px;">These Terms &amp; Conditions are governed by and construed in accordance with the laws of the <strong>State of California, United States</strong>, without regard to conflict-of-law provisions. Any legal disputes shall be submitted to binding arbitration in accordance with the American Arbitration Association rules, or to the courts of California where arbitration is inapplicable.</p>
+
+        <div class="callout success">
+          <span class="callout-icon">🎓</span>
+          <div>Thank you for being a part of the Campus Connect community. We are committed to building a safe, fair, and empowering platform for every student. These terms exist to protect both you and the wider community — we appreciate your cooperation.</div>
+        </div>
+      </div>
+    </article>
+
+  </main>
+</div>
+
+
+<!-- ========================================
+     BACK TO TOP
+======================================== -->
+<button id="btt" title="Back to top" aria-label="Scroll back to top">
+  <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M10 15V5M5 10l5-5 5 5" stroke="white" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/>
+  </svg>
+</button>
+
+
+<!-- ========================================
+     FOOTER
+======================================== -->
+<footer class="site-footer">
+  <div class="footer-wrap">
+
+    <div class="footer-grid">
+
+      <div class="footer-brand-col">
+        <a href="#" class="logo">
+          <div class="logo-mark">
+            <svg viewBox="0 0 22 22" fill="none"><path d="M11 2L1.5 7.5l9.5 5 9.5-5L11 2Z" fill="white" fill-opacity=".95"/><path d="M1.5 12.5l9.5 5 9.5-5" stroke="white" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/><path d="M1.5 17l9.5 5 9.5-5" stroke="white" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" stroke-opacity=".45"/></svg>
+          </div>
+          <span class="logo-wordmark">Campus<em>Connect</em></span>
+        </a>
+        <p>The student platform built for collaboration, commerce, and campus life. Empowering students to connect, learn, and grow together.</p>
+        <div class="footer-socials">
+          <a href="#" class="social-btn" aria-label="Twitter/X">
+            <svg viewBox="0 0 16 16"><path d="M13 2H10.5L8 5.5 5.5 2H2L6.5 8 2 14H4.5L8 10l3.5 4H14L9.5 8 13 2Z"/></svg>
+          </a>
+          <a href="#" class="social-btn" aria-label="Instagram">
+            <svg viewBox="0 0 16 16"><rect x="2" y="2" width="12" height="12" rx="3" stroke-width="1.4" fill="none" stroke="rgba(255,255,255,.7)"/><circle cx="8" cy="8" r="2.5" stroke-width="1.3" fill="none" stroke="rgba(255,255,255,.7)"/><circle cx="11.5" cy="4.5" r=".8" fill="rgba(255,255,255,.7)"/></svg>
+          </a>
+          <a href="#" class="social-btn" aria-label="LinkedIn">
+            <svg viewBox="0 0 16 16"><rect x="2" y="2" width="12" height="12" rx="2" stroke-width="1.4" fill="none" stroke="rgba(255,255,255,.7)"/><path d="M4.5 6.5v5M4.5 4.5v.5M7.5 11.5V8.5C7.5 7.5 11.5 7 11.5 9v2.5" stroke="rgba(255,255,255,.7)" stroke-width="1.3" stroke-linecap="round"/></svg>
+          </a>
+        </div>
+      </div>
+
+      <div class="footer-col">
+        <h5>Platform</h5>
+        <ul>
+          <li><a href="#">Home</a></li>
+          <li><a href="#">Marketplace</a></li>
+          <li><a href="#">Groups</a></li>
+          <li><a href="#">Notes</a></li>
+          <li><a href="#">Events</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h5>Company</h5>
+        <ul>
+          <li><a href="#">About Us</a></li>
+          <li><a href="#">Careers</a></li>
+          <li><a href="#">Blog</a></li>
+          <li><a href="#">Contact</a></li>
+          <li><a href="#">Press</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h5>Legal</h5>
+        <ul>
+          <li><a href="#">Privacy Policy</a></li>
+          <li><a href="#" class="current-page">Terms &amp; Conditions</a></li>
+          <li><a href="#">Cookie Policy</a></li>
+          <li><a href="#">Accessibility</a></li>
+          <li><a href="#">Sitemap</a></li>
+        </ul>
+      </div>
+
+    </div>
+
+    <div class="footer-bottom">
+      <span class="footer-copy">© 2025 Campus Connect, Inc. All rights reserved. Built with ♥ for students.</span>
+      <div class="footer-legal">
+        <a href="#">Privacy</a>
+        <a href="#">Terms</a>
+        <a href="#">Cookies</a>
+        <a href="#">Accessibility</a>
+      </div>
+    </div>
+
+  </div>
+</footer>
+
+
+<!-- ========================================
+     SCRIPTS
+======================================== -->
+<script>
+  /* ── Hamburger ── */
+  const toggle = document.getElementById('navToggle');
+  const navLinks = document.getElementById('navLinks');
+  toggle.addEventListener('click', () => navLinks.classList.toggle('open'));
+
+  /* ── Back to Top ── */
+  const bttBtn = document.getElementById('btt');
+  window.addEventListener('scroll', () => {
+    bttBtn.classList.toggle('show', window.scrollY > 500);
+  }, { passive: true });
+  bttBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+
+  /* ── Active TOC Highlight ── */
+  const sections = document.querySelectorAll('.section-card[id]');
+  const tocLinks = document.querySelectorAll('#tocList a');
+
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const id = entry.target.id;
+        tocLinks.forEach(a => {
+          a.classList.toggle('active', a.getAttribute('href') === `#${id}`);
+        });
+      }
+    });
+  }, { rootMargin: '-15% 0px -75% 0px' });
+
+  sections.forEach(s => io.observe(s));
+</script>
+
+</body>
+</html>
