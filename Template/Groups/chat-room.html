@@ -49,34 +49,48 @@
     <div class="chat-container" id="chatContainer">
         <!-- Messages will be inserted here -->
         {% for message in messages.messages %}
-        {% if message.username == user.username %}
-            <div class="message own">
-                {% if user.image != None %}
-                <img class="message-avatar" src="{{ user.image.file.url }}">
-                {% else %}
-                <div class="message-avatar">{{user.first_name|upper|slice:":1"}}{{user.last_name|upper|slice:":1"}}</div>
-                {% endif %}
-                <div class="message-content">
-                    <div class="message-header">You</div>
-                    <div class="message-bubble">{{message.message}}</div>
-                    <div class="message-time"><span class="datetime" >{{message.timestamp}}</span></div>
-                </div>
-            </div>
+        {% if message.ai%}
+            <div class="message ai">
+                <div class="message-avatar">AI</div>
 
-        {% else %}
-            <div class="message">
-                {% if message.image_url != None %}
-                <img class="message-avatar" src="{{ message.image_url }}">
-                {% else %}
-                <div class="message-avatar">{{message.user_first_name|upper|slice:":1"}}</div>
-                {% endif %}
                 <div class="message-content">
-                    <div class="message-header">{{message.user_first_name}}</div>
-                    <div class="message-bubble">{{message.message}}</div>
+                    <div class="message-header">ModuloAI</div>
+                    <div class="message-bubble">
+                        {{message.message}}
+                    </div>
                     <div class="message-time"><span class="datetime">{{message.timestamp}}</span></div>
                 </div>
             </div>
+        {% else %}
+            {% if message.username == user.username %}
+                <div class="message own">
+                    {% if user.image != None %}
+                    <img class="message-avatar" src="{{ user.image.file.url }}">
+                    {% else %}
+                    <div class="message-avatar">{{user.first_name|upper|slice:":1"}}{{user.last_name|upper|slice:":1"}}</div>
+                    {% endif %}
+                    <div class="message-content">
+                        <div class="message-header">You</div>
+                        <div class="message-bubble">{{message.message}}</div>
+                        <div class="message-time"><span class="datetime" >{{message.timestamp}}</span></div>
+                    </div>
+                </div>
 
+            {% else %}
+                <div class="message">
+                    {% if message.image_url != None %}
+                    <img class="message-avatar" src="{{ message.image_url }}">
+                    {% else %}
+                    <div class="message-avatar">{{message.user_first_name|upper|slice:":1"}}</div>
+                    {% endif %}
+                    <div class="message-content">
+                        <div class="message-header">{{message.user_first_name}}</div>
+                        <div class="message-bubble">{{message.message}}</div>
+                        <div class="message-time"><span class="datetime">{{message.timestamp}}</span></div>
+                    </div>
+                </div>
+
+            {% endif %}
         {% endif %}
         {% endfor%}
 
@@ -229,12 +243,6 @@
 
             const time = timestamp ? new Date(timestamp).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) : new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
             messageDiv.innerHTML = `
-                ${avatarContent}
-                <div class="message-content">
-                    <div class="message-header">Assistant</div>
-                    <div class="message-bubble">${escapeHtml(message)}</div>
-                    <div class="message-time">${time}</div>
-                </div>
 
                 <div class="message ai">
                     <div class="message-avatar">AI</div>

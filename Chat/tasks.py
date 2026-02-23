@@ -12,10 +12,9 @@ def ai_respond_task(self, prompt, room_group_name, ai_is_active, chat_history=''
     """
     print('starting AI process')
 
-    ai_is_active[0] = False
+    ai_is_active = False
     # 🔥 Simulate AI call
-    #ai_response = views.aiGroupChat(chat_history, prompt)
-    ai_response = 'THis is modulo'
+    ai_response = views.aiGroupChat(chat_history, prompt)
     print(ai_response)
 
     channel_layer = get_channel_layer()
@@ -23,7 +22,7 @@ def ai_respond_task(self, prompt, room_group_name, ai_is_active, chat_history=''
     async_to_sync(channel_layer.group_send)(
         room_group_name,
         {
-            "type": "chat.message",
+            "type": "chatMessage",
             "message": ai_response,
             "username": "moduloAI",
             "image_url": None,

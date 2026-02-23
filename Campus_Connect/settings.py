@@ -60,7 +60,7 @@ INSTALLED_APPS = [
     #apps
     'Home',
     'Auth',
-    'Chat',
+    'chat',
     'Market',
     'Notes',
     'Question_Answer',
@@ -228,4 +228,10 @@ EMAIL_HOST_USER = env('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD') 
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
+# AI Model API Key
 GOOGLE_API_KEY= env('GOOGLE_API_KEY')
+
+#celery
+CELERY_BROKER_URL = "redis://127.0.0.1:6379/0" #env('CELERY_BROKER_URL')
+CELERY_ACCEPT_CONTENT = ['json']
+CELERY_TASK_SERIALIZER = 'json'

@@ -1,6 +1,6 @@
 from channels.generic.websocket import AsyncWebsocketConsumer
 from channels.db import database_sync_to_async
-from .task import ai_respond_task
+from .tasks import ai_respond_task
 import json
 import datetime
 
@@ -85,8 +85,8 @@ class ChatConsumer(AsyncWebsocketConsumer):
                 )
 
                 # 3️⃣ Send task to background worker
-                self.ai_is_active[0] = True
-                print('activating AI')
+                self.ai_is_active = True
+             
                 ai_respond_task.delay(
                     prompt=message,
                     room_group_name=self.room_group_name,
@@ -115,6 +115,13 @@ class ChatConsumer(AsyncWebsocketConsumer):
 
     async def chatMessage(self, event):
         try:
+            # check if the message is from AI or user
+            if event['username'] == 'moduloAI' and not event['ai_typing']:
+                self.chat_history += f"AI: {event['message']}\n"
+                self.ai_is_active = False
+                await self.saveAIresponse(event['message'])
+
+
             await self.send(text_data=json.dumps({
                 "message": event["message"],
                 'username': event["username"],
@@ -141,8 +148,6 @@ class ChatConsumer(AsyncWebsocketConsumer):
                 message = models.GroupMessages(group=group)
                 message.save()
 
-            print('message exists')
-
             message = models.GroupMessages.objects.get(group=group)
 
             data = {
@@ -162,6 +167,33 @@ class ChatConsumer(AsyncWebsocketConsumer):
             print("failed to save message", e)
             return
 
+    @database_sync_to_async
+    def saveAIresponse(self, text):
+        try:
+            from Auth import models
+
+            group = models.Group.objects.get(slug=self.room_name)
+            if not models.GroupMessages.objects.filter(group=group).exists():
+                message = models.GroupMessages(group=group)
+                message.save()
+
+            message = models.GroupMessages.objects.get(group=group)
+
+            data = {
+                'user_first_name': 'moduloAI',
+                'username': 'moduloAI',
+                'message': text,
+                'timestamp': f'{datetime.datetime.now().isoformat()}',
+                'ai': True
+            }
+            message.messages.append(data)
+            message.msg_index += 1
+            message.save()
+            return
+        
+        except Exception as e:
+            print("failed to save message", e)
+            return
     
     @database_sync_to_async
     def user_GroupValidation(self, group, user):

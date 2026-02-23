@@ -16,7 +16,7 @@ from channels.auth import AuthMiddlewareStack
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'Campus_Connect.settings')
 
-from Chat import routing
+from chat import routing
 
 #application = get_asgi_application()
 """
