@@ -15,6 +15,8 @@ def ai_respond_task(self, prompt, room_group_name, ai_is_active, chat_history=''
     ai_is_active = False
     # 🔥 Simulate AI call
     ai_response = views.aiGroupChat(chat_history, prompt)
+    if ai_response == None:
+        ai_response = "Sorry, I couldn't generate a response. Please try again."
     print(ai_response)
 
     channel_layer = get_channel_layer()
