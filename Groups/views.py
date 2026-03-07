@@ -2,6 +2,9 @@ from django.shortcuts import render, get_object_or_404
 from Auth import models
 
 # Create your views here.
+def groupCreateRender(request):
+    return render(request, 'Groups/group-create.html')
+
 def groupHomeRender(request):
     groups = models.Group.objects.all().order_by('members_no')[:6]
     #categories = models.Group.course.all()[:6]
@@ -43,3 +46,4 @@ def chatRoomRender(request, group):
     }
 
     return render(request, 'Groups/chat-room.html', context)
+

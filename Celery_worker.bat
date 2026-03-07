@@ -1,0 +1,1 @@
+celery -A Campus_Connect worker --loglevel=info --pool=solo

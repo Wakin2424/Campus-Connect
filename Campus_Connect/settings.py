@@ -68,6 +68,7 @@ INSTALLED_APPS = [
     'User',
     'Groups',
     'AI_model',
+    'miscellaneous',
 
 ]
 

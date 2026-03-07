@@ -34,6 +34,7 @@ urlpatterns = [
     path('chat/', include('chat.urls')),
     path('api/mails/', include('Mail.urls')),
     path('api/ai/modulo/', include('AI_model.urls')),
+    path('info/', include('miscellaneous.urls')),
 ]
 
 
