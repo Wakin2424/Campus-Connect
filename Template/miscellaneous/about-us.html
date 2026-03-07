@@ -1,3 +1,5 @@
+{% load static %}
+{% load partials%}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,8 +9,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/about.css">
-  <link rel="stylesheet" href="css/nav.css">
+  <link rel="stylesheet" href="{%static 'CSS/about.css'%}">
+    <link rel="stylesheet" href="{%static 'CSS/nav.css'%}">
 </head>
 <body>
 
@@ -370,43 +372,13 @@
   <footer class="footer" id="footer">
       <!--Generated dynamically by js-->
   </footer>
-<script>
-        const home = `<a href="#" class="logo">Campus Connect</a>`
-        const search = `
-            <a href=''><button class="search-btn">🔍</button></a>
-            `
-        const nav_urls = `
-                    <li><a href="qa.html">Ask Questions</a></li>
-                    <li><a href="market.html">Sell Books</a></li>
-                    <li><a href="notes.html">Notes</a></li>
-                    <li><a href="group.html">Groups</a></li>
-                    `
-        const login = `
-                <a href="login.html" class="btn-primary">Login/Sign Up</a>
-            `
-        const logout = `
-            <div class="user-dropdown">
-                <div class="user-avatar">JS</div>
-                <div class="dropdown-menu">
-                    <a href="#"><i class="fas fa-user"></i> Profile</a>
-                    <a href="#"><i class="fas fa-sign-out-alt"></i> Logout</a>
-                </div>
-            </div>
-        `
-        const footer_urls = `
-                    <a href="#">About Us</a>
-                    <a href="#">Contact</a>
-                    <a href="#">Privacy Policy</a>
-                    <a href="#">Terms of Service</a>
-                    <a href="#">Help Center</a>`
-        const footer_urls_2 = `
-                    <a href="qa.html">Ask Questions</a>
-                    <a href="market.html">Sell Books</a>
-                    <a href="notes.html">Share Notes</a>
-                    <a href="group.html">Create Groups</a>
-                    <a href="home">Campus Events</a>`
-    </script>
-    <script src="css/index.js"></script>
+{% if user.is_authenticated %}
+        {% include "Components/header.html#authDynamicHeader" %}
+        {% include "Components/footer.html#footer" %}
+    {% else %}
+        {% include "Components/header.html#guestDynamicHeader" %}
+        {% include "Components/footer.html#footer" %}
+    {% endif %}
 
 <script>
   /* Mobile nav */

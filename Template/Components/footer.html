@@ -4,10 +4,10 @@
 {% partialdef footer %}
 <script>
 const footer_urls = `
-                <a href="#">About Us</a>
+                <a href="{%url 'about'%}">About Us</a>
                 <a href="#">Contact</a>
                 <a href="#">Privacy Policy</a>
-                <a href="#">Terms of Service</a>
+                <a href="{%url 'terms_and_conditions'%}">Terms of Service</a>
                 <a href="#">Help Center</a>`
 const footer_urls_2 = `
             <a href="{%url 'question_library'%}">Ask Questions</a>
