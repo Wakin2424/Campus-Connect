@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Campus Connect - Sell Books & Reading Materials</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="{%static 'CSS/market.css'%}">
+    <link rel="stylesheet" href="{%static 'CSS/market-landing-page.css'%}">
     <link rel="stylesheet" href="{%static 'CSS/nav.css'%}">
 </head>
 <body>
@@ -62,7 +62,7 @@
 
         </div>
         <div class="view-more-container">
-            <button class="view-more-btn">View More Books</button>
+            <a href="{%url 'product_library'%}?category=books"><button class="view-more-btn">View More Books</button></a>
         </div>
     </section>
 
@@ -88,7 +88,7 @@
 
         </div>
         <div class="view-more-container">
-            <button class="view-more-btn">View More Articles</button>
+            <a href="{%url 'product_library'%}?category=articles"><button class="view-more-btn">View More Articles</button></a>
         </div>
     </section>
 
@@ -115,7 +115,7 @@
 
         </div>
         <div class="view-more-container">
-            <button class="view-more-btn">View More Notes</button>
+            <a href="{%url 'product_library'%}?category=notes-and-handouts"><button class="view-more-btn">View More Notes</button></a>
         </div>
     </section>
 
@@ -144,7 +144,7 @@
 
         </div>
         <div class="view-more-container">
-            <button class="view-more-btn">View More Study Guides</button>
+            <a href="{%url 'product_library'%}?category=study-guides"><button class="view-more-btn">View More Study Guides</button></a>
         </div>
     </section>
 

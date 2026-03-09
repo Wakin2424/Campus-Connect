@@ -24,10 +24,39 @@ def Home(request):
     return render(request, 'Market/market-landing-page.html', context)
 
 def productLibrary(request):
-    return render(request, 'Market/market.html')
+    category = request.GET.get('category', '')
+
+    categories = models.Category.objects.all()
+    initial_category = models.Category.objects.get(slug=category) if models.Category.objects.filter(slug=category).exists() else ''
+
+    context = {
+        'query':category,
+        'initial_category':initial_category,
+        'categories':categories,
+    }
+    return render(request, 'Market/market.html', context)
 
 def loadProducts(request):
-    pass
+    category = request.GET.get('category')
+    if category:
+        products = models.Product.objects.select_related("category", "image").filter(
+            category__slug=category
+        )
+    else:
+        products = models.Product.objects.select_related("category", "image").all()
+
+    data = []
+
+    for product in products:
+        data.append({
+            "id": product.slug,
+            "name": product.name,
+            "category": product.category.slug,
+            "price": float(product.price),
+            "image": product.image.file.url if product.image else None
+        })
+
+    return JsonResponse(data, safe=False)
 
 def uploadProduct(request):
     if not request.user.is_authenticated:
@@ -118,6 +147,9 @@ def productDetail(request, id):
 
     }
     return render(request, 'Market/product_detail.html', context)
+
+def productDetail404(request):
+    raise Http404('Invalid Request!')
 
 def updateProductDetail(request, id):
     if not request.user.is_authenticated:
