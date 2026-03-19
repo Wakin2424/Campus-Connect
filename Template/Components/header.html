@@ -46,6 +46,7 @@ const login= `
             <a href="{%url "question"%}"><i class="fas"></i> Post Question</a>
             <a href="{%url "upload_product"%}"><i class="fas"></i> Sell Product</a>
             {% if user.is_verified %}
+            <a href="{%url 'group_create'%}"><i class="fas"></i> Create Group</a>
             <a href="{%url 'note_upload'%}"><i class="fas"></i> Upload Notes</a>
             {% endif %}
         </div>
@@ -68,6 +69,7 @@ const login= `
             <a href="{%url "question"%}"><i class="fas"></i> Post Question</a>
             <a href="{%url "upload_product"%}"><i class="fas"></i> Sell Product</a>
             {% if user.is_verified %}
+            <a href="{%url 'group_create'%}"><i class="fas"></i> Create Group</a>
             <a href="{%url 'note_upload'%}"><i class="fas"></i> Upload Notes</a>
             {% endif %}
         </div>

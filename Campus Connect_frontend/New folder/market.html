@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Campus Marketplace - Campus Connect</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/market.css">
+    <link rel="stylesheet" href="css/nav.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header" id="header">
+        <!--Generated dynamically by js-->
+    </header>
+
+    <!-- Main Content -->
+    <div class="container">
+        <!-- Sorting Section -->
+        <div class="sorting-section">
+            <div class="sort-group">
+                <label for="sortPrice">Sort by Price:</label>
+                <select id="sortPrice">
+                    <option value="">Default</option>
+                    <option value="low">Low to High</option>
+                    <option value="high">High to Low</option>
+                </select>
+            </div>
+            <div class="sort-group">
+                <label for="sortCategory">Category:</label>
+                <select id="sortCategory">
+                    <option value="">All Categories</option>
+                    <option value="textbook">Textbooks</option>
+                    <option value="novel">Novels</option>
+                    <option value="reference">Reference Books</option>
+                    <option value="magazine">Magazines</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Products Grid -->
+        <div id="productsContainer" class="products-grid"></div>
+
+        <!-- Pagination -->
+        <div id="pagination" class="pagination"></div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer" id="footer">
+        <!--Generated dynamically by js-->
+    </footer>
+
+    <script>
+        const home = `<a href="#" class="logo">Campus Connect</a>`
+        const search = `
+            <a href=''><button class="search-btn">🔍</button></a>
+            `
+        const nav_urls = `
+                    <li><a href="qa.html">Ask Questions</a></li>
+                    <li><a href="market.html">Sell Books</a></li>
+                    <li><a href="notes.html">Notes</a></li>
+                    <li><a href="group.html">Groups</a></li>
+                    `
+        const login = `
+                <a href="login.html" class="btn-primary">Login/Sign Up</a>
+            `
+
+        const footer_urls = `
+                    <a href="#">About Us</a>
+                    <a href="#">Contact</a>
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Terms of Service</a>
+                    <a href="#">Help Center</a>`
+        const footer_urls_2 = `
+                    <a href="qa.html">Ask Questions</a>
+                    <a href="market.html">Sell Books</a>
+                    <a href="notes.html">Share Notes</a>
+                    <a href="group.html">Create Groups</a>
+                    <a href="home">Campus Events</a>`
+    </script>
+    <script src="css/index.js"></script>
+
+    <script>
+        // Sample product data
+        const allProducts = [
+            {
+                id: 1,
+                name: "Introduction to Algorithms",
+                category: "textbook",
+                description: "Comprehensive guide to computer algorithms with detailed examples and implementations.",
+                price: 45.99,
+                image: "https://images.unsplash.com/photo-1532012197267-da84d127e765?w=400&h=300&fit=crop"
+            },
+            {
+                id: 2,
+                name: "Physics Fundamentals",
+                category: "textbook",
+                description: "Essential physics textbook covering mechanics, thermodynamics, and quantum physics.",
+                price: 52.00,
+                image: "https://images.unsplash.com/photo-1543002588-bfa74002ed7e?w=400&h=300&fit=crop"
+            },
+            {
+                id: 3,
+                name: "The Great Gatsby",
+                category: "novel",
+                description: "Classic American novel about the Jazz Age, wealth, and the American Dream.",
+                price: 12.99,
+                image: "https://images.unsplash.com/photo-1512820790803-83ca734da794?w=400&h=300&fit=crop"
+            },
+            {
+                id: 4,
+                name: "Calculus Early Transcendentals",
+                category: "textbook",
+                description: "Complete calculus textbook with problem sets and solutions for engineering students.",
+                price: 68.50,
+                image: "https://images.unsplash.com/photo-1509228468518-180dd4864904?w=400&h=300&fit=crop"
+            },
+            {
+                id: 5,
+                name: "Organic Chemistry",
+                category: "textbook",
+                description: "Detailed exploration of organic compounds, reactions, and laboratory techniques.",
+                price: 75.00,
+                image: "https://images.unsplash.com/photo-1507413245164-6160d8298b31?w=400&h=300&fit=crop"
+            },
+            {
+                id: 6,
+                name: "1984",
+                category: "novel",
+                description: "Dystopian novel about totalitarianism and surveillance in a future society.",
+                price: 14.50,
+                image: "https://images.unsplash.com/photo-1544947950-fa07a98d237f?w=400&h=300&fit=crop"
+            },
+            {
+                id: 7,
+                name: "Oxford English Dictionary",
+                category: "reference",
+                description: "Comprehensive reference for English language with etymology and usage examples.",
+                price: 89.99,
+                image: "https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?w=400&h=300&fit=crop"
+            },
+            {
+                id: 8,
+                name: "National Geographic",
+                category: "magazine",
+                description: "Monthly magazine featuring photography, science, and world culture exploration.",
+                price: 8.99,
+                image: "https://images.unsplash.com/photo-1586243287039-23f4c8e2e7ab?w=400&h=300&fit=crop"
+            },
+            {
+                id: 9,
+                name: "Biology: The Core",
+                category: "textbook",
+                description: "Modern biology textbook covering cellular processes, genetics, and evolution.",
+                price: 62.00,
+                image: "https://images.unsplash.com/photo-1532094349884-543bc11b234d?w=400&h=300&fit=crop"
+            },
+            {
+                id: 10,
+                name: "To Kill a Mockingbird",
+                category: "novel",
+                description: "Timeless story about racial injustice and moral growth in the American South.",
+                price: 13.75,
+                image: "https://images.unsplash.com/photo-1519682337058-a94d519337bc?w=400&h=300&fit=crop"
+            },
+            {
+                id: 11,
+                name: "Psychology Research Methods",
+                category: "textbook",
+                description: "Guide to research methodology in psychology with statistical analysis techniques.",
+                price: 58.00,
+                image: "https://images.unsplash.com/photo-1516979187457-637abb4f9353?w=400&h=300&fit=crop"
+            },
+            {
+                id: 12,
+                name: "Time Magazine",
+                category: "magazine",
+                description: "Weekly news magazine covering politics, business, and world events.",
+                price: 6.50,
+                image: "https://images.unsplash.com/photo-1504711434969-e33886168f5c?w=400&h=300&fit=crop"
+            }
+        ];
+
+        let currentPage = 1;
+        const itemsPerPage = 6;
+        let filteredProducts = [...allProducts];
+        let isLoading = false;
+
+        function showLoading() {
+            isLoading = true;
+            const container = document.getElementById('productsContainer');
+            container.innerHTML = `
+                <div class="loading-container" style="grid-column: 1 / -1;">
+                    <div class="spinner"></div>
+                    <div class="loading-text">Loading products...</div>
+                </div>
+            `;
+        }
+
+        function showEmptyState() {
+            const container = document.getElementById('productsContainer');
+            container.innerHTML = `
+                <div class="empty-state" style="grid-column: 1 / -1;">
+                    <div class="empty-icon">📚</div>
+                    <div class="empty-message">Nothing found</div>
+                </div>
+            `;
+        }
+
+        function filterAndSortProducts() {
+            const priceSort = document.getElementById('sortPrice').value;
+            const categoryFilter = document.getElementById('sortCategory').value;
+
+            // Filter by category
+            filteredProducts = categoryFilter
+                ? allProducts.filter(p => p.category === categoryFilter)
+                : [...allProducts];
+
+            // Sort by price
+            if (priceSort === 'low') {
+                filteredProducts.sort((a, b) => a.price - b.price);
+            } else if (priceSort === 'high') {
+                filteredProducts.sort((a, b) => b.price - a.price);
+            }
+
+            currentPage = 1;
+            displayProducts();
+        }
+
+        function displayProducts() {
+            showLoading();
+
+            // Simulate loading delay
+            setTimeout(() => {
+                isLoading = false;
+                const container = document.getElementById('productsContainer');
+
+                if (filteredProducts.length === 0) {
+                    showEmptyState();
+                    document.getElementById('pagination').innerHTML = '';
+                    return;
+                }
+
+                const startIndex = (currentPage - 1) * itemsPerPage;
+                const endIndex = startIndex + itemsPerPage;
+                const pageProducts = filteredProducts.slice(startIndex, endIndex);
+
+                container.innerHTML = pageProducts.map(product => `
+                    <div class="product-card" onclick="viewProduct(${product.id})">
+                        <img src="${product.image}" alt="${product.name}" class="product-image">
+                        <div class="product-info">
+                            <div class="product-category">${product.category}</div>
+                            <div class="product-name">${product.name}</div>
+                            <div class="product-description">${product.description}</div>
+                            <div class="product-price">$${product.price.toFixed(2)}</div>
+                        </div>
+                    </div>
+                `).join('');
+
+                renderPagination();
+            }, 500);
+        }
+
+        function renderPagination() {
+            const totalPages = Math.ceil(filteredProducts.length / itemsPerPage);
+            const paginationContainer = document.getElementById('pagination');
+
+            if (totalPages <= 1) {
+                paginationContainer.innerHTML = '';
+                return;
+            }
+
+            let paginationHTML = '';
+
+            // Previous button
+            paginationHTML += `
+                <button class="page-btn" onclick="changePage(${currentPage - 1})" ${currentPage === 1 ? 'disabled' : ''}>
+                    ‹ Prev
+                </button>
+            `;
+
+            // Page numbers
+            for (let i = 1; i <= totalPages; i++) {
+                paginationHTML += `
+                    <button class="page-btn ${i === currentPage ? 'active' : ''}" onclick="changePage(${i})">
+                        ${i}
+                    </button>
+                `;
+            }
+
+            // Next button
+            paginationHTML += `
+                <button class="page-btn" onclick="changePage(${currentPage + 1})" ${currentPage === totalPages ? 'disabled' : ''}>
+                    Next ›
+                </button>
+            `;
+
+            paginationContainer.innerHTML = paginationHTML;
+        }
+
+        function changePage(page) {
+            const totalPages = Math.ceil(filteredProducts.length / itemsPerPage);
+            if (page < 1 || page > totalPages || isLoading) return;
+
+            currentPage = page;
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            displayProducts();
+        }
+
+        function viewProduct(id) {
+            alert(`Viewing product ${id}. In a real application, this would navigate to the product detail page.`);
+        }
+
+        // Event listeners
+        document.getElementById('sortPrice').addEventListener('change', filterAndSortProducts);
+        document.getElementById('sortCategory').addEventListener('change', filterAndSortProducts);
+
+        // Initial display
+        displayProducts();
+    </script>
+</body>
+</html>

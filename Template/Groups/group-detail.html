@@ -60,7 +60,7 @@
                     <button class="join-btn" id="joinBtn">Chat</button>
                 </a>
                 {% else %}
-                <a href="" style="text-decoration: none;">
+                <a href="{%url 'join_group' group=group.slug %}" style="text-decoration: none;">
                     <button class="join-btn" id="joinBtn">Join Group</button>
                 </a>
                 {% endif %}

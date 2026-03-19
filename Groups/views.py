@@ -1,10 +1,75 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
+from django.contrib.auth.decorators import login_required
+from django.urls import reverse
 from Auth import models
+from django.http import HttpResponse, JsonResponse
+import uuid
+import datetime
 
 # Create your views here.
+@login_required
 def groupCreateRender(request):
-    return render(request, 'Groups/group-create.html')
+    if request.method == 'POST':
+        print(request.POST)
+        group_name = request.POST.get('group-name')
+        group_desc = request.POST.get('group-description')
+        form_course = request.POST.get('group-course')
+        group_privacy = request.POST.get('privacy') == 'on'
 
+        form_img = request.FILES.get('group-image')
+        group_image = models.Images.objects.create(title = uuid.uuid4(), file=form_img)
+        group_course = models.Course.objects.get(course_id=form_course)
+
+        slug = group_name.lower().replace(' ', '-')
+        slug += '-' + str(models.Group.objects.filter(slug__startswith=slug).count() + 1)
+
+        try:
+            user = models.AuthCustomuser.objects.get(id=request.user.id)
+        
+            group = models.Group.objects.create(
+                name=group_name,
+                description=group_desc,
+                course=group_course,
+                is_private=group_privacy,
+                slug=slug,
+                admin = user,
+                image=group_image
+            )
+
+            group_member = models.GroupMember.objects.create(
+                group=group,
+                user=user,
+                role='admin'
+            )
+
+            data = {
+                'user_first_name': request.user.first_name,
+                'username':request.user.username,
+                'message': "Welcome to the group chat!",
+                'image_url': user.image.file.url if user.image != None else None,
+                'timestamp': f'{datetime.datetime.now().isoformat()}',
+                'ai': False
+            }
+
+            group_messages = models.GroupMessages.objects.create(
+                group=group,
+                messages=[data],
+                msg_index=1
+                )
+
+
+            url = request.build_absolute_uri(reverse('group_detail', kwargs={'group': group.slug}))
+            return JsonResponse({'status': True, 'url': url})
+        except Exception as e:
+            print(e)
+            return JsonResponse({'status': False})
+        
+    courses = models.Course.objects.all().order_by('course_name')
+    context = {
+        'courses': courses
+    }
+    return render(request, 'Groups/create-group.html', context)
+    
 def groupHomeRender(request):
     groups = models.Group.objects.all().order_by('members_no')[:6]
     #categories = models.Group.course.all()[:6]
@@ -33,6 +98,14 @@ def groupDetailRender(request, group):
     }
 
     return render(request, 'Groups/group-detail.html', context)
+
+@login_required
+def joinGroup(request, group):
+    group = get_object_or_404(models.Group, slug=group)
+    user = models.AuthCustomuser.objects.get(id=request.user.id)
+    models.GroupMember.objects.create(group=group, user=user, role='member')
+    url = request.build_absolute_uri(reverse('group_detail', kwargs={'group': group.slug}))
+    return redirect(url)
 
 def chatRoomRender(request, group):
     group = get_object_or_404(models.Group, slug=group)

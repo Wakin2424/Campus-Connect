@@ -108,7 +108,7 @@ def uploadProduct(request):
                 subject = models.Question_subjects(product=product, course=course)
                 subject.save()
             
-            url = request.build_absolute_uri(reverse('product_detail', kwargs={'id': product.code}))
+            url = request.build_absolute_uri(reverse('product_detail', kwargs={'id': product.slug}))
             status = True
 
             return JsonResponse({'status':status, 'url':url})
