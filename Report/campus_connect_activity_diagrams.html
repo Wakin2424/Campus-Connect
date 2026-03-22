@@ -1,0 +1,224 @@
+
+<style>
+.act-nav{display:flex;gap:6px;margin-bottom:12px;flex-wrap:wrap}
+.act-btn{padding:5px 12px;border-radius:20px;font-size:11px;border:1px solid var(--color-border-secondary);background:var(--color-background-secondary);color:var(--color-text-secondary);cursor:pointer;transition:all .15s}
+.act-btn.active{background:#1D9E75;border-color:#1D9E75;color:#fff}
+.act-panel{display:none}.act-panel.show{display:block}
+</style>
+<div class="act-nav">
+<button class="act-btn active" onclick="showAct(0)">Registration / login</button>
+<button class="act-btn" onclick="showAct(1)">Post &amp; answer Q&amp;A</button>
+<button class="act-btn" onclick="showAct(2)">Notes upload &amp; access</button>
+<button class="act-btn" onclick="showAct(3)">Buy product</button>
+</div>
+
+<div class="act-panel show" id="act0">
+<svg width="100%" viewBox="0 0 680 680">
+<defs><marker id="ba0" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker></defs>
+<text class="th" x="340" y="20" text-anchor="middle" font-size="12">Activity — registration / login</text>
+<circle cx="340" cy="46" r="10" fill="#444441"/>
+<line x1="340" y1="56" x2="340" y2="76" stroke="#444441" stroke-width="1" marker-end="url(#ba0)"/>
+<g class="c-blue"><rect x="260" y="76" width="160" height="36" rx="8" stroke-width="0.5"/><text class="ts" x="340" y="99" text-anchor="middle">Open login/register page</text></g>
+<line x1="340" y1="112" x2="340" y2="138" stroke="#444441" stroke-width="1" marker-end="url(#ba0)"/>
+<polygon points="340,138 370,158 340,178 310,158" fill="#FAEEDA" stroke="#BA7517" stroke-width="0.8"/>
+<text class="ts" x="340" y="162" text-anchor="middle" fill="#412402">New user?</text>
+<line x1="370" y1="158" x2="480" y2="158" stroke="#444441" stroke-width="1" marker-end="url(#ba0)"/>
+<text class="ts" x="424" y="153" text-anchor="middle">Yes</text>
+<g class="c-teal"><rect x="480" y="140" width="150" height="36" rx="8" stroke-width="0.5"/><text class="ts" x="555" y="163" text-anchor="middle">Fill register form</text></g>
+<line x1="555" y1="176" x2="555" y2="210" stroke="#444441" stroke-width="1" marker-end="url(#ba0)"/>
+<g class="c-teal"><rect x="480" y="210" width="150" height="36" rx="8" stroke-width="0.5"/><text class="ts" x="555" y="233" text-anchor="middle">POST /api/auth/register/</text></g>
+<line x1="555" y1="246" x2="555" y2="276" stroke="#444441" stroke-width="1" marker-end="url(#ba0)"/>
+<polygon points="555,276 585,296 555,316 525,296" fill="#FAEEDA" stroke="#BA7517" stroke-width="0.8"/>
+<text class="ts" x="555" y="300" text-anchor="middle" fill="#412402">Email valid?</text>
+<line x1="555" y1="316" x2="555" y2="346" stroke="#444441" stroke-width="1" marker-end="url(#ba0)"/>
+<text class="ts" x="566" y="336" text-anchor="middle">Yes</text>
+<g class="c-teal"><rect x="480" y="346" width="150" height="36" rx="8" stroke-width="0.5"/><text class="ts" x="555" y="369" text-anchor="middle">Send verify email</text></g>
+<line x1="585" y1="296" x2="650" y2="296" stroke="#E24B4A" stroke-width="1" marker-end="url(#ba0)"/>
+<text class="ts" x="618" y="291" text-anchor="middle" fill="#A32D2D">No</text>
+<g class="c-red"><rect x="620" y="278" width="52" height="36" rx="8" stroke-width="0.5"/><text class="ts" x="646" y="301" text-anchor="middle">Error</text></g>
+<line x1="310" y1="158" x2="190" y2="158" stroke="#444441" stroke-width="1" marker-end="url(#ba0)"/>
+<text class="ts" x="250" y="153" text-anchor="middle">No</text>
+<g class="c-blue"><rect x="100" y="140" width="150" height="36" rx="8" stroke-width="0.5"/><text class="ts" x="175" y="163" text-anchor="middle">Fill login form</text></g>
+<line x1="175" y1="176" x2="175" y2="210" stroke="#444441" stroke-width="1" marker-end="url(#ba0)"/>
+<g class="c-blue"><rect x="100" y="210" width="150" height="36" rx="8" stroke-width="0.5"/><text class="ts" x="175" y="233" text-anchor="middle">POST /api/auth/login/</text></g>
+<line x1="175" y1="246" x2="175" y2="276" stroke="#444441" stroke-width="1" marker-end="url(#ba0)"/>
+<polygon points="175,276 205,296 175,316 145,296" fill="#FAEEDA" stroke="#BA7517" stroke-width="0.8"/>
+<text class="ts" x="175" y="300" text-anchor="middle" fill="#412402">Valid login?</text>
+<line x1="175" y1="316" x2="175" y2="346" stroke="#444441" stroke-width="1" marker-end="url(#ba0)"/>
+<text class="ts" x="186" y="336" text-anchor="middle">Yes</text>
+<g class="c-blue"><rect x="100" y="346" width="150" height="36" rx="8" stroke-width="0.5"/><text class="ts" x="175" y="369" text-anchor="middle">Issue JWT token</text></g>
+<line x1="145" y1="296" x2="80" y2="296" stroke="#E24B4A" stroke-width="1" marker-end="url(#ba0)"/>
+<text class="ts" x="112" y="291" text-anchor="middle" fill="#A32D2D">No</text>
+<g class="c-red"><rect x="28" y="278" width="52" height="36" rx="8" stroke-width="0.5"/><text class="ts" x="54" y="301" text-anchor="middle">401 err</text></g>
+<line x1="175" y1="382" x2="175" y2="430" stroke="#444441" stroke-width="1"/>
+<line x1="555" y1="382" x2="555" y2="430" stroke="#444441" stroke-width="1"/>
+<line x1="175" y1="430" x2="555" y2="430" stroke="#444441" stroke-width="1"/>
+<line x1="340" y1="430" x2="340" y2="460" stroke="#444441" stroke-width="1" marker-end="url(#ba0)"/>
+<g class="c-teal"><rect x="240" y="460" width="200" height="36" rx="8" stroke-width="0.5"/><text class="ts" x="340" y="483" text-anchor="middle">Store token, load profile</text></g>
+<line x1="340" y1="496" x2="340" y2="526" stroke="#444441" stroke-width="1" marker-end="url(#ba0)"/>
+<g class="c-teal"><rect x="240" y="526" width="200" height="36" rx="8" stroke-width="0.5"/><text class="ts" x="340" y="549" text-anchor="middle">Redirect to dashboard</text></g>
+<line x1="340" y1="562" x2="340" y2="596" stroke="#444441" stroke-width="1" marker-end="url(#ba0)"/>
+<circle cx="340" cy="608" r="10" fill="none" stroke="#444441" stroke-width="2"/>
+<circle cx="340" cy="608" r="6" fill="#444441"/>
+</svg>
+</div>
+
+<div class="act-panel" id="act1">
+<svg width="100%" viewBox="0 0 680 580">
+<defs><marker id="ba1" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker></defs>
+<text class="th" x="340" y="20" text-anchor="middle" font-size="12">Activity — post &amp; answer question</text>
+<circle cx="340" cy="46" r="10" fill="#444441"/>
+<line x1="340" y1="56" x2="340" y2="80" stroke="#444441" stroke-width="1" marker-end="url(#ba1)"/>
+<g class="c-blue"><rect x="255" y="80" width="170" height="36" rx="8" stroke-width="0.5"/><text class="ts" x="340" y="103" text-anchor="middle">Navigate to Q&amp;A section</text></g>
+<line x1="340" y1="116" x2="340" y2="146" stroke="#444441" stroke-width="1" marker-end="url(#ba1)"/>
+<polygon points="340,146 370,166 340,186 310,166" fill="#FAEEDA" stroke="#BA7517" stroke-width="0.8"/>
+<text class="ts" x="340" y="170" text-anchor="middle" fill="#412402">Post or browse?</text>
+<line x1="370" y1="166" x2="490" y2="166" stroke="#444441" stroke-width="1" marker-end="url(#ba1)"/>
+<text class="ts" x="430" y="161" text-anchor="middle">Post</text>
+<line x1="310" y1="166" x2="190" y2="166" stroke="#444441" stroke-width="1" marker-end="url(#ba1)"/>
+<text class="ts" x="250" y="161" text-anchor="middle">Browse</text>
+<g class="c-teal"><rect x="120" y="148" width="140" height="36" rx="8" stroke-width="0.5"/><text class="ts" x="190" y="171" text-anchor="middle">Browse questions</text></g>
+<line x1="190" y1="184" x2="190" y2="214" stroke="#444441" stroke-width="1" marker-end="url(#ba1)"/>
+<g class="c-teal"><rect x="120" y="214" width="140" height="36" rx="8" stroke-width="0.5"/><text class="ts" x="190" y="237" text-anchor="middle">Select question</text></g>
+<line x1="190" y1="250" x2="190" y2="280" stroke="#444441" stroke-width="1" marker-end="url(#ba1)"/>
+<g class="c-teal"><rect x="120" y="280" width="140" height="36" rx="8" stroke-width="0.5"/><text class="ts" x="190" y="303" text-anchor="middle">Write answer</text></g>
+<line x1="190" y1="316" x2="190" y2="346" stroke="#444441" stroke-width="1" marker-end="url(#ba1)"/>
+<g class="c-teal"><rect x="110" y="346" width="160" height="36" rx="8" stroke-width="0.5"/><text class="ts" x="190" y="369" text-anchor="middle">POST /api/qa/{id}/answers/</text></g>
+<line x1="190" y1="382" x2="190" y2="420" stroke="#444441" stroke-width="1"/>
+<g class="c-purple"><rect x="490" y="148" width="140" height="36" rx="8" stroke-width="0.5"/><text class="ts" x="560" y="171" text-anchor="middle">Write question</text></g>
+<line x1="560" y1="184" x2="560" y2="214" stroke="#444441" stroke-width="1" marker-end="url(#ba1)"/>
+<g class="c-purple"><rect x="480" y="214" width="160" height="36" rx="8" stroke-width="0.5"/><text class="ts" x="560" y="237" text-anchor="middle">POST /api/qa/</text></g>
+<line x1="560" y1="250" x2="560" y2="280" stroke="#444441" stroke-width="1" marker-end="url(#ba1)"/>
+<polygon points="560,280 590,300 560,320 530,300" fill="#FAEEDA" stroke="#BA7517" stroke-width="0.8"/>
+<text class="ts" x="560" y="304" text-anchor="middle" fill="#412402">Duplicate?</text>
+<line x1="590" y1="300" x2="650" y2="300" stroke="#E24B4A" stroke-width="1" marker-end="url(#ba1)"/>
+<text class="ts" x="620" y="295" text-anchor="middle" fill="#A32D2D">Yes</text>
+<g class="c-red"><rect x="622" y="282" width="52" height="36" rx="8" stroke-width="0.5"/><text class="ts" x="648" y="305" text-anchor="middle">Warn</text></g>
+<line x1="560" y1="320" x2="560" y2="346" stroke="#444441" stroke-width="1" marker-end="url(#ba1)"/>
+<text class="ts" x="571" y="338" text-anchor="middle">No</text>
+<g class="c-purple"><rect x="480" y="346" width="160" height="36" rx="8" stroke-width="0.5"/><text class="ts" x="560" y="369" text-anchor="middle">Saved, notify watchers</text></g>
+<line x1="560" y1="382" x2="560" y2="420" stroke="#444441" stroke-width="1"/>
+<line x1="190" y1="420" x2="560" y2="420" stroke="#444441" stroke-width="1"/>
+<line x1="375" y1="420" x2="375" y2="450" stroke="#444441" stroke-width="1" marker-end="url(#ba1)"/>
+<g class="c-blue"><rect x="265" y="450" width="220" height="36" rx="8" stroke-width="0.5"/><text class="ts" x="375" y="473" text-anchor="middle">Refresh Q&amp;A list on page</text></g>
+<line x1="375" y1="486" x2="375" y2="516" stroke="#444441" stroke-width="1" marker-end="url(#ba1)"/>
+<circle cx="375" cy="528" r="10" fill="none" stroke="#444441" stroke-width="2"/>
+<circle cx="375" cy="528" r="6" fill="#444441"/>
+</svg>
+</div>
+
+<div class="act-panel" id="act2">
+<svg width="100%" viewBox="0 0 680 600">
+<defs><marker id="ba2" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker></defs>
+<text class="th" x="340" y="20" text-anchor="middle" font-size="12">Activity — notes upload &amp; access</text>
+<circle cx="340" cy="46" r="10" fill="#444441"/>
+<line x1="340" y1="56" x2="340" y2="80" stroke="#444441" stroke-width="1" marker-end="url(#ba2)"/>
+<polygon points="340,80 370,100 340,120 310,100" fill="#FAEEDA" stroke="#BA7517" stroke-width="0.8"/>
+<text class="ts" x="340" y="104" text-anchor="middle" fill="#412402">Upload or browse?</text>
+<line x1="370" y1="100" x2="490" y2="100" stroke="#444441" stroke-width="1" marker-end="url(#ba2)"/>
+<text class="ts" x="430" y="95" text-anchor="middle">Upload</text>
+<line x1="310" y1="100" x2="190" y2="100" stroke="#444441" stroke-width="1" marker-end="url(#ba2)"/>
+<text class="ts" x="250" y="95" text-anchor="middle">Browse</text>
+<g class="c-teal"><rect x="110" y="82" width="160" height="36" rx="8" stroke-width="0.5"/><text class="ts" x="190" y="105" text-anchor="middle">Search / filter notes</text></g>
+<line x1="190" y1="118" x2="190" y2="148" stroke="#444441" stroke-width="1" marker-end="url(#ba2)"/>
+<g class="c-teal"><rect x="110" y="148" width="160" height="36" rx="8" stroke-width="0.5"/><text class="ts" x="190" y="171" text-anchor="middle">Select note</text></g>
+<line x1="190" y1="184" x2="190" y2="214" stroke="#444441" stroke-width="1" marker-end="url(#ba2)"/>
+<polygon points="190,214 220,234 190,254 160,234" fill="#FAEEDA" stroke="#BA7517" stroke-width="0.8"/>
+<text class="ts" x="190" y="238" text-anchor="middle" fill="#412402">Download?</text>
+<line x1="190" y1="254" x2="190" y2="284" stroke="#444441" stroke-width="1" marker-end="url(#ba2)"/>
+<text class="ts" x="201" y="272" text-anchor="middle">Yes</text>
+<g class="c-teal"><rect x="110" y="284" width="160" height="36" rx="8" stroke-width="0.5"/><text class="ts" x="190" y="307" text-anchor="middle">GET /api/notes/{id}/dl/</text></g>
+<line x1="220" y1="234" x2="86" y2="234" stroke="#BA7517" stroke-width="1" marker-end="url(#ba2)"/>
+<text class="ts" x="153" y="229" text-anchor="middle">No</text>
+<g class="c-teal"><rect x="16" y="216" width="70" height="36" rx="8" stroke-width="0.5"/><text class="ts" x="51" y="239" text-anchor="middle">Rate/like</text></g>
+<g class="c-coral"><rect x="490" y="82" width="160" height="36" rx="8" stroke-width="0.5"/><text class="ts" x="570" y="105" text-anchor="middle">Select file</text></g>
+<line x1="570" y1="118" x2="570" y2="148" stroke="#444441" stroke-width="1" marker-end="url(#ba2)"/>
+<polygon points="570,148 600,168 570,188 540,168" fill="#FAEEDA" stroke="#BA7517" stroke-width="0.8"/>
+<text class="ts" x="570" y="172" text-anchor="middle" fill="#412402">Valid PDF?</text>
+<line x1="600" y1="168" x2="650" y2="168" stroke="#E24B4A" stroke-width="1" marker-end="url(#ba2)"/>
+<text class="ts" x="625" y="163" text-anchor="middle" fill="#A32D2D">No</text>
+<g class="c-red"><rect x="622" y="150" width="52" height="36" rx="8" stroke-width="0.5"/><text class="ts" x="648" y="173" text-anchor="middle">Error</text></g>
+<line x1="570" y1="188" x2="570" y2="218" stroke="#444441" stroke-width="1" marker-end="url(#ba2)"/>
+<text class="ts" x="581" y="207" text-anchor="middle">Yes</text>
+<g class="c-coral"><rect x="490" y="218" width="160" height="36" rx="8" stroke-width="0.5"/><text class="ts" x="570" y="241" text-anchor="middle">Add title, subjects</text></g>
+<line x1="570" y1="254" x2="570" y2="284" stroke="#444441" stroke-width="1" marker-end="url(#ba2)"/>
+<g class="c-coral"><rect x="490" y="284" width="160" height="36" rx="8" stroke-width="0.5"/><text class="ts" x="570" y="307" text-anchor="middle">POST /api/notes/ multipart</text></g>
+<line x1="570" y1="320" x2="570" y2="350" stroke="#444441" stroke-width="1" marker-end="url(#ba2)"/>
+<g class="c-coral"><rect x="490" y="350" width="160" height="36" rx="8" stroke-width="0.5"/><text class="ts" x="570" y="373" text-anchor="middle">Saved to storage + DB</text></g>
+<line x1="190" y1="320" x2="190" y2="430" stroke="#444441" stroke-width="1"/>
+<line x1="570" y1="386" x2="570" y2="430" stroke="#444441" stroke-width="1"/>
+<line x1="190" y1="430" x2="570" y2="430" stroke="#444441" stroke-width="1"/>
+<line x1="380" y1="430" x2="380" y2="460" stroke="#444441" stroke-width="1" marker-end="url(#ba2)"/>
+<g class="c-blue"><rect x="270" y="460" width="220" height="36" rx="8" stroke-width="0.5"/><text class="ts" x="380" y="483" text-anchor="middle">Update note list view</text></g>
+<line x1="380" y1="496" x2="380" y2="526" stroke="#444441" stroke-width="1" marker-end="url(#ba2)"/>
+<circle cx="380" cy="538" r="10" fill="none" stroke="#444441" stroke-width="2"/>
+<circle cx="380" cy="538" r="6" fill="#444441"/>
+</svg>
+</div>
+
+<div class="act-panel" id="act3">
+<svg width="100%" viewBox="0 0 680 660">
+<defs><marker id="ba3" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker></defs>
+<text class="th" x="340" y="20" text-anchor="middle" font-size="12">Activity — buy product (payment / negotiation)</text>
+<circle cx="340" cy="46" r="10" fill="#444441"/>
+<line x1="340" y1="56" x2="340" y2="80" stroke="#444441" stroke-width="1" marker-end="url(#ba3)"/>
+<g class="c-purple"><rect x="250" y="80" width="180" height="36" rx="8" stroke-width="0.5"/><text class="ts" x="340" y="103" text-anchor="middle">Browse marketplace</text></g>
+<line x1="340" y1="116" x2="340" y2="146" stroke="#444441" stroke-width="1" marker-end="url(#ba3)"/>
+<g class="c-purple"><rect x="250" y="146" width="180" height="36" rx="8" stroke-width="0.5"/><text class="ts" x="340" y="169" text-anchor="middle">View product detail</text></g>
+<line x1="340" y1="182" x2="340" y2="212" stroke="#444441" stroke-width="1" marker-end="url(#ba3)"/>
+<polygon points="340,212 370,232 340,252 310,232" fill="#FAEEDA" stroke="#BA7517" stroke-width="0.8"/>
+<text class="ts" x="340" y="236" text-anchor="middle" fill="#412402">Buy or negotiate?</text>
+<line x1="370" y1="232" x2="490" y2="232" stroke="#444441" stroke-width="1" marker-end="url(#ba3)"/>
+<text class="ts" x="430" y="227" text-anchor="middle">Buy now</text>
+<line x1="310" y1="232" x2="190" y2="232" stroke="#444441" stroke-width="1" marker-end="url(#ba3)"/>
+<text class="ts" x="250" y="227" text-anchor="middle">Negotiate</text>
+<g class="c-teal"><rect x="100" y="214" width="160" height="36" rx="8" stroke-width="0.5"/><text class="ts" x="180" y="237" text-anchor="middle">Contact seller request</text></g>
+<line x1="180" y1="250" x2="180" y2="280" stroke="#444441" stroke-width="1" marker-end="url(#ba3)"/>
+<g class="c-teal"><rect x="100" y="280" width="160" height="36" rx="8" stroke-width="0.5"/><text class="ts" x="180" y="303" text-anchor="middle">Await seller response</text></g>
+<line x1="180" y1="316" x2="180" y2="346" stroke="#444441" stroke-width="1" marker-end="url(#ba3)"/>
+<polygon points="180,346 210,366 180,386 150,366" fill="#FAEEDA" stroke="#BA7517" stroke-width="0.8"/>
+<text class="ts" x="180" y="370" text-anchor="middle" fill="#412402">Accepted?</text>
+<line x1="150" y1="366" x2="80" y2="366" stroke="#E24B4A" stroke-width="1" marker-end="url(#ba3)"/>
+<text class="ts" x="115" y="361" text-anchor="middle" fill="#A32D2D">No</text>
+<g class="c-red"><rect x="22" y="348" width="58" height="36" rx="8" stroke-width="0.5"/><text class="ts" x="51" y="371" text-anchor="middle">Rejected</text></g>
+<line x1="180" y1="386" x2="180" y2="420" stroke="#444441" stroke-width="1" marker-end="url(#ba3)"/>
+<text class="ts" x="191" y="407" text-anchor="middle">Yes</text>
+<line x1="180" y1="420" x2="340" y2="420" stroke="#444441" stroke-width="1"/>
+<g class="c-coral"><rect x="490" y="214" width="160" height="36" rx="8" stroke-width="0.5"/><text class="ts" x="570" y="237" text-anchor="middle">Choose payment method</text></g>
+<line x1="570" y1="250" x2="570" y2="280" stroke="#444441" stroke-width="1" marker-end="url(#ba3)"/>
+<polygon points="570,280 600,300 570,320 540,300" fill="#FAEEDA" stroke="#BA7517" stroke-width="0.8"/>
+<text class="ts" x="570" y="304" text-anchor="middle" fill="#412402">MPESA or PayPal?</text>
+<line x1="540" y1="300" x2="460" y2="300" stroke="#444441" stroke-width="1" marker-end="url(#ba3)"/>
+<text class="ts" x="500" y="295" text-anchor="middle">MPESA</text>
+<g class="c-coral"><rect x="370" y="282" width="90" height="36" rx="8" stroke-width="0.5"/><text class="ts" x="415" y="305" text-anchor="middle">STK push</text></g>
+<line x1="600" y1="300" x2="660" y2="300" stroke="#444441" stroke-width="1" marker-end="url(#ba3)"/>
+<text class="ts" x="630" y="295" text-anchor="middle">PayPal</text>
+<g class="c-coral"><rect x="622" y="282" width="50" height="36" rx="8" stroke-width="0.5"/><text class="ts" x="647" y="305" text-anchor="middle">PayPal</text></g>
+<line x1="415" y1="318" x2="415" y2="350" stroke="#444441" stroke-width="1"/>
+<line x1="647" y1="318" x2="647" y2="350" stroke="#444441" stroke-width="1"/>
+<line x1="415" y1="350" x2="647" y2="350" stroke="#444441" stroke-width="1"/>
+<line x1="531" y1="350" x2="531" y2="380" stroke="#444441" stroke-width="1" marker-end="url(#ba3)"/>
+<polygon points="531,380 561,400 531,420 501,400" fill="#FAEEDA" stroke="#BA7517" stroke-width="0.8"/>
+<text class="ts" x="531" y="404" text-anchor="middle" fill="#412402">Payment OK?</text>
+<line x1="501" y1="400" x2="450" y2="400" stroke="#E24B4A" stroke-width="1" marker-end="url(#ba3)"/>
+<text class="ts" x="475" y="395" text-anchor="middle" fill="#A32D2D">No</text>
+<g class="c-red"><rect x="390" y="382" width="60" height="36" rx="8" stroke-width="0.5"/><text class="ts" x="420" y="405" text-anchor="middle">Retry</text></g>
+<line x1="531" y1="420" x2="531" y2="456" stroke="#444441" stroke-width="1" marker-end="url(#ba3)"/>
+<text class="ts" x="542" y="441" text-anchor="middle">Yes</text>
+<line x1="531" y1="420" x2="340" y2="420" stroke="#444441" stroke-width="1"/>
+<line x1="340" y1="420" x2="340" y2="456" stroke="#444441" stroke-width="1" marker-end="url(#ba3)"/>
+<g class="c-teal"><rect x="240" y="456" width="200" height="36" rx="8" stroke-width="0.5"/><text class="ts" x="340" y="479" text-anchor="middle">Update DB + notify seller</text></g>
+<line x1="340" y1="492" x2="340" y2="522" stroke="#444441" stroke-width="1" marker-end="url(#ba3)"/>
+<g class="c-teal"><rect x="240" y="522" width="200" height="36" rx="8" stroke-width="0.5"/><text class="ts" x="340" y="545" text-anchor="middle">Show receipt to buyer</text></g>
+<line x1="340" y1="558" x2="340" y2="590" stroke="#444441" stroke-width="1" marker-end="url(#ba3)"/>
+<circle cx="340" cy="602" r="10" fill="none" stroke="#444441" stroke-width="2"/>
+<circle cx="340" cy="602" r="6" fill="#444441"/>
+</svg>
+</div>
+
+<script>
+function showAct(i){
+  document.querySelectorAll('.act-panel').forEach((p,j)=>p.classList.toggle('show',j===i));
+  document.querySelectorAll('.act-btn').forEach((b,j)=>b.classList.toggle('active',j===i));
+}
+</script>

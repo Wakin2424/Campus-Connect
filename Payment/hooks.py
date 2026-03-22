@@ -41,6 +41,7 @@ def normalizePhone(phone):
 def getMpesaToken():
     url = 'https://sandbox.safaricom.co.ke/oauth/v1/generate?grant_type=client_credentials'
     response = requests.get(url, auth=HTTPBasicAuth(settings.MPESA_CUSTOMER_KEY, settings.MPESA_CUSTOMER_SECRET))
+    print(f"Got the access token: {response.json().get('access_token')}")
     return response.json().get('access_token')
 
 # Initiate STK push Function
