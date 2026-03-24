@@ -55,7 +55,7 @@ INSTALLED_APPS = [
     'social_django',
     'channels',
     'template_partials',
-    #'anymail',
+    'anymail',
     
     #apps
     'Home',
@@ -198,6 +198,10 @@ AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
 )
 
+ANYMAIL = {
+    "BREVO_API_KEY": env("BREVO_API_KEY"),
+}
+
 
 SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = env('SOCIAL_KEY') 
 SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = env('SOCIAL_SECRET')
@@ -221,13 +225,16 @@ MPESA_PASSKEY = env('MPESA_PASSKEY')
 MPESA_CALLBACK = env('CALLBACK')
 
 # Email
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+#EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_BACKEND = "anymail.backends.brevo.EmailBackend"
+
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = env('EMAIL_PORT')
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = env('EMAIL_HOST_USER')        
 EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD') 
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+#DEFAULT_FROM_EMAIL = "Your App <noreply@yourdomain.com>"
 
 # AI Model API Key
 GOOGLE_API_KEY= env('GOOGLE_API_KEY')

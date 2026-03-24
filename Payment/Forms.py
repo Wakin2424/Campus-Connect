@@ -4,9 +4,9 @@ from django.urls import reverse
 from . import hooks
 
 
-def mpesaPaymentProcessing(request, payment, contact):
-    callback_uri = request.build_absolute_uri(reverse('callback', kwargs={'id': payment.transaction_id})).replace("http://", "https://")
-    hooks.initiateStkPush(callback_uri, contact, payment.product.name, payment.amount)
+def mpesaPaymentProcessing(request, name, contact, price, transaction_id):
+    callback_uri = request.build_absolute_uri(reverse('callback', kwargs={'id': transaction_id})).replace("http://", "https://")
+    hooks.initiateStkPush(callback_uri, contact, name, price)
 
 def paypalPaymentProcessing(request, payment):
     host = request.get_host()

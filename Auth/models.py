@@ -258,7 +258,7 @@ class Payment(models.Model):
     product = models.ForeignKey('Product', blank=True, null=True, on_delete=models.SET_NULL, related_name='payment')
     payment_method = models.CharField(max_length=50)
     price = models.DecimalField(max_digits=10, decimal_places=2)
-    amount = models.IntegerField(blank=True, null=True)
+    amount = models.IntegerField(blank=True, null=True, default=1)
     status = models.CharField(max_length=20, default='pending')
     created_at = models.DateTimeField(blank=True, null=True, auto_now_add=True)
 

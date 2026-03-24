@@ -33,21 +33,43 @@
             </script>
             {% elif Type == 'mpesa' %}
             <script>
-                let validationInterval = setInterval(() => {
-                    fetch("{%url 'home'%}")
-                        .then(res => res.json())
-                        .then(data => {
-                        if (data.status == 200) {
-                            window.location.href = "{%url 'payment_success'%}";
-                            clearInterval(validationInterval)
-                        }
-                        else if(data.status == 400){
-                            window.location.href = "{%url 'payment_failed'%}";
-                            clearInterval(validationInterval)
-                        }
+                function getCSRFToken() {
+                    let cookieValue = null;
+                    const cookies = document.cookie.split(';');
 
-                        });
-                    }, 3000); // poll every 3 seconds
+                    cookies.forEach(cookie => {
+                        const trimmed = cookie.trim();
+                        if (trimmed.startsWith('csrftoken=')) {
+                            cookieValue = trimmed.substring('csrftoken='.length);
+                        }
+                    });
+
+                    return cookieValue;
+                }
+                let validationInterval = setInterval(() => {
+                    fetch("{% url 'transaction_status' id=transaction_id %}", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                            "X-CSRFToken": getCSRFToken()  // needed for Django
+                        },
+                        body: JSON.stringify({
+                            transaction_id: "{{ transaction_id }}"
+                        })
+                    })
+                    .then(res => res.json())
+                    .then(data => {
+                        if (data.status == 200) {
+                            window.location.href = "{% url 'payment_success' slug=slug %}";
+                            clearInterval(validationInterval);
+                        }
+                        else if (data.status == 400) {
+                            window.location.href = "{% url 'payment_fail' slug=slug %}";
+                            clearInterval(validationInterval);
+                        }
+                    })
+                    .catch(err => console.error("Error:", err));
+                                        }, 3000); // poll every 3 seconds
             </script>
             {% endif %}
 

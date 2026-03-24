@@ -7,6 +7,7 @@ urlpatterns = [
     path('api/inter-payment-processing/<str:id>/', views.productPaymentProcessing, name='inter_payment_processing'),
     path('api/payment-negotiation/', views.paymentNegotiationRequest, name='payment_negotiation_request'),
     path('redirect', views.paymentRedirect, name='redirect'),
+    path('api/transaction-status/<str:id>/', views.mpesaTransactionCheck, name='transaction_status'),
     path('paypal', include('paypal.standard.ipn.urls')),
     path('api/mpesa/callback/<str:id>/', views.mpesaCallback, name='callback'),
     path('payment-success/<str:slug>/', views.successTemplate, name='payment_success'),

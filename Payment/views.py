@@ -39,7 +39,13 @@ def productPaymentProcessing(request, id):
             
         elif payment_method == 'seller':
             payment = models.Payment(transaction_id=transaction_id, user=user, product=product, payment_method='negotiate', price=product.discount)
+            address = models.Address(user=user, address1=address1, address2=address2, contact=contact, city=city, postal_code=postal_code, country=country)
+
+            payment.save()
+            address.save()
+
             return redirect(reverse('product_detail', kwargs={'id': product.code}))
+    return JsonResponse({'status':False})
 
 
 
@@ -105,14 +111,19 @@ def paymentRedirect(request):
         raise HttpResponseForbidden('')
     
     payment = payment.last()
-    context = {}
+    context = {
+        'slug': payment.product.slug
+    }
 
     if payment.payment_method == 'paypal':
         context['Type'] = 'paypal'
         context['paypal_form'] = Forms.paypalPaymentProcessing(request, payment)
     
     elif payment.payment_method == 'mpesa':
-        Forms.mpesaPaymentProcessing(request, payment, address.contact)
+        print(payment.amount, payment.transaction_id)
+        context['Type'] = 'mpesa'
+        context['transaction_id'] = payment.transaction_id
+        Forms.mpesaPaymentProcessing(request, payment.product.name, address.contact, payment.price, payment.transaction_id)
 
     return render(request, 'Payment/redirect.html', context)
 
@@ -154,6 +165,7 @@ def mpesaTransactionCheck(request, id):
             
         except:
             return JsonResponse({'status':404})
+    return JsonResponse({'status':404})
         
 
 

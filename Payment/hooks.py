@@ -48,7 +48,9 @@ def getMpesaToken():
 def initiateStkPush(callback_uri, phone_number, product_name, amount):
     access_token = getMpesaToken()
     phone_number = normalizePhone(phone_number)
-    print(access_token, 'hello', phone_number, callback_uri)
+    print(access_token, 'hello', phone_number, callback_uri, amount)
+    amount = int(amount)
+    
     timestamp = datetime.datetime.now().strftime('%Y%m%d%H%M%S')
     password = base64.b64encode((settings.MPESA_SHORTCODE + settings.MPESA_PASSKEY + timestamp).encode()).decode()
     headers = {
@@ -75,5 +77,8 @@ def initiateStkPush(callback_uri, phone_number, product_name, amount):
         headers=headers,
         json=payload
     )
+
+    print("STATUS:", response.status_code)
+    print("RESPONSE:", response.text)
 
     return response.json()
