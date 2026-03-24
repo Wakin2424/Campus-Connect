@@ -1,4 +1,4 @@
 .env
 data.txt
 venv/
-Database/
+/Database/
