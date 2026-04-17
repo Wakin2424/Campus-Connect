@@ -84,7 +84,7 @@ Docker Compose
 Git
 
 🔹 Step 1: Clone the Repository
-git clone https://github.com/your-username/campus-connect.git
+git clone https://github.com/BlairKimani/Campus-Connect.git
 cd campus-connect
 
 🔹 Step 2: Configure Environment Variables
@@ -127,16 +127,16 @@ Admin Panel:
 
 📂 Project Structure (Overview)
 campus-connect/
-│
-├── accounts/        # Custom user authentication
-├── qa/              # Questions & answers
-├── notes/           # Notes & handouts
-├── market/          # Marketplace
-├── groups/          # Study groups
-├── notifications/   # User notifications
-├── docker-compose.yml
-├── Dockerfile
-└── README.md
+│ 
+├── accounts/        # Custom user authentication 
+├── qa/              # Questions & answers 
+├── notes/           # Notes & handouts 
+├── market/          # Marketplace 
+├── groups/          # Study groups 
+├── notifications/   # User notifications 
+├── docker-compose.yml 
+├── Dockerfile 
+└── README.md 
 
 🚀 Future Improvements
 
