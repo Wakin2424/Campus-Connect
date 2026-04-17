@@ -8,12 +8,16 @@ def Auth_index(request):
     user = models.AuthCustomuser.objects.get(id=request.user.id)
     question_length = len(models.Qa.objects.filter(user=user))
     answer_length = len(models.Answers.objects.filter(user=user))
+    notes_length = len(models.Notes.objects.filter(user=user))
+    products_length = len(models.Payment.objects.filter(product__user=user, status='complete'))
     latest_questions = models.Qa.objects.all().order_by('-created_at')[:6]
     trending_questions = models.Qa.objects.all().order_by('-views')[:6]
     products = models.Product.objects.all().order_by('created_at')[:3]
     context = {
         'question_length': question_length,
         'answer_length': answer_length,
+        'notes_length': notes_length,
+        'products_length': products_length,
         'latest_questions': latest_questions,
         'trending_questions': trending_questions,
         'products': products

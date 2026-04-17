@@ -11,6 +11,10 @@ AI_model = genai.Client(api_key=settings.GOOGLE_API_KEY)
 # Create your views here.
 def saveAIanswer(question, answer):
     from Auth import models as Models
+
+    question.answer_len += 1
+    question.save()
+    
     user = Models.AuthCustomuser.objects.get(username='ModuloAI')
     answer = Models.Answers.objects.create(user=user, question=question, answer=answer, ai=True,code=uuid.uuid4())
     answer.save()

@@ -142,32 +142,17 @@
         <div class="related-notes">
             <h2 class="section-title">Related Notes</h2>
             <div class="related-grid">
+                {% for related_note in related_notes %}
                 <div class="related-card">
-                    <h4>Calculus I - Derivatives and Applications</h4>
-                    <p>Comprehensive guide to derivatives, chain rule, and real-world applications with practice problems.</p>
+                    <h4>{{related_note.title}}</h4>
+                    <p>{{related_note.description}}</p>
                     <div class="related-meta">
-                        <span>by John Davis</span>
-                        <span>Downloaded 89 times</span>
+                        <span>by {{related_note.user.first_name}} {{related_note.last_name}}</span>
+                        <span>Downloaded {{related_note.downloads}} times</span>
                     </div>
                 </div>
+                {% endfor %}
                 
-                <div class="related-card">
-                    <h4>Advanced Integration - Series and Sequences</h4>
-                    <p>Deep dive into infinite series, convergence tests, and power series expansions for advanced calculus.</p>
-                    <div class="related-meta">
-                        <span>by Emma Lopez</span>
-                        <span>Downloaded 156 times</span>
-                    </div>
-                </div>
-                
-                <div class="related-card">
-                    <h4>Multivariable Calculus - Partial Derivatives</h4>
-                    <p>Introduction to functions of several variables, partial derivatives, and optimization problems.</p>
-                    <div class="related-meta">
-                        <span>by Mike Roberts</span>
-                        <span>Downloaded 203 times</span>
-                    </div>
-                </div>
             </div>
         </div>
     </main>

@@ -6,7 +6,7 @@ def Search(request):
     result=request.GET['result']
     questions = models.Qa.objects.filter(question__icontains=result) | models.Qa.objects.filter(description__icontains=result)
     notes = models.Notes.objects.filter(title__icontains=result).values() | models.Notes.objects.filter(description__icontains=result).values()
-    products = models.Product.objects.filter(name__icontains=result).values() | models.Product.objects.filter(description__icontains=result).values() #| models.Product.objects.filter(category__name=result)
+    products = models.Product.objects.filter(name__icontains=result) | models.Product.objects.filter(description__icontains=result) #| models.Product.objects.filter(category__name=result)
 
     if len(questions) == 0:
         questions = None

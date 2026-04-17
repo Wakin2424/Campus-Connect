@@ -1,0 +1,1 @@
+pick up silver kettle from white display stand, place silver kettle on wooden shelf

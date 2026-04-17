@@ -35,7 +35,6 @@ def get_uploaded_file_metadata(uploaded_file):
 
     return metadata
 
-
 # Create your views here.
 def Home(request):
     courses = models.Course.objects.all()
@@ -109,9 +108,12 @@ def Note_Detail(request, id):
     size = round(note.file_size/1024, 2)
     likes = [len(models.Likes.objects.filter(note=note)), False]
     courses = models.Question_subjects.objects.filter(note=note)
-    print(size, note.file_size)
+    
+    related_notes = []
+
     context = {
         'note':note,
+        'related_notes': related_notes,
         'rating':rating,
         'size':size,
         'likes':likes,
