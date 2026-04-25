@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.http import Http404, HttpResponse, JsonResponse
 from django.contrib.auth import get_user_model
 from django.db.models import Count
+from django.views.decorators.clickjacking import xframe_options_sameorigin
 import json, os, uuid
 import datetime as dt
 from Auth import models
@@ -94,6 +95,7 @@ def LoadHomeData(request):
     }
     return JsonResponse(context)
 
+@xframe_options_sameorigin
 def Note_Detail(request, id):
     note = get_object_or_404(models.Notes, code=id)
     note.views += 1

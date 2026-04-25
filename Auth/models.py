@@ -149,6 +149,7 @@ class Notes(models.Model):
 class Notifications(models.Model):
     notification_id = models.AutoField(primary_key=True)
     user = models.ForeignKey(AuthCustomuser, blank=True, null=True, on_delete=models.CASCADE, related_name='notification')
+    message_type = models.CharField(max_length=250, null=True, blank=True)
     message = models.TextField()
     is_read = models.BooleanField(blank=True, null=True)
     created_at = models.DateTimeField(blank=True, null=True, default=str(dt.datetime.now()))

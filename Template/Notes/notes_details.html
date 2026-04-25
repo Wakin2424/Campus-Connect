@@ -117,13 +117,11 @@
                 <!-- PDF Preview -->
                 <iframe
                     class="pdf-viewer" 
-                    {% if note.file_type == '.pdf'%}
+
                     src="{{note.file_url.url}}" 
-                    {% else %}
-                    src="data:application/pdf;base64,JVBERi0xLjQKMSAwIG9iago8PAovVHlwZSAvQ2F0YWxvZwovUGFnZXMgMiAwIFIKPj4KZW5kb2JqCjIgMCBvYmoKPDwKL1R5cGUgL1BhZ2VzCi9LaWRzIFszIDAgUl0KL0NvdW50IDEKL01lZGlhQm94IFswIDAgNjEyIDc5Ml0KPj4KZW5kb2JqCjMgMCBvYmoKPDwKL1R5cGUgL1BhZ2UKL1BhcmVudCAyIDAgUgovUmVzb3VyY2VzIDw8Ci9Gb250IDw8Ci9GMS9UaW1lcy1Sb21hbiA8PAovVHlwZSAvRm9udAovU3VidHlwZSAvVHlwZTEKL0Jhc2VGb250IC9UaW1lcy1Sb21hbgo+Pgo+Pgo+PgovQ29udGVudHMgNCAwIFIKPj4KZW5kb2JqCjQgMCBvYmoKPDwKL0xlbmd0aCAxMDkKPj4Kc3RyZWFtCkJUCi9GMSA3MiBUZgo1MCA3NTAgVGQKKENhbGN1bHVzIElJIC0gSW50ZWdyYXRpb24gVGVjaG5pcXVlcykgVGoKRVQKQlQKL0YxIDEyIFRmCjUwIDcwMCBUZAooVGhpcyBpcyBhIHNhbXBsZSBQREYgcHJldmlldyBmb3IgZGVtb25zdHJhdGlvbi4pIFRqCkVUCkJUCi9GMSA5IFRmCjUwIDY4MCBUZA==" 
-                    {% endif %}
+                    
                     title="Note Preview">
-            </iframe>
+                </iframe>
                 
                 <!-- Fallback for when PDF can't be displayed -->
                 <div class="preview-placeholder" style="display: none;">

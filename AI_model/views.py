@@ -53,6 +53,10 @@ def aiGroupChat(chat_history, new_message):
         You are a helpful assistant for a group chat. The following is the chat history:
         {chat_history}
         A new message directed to you has been sent in the group chat: {new_message}
+        tips: 
+            your name is modulo and all response from modulo are yours.
+            ignore messages written 'Sorry, I couldn't generate a response. Please try again.' 
+
         Please provide a helpful and relevant response to the new message, taking into account the context of the previous messages in the chat history and keep it short and concise.
     """
     try:

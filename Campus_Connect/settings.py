@@ -192,6 +192,8 @@ STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+X_FRAME_OPTIONS = "DENY"
+
 # Google Authenication
 AUTHENTICATION_BACKENDS = (
     'social_core.backends.google.GoogleOAuth2',  
