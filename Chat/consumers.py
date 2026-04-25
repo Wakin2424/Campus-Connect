@@ -96,7 +96,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
 
 
                 # save chat history for ai response generation
-                self.chat_history += f"chat: {message}\n"
+                #self.chat_history += f"chat: {message}\n"
 
             else:
                 await self.channel_layer.group_send(
@@ -120,7 +120,8 @@ class ChatConsumer(AsyncWebsocketConsumer):
                 self.chat_history += f"AI: {event['message']}\n"
                 self.ai_is_active = False
                 await self.saveAIresponse(event['message'])
-
+            else:
+                self.chat_history += f"{event['username']}: {event['message']}\n"
 
             await self.send(text_data=json.dumps({
                 "message": event["message"],
@@ -240,6 +241,6 @@ class ChatConsumer(AsyncWebsocketConsumer):
             print("failed to get chat history", e)
             return []
 
-    def temporarySaveChatHistory(self, messages):
+    def temporarySaveChatHistory(self, messages, user):
         for message in messages:
-            self.chat_history += f"chat: {message['message']}\n"
+            self.chat_history += f"{message['username']}: {message['message']}\n"
