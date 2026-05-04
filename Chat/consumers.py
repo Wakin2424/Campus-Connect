@@ -241,6 +241,6 @@ class ChatConsumer(AsyncWebsocketConsumer):
             print("failed to get chat history", e)
             return []
 
-    def temporarySaveChatHistory(self, messages, user):
+    def temporarySaveChatHistory(self, messages):
         for message in messages:
             self.chat_history += f"{message['username']}: {message['message']}\n"
