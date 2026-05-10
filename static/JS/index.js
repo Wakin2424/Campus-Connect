@@ -3,7 +3,11 @@ const header = document.getElementById('header')
 
 header.innerHTML = `
         <div class="nav-container">
-            <button id="mobileToggle" class="mobile-toggle"><span></span></button>
+            <button id="mobileToggle" class="mobile-toggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
             <div id="mobileMenu" class="mobile-menu">
                 <!-- your menu items here -->
             </div>
@@ -82,44 +86,29 @@ for(i=0; i<dateELems.length; i++) {
     dateElem.textContent = formatDate(dateElem.textContent)
 };
 
-//mobile friendly
+// ==========================
+// MOBILE NAVIGATION
+// ==========================
+
 const mobileToggle = document.getElementById("mobileToggle");
 const mobileMenu = document.getElementById("mobileMenu");
-const navElements = document.getElementById('navLinks')
-const Avatar = document.getElementsByClassName('user-avatar');
-const dropDownElements = document.getElementsByClassName('dropdown-menu');
 
-/*
-//add to mobile menu
-if (window.innerWidth <= 768) {
-    Array.from(navElements.children).forEach(element => {
-      mobileMenu.appendChild(element)  
-    });    
-}
+mobileMenu.innerHTML = `
+    <ul class="mobile-links">
+        ${nav_urls}
+        <li><a href="/user/">Profile</a></li>
+        <li><a href="/auth/logout">Logout</a></li>
+    </ul>
+`;
 
-if (window.innerWidth > 768){
-    Array.from(navElements.children).forEach(element => {
-      mobileMenu.appendChild(element)  
-    }); 
-}
+mobileToggle.addEventListener("click", function () {
 
+    mobileToggle.classList.toggle("active");
 
-// Toggle Mobile Menu
-mobileMenu.style.display = 'none'
-mobileToggle.addEventListener("click", () => {
-    if(mobileToggle.className == 'mobile-toggle'){
-        mobileToggle.className = 'mobile-toggle-active'
-        mobileMenu.style.display = 'block'
-        mobileMenu.style.left = '0'
-
-
-
+    if (mobileMenu.classList.contains("active")) {
+        mobileMenu.classList.remove("active");
+    } else {
+        mobileMenu.classList.add("active");
     }
-    else{
-        mobileToggle.className = 'mobile-toggle'
-        mobileMenu.style.display = 'none'
-        mobileMenu.style.left = '-50%'
 
-    }
 });
-*/
