@@ -90,25 +90,37 @@ for(i=0; i<dateELems.length; i++) {
 // MOBILE NAVIGATION
 // ==========================
 
+// ==========================
+// MOBILE NAVIGATION
+// ==========================
+
 const mobileToggle = document.getElementById("mobileToggle");
 const mobileMenu = document.getElementById("mobileMenu");
+const navLinks = document.getElementById("navLinks");
 
+// Create mobile nav dynamically
 mobileMenu.innerHTML = `
-    <ul class="mobile-links">
+    <ul>
         ${nav_urls}
         <li><a href="/user/">Profile</a></li>
         <li><a href="/auth/logout">Logout</a></li>
     </ul>
 `;
 
-mobileToggle.addEventListener("click", function () {
+// Toggle menu
+mobileToggle.addEventListener("click", () => {
 
     mobileToggle.classList.toggle("active");
+    mobileMenu.classList.toggle("active");
 
-    if (mobileMenu.classList.contains("active")) {
+});
+
+// Close menu when clicking a link
+document.querySelectorAll(".mobile-menu a").forEach(link => {
+
+    link.addEventListener("click", () => {
+        mobileToggle.classList.remove("active");
         mobileMenu.classList.remove("active");
-    } else {
-        mobileMenu.classList.add("active");
-    }
+    });
 
 });
