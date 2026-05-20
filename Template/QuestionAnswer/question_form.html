@@ -5,261 +5,498 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ask a Question - Campus Connect</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link rel="stylesheet" href="{%static 'CSS/question_form.css'%}">
-    <link rel="stylesheet" href="{%static 'CSS/nav.css'%}">
+<link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="{% static 'CSS/question_form.css' %}">
+    <link rel="stylesheet" href="{% static 'CSS/nav.css' %}">
 </head>
 <body>
+    <!-- Premium Animated Background -->
+    <div class="animated-bg">
+        <div class="gradient-orb orb-1"></div>
+        <div class="gradient-orb orb-2"></div>
+        <div class="gradient-orb orb-3"></div>
+        <div class="grid-overlay"></div>
+    </div>
+
+    <!-- Premium Theme Toggle -->
+    <button class="theme-toggle-premium" id="themeToggleBtn">
+        <div class="toggle-track">
+            <i class="fas fa-sun toggle-icon sun"></i>
+            <i class="fas fa-moon toggle-icon moon"></i>
+            <div class="toggle-thumb"></div>
+        </div>
+    </button>
+
     <!-- Header -->
-    <header class="header" id="header">
-        <!--Generated dynamically by js-->
-    </header>
+    <header class="header" id="header"></header>
 
     <!-- Main Content -->
     <main class="main-content">
-        <div class="page-header">
-            <h1 class="page-title">Ask a Question</h1>
-            <p class="page-subtitle">Get help from your campus community</p>
+        <div class="page-header-premium">
+            <div class="title-badge">
+                <span class="badge-glow"><i class="fas fa-question-circle"></i> Need Help?</span>
+            </div>
+            <h1 class="page-title-premium">
+                Ask a Question
+                <div class="title-underline"></div>
+            </h1>
+            <p class="page-subtitle-premium">Get help from your campus community</p>
         </div>
 
-        <div class="question-form-container">
+        <div class="question-form-container glass-card">
+            <div class="gradient-border"></div>
+            
             <form id="questionForm" method="post">
                 {% csrf_token %}
-                <!-- Question Title -->
-                <div class="form-group">
-                    <label for="questionTitle" class="form-label">Question Title *</label>
-                    <input 
-                        type="text" 
-                        id="questionTitle"
-                        class="form-input" 
-                        placeholder="Enter your question title" 
-                        required
-                    >
-                </div>
-
-                <!-- Question Description -->
-                <div class="form-group">
-                    <label for="questionDescription" class="form-label">Question Description *</label>
-                    <div id="questionDescription" contenteditable="true" style="border:1px solid #ccc; padding:10px; min-height:150px; max-width: 100%; overflow-x: auto; border-radius: 10px;"></div>
-                </div>
-
-                <div class="form-group image-upload">
-                    <label>Add Image or drag and drop on text editor(Optional)</label>
-                    <div class="file-input-wrapper">
-                        <input type="file" id="imageInput" accept="image/*" style="display:none;">
-                        <button class="file-input-label" id="file-input-label">
-                            📎 Choose File
-                        </button>
-                        
+                
+                <!-- Question Title with Floating Label -->
+                <div class="form-group premium-group">
+                    <div class="input-wrapper-premium">
+                        <input 
+                            type="text" 
+                            id="questionTitle"
+                            class="form-input-premium" 
+                            placeholder=" " 
+                            required
+                        >
+                        <label class="floating-label-premium">Question Title</label>
+                        <div class="input-border-premium"></div>
+                    </div>
+                    <div class="input-hint">
+                        <i class="fas fa-lightbulb"></i> Be specific and imagine you're asking a question to another person
                     </div>
                 </div>
 
-                <!-- Course Selection -->
-                <div class="form-group">
-                    <label class="form-label">Related Courses</label>
-                    <div class="course-selection">
-                        <div class="course-dropdown-container">
-                            <select id="courseSelect" class="form-select">
-                                <option value="">Select a course...</option>
-                                {% for course in courses%}
-                                <option value="{{course.course_name}}">{{course.course_name}}</option>
-                                {% endfor %}
-                            </select>
+                <!-- Rich Text Editor with Toolbar -->
+                <div class="form-group premium-group">
+                    <label class="form-label-premium">Question Description <span class="required">*</span></label>
+                    
+                    <!-- Formatting Toolbar -->
+                    <div class="editor-toolbar" id="editorToolbar">
+                        <button type="button" class="toolbar-btn" data-command="bold" title="Bold"><i class="fas fa-bold"></i></button>
+                        <button type="button" class="toolbar-btn" data-command="italic" title="Italic"><i class="fas fa-italic"></i></button>
+                        <button type="button" class="toolbar-btn" data-command="underline" title="Underline"><i class="fas fa-underline"></i></button>
+                        <span class="toolbar-divider"></span>
+                        <button type="button" class="toolbar-btn" data-command="insertUnorderedList" title="Bullet List"><i class="fas fa-list-ul"></i></button>
+                        <button type="button" class="toolbar-btn" data-command="insertOrderedList" title="Numbered List"><i class="fas fa-list-ol"></i></button>
+                        <span class="toolbar-divider"></span>
+                        <button type="button" class="toolbar-btn" data-command="formatBlock" data-value="pre" title="Code Block"><i class="fas fa-code"></i></button>
+                        <button type="button" class="toolbar-btn" data-command="createLink" title="Insert Link"><i class="fas fa-link"></i></button>
+                        <span class="toolbar-divider"></span>
+                        <button type="button" class="toolbar-btn" id="clearFormatting" title="Clear Formatting"><i class="fas fa-eraser"></i></button>
+                    </div>
+                    
+                    <!-- Rich Text Editor -->
+                    <div id="questionDescription" class="rich-editor-premium" contenteditable="true" placeholder="Describe your question in detail..."></div>
+                    
+                    <!-- Character Counter -->
+                    <div class="editor-footer">
+                        <div class="char-counter">
+                            <i class="fas fa-keyboard"></i>
+                            <span id="charCount">0</span> characters
+                            <span class="word-count"> • <span id="wordCount">0</span> words</span>
                         </div>
-                        <button type="button" id="addCourseBtn" class="add-course-btn">
+                        <div class="format-hint">
+                            <i class="fas fa-info-circle"></i> Tip: Use Ctrl+Shift+V to paste without formatting
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Image Upload with Glass Effect -->
+                <div class="form-group premium-group image-upload-group">
+                    <label class="form-label-premium">Add Images <span class="optional">(Optional)</span></label>
+                    <div class="file-upload-zone" id="fileUploadZone">
+                        <input type="file" id="imageInput" accept="image/*" multiple style="display:none;">
+                        <div class="upload-icon">
+                            <i class="fas fa-cloud-upload-alt"></i>
+                        </div>
+                        <p class="upload-text">Drag & drop images here or <span class="browse-link">browse</span></p>
+                        <p class="upload-hint">Supports: JPG, PNG, GIF (Max 5MB each)</p>
+                    </div>
+                    <div class="image-preview-grid" id="imagePreviewGrid"></div>
+                </div>
+
+                <!-- Course Selection with Search -->
+                <div class="form-group premium-group">
+                    <label class="form-label-premium">Related Courses <span class="optional">(Optional)</span></label>
+                    
+                    <!-- Searchable Course Dropdown -->
+                    <div class="course-search-container">
+                        <div class="searchable-dropdown">
+                            <input type="text" id="courseSearchInput" class="course-search-input" placeholder="Search for a course..." autocomplete="off">
+                            <i class="fas fa-chevron-down dropdown-arrow"></i>
+                            <div class="dropdown-list" id="courseDropdownList">
+                                <div class="dropdown-empty">Type to search courses...</div>
+                            </div>
+                        </div>
+                        <button type="button" id="addCourseBtn" class="add-course-btn-premium">
                             <i class="fas fa-plus"></i> Add Course
                         </button>
                     </div>
 
+                    <!-- Suggested Courses -->
+                    <div class="suggested-courses" id="suggestedCourses" style="display: none;">
+                        <div class="suggested-title">
+                            <i class="fas fa-graduation-cap"></i> Suggested for you:
+                        </div>
+                        <div class="suggested-courses-list" id="suggestedList"></div>
+                    </div>
+
                     <!-- Selected Courses Display -->
                     <div class="selected-courses">
-                        <div id="coursesGrid" class="courses-grid">
+                        <div id="coursesGrid" class="courses-grid-premium">
                             <!-- Selected course chips will be dynamically added here -->
                         </div>
-                        <div id="emptyCoursesMessage" class="empty-courses-message">
-                            No courses selected yet. Choose courses related to your question.
+                        <div id="emptyCoursesMessage" class="empty-courses-message-premium">
+                            <i class="fas fa-bookmark"></i> No courses selected yet. Choose courses related to your question.
                         </div>
                     </div>
                 </div>
 
-                <!-- Hidden input to store selected courses JSON -->
-                <input type="hidden" id="selectedCoursesInput" name="selectedCourses">
+                <!-- Anonymous Posting Toggle -->
+                <div class="form-group premium-group">
+                    <div class="anonymous-toggle">
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="anonymousToggle">
+                            <span class="toggle-slider"></span>
+                        </label>
+                        <div class="toggle-info">
+                            <i class="fas fa-user-secret"></i>
+                            <span>Post anonymously</span>
+                            <small>Your name won't be shown publicly</small>
+                        </div>
+                    </div>
+                </div>
 
-                <!-- Submit Button -->
-                <button type="submit" class="submit-btn" id="submit-btn">
-                    <i class="fas fa-paper-plane"></i> Post Question
-                </button>
+                <!-- Preview Before Post Button -->
+                <div class="preview-section" id="previewSection" style="display: none;">
+                    <div class="preview-header">
+                        <i class="fas fa-eye"></i>
+                        <h3>Question Preview</h3>
+                        <button type="button" class="close-preview" id="closePreviewBtn">&times;</button>
+                    </div>
+                    <div class="preview-content" id="previewContent">
+                        <h4 id="previewTitle"></h4>
+                        <div id="previewDescription"></div>
+                        <div class="preview-courses" id="previewCourses"></div>
+                        <div class="preview-badge" id="previewAnonymous"></div>
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="action-buttons">
+                    <button type="button" class="preview-btn" id="previewBtn">
+                        <i class="fas fa-eye"></i> Preview
+                    </button>
+                    <button type="submit" class="submit-btn-premium" id="submit-btn">
+                        <span class="btn-text">Post Question</span>
+                        <div class="btn-loader hidden">
+                            <div class="spinner"></div>
+                        </div>
+                        <i class="fas fa-paper-plane btn-icon"></i>
+                    </button>
+                </div>
             </form>
-
-            <!-- Debug Panel (for development) -->
-            <div class="debug-panel" id="debugPanel" hidden>
-                <div class="debug-title">Selected Courses Array (Debug):</div>
-                <div class="debug-content" id="debugContent">[]</div>
-            </div>
         </div>
     </main>
 
     <!-- Footer -->
-    <footer class="footer" id="footer">
-        <!--Generated dynamically by js-->
-    </footer>
+    <footer class="footer" id="footer"></footer>
 
-    {% include "Components/header.html#authDynamicHeaderPost" %}
-    {% include "Components/footer.html#footer" %}
-    
+    <!-- Toast Container -->
+    <div id="toastContainer"></div>
+
+    {% if user.is_authenticated %}
+        {% include "Components/header.html#authDynamicHeader" %}
+        {% include "Components/footer.html#footer" %}
+    {% else %}
+        {% include "Components/header.html#guestDynamicHeader" %}
+        {% include "Components/footer.html#footer" %}
+    {% endif %}
+
     <script>
-        function Search(){
-            const search_link = "{%url 'search'%}"
-            let search_data = document.getElementById('search-bar')
-            window.location.href = search_link + `?result=${search_data.value}`
+        // ========== THEME TOGGLE ==========
+        (function() {
+            const savedTheme = localStorage.getItem('premiumTheme') || 'light';
+            const toggleBtn = document.getElementById('themeToggleBtn');
+            
+            function setTheme(theme) {
+                if (theme === 'dark') {
+                    document.body.classList.add('dark-theme-premium');
+                    if (toggleBtn) toggleBtn.classList.add('dark-active');
+                } else {
+                    document.body.classList.remove('dark-theme-premium');
+                    if (toggleBtn) toggleBtn.classList.remove('dark-active');
+                }
+                localStorage.setItem('premiumTheme', theme);
+            }
+            
+            if (savedTheme === 'dark') setTheme('dark');
+            
+            if (toggleBtn) {
+                toggleBtn.addEventListener('click', function() {
+                    const isDark = document.body.classList.contains('dark-theme-premium');
+                    setTheme(isDark ? 'light' : 'dark');
+                    this.style.transform = 'scale(0.95)';
+                    setTimeout(() => { if(toggleBtn) toggleBtn.style.transform = ''; }, 200);
+                });
+            }
+        })();
+
+        // ========== TOAST NOTIFICATION ==========
+        function showToast(message, type = 'success') {
+            const container = document.getElementById('toastContainer');
+            if (!container) return;
+            const toast = document.createElement('div');
+            toast.className = `toast toast-${type}`;
+            const icons = { success: 'fa-check-circle', error: 'fa-exclamation-circle', info: 'fa-info-circle', warning: 'fa-exclamation-triangle' };
+            toast.innerHTML = `<i class="fas ${icons[type]}"></i><span>${message}</span><button class="toast-close" onclick="this.parentElement.remove()">&times;</button>`;
+            container.appendChild(toast);
+            setTimeout(() => toast.remove(), 4000);
         }
-    </script>
 
-    <script>
-    let uploadedFiles = [];   // store real File objects for submission
-    let savedSelection;
+        // ========== RICH TEXT EDITOR ==========
+        let uploadedFiles = [];
+        let savedSelection;
+        const editor = document.getElementById("questionDescription");
+        const charCountSpan = document.getElementById('charCount');
+        const wordCountSpan = document.getElementById('wordCount');
+        const previewBtn = document.getElementById('previewBtn');
+        const previewSection = document.getElementById('previewSection');
+        const closePreviewBtn = document.getElementById('closePreviewBtn');
 
-    const editor = document.getElementById("questionDescription");
-    const fileInput = document.getElementById("imageInput");
-    const uploadBtn = document.getElementById("file-input-label");
-    const submitBtn = document.getElementById("submitBtn");
+        // Update character and word count
+        function updateCounts() {
+            const text = editor.innerText || '';
+            const charCount = text.length;
+            const wordCount = text.trim().split(/\s+/).filter(w => w.length > 0).length;
+            if (charCountSpan) charCountSpan.textContent = charCount;
+            if (wordCountSpan) wordCountSpan.textContent = wordCount;
+        }
 
-    // Track caret position inside editor
-    editor.addEventListener("keyup", saveSelection);
-    editor.addEventListener("mouseup", saveSelection);
+        editor.addEventListener('input', updateCounts);
+        editor.addEventListener('keyup', updateCounts);
 
-    function saveSelection() {
-    const selection = window.getSelection();
-    if (selection.rangeCount > 0) {
-        savedSelection = selection.getRangeAt(0);
-    }
-    }
+        // Placeholder styling
+        editor.addEventListener('focus', function() {
+            if (this.innerText === 'Describe your question in detail...') {
+                this.innerText = '';
+            }
+            this.classList.add('focused');
+        });
+        
+        editor.addEventListener('blur', function() {
+            if (this.innerText.trim() === '') {
+                this.innerText = 'Describe your question in detail...';
+            }
+            this.classList.remove('focused');
+        });
+        
+        if (editor.innerText.trim() === '') {
+            editor.innerText = 'Describe your question in detail...';
+        }
 
+        // Toolbar commands
+        function executeCommand(command, value = null) {
+            document.execCommand(command, false, value);
+            editor.focus();
+            updateCounts();
+        }
 
-    editor.addEventListener("drop", function(e) {
-        e.preventDefault();
-        for (const item of e.dataTransfer.items) {
-            if (item.kind === "file") {
-            // Dropped file (image)
-            const file = item.getAsFile();
-            if (file && file.type.startsWith("image/")) {
-                uploadedFiles.push(file); // save original File object
+        document.querySelectorAll('.toolbar-btn').forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                e.preventDefault();
+                const command = this.dataset.command;
+                const value = this.dataset.value || null;
+                if (command === 'createLink') {
+                    const url = prompt('Enter URL:', 'https://');
+                    if (url) executeCommand(command, url);
+                } else if (command === 'formatBlock' && value === 'pre') {
+                    executeCommand('formatBlock', '<pre>');
+                } else {
+                    executeCommand(command, value);
+                }
+            });
+        });
 
-                // show preview in editor
-                const reader = new FileReader();
-                reader.onload = function(evt) {
+        document.getElementById('clearFormatting')?.addEventListener('click', function() {
+            document.execCommand('removeFormat', false, null);
+        });
+
+        // Save cursor position
+        editor.addEventListener("keyup", saveSelection);
+        editor.addEventListener("mouseup", saveSelection);
+
+        function saveSelection() {
+            const selection = window.getSelection();
+            if (selection.rangeCount > 0) {
+                savedSelection = selection.getRangeAt(0);
+            }
+        }
+
+        function insertAtCursor(node) {
+            if (savedSelection) {
+                const range = savedSelection;
+                range.deleteContents();
+                range.insertNode(node);
+                range.setStartAfter(node);
+                range.setEndAfter(node);
+                const selection = window.getSelection();
+                selection.removeAllRanges();
+                selection.addRange(range);
+            } else {
+                editor.appendChild(node);
+            }
+            updateCounts();
+        }
+
+        // ========== IMAGE UPLOAD ==========
+        const fileInput = document.getElementById("imageInput");
+        const uploadZone = document.getElementById("fileUploadZone");
+        const imagePreviewGrid = document.getElementById("imagePreviewGrid");
+
+        uploadZone.addEventListener("click", () => fileInput.click());
+
+        // Drag & drop
+        uploadZone.addEventListener("dragover", (e) => {
+            e.preventDefault();
+            uploadZone.classList.add("drag-over");
+        });
+
+        uploadZone.addEventListener("dragleave", () => {
+            uploadZone.classList.remove("drag-over");
+        });
+
+        uploadZone.addEventListener("drop", (e) => {
+            e.preventDefault();
+            uploadZone.classList.remove("drag-over");
+            const files = Array.from(e.dataTransfer.files).filter(f => f.type.startsWith("image/"));
+            files.forEach(file => handleImageFile(file));
+        });
+
+        fileInput.addEventListener("change", function() {
+            const files = Array.from(this.files).filter(f => f.type.startsWith("image/"));
+            files.forEach(file => handleImageFile(file));
+            this.value = "";
+        });
+
+        function handleImageFile(file) {
+            if (file.size > 5 * 1024 * 1024) {
+                showToast('Image must be less than 5MB', 'error');
+                return;
+            }
+            
+            uploadedFiles.push(file);
+            
+            const reader = new FileReader();
+            reader.onload = function(evt) {
+                // Add to editor
                 const img = document.createElement("img");
                 img.src = evt.target.result;
-                img.style.width = '400px';
-                img.style.height = '400px'
-                editor.appendChild(img);
-                };
-                reader.readAsDataURL(file);
-            }
-            }
-        }
-        });
-
-        // Handle paste (force clean text/code with white background + black text)
-        editor.addEventListener("paste", function(e) {
-        e.preventDefault();
-
-        const text = (e.clipboardData || window.clipboardData).getData("text/plain");
-
-        // Detect if it's code (multi-line or contains { } ;)
-        if (text.includes("\n") || text.includes("{") || text.includes(";")) {
-            const pre = document.createElement("pre");
-            const code = document.createElement("code");
-            code.textContent = text;
-            pre.appendChild(code);
-
-            const sel = window.getSelection();
-            if (!sel.rangeCount) return;
-            const range = sel.getRangeAt(0);
-            range.deleteContents();
-            range.insertNode(pre);
-            const brDiv = document.createElement("div");
-            brDiv.innerHTML = "<br>";
-            pre.parentNode.insertBefore(brDiv, pre.nextSibling);
-
-            // ✅ Move caret into the new blank line
-            range.setStart(brDiv, 0);
-            range.setEnd(brDiv, 0);
-            sel.removeAllRanges();
-            sel.addRange(range);
-        } else {
-            // Otherwise insert plain black text
-            document.execCommand("insertText", false, text);
+                img.style.maxWidth = "100%";
+                img.style.borderRadius = "8px";
+                img.style.margin = "10px 0";
+                insertAtCursor(img);
+                
+                // Add to preview grid
+                const previewDiv = document.createElement('div');
+                previewDiv.className = 'image-preview-item';
+                previewDiv.innerHTML = `
+                    <img src="${evt.target.result}" alt="Preview">
+                    <button type="button" class="remove-image" onclick="this.parentElement.remove()">
+                        <i class="fas fa-times"></i>
+                    </button>
+                `;
+                imagePreviewGrid.appendChild(previewDiv);
+                imagePreviewGrid.style.display = 'flex';
+                showToast('Image added successfully', 'success');
+            };
+            reader.readAsDataURL(file);
         }
 
-        });
-    // Open hidden file input when clicking upload
-    uploadBtn.addEventListener("click", () => fileInput.click());
-
-
-    // Handle chosen file
-    fileInput.addEventListener("change", function() {
-    const file = this.files[0];
-    if (file) {
-        uploadedFiles.push(file); // store real file
-
-        const reader = new FileReader();
-        reader.onload = function(evt) {
-        const img = document.createElement("img");
-        img.src = evt.target.result;  // preview image
-        img.style.width = "400px";
-        img.style.height = "400px";
-
-        insertAtCursor(img);
-        };
-        reader.readAsDataURL(file);
-    }
-    this.value = ""; // reset so same file can be uploaded again // reset so same file can be uploaded again// reset so same file can be uploaded again
-    });
-
-    // Insert image (or any node) at saved cursor position
-    function insertAtCursor(node) {
-    if (savedSelection) {
-        const range = savedSelection;
-        range.deleteContents();
-        range.insertNode(node);
-
-        // Move cursor after the inserted image
-        range.setStartAfter(node);
-        range.setEndAfter(node);
-
-        const selection = window.getSelection();
-        selection.removeAllRanges();
-        selection.addRange(range);
-    } else {
-        editor.appendChild(node);
-    }
-    }
-    </script>
-
-    <script>
-        // Global array to store selected courses
+        // ========== COURSE SELECTION ==========
         let selectedCourses = [];
-
-        // DOM elements
+        const allCourses = [
+            {% for course in courses %}
+            "{{ course.course_name|escapejs }}",
+            {% endfor %}
+        ];
+        
         const courseSelect = document.getElementById('courseSelect');
         const addCourseBtn = document.getElementById('addCourseBtn');
         const coursesGrid = document.getElementById('coursesGrid');
         const emptyMessage = document.getElementById('emptyCoursesMessage');
-        const debugContent = document.getElementById('debugContent');
         const hiddenInput = document.getElementById('selectedCoursesInput');
-        const questionForm = document.getElementById('questionForm');
+        const courseSearchInput = document.getElementById('courseSearchInput');
+        const courseDropdownList = document.getElementById('courseDropdownList');
+        
+        // Populate suggested courses based on user's field
+        const suggestedCoursesList = [
+            "Computer Science", "Software Engineering", "Data Science", 
+            "Machine Learning", "Web Development", "Database Systems"
+        ];
+        
+        const suggestedContainer = document.getElementById('suggestedCourses');
+        const suggestedListContainer = document.getElementById('suggestedList');
+        
+        if (suggestedContainer && suggestedListContainer && suggestedCoursesList.length > 0) {
+            suggestedContainer.style.display = 'block';
+            suggestedCoursesList.forEach(course => {
+                const chip = document.createElement('span');
+                chip.className = 'suggested-chip';
+                chip.innerHTML = `<i class="fas fa-plus-circle"></i> ${course}`;
+                chip.onclick = () => addSpecificCourse(course);
+                suggestedListContainer.appendChild(chip);
+            });
+        }
 
-        // Update UI and debug display
-        function updateDisplay() {
-            // Update hidden input with JSON
+        function addSpecificCourse(courseName) {
+            if (selectedCourses.includes(courseName)) {
+                showToast('Course already added', 'warning');
+                return;
+            }
+            addCourseByName(courseName);
+        }
+
+        function addCourseByName(courseName) {
+            selectedCourses.push(courseName);
+            const chip = createCourseChip(courseName);
+            coursesGrid.appendChild(chip);
+            updateCourseDisplay();
+            showToast(`Added "${courseName}"`, 'success');
+        }
+
+        function createCourseChip(courseName) {
+            const chip = document.createElement('div');
+            chip.className = 'course-chip-premium';
+            chip.dataset.course = courseName;
+            
+            // Get course icon
+            const icon = getCourseIcon(courseName);
+            
+            chip.innerHTML = `
+                <i class="fas ${icon}"></i>
+                <span>${escapeHtml(courseName)}</span>
+                <button type="button" class="chip-remove-btn-premium" onclick="removeCourse('${escapeHtml(courseName)}')">
+                    <i class="fas fa-times"></i>
+                </button>
+            `;
+            return chip;
+        }
+
+        function getCourseIcon(courseName) {
+            const lower = courseName.toLowerCase();
+            if (lower.includes('computer') || lower.includes('programming')) return 'fa-laptop-code';
+            if (lower.includes('data') || lower.includes('machine')) return 'fa-database';
+            if (lower.includes('web')) return 'fa-globe';
+            if (lower.includes('math')) return 'fa-calculator';
+            if (lower.includes('business')) return 'fa-chart-line';
+            return 'fa-book';
+        }
+
+        function updateCourseDisplay() {
             hiddenInput.value = JSON.stringify(selectedCourses);
             
-            // Update debug panel
-            debugContent.textContent = JSON.stringify(selectedCourses, null, 2);
-            
-            // Show/hide empty message
             if (selectedCourses.length === 0) {
                 emptyMessage.style.display = 'block';
                 coursesGrid.style.display = 'none';
@@ -267,98 +504,136 @@
                 emptyMessage.style.display = 'none';
                 coursesGrid.style.display = 'flex';
             }
-
-            // Update add button state
-            const selectedValue = courseSelect.value;
-            addCourseBtn.disabled = !selectedValue || selectedCourses.includes(selectedValue);
             
-            
+            if (courseSearchInput) {
+                const value = courseSearchInput.value;
+                const availableCourses = allCourses.filter(c => 
+                    !selectedCourses.includes(c) && 
+                    c.toLowerCase().includes(value.toLowerCase())
+                );
+                updateDropdown(availableCourses);
+            }
         }
 
-        // Add course chip to the UI
-        function createCourseChip(courseName) {
-            const chip = document.createElement('div');
-            chip.className = 'course-chip';
-            chip.dataset.course = courseName;
-            
-            chip.innerHTML = `
-                <span>${courseName}</span>
-                <button type="button" class="chip-remove-btn" onclick="removeCourse('${courseName}')">
-                    <i class="fas fa-times"></i>
-                </button>
-            `;
-            
-            return chip;
-        }
-
-        // Add course function
-        function addCourse() {
-            const selectedValue = courseSelect.value.trim();
-            
-            if (!selectedValue) {
-                alert('Please select a course first.');
+        function updateDropdown(courses) {
+            if (!courseDropdownList) return;
+            if (courses.length === 0) {
+                courseDropdownList.innerHTML = '<div class="dropdown-empty">No matching courses found</div>';
                 return;
             }
+            courseDropdownList.innerHTML = courses.map(c => 
+                `<div class="dropdown-item" data-course="${escapeHtml(c)}">${escapeHtml(c)}</div>`
+            ).join('');
             
-            if (selectedCourses.includes(selectedValue)) {
-                alert('This course is already selected.');
-                return;
-            }
-            
-            // Add to array
-            selectedCourses.push(selectedValue);
-            
-            // Create and add chip to UI
-            const chip = createCourseChip(selectedValue);
-            coursesGrid.appendChild(chip);
-            
-            // Reset dropdown
-            courseSelect.value = '';
-            
-            // Update display
-            updateDisplay();
+            document.querySelectorAll('.dropdown-item').forEach(item => {
+                item.addEventListener('click', () => {
+                    courseSearchInput.value = item.dataset.course;
+                    courseDropdownList.classList.remove('show');
+                });
+            });
         }
 
-        // Remove course function
+        // Searchable dropdown
+        if (courseSearchInput) {
+            courseSearchInput.addEventListener('input', function() {
+                const value = this.value.toLowerCase();
+                const filtered = allCourses.filter(c => 
+                    !selectedCourses.includes(c) && 
+                    c.toLowerCase().includes(value)
+                );
+                updateDropdown(filtered);
+                courseDropdownList.classList.add('show');
+            });
+            
+            courseSearchInput.addEventListener('focus', () => {
+                const filtered = allCourses.filter(c => !selectedCourses.includes(c));
+                updateDropdown(filtered);
+                courseDropdownList.classList.add('show');
+            });
+            
+            document.addEventListener('click', (e) => {
+                if (!courseSearchInput?.contains(e.target) && !courseDropdownList?.contains(e.target)) {
+                    courseDropdownList?.classList.remove('show');
+                }
+            });
+        }
+
         function removeCourse(courseName) {
-            // Find and remove chip from DOM with animation
-            const chip = document.querySelector(`[data-course="${courseName}"]`);
+            const chip = document.querySelector(`.course-chip-premium[data-course="${courseName}"]`);
             if (chip) {
                 chip.classList.add('removing');
                 setTimeout(() => {
                     chip.remove();
-                    updateDisplay();
+                    selectedCourses = selectedCourses.filter(c => c !== courseName);
+                    updateCourseDisplay();
                 }, 300);
+            } else {
+                selectedCourses = selectedCourses.filter(c => c !== courseName);
+                updateCourseDisplay();
             }
-            
-            // Remove from array
-            selectedCourses = selectedCourses.filter(course => course !== courseName);
         }
 
-        // Event listeners
-        addCourseBtn.addEventListener('click', addCourse);
-
-        courseSelect.addEventListener('change', function() {
-            updateDisplay();
-        });
-
-        // Allow adding course with Enter key when dropdown is focused
-        courseSelect.addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                e.preventDefault();
-                addCourse();
+        addCourseBtn?.addEventListener('click', () => {
+            const courseName = courseSearchInput?.value.trim();
+            if (!courseName) {
+                showToast('Please search and select a course', 'warning');
+                return;
+            }
+            if (selectedCourses.includes(courseName)) {
+                showToast('Course already added', 'warning');
+                return;
+            }
+            if (allCourses.includes(courseName) || suggestedCoursesList.includes(courseName)) {
+                addCourseByName(courseName);
+                if (courseSearchInput) courseSearchInput.value = '';
+                courseDropdownList?.classList.remove('show');
+            } else {
+                showToast('Please select a course from the list', 'error');
             }
         });
 
-        // Form submission
-        function getCookie(name){
+        // ========== PREVIEW FUNCTIONALITY ==========
+        function generatePreview() {
+            const title = document.getElementById('questionTitle').value;
+            const description = editor.innerText;
+            const isAnonymous = document.getElementById('anonymousToggle')?.checked || false;
+            
+            document.getElementById('previewTitle').textContent = title || 'Untitled Question';
+            document.getElementById('previewDescription').innerHTML = description.replace(/\n/g, '<br>');
+            
+            const previewCourses = document.getElementById('previewCourses');
+            previewCourses.innerHTML = selectedCourses.map(c => 
+                `<span class="preview-tag">${escapeHtml(c)}</span>`
+            ).join('');
+            
+            const previewAnonymous = document.getElementById('previewAnonymous');
+            if (isAnonymous) {
+                previewAnonymous.innerHTML = '<i class="fas fa-user-secret"></i> Posted anonymously';
+                previewAnonymous.style.display = 'block';
+            } else {
+                previewAnonymous.style.display = 'none';
+            }
+        }
+
+        previewBtn?.addEventListener('click', () => {
+            generatePreview();
+            previewSection.style.display = 'block';
+            previewSection.scrollIntoView({ behavior: 'smooth' });
+        });
+
+        closePreviewBtn?.addEventListener('click', () => {
+            previewSection.style.display = 'none';
+        });
+
+        // ========== FORM SUBMISSION ==========
+        function getCookie(name) {
             let cookieValue = null;
-            if(document.cookie && document.cookie !== ''){
+            if (document.cookie && document.cookie !== '') {
                 const cookies = document.cookie.split(';');
-                for(let i=0;i <cookies.length; i++){
+                for (let i = 0; i < cookies.length; i++) {
                     const cookie = cookies[i].trim();
-                    if (cookie.substring(0, name.length + 1) === name + '='){
-                        cookieValue = decodeURIComponent(cookie.substring(name.length+1));
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
                         break;
                     }
                 }
@@ -366,101 +641,90 @@
             return cookieValue;
         }
 
-        function FormSubmission(formData, submitButton){
-
-            fetch('{%url "question"%}', {
+        function FormSubmission(formData, submitButton) {
+            fetch('{% url "question" %}', {
                 method: 'POST',
-                headers: {
-                    'X-CSRFToken': getCookie('csrftoken')
-                },
-                body:formData
+                headers: { 'X-CSRFToken': getCookie('csrftoken') },
+                body: formData
             })
             .then(response => response.json())
             .then(data => {
-                if(data.status){
-                    submitButton.style.color = 'green'
-                    submitButton.textContent = "Successful"
+                if (data.status) {
+                    showToast('Question posted successfully!', 'success');
+                    submitButton.innerHTML = '<i class="fas fa-check-circle"></i> Successful!';
                     setTimeout(() => {
                         window.location.href = data.url;
                     }, 1500);
                 } else {
-                    submitButton.style.color = 'red'
-                    submitButton.textContent = "Failed! Try Again"
+                    showToast('Failed to post question. Please try again.', 'error');
+                    submitButton.innerHTML = '<i class="fas fa-paper-plane"></i> Post Question';
+                    submitButton.disabled = false;
                 }
             })
+            .catch(error => {
+                showToast('Network error. Please try again.', 'error');
+                submitButton.innerHTML = '<i class="fas fa-paper-plane"></i> Post Question';
+                submitButton.disabled = false;
+            });
         }
 
-
-
-        questionForm.addEventListener('submit', function(e) {
+        const questionForm = document.getElementById('questionForm');
+        
+        questionForm?.addEventListener('submit', function(e) {
             e.preventDefault();
-
+            
+            const title = document.getElementById('questionTitle').value.trim();
+            if (!title) {
+                showToast('Please enter a question title', 'warning');
+                return;
+            }
+            
+            const description = editor.innerText;
+            if (!description || description === 'Describe your question in detail...') {
+                showToast('Please enter a question description', 'warning');
+                return;
+            }
+            
+            const submitButton = document.getElementById('submit-btn');
+            submitButton.disabled = true;
+            submitButton.innerHTML = '<div class="spinner"></div> Processing...';
+            
             const formData = new FormData();
-            formData.append('question', document.getElementById('questionTitle').value)
-            formData.append('courses', selectedCourses)
-
+            formData.append('question', title);
+            formData.append('courses', JSON.stringify(selectedCourses));
+            formData.append('anonymous', document.getElementById('anonymousToggle')?.checked || false);
+            
             uploadedFiles.forEach((file, i) => {
                 formData.append(`image${i}`, file);
             });
-
-
-            let f = () => {
-                // Remove scripts and functions and add to formData
-                let temp = document.createElement('div')
-                temp.innerHTML = editor.innerHTML;
-                let els =temp.querySelectorAll('*')
-                els.forEach(el => {
-                    if (el.tagName == 'script'){
-                        el.remove()
-                    }
-                    else{
-                        [...el.attributes].forEach(attr =>{
-                            if (attr.name.startsWith('on')){
-                                el.romoveAttribute(attr.name);
-                            }
-                        })
-                    }
-                })
-                let imgs = temp.querySelectorAll('img');
-                imgs.forEach(imgsrc => {
-                    imgsrc.src = '';
+            
+            // Clean description
+            let temp = document.createElement('div');
+            temp.innerHTML = editor.innerHTML;
+            let elements = temp.querySelectorAll('*');
+            elements.forEach(el => {
+                if (el.tagName === 'SCRIPT') el.remove();
+                [...el.attributes].forEach(attr => {
+                    if (attr.name.startsWith('on')) el.removeAttribute(attr.name);
                 });
-                formData.append('description', temp.innerHTML);
-            };
-
-            f()
-
-            const submitButton = document.getElementById('submit-btn')
-            submitButton.style.color = 'white'
-            submitButton.textContent = "Processing Request"
-            
-            FormSubmission(formData, submitButton)
-            
-        });
-
-        
-
-        // Form validation
-        document.querySelectorAll('.form-input, .form-textarea').forEach(input => {
-            input.addEventListener('blur', function() {
-                if (this.hasAttribute('required') && this.value.trim() === '') {
-                    this.style.borderColor = '#e74c3c';
-                } else {
-                    this.style.borderColor = '#27ae60';
-                }
             });
+            let imgs = temp.querySelectorAll('img');
+            imgs.forEach(img => img.src = '');
+            formData.append('description', temp.innerHTML);
             
-            input.addEventListener('focus', function() {
-                this.style.borderColor = '#1E90FF';
-            });
+            FormSubmission(formData, submitButton);
         });
 
-        // Initialize display
-        updateDisplay();
+        function escapeHtml(text) {
+            if (!text) return '';
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
 
-        // Mobile menu toggle
-        document.querySelector('.mobile-menu-btn').addEventListener('click', function() {
-        });
+        window.removeCourse = removeCourse;
+        updateCourseDisplay();
+        updateCounts();
     </script>
 </body>
 </html>

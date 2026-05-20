@@ -5,78 +5,364 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Groups - Campus Connect</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="{%static 'CSS/group-landing-page.css'%}">
-    <link rel="stylesheet" href="{%static 'CSS/nav.css'%}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="{% static 'CSS/group-landing-page.css' %}">
+    <link rel="stylesheet" href="{% static 'CSS/nav.css' %}">
 </head>
 <body>
-    <!-- Header -->
-    <header class="header" id="header">
-        <!--Generated dynamically by js-->
-    </header>
+    <!-- Premium Animated Background -->
+    <div class="animated-bg">
+        <div class="gradient-orb orb-1"></div>
+        <div class="gradient-orb orb-2"></div>
+        <div class="gradient-orb orb-3"></div>
+        <div class="grid-overlay"></div>
+    </div>
 
-    <!-- Hero Section -->
-    <!-- Hero Section -->
-    <section class="hero-section" >
-        <div class="hero-animation">
-            <div class="floating-icon icon-1">👥</div>
-            <div class="floating-icon icon-2">📚</div>
-            <div class="floating-icon icon-3">💡</div>
-            <div class="floating-icon icon-4">🎓</div>
-            <div class="floating-icon icon-5">🤝</div>
-            <div class="floating-icon icon-6">✨</div>
-            <div class="connecting-line line-1"></div>
-            <div class="connecting-line line-2"></div>
+    <!-- Premium Theme Toggle -->
+    <button class="theme-toggle-premium" id="themeToggleBtn">
+        <div class="toggle-track">
+            <i class="fas fa-sun toggle-icon sun"></i>
+            <i class="fas fa-moon toggle-icon moon"></i>
+            <div class="toggle-thumb"></div>
         </div>
-        <div class="hero-content">
-            <h1>Join Groups. Learn Together.</h1>
-            <p>Connect with like-minded students, share knowledge, collaborate on projects, and achieve academic success together.</p>
-            <a href="#explore" class="explore-btn" onclick="navigateToExplore()">Explore Groups</a>
+    </button>
+
+    <!-- Header -->
+    <header class="header" id="header"></header>
+
+    <!-- Premium Hero Section with Enhanced Text Visibility -->
+    <section class="hero-section-premium">
+        <!-- Background Pattern Overlay for Depth -->
+        <div class="hero-pattern-overlay"></div>
+        
+        <!-- Floating Elements -->
+        <div class="hero-floating-elements">
+            <div class="floating-card card-1">
+                <i class="fas fa-users"></i>
+                <span>200+ Active</span>
+            </div>
+            <div class="floating-card card-2">
+                <i class="fas fa-comments"></i>
+                <span>Daily Discussions</span>
+            </div>
+            <div class="floating-card card-3">
+                <i class="fas fa-graduation-cap"></i>
+                <span>Study Together</span>
+            </div>
+            <div class="floating-card card-4">
+                <i class="fas fa-chart-line"></i>
+                <span>Top Resources</span>
+            </div>
+        </div>
+        
+        <!-- Hero Content with Enhanced Visibility -->
+        <div class="hero-content-premium">
+            <div class="hero-badge">
+                <span class="badge-glow"><i class="fas fa-users"></i> Join the Community</span>
+            </div>
+            <h1 class="hero-title-premium">
+                Find Your<span class="gradient-text"> Study Tribe</span>
+                <div class="title-wave">✨</div>
+            </h1>
+            <p class="hero-subtitle-premium">
+                Connect with like-minded students, share knowledge, collaborate on projects, 
+                and achieve academic success together in dedicated study groups.
+            </p>
+            
+            <!-- Enhanced Search Bar -->
+            <div class="hero-search-premium">
+                <div class="search-wrapper-premium">
+                    <i class="fas fa-search search-icon-premium"></i>
+                    <input type="text" id="groupSearchInput" placeholder="Search for study groups, subjects, or topics...">
+                    <button id="clearSearchBtn" class="clear-search-hidden"><i class="fas fa-times"></i></button>
+                </div>
+                <div class="search-tags">
+                    <span class="search-tag" onclick="filterByTag('programming')">#Programming</span>
+                    <span class="search-tag" onclick="filterByTag('math')">#Mathematics</span>
+                    <span class="search-tag" onclick="filterByTag('science')">#Science</span>
+                    <span class="search-tag" onclick="filterByTag('business')">#Business</span>
+                    <span class="search-tag" onclick="filterByTag('languages')">#Languages</span>
+                </div>
+            </div>
+            
+            <!-- Enhanced Stats -->
+            <div class="hero-stats-premium">
+                <div class="stat-premium">
+                    <div class="stat-icon"><i class="fas fa-users"></i></div>
+                    <div>
+                        <div class="stat-number" id="totalGroups">{{ total_groups|default:groups|length }}</div>
+                        <div class="stat-label">Active Groups</div>
+                    </div>
+                </div>
+                <div class="stat-divider"></div>
+                <div class="stat-premium">
+                    <div class="stat-icon"><i class="fas fa-user-graduate"></i></div>
+                    <div>
+                        <div class="stat-number" id="totalMembers">{{ total_members|default:"2.5k" }}</div>
+                        <div class="stat-label">Members</div>
+                    </div>
+                </div>
+                <div class="stat-divider"></div>
+                <div class="stat-premium">
+                    <div class="stat-icon"><i class="fas fa-message"></i></div>
+                    <div>
+                        <div class="stat-number">10k+</div>
+                        <div class="stat-label">Discussions</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Action Buttons -->
+            <div class="hero-buttons-premium">
+                <a href="#popular-groups" class="hero-btn-primary" onclick="document.getElementById('popular-groups').scrollIntoView({behavior: 'smooth'})">
+                    <i class="fas fa-compass"></i> Explore Groups
+                    <span class="btn-glow"></span>
+                </a>
+                {% if user.is_authenticated %}
+                <a href="/groups/create" class="hero-btn-secondary">
+                    <i class="fas fa-plus-circle"></i> Create Group
+                </a>
+                {% else %}
+                <a href="{% url 'login' %}" class="hero-btn-secondary">
+                    <i class="fas fa-sign-in-alt"></i> Login to Create
+                </a>
+                {% endif %}
+            </div>
+        </div>
+        
+        <!-- Enhanced Wave Divider -->
+        <div class="hero-wave-premium">
+            <svg viewBox="0 0 1200 120" preserveAspectRatio="none">
+                <path d="M0,0V46.29c47.79,22.2,103.59,32.17,158,28,70.36-5.37,136.33-33.31,206.8-37.5C438.64,32.43,512.34,53.67,583,72.05c69.27,18,138.3,24.88,209.4,13.08,36.15-6,69.85-17.84,104.45-29.34C989.49,25,1113-14.29,1200,52.47V0Z" opacity=".25" fill="currentColor"></path>
+                <path d="M0,0V15.81c13,21.11,27.64,41.05,47.69,56.24C99.41,111.27,165,111,224.58,91.58c31.15-10.15,60.09-26.07,89.67-39.8,40.92-19,84.73-46,130.83-49.67,36.26-2.85,70.9,9.42,98.6,31.56,31.77,25.39,62.32,62,103.63,73,40.44,10.79,81.35-6.69,119.13-24.28s75.16-39,116.92-43.05c59.73-5.85,113.28,22.88,168.9,38.84,30.2,8.66,59,6.17,87.09-7.5,22.43-10.89,48-26.93,60.65-49.24V0Z" opacity=".5" fill="currentColor"></path>
+                <path d="M0,0V5.63C149.93,59,314.09,71.32,475.83,42.57c43-7.64,84.23-20.12,127.61-26.46,59-8.63,112.48,12.24,165.56,35.4C827.93,77.22,886,95.24,951.2,90c86.53-7,172.46-45.71,248.8-84.81V0Z" fill="currentColor"></path>
+            </svg>
         </div>
     </section>
 
-    <!-- Popular Groups Section -->
-    <section id="popular-groups">
-        <h2 class="section-title">Popular Groups</h2>
-        <div class="groups-grid" id="groups-container">
-            <!-- Group cards will be generated by JavaScript -->
-            {% for group in groups %}
-            <a class="group-card" href="{%url 'group_detail' group=group.slug %}">
-                {% if group.image != None %}
-                <img src="{{group.image.file.url}}" alt="{{group.name}}" class="group-card-banner">
+    <!-- Filter Bar -->
+    <div class="filter-bar-premium" id="filterBar">
+        <div class="filter-container">
+            <div class="filter-group">
+                <label><i class="fas fa-layer-group"></i> Category</label>
+                <select id="categoryFilter">
+                    <option value="all">All Categories</option>
+                    {% for category in categories %}
+                    <option value="{{ category.name }}">{{ category.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="filter-group">
+                <label><i class="fas fa-sort-amount-down"></i> Sort By</label>
+                <select id="sortFilter">
+                    <option value="popular">🔥 Most Popular</option>
+                    <option value="newest">✨ Newest First</option>
+                    <option value="members">👥 Most Members</option>
+                    <option value="active">💬 Most Active</option>
+                </select>
+            </div>
+            <div class="filter-stats">
+                <i class="fas fa-chart-simple"></i>
+                <span id="filteredCount">{{ groups|length }}</span> groups found
+            </div>
+            <button class="reset-filters-btn" onclick="resetFilters()">
+                <i class="fas fa-undo-alt"></i> Reset
+            </button>
+        </div>
+    </div>
+
+    <!-- My Groups Section (if user is authenticated) -->
+    {% if user.is_authenticated and user_groups %}
+    <section class="my-groups-section-premium">
+        <div class="section-header-premium">
+            <div class="header-left">
+                <div class="header-icon-wrapper">
+                    <i class="fas fa-user-friends"></i>
+                    <div class="icon-pulse"></div>
+                </div>
+                <div>
+                    <h2 class="section-title-premium">Your Groups</h2>
+                    <p class="section-subtitle">Groups you're a member of</p>
+                </div>
+            </div>
+            <a href="{% url 'my_groups' %}" class="view-all-link">
+                View All <i class="fas fa-arrow-right"></i>
+            </a>
+        </div>
+        <div class="groups-grid-premium" id="myGroupsGrid">
+            {% for group in user_groups|slice:":3" %}
+            <a class="group-card-premium glass-card" href="{% url 'group_detail' group=group.slug %}">
+                <div class="gradient-border"></div>
+                <div class="group-card-badge">
+                    <i class="fas fa-check-circle"></i> Member
+                </div>
+                {% if group.image %}
+                <img src="{{group.image.file.url}}" alt="{{group.name}}" class="group-card-banner-premium">
                 {% else %}
-                <div class="group-card-banner">📊</div>
+                <div class="group-card-banner-premium placeholder">
+                    <i class="fas fa-users"></i>
+                </div>
                 {% endif %}
-                <div class="group-info">
-                    <div class="group-title">{{group.name}}</div>
-                    <div class="group-creator">Created by {{group.admin.first_name}} {{group.admin.last_name}}</div>
-                    <div class="group-members">{{group.members_no}} members</div>
+                <div class="group-info-premium">
+                    <div class="group-title-premium">{{group.name}}</div>
+                    <div class="group-creator-premium">
+                        <i class="fas fa-crown"></i> {{group.admin.first_name}} {{group.admin.last_name}}
+                    </div>
+                    <div class="group-meta-premium">
+                        <span><i class="fas fa-users"></i> {{group.members_no}} members</span>
+                        <span class="group-active-badge">Active Today</span>
+                    </div>
                 </div>
             </a>
             {% endfor %}
         </div>
     </section>
+    {% endif %}
 
-    <!-- Popular Categories Section -->
-    <div class="categories-section">
-        <div class="categories-container">
-            <h2 class="section-title">Explore by Category</h2>
-            <div class="categories-grid" id="categories-container">
-                <!-- Category cards will be generated by JavaScript -->
+    <!-- Popular Groups Section -->
+    <section id="popular-groups" class="groups-section-premium">
+        <div class="section-header-premium">
+            <div class="header-left">
+                <div class="header-icon-wrapper">
+                    <i class="fas fa-fire"></i>
+                    <div class="icon-pulse"></div>
+                </div>
+                <div>
+                    <h2 class="section-title-premium">Trending Groups</h2>
+                    <p class="section-subtitle">Most popular study groups this week</p>
+                </div>
+            </div>
+            <div class="view-toggle">
+                <button class="view-btn active" data-view="grid" title="Grid View">
+                    <i class="fas fa-th-large"></i>
+                </button>
+                <button class="view-btn" data-view="list" title="List View">
+                    <i class="fas fa-list"></i>
+                </button>
+            </div>
+        </div>
+        
+        <!-- Skeleton Loading -->
+        <div class="skeleton-loading" id="skeletonLoading">
+            <div class="skeleton-card"><div class="skeleton-img"></div><div class="skeleton-line"></div><div class="skeleton-line short"></div></div>
+            <div class="skeleton-card"><div class="skeleton-img"></div><div class="skeleton-line"></div><div class="skeleton-line short"></div></div>
+            <div class="skeleton-card"><div class="skeleton-img"></div><div class="skeleton-line"></div><div class="skeleton-line short"></div></div>
+        </div>
+        
+        <div class="groups-grid-premium" id="groups-container">
+            {% for group in groups %}
+            <a class="group-card-premium glass-card" href="{% url 'group_detail' group=group.slug %}">
+                <div class="gradient-border"></div>
+                <div class="group-card-badge trending">
+                    <i class="fas fa-chart-line"></i> Trending
+                </div>
+                {% if group.image %}
+                <img src="{{group.image.file.url}}" alt="{{group.name}}" class="group-card-banner-premium">
+                {% else %}
+                <div class="group-card-banner-premium placeholder">
+                    <i class="fas fa-users"></i>
+                </div>
+                {% endif %}
+                <div class="group-info-premium">
+                    <div class="group-title-premium">{{group.name}}</div>
+                    <div class="group-creator-premium">
+                        <i class="fas fa-crown"></i> {{group.admin.first_name}} {{group.admin.last_name}}
+                    </div>
+                    <div class="group-meta-premium">
+                        <span><i class="fas fa-users"></i> {{group.members_no}} members</span>
+                        <span><i class="fas fa-message"></i> {{group.posts_count|default:"0"}} posts</span>
+                    </div>
+                    <div class="member-avatars-preview">
+                        {% for member in group.recent_members|slice:":4" %}
+                        <div class="preview-avatar" title="{{member.user.first_name}}">
+                            {% if member.user.image %}
+                            <img src="{{member.user.image.file.url}}" alt="{{member.user.first_name}}">
+                            {% else %}
+                            <span>{{member.user.first_name|first}}</span>
+                            {% endif %}
+                        </div>
+                        {% endfor %}
+                    </div>
+                    <button class="quick-join-btn" onclick="event.preventDefault(); quickJoin('{{group.slug}}')">
+                        <i class="fas fa-user-plus"></i> Join Now
+                    </button>
+                </div>
+            </a>
+            {% endfor %}
+        </div>
+        
+        <!-- Empty State -->
+        <div class="empty-state-premium" id="emptyState" style="display: none;">
+            <div class="empty-illustration">
+                <i class="fas fa-users-slash"></i>
+            </div>
+            <h3>No groups found</h3>
+            <p>Try adjusting your search or filter criteria</p>
+            <button class="btn-primary" onclick="resetFilters()">
+                <i class="fas fa-redo-alt"></i> Reset Filters
+            </button>
+        </div>
+    </section>
+
+    <!-- Featured Categories Section -->
+    <div class="categories-section-premium">
+        <div class="categories-container-premium">
+            <div class="section-header-premium">
+                <div class="header-left">
+                    <div class="header-icon-wrapper">
+                        <i class="fas fa-tags"></i>
+                        <div class="icon-pulse"></div>
+                    </div>
+                    <div>
+                        <h2 class="section-title-premium">Explore by Category</h2>
+                        <p class="section-subtitle">Find groups that match your interests</p>
+                    </div>
+                </div>
+            </div>
+            <div class="categories-grid-premium" id="categories-container">
                 {% for category in categories %}
-                <div class="category-card">
-                    <div class="category-icon">⚙️</div>
-                    <div class="category-name">Engineering</div>
+                <div class="category-card-premium glass-card" data-category="{{category.name}}" onclick="filterByCategory('{{category.name}}')">
+                    <div class="gradient-border"></div>
+                    <div class="category-icon-premium">
+                        <i class="fas {{category.icon|default:'fa-folder'}}"></i>
+                    </div>
+                    <div class="category-name-premium">{{category.name}}</div>
+                    <div class="category-count-premium">{{category.count|default:0}} groups</div>
+                    <div class="category-arrow">
+                        <i class="fas fa-arrow-right"></i>
+                    </div>
                 </div>
                 {% endfor %}
             </div>
         </div>
     </div>
 
+    <!-- CTA Section -->
+    <section class="cta-section-premium">
+        <div class="cta-content">
+            <div class="cta-icon">
+                <i class="fas fa-graduation-cap"></i>
+            </div>
+            <h2>Start Your Study Journey Today</h2>
+            <p>Join a community of learners and take your academic success to the next level</p>
+            <div class="cta-buttons">
+                <a href="#popular-groups" class="cta-btn-primary">Browse Groups</a>
+                {% if user.is_authenticated %}
+                <a href="/groups/create/" class="cta-btn-secondary">Create Your Own Group</a>
+                {% else %}
+                <a href="{% url 'login' %}" class="cta-btn-secondary">Login to Get Started</a>
+                {% endif %}
+            </div>
+        </div>
+        <div class="cta-bg-pattern"></div>
+    </section>
+
     <!-- Footer -->
-    <footer class="footer" id="footer">
-        <!--Generated dynamically by js-->
-    </footer>
+    <footer class="footer" id="footer"></footer>
+
+    <!-- Toast Container -->
+    <div id="toastContainer"></div>
 
     {% if user.is_authenticated %}
         {% include "Components/header.html#authDynamicHeader" %}
@@ -87,55 +373,229 @@
     {% endif %}
 
     <script>
+        // ========== THEME TOGGLE ==========
+        (function() {
+            const savedTheme = localStorage.getItem('premiumTheme') || 'light';
+            const toggleBtn = document.getElementById('themeToggleBtn');
+            
+            function setTheme(theme) {
+                if (theme === 'dark') {
+                    document.body.classList.add('dark-theme-premium');
+                    if (toggleBtn) toggleBtn.classList.add('dark-active');
+                } else {
+                    document.body.classList.remove('dark-theme-premium');
+                    if (toggleBtn) toggleBtn.classList.remove('dark-active');
+                }
+                localStorage.setItem('premiumTheme', theme);
+            }
+            
+            if (savedTheme === 'dark') setTheme('dark');
+            
+            if (toggleBtn) {
+                toggleBtn.addEventListener('click', function() {
+                    const isDark = document.body.classList.contains('dark-theme-premium');
+                    setTheme(isDark ? 'light' : 'dark');
+                    this.style.transform = 'scale(0.95)';
+                    setTimeout(() => { if(toggleBtn) toggleBtn.style.transform = ''; }, 200);
+                });
+            }
+        })();
 
-        // Navigation functions
-        function exploreGroups() {
-            console.log('Navigating to Groups Listing Page...');
-            alert('Redirecting to Groups Listing Page...');
-            // In production: window.location.href = '/groups/listing';
+        // ========== TOAST NOTIFICATION ==========
+        let lastToastTime = 0;
+        const TOAST_DEBOUNCE_MS = 2000;
+        
+        function showToast(message, type = 'success') {
+            const container = document.getElementById('toastContainer');
+            if (!container) return;
+            
+            const now = Date.now();
+            if (now - lastToastTime < TOAST_DEBOUNCE_MS) return;
+            lastToastTime = now;
+            
+            const toast = document.createElement('div');
+            toast.className = `toast toast-${type}`;
+            const icons = { success: 'fa-check-circle', error: 'fa-exclamation-circle', info: 'fa-info-circle', warning: 'fa-exclamation-triangle' };
+            toast.innerHTML = `<i class="fas ${icons[type]}"></i><span>${message}</span><button class="toast-close" onclick="this.parentElement.remove()">&times;</button>`;
+            container.appendChild(toast);
+            setTimeout(() => toast.remove(), 3000);
         }
 
-        function viewGroupDetail(groupId) {
-            console.log(`Navigating to group detail page for group ID: ${groupId}`);
-            alert(`Opening Group Detail Page for group ${groupId}...`);
-            // In production: window.location.href = `/groups/${groupId}`;
-        }
-
-        function filterByCategory(categoryName) {
-            console.log(`Filtering groups by category: ${categoryName}`);
-            alert(`Showing all ${categoryName} groups...`);
-            // In production: window.location.href = `/groups?category=${categoryName}`;
-        }
-
-        // Intersection Observer for scroll animations
-        const observerOptions = {
-            threshold: 0.15,
-            rootMargin: '0px 0px -50px 0px'
-        };
-
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.style.opacity = '0';
-                    entry.target.style.transform = 'translateY(30px)';
-                    
-                    setTimeout(() => {
-                        entry.target.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
-                        entry.target.style.opacity = '1';
-                        entry.target.style.transform = 'translateY(0)';
-                    }, 100);
-                    
-                    observer.unobserve(entry.target);
+        // ========== SEARCH & FILTER ==========
+        const searchInput = document.getElementById('groupSearchInput');
+        const clearSearchBtn = document.getElementById('clearSearchBtn');
+        const categoryFilter = document.getElementById('categoryFilter');
+        const sortFilter = document.getElementById('sortFilter');
+        const groupsContainer = document.getElementById('groups-container');
+        const emptyState = document.getElementById('emptyState');
+        const filteredCountSpan = document.getElementById('filteredCount');
+        
+        function performFilter() {
+            const searchTerm = searchInput?.value.toLowerCase() || '';
+            const selectedCategory = categoryFilter?.value || 'all';
+            const sortBy = sortFilter?.value || 'popular';
+            
+            const groupCards = document.querySelectorAll('.group-card-premium');
+            let visibleCount = 0;
+            let visibleGroups = [];
+            
+            groupCards.forEach(card => {
+                if (card.closest('#myGroupsGrid')) return;
+                
+                const title = card.querySelector('.group-title-premium')?.innerText.toLowerCase() || '';
+                const creator = card.querySelector('.group-creator-premium')?.innerText.toLowerCase() || '';
+                
+                let matchesSearch = true;
+                let matchesCategory = true;
+                
+                if (searchTerm) {
+                    matchesSearch = title.includes(searchTerm) || creator.includes(searchTerm);
+                }
+                
+                if (selectedCategory !== 'all') {
+                    matchesCategory = title.includes(selectedCategory.toLowerCase());
+                }
+                
+                if (matchesSearch && matchesCategory) {
+                    visibleGroups.push(card);
+                    visibleCount++;
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
                 }
             });
-        }, observerOptions);
-
-        // Observe sections
-        document.addEventListener('DOMContentLoaded', () => {
-            document.querySelectorAll('.groups-grid, .categories-grid').forEach(section => {
-                observer.observe(section);
+            
+            if (sortBy === 'members') {
+                visibleGroups.sort((a, b) => {
+                    const membersA = parseInt(a.querySelector('.group-meta-premium span:first-child')?.innerText.match(/\d+/)?.[0] || 0);
+                    const membersB = parseInt(b.querySelector('.group-meta-premium span:first-child')?.innerText.match(/\d+/)?.[0] || 0);
+                    return membersB - membersA;
+                });
+                visibleGroups.forEach(card => groupsContainer.appendChild(card));
+            }
+            
+            if (filteredCountSpan) filteredCountSpan.textContent = visibleCount;
+            
+            if (visibleCount === 0) {
+                emptyState.style.display = 'flex';
+                groupsContainer.style.display = 'none';
+            } else {
+                emptyState.style.display = 'none';
+                groupsContainer.style.display = 'grid';
+            }
+        }
+        
+        function resetFilters() {
+            if (searchInput) searchInput.value = '';
+            if (categoryFilter) categoryFilter.value = 'all';
+            if (sortFilter) sortFilter.value = 'popular';
+            if (clearSearchBtn) clearSearchBtn.classList.add('hidden');
+            performFilter();
+            showToast('All filters reset', 'info');
+        }
+        
+        function filterByCategory(categoryName) {
+            if (categoryFilter) categoryFilter.value = categoryName;
+            performFilter();
+            document.getElementById('popular-groups')?.scrollIntoView({ behavior: 'smooth' });
+            showToast(`Showing ${categoryName} groups`, 'info');
+        }
+        
+        function filterByTag(tag) {
+            if (searchInput) {
+                searchInput.value = tag;
+                performFilter();
+            }
+        }
+        
+        function quickJoin(groupSlug) {
+            if ({{ user.is_authenticated|lower }}) {
+                showToast('Joining group...', 'info');
+                setTimeout(() => {
+                    window.location.href = `/groups/join/${groupSlug}/`;
+                }, 500);
+            } else {
+                showToast('Please login to join groups', 'warning');
+                setTimeout(() => {
+                    window.location.href = "{% url 'login' %}";
+                }, 1500);
+            }
+        }
+        
+        if (searchInput) {
+            searchInput.addEventListener('input', function() {
+                if (clearSearchBtn) {
+                    this.value.length > 0 ? clearSearchBtn.classList.remove('hidden') : clearSearchBtn.classList.add('hidden');
+                }
+                performFilter();
+            });
+        }
+        
+        if (clearSearchBtn) {
+            clearSearchBtn.addEventListener('click', function() {
+                if (searchInput) searchInput.value = '';
+                this.classList.add('hidden');
+                performFilter();
+            });
+        }
+        
+        if (categoryFilter) categoryFilter.addEventListener('change', performFilter);
+        if (sortFilter) sortFilter.addEventListener('change', performFilter);
+        
+        // ========== VIEW TOGGLE ==========
+        function setView(view) {
+            const groupsGrid = document.getElementById('groups-container');
+            if (groupsGrid) {
+                groupsGrid.className = view === 'grid' ? 'groups-grid-premium' : 'groups-list-premium';
+            }
+            document.querySelectorAll('.view-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.view === view);
+            });
+            localStorage.setItem('groupsView', view);
+        }
+        
+        document.querySelectorAll('.view-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                setView(this.dataset.view);
             });
         });
+        
+        // ========== ANIMATE COUNTERS ==========
+        function animateCounter(elementId, targetValue) {
+            const element = document.getElementById(elementId);
+            if (!element) return;
+            let current = 0;
+            const increment = Math.ceil(targetValue / 50);
+            const timer = setInterval(() => {
+                current += increment;
+                if (current >= targetValue) {
+                    element.textContent = targetValue;
+                    clearInterval(timer);
+                } else {
+                    element.textContent = current;
+                }
+            }, 20);
+        }
+        
+        // ========== INITIALIZE ==========
+        document.addEventListener('DOMContentLoaded', () => {
+            const savedView = localStorage.getItem('groupsView') || 'grid';
+            setView(savedView);
+            
+            const cards = document.querySelectorAll('.group-card-premium');
+            cards.forEach((card, index) => {
+                card.style.animationDelay = `${index * 0.05}s`;
+                card.classList.add('fade-in');
+            });
+            
+            const totalGroups = parseInt(document.getElementById('totalGroups')?.textContent || '0');
+            animateCounter('totalGroups', totalGroups);
+        });
+        
+        window.filterByCategory = filterByCategory;
+        window.filterByTag = filterByTag;
+        window.resetFilters = resetFilters;
+        window.quickJoin = quickJoin;
     </script>
 </body>
 </html>

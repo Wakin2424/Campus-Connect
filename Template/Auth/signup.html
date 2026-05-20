@@ -5,254 +5,301 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sign Up - Campus Connect</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="{%static 'CSS/signup.css'%}">
-    <link rel="stylesheet" href="{%static 'CSS/nav.css'%}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="{% static 'CSS/signup.css' %}">
+    <link rel="stylesheet" href="{% static 'CSS/nav.css' %}">
 </head>
 <body>
+    <!-- Premium Animated Background -->
+    <div class="animated-bg">
+        <div class="gradient-orb orb-1"></div>
+        <div class="gradient-orb orb-2"></div>
+        <div class="gradient-orb orb-3"></div>
+        <div class="grid-overlay"></div>
+    </div>
+
+    <!-- Premium Theme Toggle -->
+    <button class="theme-toggle-premium" id="themeToggleBtn">
+        <div class="toggle-track">
+            <i class="fas fa-sun toggle-icon sun"></i>
+            <i class="fas fa-moon toggle-icon moon"></i>
+            <div class="toggle-thumb"></div>
+        </div>
+    </button>
+
     <!-- Header -->
-    <header class="header" id="header">
-        <!--Generated dynamically by js-->
-    </header>
-    <div class="signup-container">
-        <div class="header1">
-            <div class="logo">Campus Connect</div>
-            <h1 class="signup-title">Create Your Account</h1>
-            <p class="signup-subtitle">Join our campus community today</p>
+    <header class="header" id="header"></header>
+
+    <div class="signup-container-premium glass-card">
+        <div class="gradient-border"></div>
+        <div class="header-premium">
+            <div class="logo-premium">
+                <i class="fas fa-graduation-cap"></i>
+                <span>Campus<span>Connect</span></span>
+            </div>
+            <h1 class="signup-title-premium">Create Your Account</h1>
+            <p class="signup-subtitle-premium">Join our campus community today</p>
         </div>
 
-        {{error}}
+        {% if error %}
+        <div class="error-banner-premium">
+            <i class="fas fa-exclamation-circle"></i>
+            <span>{{error}}</span>
+        </div>
+        {% endif %}
 
         <form id="signupForm" method="POST" onsubmit="handleSignup(event)">
             {% csrf_token %}
-            <div class="form-container">
+            <div class="form-container-premium">
                 <!-- Required Information Fieldset -->
-                <fieldset>
-                    <legend>Required Information <span class="required-indicator">*</span></legend>
+                <fieldset class="fieldset-premium">
+                    <legend class="legend-premium">
+                        <i class="fas fa-asterisk"></i> Required Information <span class="required-indicator">*</span>
+                    </legend>
                     
-                    <div class="form-group">
-                        <label class="form-label" for="firstName">
-                            First Name <span class="required">*</span>
+                    <div class="form-group-premium">
+                        <label class="form-label-premium" for="firstName">
+                            <i class="fas fa-user"></i> First Name <span class="required">*</span>
                         </label>
-                        <input 
-                            type="text" 
-                            id="firstName"
-                            name="first_name"
-                            class="form-input" 
-                            placeholder="Enter your first name"
-                            required
-                        >
-                        <div class="error-message" id="firstNameError"></div>
+                        <div class="input-wrapper-premium">
+                            <input type="text" id="firstName" name="first_name" class="form-input-premium" placeholder=" " required>
+                            <label class="floating-label-premium">Enter your first name</label>
+                            <div class="input-border-premium"></div>
+                        </div>
+                        <div class="error-message-premium" id="firstNameError"></div>
                     </div>
 
-                    <div class="form-group">
-                        <label class="form-label" for="lastName">
-                            Last Name <span class="required">*</span>
+                    <div class="form-group-premium">
+                        <label class="form-label-premium" for="lastName">
+                            <i class="fas fa-user"></i> Last Name <span class="required">*</span>
                         </label>
-                        <input 
-                            type="text" 
-                            id="lastName"
-                            name="last_name"
-                            class="form-input" 
-                            placeholder="Enter your last name"
-                            required
-                        >
-                        <div class="error-message" id="lastNameError"></div>
+                        <div class="input-wrapper-premium">
+                            <input type="text" id="lastName" name="last_name" class="form-input-premium" placeholder=" " required>
+                            <label class="floating-label-premium">Enter your last name</label>
+                            <div class="input-border-premium"></div>
+                        </div>
+                        <div class="error-message-premium" id="lastNameError"></div>
                     </div>
 
-                    <div class="form-group">
-                        <label class="form-label" for="email">
-                            Email <span class="required">*</span>
+                    <div class="form-group-premium">
+                        <label class="form-label-premium" for="email">
+                            <i class="fas fa-envelope"></i> Email <span class="required">*</span>
                         </label>
-                        <input 
-                            type="email" 
-                            id="email"
-                            name="email"
-                            class="form-input" 
-                            placeholder="Enter your email address"
-                            required
-                        >
-                        <div class="help-text">We'll use this for important notifications</div>
-                        <div class="error-message" id="emailError"></div>
+                        <div class="input-wrapper-premium">
+                            <input type="email" id="email" name="email" class="form-input-premium" placeholder=" " required>
+                            <label class="floating-label-premium">Enter your email address</label>
+                            <div class="input-border-premium"></div>
+                        </div>
+                        <div class="help-text-premium">
+                            <i class="fas fa-info-circle"></i> We'll use this for important notifications
+                        </div>
+                        <div class="error-message-premium" id="emailError"></div>
                     </div>
 
-                    <div class="form-group">
-                        <label class="form-label" for="phone">
-                            Contact Number <span class="required">*</span>
+                    <div class="form-group-premium">
+                        <label class="form-label-premium" for="phone">
+                            <i class="fas fa-phone"></i> Contact Number <span class="required">*</span>
                         </label>
-                        <input 
-                            type="tel" 
-                            id="phone"
-                            name="contact"
-                            class="form-input" 
-                            placeholder="Enter your phone number"
-                            required
-                        >
-                        <div class="help-text">Include country code (e.g., +254)</div>
-                        <div class="error-message" id="phoneError"></div>
+                        <div class="input-wrapper-premium">
+                            <input type="tel" id="phone" name="contact" class="form-input-premium" placeholder=" " required>
+                            <label class="floating-label-premium">Enter your phone number</label>
+                            <div class="input-border-premium"></div>
+                        </div>
+                        <div class="help-text-premium">
+                            <i class="fas fa-info-circle"></i> Include country code (e.g., +254)
+                        </div>
+                        <div class="error-message-premium" id="phoneError"></div>
                     </div>
-                    <div class="form-group">
-                        <label class="form-label" for="password">
-                            password <span class="required">*</span>
+
+                    <div class="form-group-premium">
+                        <label class="form-label-premium" for="password">
+                            <i class="fas fa-lock"></i> Password <span class="required">*</span>
                         </label>
-                        <input 
-                            type="password" 
-                            id="password"
-                            name="password1"
-                            class="form-input" 
-                            placeholder="Enter a strong password"
-                            oninput="passwordValidate()"
-                            required
-                        >
-                        <div class="help-text">have more than 8 characters, Include A-Z, a-z, 1-9, !#%#@%</div>
-                        <div class="error-message" id="phoneError"></div>
+                        <div class="input-wrapper-premium password-wrapper">
+                            <input type="password" id="password" name="password1" class="form-input-premium" placeholder=" " oninput="passwordValidate()" required>
+                            <label class="floating-label-premium">Enter a strong password</label>
+                            <button type="button" class="password-toggle-premium" onclick="togglePassword('password')">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                            <div class="input-border-premium"></div>
+                        </div>
+                        <div class="help-text-premium">
+                            <i class="fas fa-shield-alt"></i> Have more than 8 characters, include A-Z, a-z, 1-9, !#$%@
+                        </div>
+                        <div class="password-strength-premium" id="passwordStrength">
+                            <div class="strength-bar"></div>
+                            <div class="strength-bar"></div>
+                            <div class="strength-bar"></div>
+                            <div class="strength-bar"></div>
+                            <div class="strength-bar"></div>
+                            <span class="strength-text" id="strengthText">Weak</span>
+                        </div>
+                        <div class="error-message-premium" id="passwordError"></div>
                     </div>
-                    <div class="form-group">
-                        <label class="form-label" for="password2">
-                            Confirm password <span class="required">*</span>
+
+                    <div class="form-group-premium">
+                        <label class="form-label-premium" for="password2">
+                            <i class="fas fa-check-circle"></i> Confirm Password <span class="required">*</span>
                         </label>
-                        <input 
-                            type="password" 
-                            id="password2"
-                            name="password2"
-                            class="form-input" 
-                            placeholder="Confirm password"
-                            oninput="password2validate()"
-                            required
-                        >
-                        <div class="error-message" id="phoneError"></div>
+                        <div class="input-wrapper-premium password-wrapper">
+                            <input type="password" id="password2" name="password2" class="form-input-premium" placeholder=" " oninput="password2validate()" required>
+                            <label class="floating-label-premium">Confirm your password</label>
+                            <button type="button" class="password-toggle-premium" onclick="togglePassword('password2')">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                            <div class="input-border-premium"></div>
+                        </div>
+                        <div class="error-message-premium" id="password2Error"></div>
                     </div>
                 </fieldset>
 
                 <!-- Optional Information Fieldset -->
-                <fieldset>
-                    <legend>Optional Information</legend>
-                    
-                    <div class="form-group">
-                        <label class="form-label" for="career">career</label>
-                        <input 
-                            type="text" 
-                            id="career"
-                            name="career"
-                            class="form-input" 
-                            placeholder="e.g., Computer Scientist"
-                            list="career-list"
-                        >
+                <fieldset class="fieldset-premium">
+                    <legend class="legend-premium">
+                        <i class="fas fa-plus-circle"></i> Optional Information
+                    </legend>
+
+                    <div class="form-group-premium">
+                        <label class="form-label-premium" for="career">
+                            <i class="fas fa-briefcase"></i> Career
+                        </label>
+                        <div class="input-wrapper-premium">
+                            <input type="text" id="career" name="career" class="form-input-premium" placeholder=" " list="career-list">
+                            <label class="floating-label-premium">e.g., Computer Scientist</label>
+                            <div class="input-border-premium"></div>
+                        </div>
                         <datalist id="career-list">
                             {% for career in careers %}
                                 <option value="{{ career.career_name }}">
                             {% endfor %}
                         </datalist>
-                        <div class="help-text">Your field of study</div>
+                        <div class="help-text-premium">
+                            <i class="fas fa-graduation-cap"></i> Your field of study
+                        </div>
                     </div>
 
-                    <div class="form-group">
-                        <label class="form-label" for="course">course</label>
-                        <select id="course" name="course" class="form-select">
-                            <option value="">Select course</option>
-                            {% for course in courses %}
-                                <option value="{{ course.course_name}}">{{ course.course_name }}</option>
-                            {% endfor %}
-                            <option value="Other">Other</option>
-                           
-                        </select>
+                    <div class="form-group-premium">
+                        <label class="form-label-premium" for="course">
+                            <i class="fas fa-book"></i> Course
+                        </label>
+                        <div class="select-wrapper-premium">
+                            <i class="fas fa-chevron-down select-arrow"></i>
+                            <select id="course" name="course" class="form-select-premium">
+                                <option value="" disabled selected>Select course</option>
+                                {% for course in courses %}
+                                    <option value="{{ course.course_name }}">{{ course.course_name }}</option>
+                                {% endfor %}
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
                     </div>
 
-                    <div class="form-group">
-                        <label class="form-label" for="year_of_study">Year of Study</label>
-                        <select id="year_of_study" name="year_of_study" class="form-select">
-                            <option value="">Select year</option>
-                            <option value="1">1st Year</option>
-                            <option value="2">2nd Year</option>
-                            <option value="3">3rd Year</option>
-                            <option value="4">4th Year</option>
-                            <option value="5">5th Year</option>
-                            <option value="6">6th Year</option>
-                        </select>
+                    <div class="form-group-premium">
+                        <label class="form-label-premium" for="year_of_study">
+                            <i class="fas fa-calendar-alt"></i> Year of Study
+                        </label>
+                        <div class="select-wrapper-premium">
+                            <i class="fas fa-chevron-down select-arrow"></i>
+                            <select id="year_of_study" name="year_of_study" class="form-select-premium">
+                                <option value="" disabled selected>Select year</option>
+                                <option value="1">1st Year</option>
+                                <option value="2">2nd Year</option>
+                                <option value="3">3rd Year</option>
+                                <option value="4">4th Year</option>
+                                <option value="5">5th Year</option>
+                                <option value="6">6th Year</option>
+                            </select>
+                        </div>
                     </div>
 
-                    <div class="form-group">
-                        <label class="form-label" for="graduation_level">Graduation Level</label>
-                        <select id="graduation_level" name="graduation_level" class="form-select">
-                            <option value="">Select level</option>
-                            <option value="certificate">Certificate</option>
-                            <option value="diploma">Diploma</option>
-                            <option value="degree">Degree</option>
-                            <option value="masters">Masters</option>
-                            <option value="phd">PhD</option>
-                        </select>
+                    <div class="form-group-premium">
+                        <label class="form-label-premium" for="graduation_level">
+                            <i class="fas fa-trophy"></i> Graduation Level
+                        </label>
+                        <div class="select-wrapper-premium">
+                            <i class="fas fa-chevron-down select-arrow"></i>
+                            <select id="graduation_level" name="graduation_level" class="form-select-premium">
+                                <option value="" disabled selected>Select level</option>
+                                <option value="certificate">Certificate</option>
+                                <option value="diploma">Diploma</option>
+                                <option value="degree">Degree</option>
+                                <option value="masters">Masters</option>
+                                <option value="phd">PhD</option>
+                            </select>
+                        </div>
                     </div>
 
-                    <div class="form-group">
-                        <label class="form-label" for="institution">institution</label>
-                        <input 
-                            type="text" 
-                            id="campus"
-                            name="institution"
-                            class="form-input" 
-                            placeholder="Enter your institution name"
-                        >
+                    <div class="form-group-premium">
+                        <label class="form-label-premium" for="institution">
+                            <i class="fas fa-university"></i> Institution
+                        </label>
+                        <div class="input-wrapper-premium">
+                            <input type="text" id="institution" name="institution" class="form-input-premium" placeholder=" ">
+                            <label class="floating-label-premium">Enter your institution name</label>
+                            <div class="input-border-premium"></div>
+                        </div>
                     </div>
 
-                    <div class="form-group">
-                        <button type="button" class="more-fields-btn" onclick="toggleAdditionalFields()">
-                            <span>+ More</span>
-                        </button>
-                    </div>
+                    <button type="button" class="more-fields-btn-premium" onclick="toggleAdditionalFields()">
+                        <i class="fas fa-plus-circle"></i>
+                        <span>More Fields</span>
+                        <i class="fas fa-chevron-down arrow-icon"></i>
+                    </button>
 
-                    <div class="additional-fields" id="additionalFields">
-                        <div class="form-group">
-                            <label class="form-label" for="studentId">Student ID</label>
-                            <input 
-                                type="text" 
-                                id="studentId"
-                                name="studentId"
-                                class="form-input" 
-                                placeholder="Enter your student ID"
-                            >
+                    <div class="additional-fields-premium" id="additionalFields">
+                        <div class="form-group-premium">
+                            <label class="form-label-premium" for="studentId">
+                                <i class="fas fa-id-card"></i> Student ID
+                            </label>
+                            <div class="input-wrapper-premium">
+                                <input type="text" id="studentId" name="studentId" class="form-input-premium" placeholder=" ">
+                                <label class="floating-label-premium">Enter your student ID</label>
+                                <div class="input-border-premium"></div>
+                            </div>
                         </div>
 
-                        <div class="form-group">
-                            <label class="form-label" for="career_description">Career description</label>
-                            <input 
-                                type="text" 
-                                id="career_description"
-                                name="career_description"
-                                class="form-input" 
-                                placeholder="Describe about your career"
-                            >
+                        <div class="form-group-premium">
+                            <label class="form-label-premium" for="career_description">
+                                <i class="fas fa-align-left"></i> Career Description
+                            </label>
+                            <div class="input-wrapper-premium">
+                                <input type="text" id="career_description" name="career_description" class="form-input-premium" placeholder=" ">
+                                <label class="floating-label-premium">Describe your career</label>
+                                <div class="input-border-premium"></div>
+                            </div>
                         </div>
                     </div>
                 </fieldset>
             </div>
 
-            <button type="submit" class="signup-btn" id="signupBtn">
-                Create Account
+            <button type="submit" class="signup-btn-premium" id="signupBtn">
+                <span class="btn-text"><i class="fas fa-user-plus"></i> Create Account</span>
+                <div class="btn-loader hidden">
+                    <div class="spinner"></div>
+                </div>
             </button>
         </form>
 
-        <div class="divider">
+        <div class="divider-premium">
             <span>or continue with</span>
         </div>
 
-        <button class="google-btn" onclick="signupWithGoogle()">
-            <svg class="google-icon" viewBox="0 0 24 24">
-                <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
-                <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
-                <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
-                <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
-            </svg>
-            Sign up with Google
+        <button class="google-btn-premium" onclick="signupWithGoogle()">
+            <i class="fab fa-google"></i>
+            <span>Sign up with Google</span>
         </button>
 
-        <div class="footer1">
-            <p>Already have an account? <a href="{%url 'login'%}">Login here</a></p>
+        <div class="footer-premium-signup">
+            <p>Already have an account? <a href="{% url 'login' %}">Login here</a></p>
         </div>
     </div>
+
     <!-- Footer -->
-    <footer class="footer" id="footer">
-        <!--Generated dynamically by js-->
-    </footer>
+    <footer class="footer" id="footer"></footer>
+
+    <!-- Toast Container -->
+    <div id="toastContainer"></div>
 
     {% if user.is_authenticated %}
         {% include "Components/header.html#authSignupDynamicHeader" %}
@@ -263,96 +310,146 @@
     {% endif %}
 
     <script>
-        function Search(){
-            const search_link = "{%url 'search'%}"
-            let search_data = document.getElementById('search-bar')
-            window.location.href = search_link + `?result=${search_data.value}`
+        // ========== THEME TOGGLE ==========
+        (function() {
+            const savedTheme = localStorage.getItem('premiumTheme') || 'light';
+            const toggleBtn = document.getElementById('themeToggleBtn');
+            
+            function setTheme(theme) {
+                if (theme === 'dark') {
+                    document.body.classList.add('dark-theme-premium');
+                    if (toggleBtn) toggleBtn.classList.add('dark-active');
+                } else {
+                    document.body.classList.remove('dark-theme-premium');
+                    if (toggleBtn) toggleBtn.classList.remove('dark-active');
+                }
+                localStorage.setItem('premiumTheme', theme);
+            }
+            
+            if (savedTheme === 'dark') setTheme('dark');
+            
+            if (toggleBtn) {
+                toggleBtn.addEventListener('click', function() {
+                    const isDark = document.body.classList.contains('dark-theme-premium');
+                    setTheme(isDark ? 'light' : 'dark');
+                    this.style.transform = 'scale(0.95)';
+                    setTimeout(() => { if(toggleBtn) toggleBtn.style.transform = ''; }, 200);
+                });
+            }
+        })();
+
+        // ========== TOAST NOTIFICATION ==========
+        function showToast(message, type = 'success') {
+            const container = document.getElementById('toastContainer');
+            if (!container) return;
+            const toast = document.createElement('div');
+            toast.className = `toast toast-${type}`;
+            const icons = { success: 'fa-check-circle', error: 'fa-exclamation-circle', info: 'fa-info-circle', warning: 'fa-exclamation-triangle' };
+            toast.innerHTML = `<i class="fas ${icons[type]}"></i><span>${message}</span><button class="toast-close" onclick="this.parentElement.remove()">&times;</button>`;
+            container.appendChild(toast);
+            setTimeout(() => toast.remove(), 3000);
         }
-    </script>
 
-    <script>
-        const password1 = document.getElementById('password')
-        const password2 = document.getElementById('password2')
+        // ========== SEARCH FUNCTION ==========
+        function Search() {
+            const search_link = "{% url 'search' %}";
+            const search_data = document.getElementById('search-bar');
+            if (search_data && search_data.value.trim()) {
+                window.location.href = search_link + `?result=${encodeURIComponent(search_data.value)}`;
+            }
+        }
 
-        function passwordValidate(){
-            let value = password1.value
-            let valid = true
-            password.style.borderColor = "black"
+        // ========== TOGGLE PASSWORD ==========
+        function togglePassword(fieldId) {
+            const field = document.getElementById(fieldId);
+            const toggleBtn = field.parentElement.querySelector('.password-toggle-premium i');
+            if (field.type === 'password') {
+                field.type = 'text';
+                toggleBtn.className = 'fas fa-eye-slash';
+            } else {
+                field.type = 'password';
+                toggleBtn.className = 'fas fa-eye';
+            }
+        }
 
-            strength = 0;
+        // ========== PASSWORD VALIDATION ==========
+        const password1 = document.getElementById('password');
+        const password2 = document.getElementById('password2');
+        const strengthBars = document.querySelectorAll('.password-strength-premium .strength-bar');
+        const strengthText = document.getElementById('strengthText');
 
-             // Length check
+        function passwordValidate() {
+            let value = password1.value;
+            let strength = 0;
+
             if (value.length >= 8) strength++;
-            // Lowercase check
             if (/[a-z]/.test(value)) strength++;
-            // Uppercase check
             if (/[A-Z]/.test(value)) strength++;
-            // Number check
             if (/\d/.test(value)) strength++;
-            // Special character check
-            if (/[@$!%*?&]/.test(value)) strength++;
-            if (strength === 5){
-                valid = true
-                password.style.borderColor = "#10b981"
-            }
-            else {
-                password.style.borderColor = "#ef4444"
+            if (/[@$!%*?&#]/.test(value)) strength++;
+
+            // Update strength bars
+            strengthBars.forEach((bar, index) => {
+                if (index < strength) {
+                    bar.classList.add('active');
+                    if (strength === 5) bar.classList.add('strong');
+                    else if (strength >= 3) bar.classList.add('medium');
+                } else {
+                    bar.classList.remove('active', 'strong', 'medium');
+                }
+            });
+
+            // Update strength text
+            if (strength === 5) {
+                strengthText.textContent = 'Strong';
+                strengthText.className = 'strength-text strong';
+            } else if (strength >= 3) {
+                strengthText.textContent = 'Medium';
+                strengthText.className = 'strength-text medium';
+            } else {
+                strengthText.textContent = 'Weak';
+                strengthText.className = 'strength-text weak';
             }
 
-            return valid;
+            return strength >= 3;
         }
 
-        function password2validate(){
-
-            if (password2.value === password1.value){
-                password2.style.borderColor = "#10b981"
+        function password2validate() {
+            const errorDiv = document.getElementById('password2Error');
+            if (password2.value === password1.value && password2.value !== '') {
+                password2.style.borderColor = '#10b981';
+                errorDiv.textContent = '';
                 return true;
-            }
-            else{
-                password2.style.borderColor = "#ef4444"
+            } else if (password2.value !== '') {
+                password2.style.borderColor = '#ef4444';
+                errorDiv.textContent = 'Passwords do not match';
                 return false;
             }
+            return false;
         }
 
+        // ========== TOGGLE ADDITIONAL FIELDS ==========
         function toggleAdditionalFields() {
             const additionalFields = document.getElementById('additionalFields');
-            const moreBtn = document.querySelector('.more-fields-btn span');
+            const moreBtn = document.querySelector('.more-fields-btn-premium');
+            const arrowIcon = moreBtn.querySelector('.arrow-icon');
             
             if (additionalFields.classList.contains('show')) {
                 additionalFields.classList.remove('show');
-                moreBtn.textContent = '+ More';
+                arrowIcon.style.transform = 'rotate(0deg)';
             } else {
                 additionalFields.classList.add('show');
-                moreBtn.textContent = '- Less';
+                arrowIcon.style.transform = 'rotate(180deg)';
             }
         }
 
-        function handleSignup(event) {
-            event.preventDefault();
-            
-            const signupBtn = document.getElementById('signupBtn');
-            const formData = document.getElementById('signupForm');
-            
-            // Basic validation
-            if (!validateForm()) {
-                return;
-            }
-            
-            // Add loading state
-            signupBtn.classList.add('btn-loading');
-            signupBtn.disabled = true;
-            
-            // Simulate signup process
-            formData.submit()
-        }
-
+        // ========== FORM VALIDATION ==========
         function validateForm() {
             let isValid = true;
             
-            // Email validation
             const email = document.getElementById('email');
-            const emailError = document.getElementById('emailError');
             const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            const emailError = document.getElementById('emailError');
             
             if (!emailRegex.test(email.value)) {
                 email.classList.add('error');
@@ -364,10 +461,9 @@
                 emailError.textContent = '';
             }
             
-            // Phone validation
             const phone = document.getElementById('phone');
-            const phoneError = document.getElementById('phoneError');
             const phoneRegex = /^\+?[\d\s\-\(\)]{10,}$/;
+            const phoneError = document.getElementById('phoneError');
             
             if (!phoneRegex.test(phone.value)) {
                 phone.classList.add('error');
@@ -379,23 +475,54 @@
                 phoneError.textContent = '';
             }
 
-            if (passwordValidate() && password2validate()){
-                isValid = true
+            const firstName = document.getElementById('firstName');
+            const lastName = document.getElementById('lastName');
+            
+            if (firstName.value.trim().length < 2) {
+                firstName.classList.add('error');
+                isValid = false;
+            }
+            if (lastName.value.trim().length < 2) {
+                lastName.classList.add('error');
+                isValid = false;
             }
 
-            else{
-                isValid = false
+            if (!passwordValidate()) {
+                isValid = false;
             }
+            if (!password2validate()) {
+                isValid = false;
+            }
+            
             return isValid;
         }
 
-        function signupWithGoogle() {
-            // Here you would integrate with Google OAuth
-            window.location.href = "{% url 'social:begin' 'google-oauth2' %}?next={{ request.path }}"
+        // ========== FORM SUBMISSION ==========
+        function handleSignup(event) {
+            event.preventDefault();
+            
+            if (!validateForm()) {
+                showToast('Please fix the errors above', 'error');
+                return;
+            }
+            
+            const signupBtn = document.getElementById('signupBtn');
+            const btnText = signupBtn.querySelector('.btn-text');
+            const btnLoader = signupBtn.querySelector('.btn-loader');
+            
+            btnText.classList.add('hidden');
+            btnLoader.classList.remove('hidden');
+            signupBtn.disabled = true;
+            
+            document.getElementById('signupForm').submit();
         }
 
-        // Real-time validation
-        document.getElementById('email').addEventListener('blur', function() {
+        function signupWithGoogle() {
+            window.location.href = "{% url 'social:begin' 'google-oauth2' %}?next={{ request.path }}";
+        }
+
+        // ========== REAL-TIME VALIDATION ==========
+        document.getElementById('email').addEventListener('input', function() {
             const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
             const emailError = document.getElementById('emailError');
             
@@ -410,7 +537,7 @@
             }
         });
 
-        document.getElementById('phone').addEventListener('blur', function() {
+        document.getElementById('phone').addEventListener('input', function() {
             const phoneRegex = /^\+?[\d\s\-\(\)]{10,}$/;
             const phoneError = document.getElementById('phoneError');
             
@@ -425,15 +552,20 @@
             }
         });
 
-        // Add success styling for required text fields
         ['firstName', 'lastName'].forEach(fieldId => {
             document.getElementById(fieldId).addEventListener('input', function() {
                 if (this.value.trim().length >= 2) {
                     this.classList.add('success');
                     this.classList.remove('error');
+                } else if (this.value) {
+                    this.classList.add('error');
+                    this.classList.remove('success');
                 }
             });
         });
+
+        password1.addEventListener('input', passwordValidate);
+        password2.addEventListener('input', password2validate);
     </script>
 </body>
 </html>

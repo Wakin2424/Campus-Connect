@@ -23,3 +23,67 @@ const footer_urls_2 = `
 {% partialdef loadJs %}
 <script src="{%static 'JS/index.js'%}"></script>
 {% endpartialdef %}
+
+<!-- {% load static %}
+<footer class="footer">
+    <div class="footer-container">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3><i class="fas fa-graduation-cap"></i> Campus Connect</h3>
+                <p>Connecting students, sharing knowledge, and building a collaborative learning community for academic success.</p>
+                <div class="social-icons">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+            </div>
+            <div class="footer-section">
+                <h3><i class="fas fa-link"></i> Quick Links</h3>
+                <ul class="footer-links">
+                    <li><a href="{% url 'about' %}"><i class="fas fa-chevron-right"></i> About Us</a></li>
+                    <li><a href="#"><i class="fas fa-chevron-right"></i> Contact</a></li>
+                    <li><a href="#"><i class="fas fa-chevron-right"></i> Privacy Policy</a></li>
+                    <li><a href="{% url 'terms_and_conditions' %}"><i class="fas fa-chevron-right"></i> Terms of Service</a></li>
+                    <li><a href="#"><i class="fas fa-chevron-right"></i> Help Center</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3><i class="fas fa-compass"></i> Explore</h3>
+                <ul class="footer-links">
+                    <li><a href="{% url 'question_library' %}"><i class="fas fa-chevron-right"></i> Ask Questions</a></li>
+                    <li><a href="{% url 'market' %}"><i class="fas fa-chevron-right"></i> Marketplace</a></li>
+                    <li><a href="{% url 'notes' %}"><i class="fas fa-chevron-right"></i> Share Notes</a></li>
+                    <li><a href="{% url 'group_home' %}"><i class="fas fa-chevron-right"></i> Create Groups</a></li>
+                    <li><a href="{% url 'home' %}"><i class="fas fa-chevron-right"></i> Campus Events</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3><i class="fas fa-envelope"></i> Newsletter</h3>
+                <p>Subscribe to get updates on new resources and study tips.</p>
+                <form class="newsletter-form" style="display: flex; gap: 0.5rem; margin-top: 1rem; flex-wrap: wrap;">
+                    <input type="email" placeholder="Your email" style="flex:1; padding: 0.6rem 1rem; border: none; border-radius: 30px; font-size: 0.8rem; background: rgba(255,255,255,0.1); color: white;">
+                    <button type="submit" style="padding: 0.6rem 1.2rem; background: #4f46e5; color: white; border: none; border-radius: 30px; cursor: pointer;">Subscribe</button>
+                </form>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; {% now "Y" %} Campus Connect. All rights reserved. Empowering education through collaboration.</p>
+        </div>
+    </div>
+</footer>
+
+<script>
+    // Newsletter subscription
+    const newsletterForm = document.querySelector('.newsletter-form');
+    if (newsletterForm) {
+        newsletterForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const email = this.querySelector('input[type="email"]').value;
+            if (email) {
+                alert('Thank you for subscribing! You will receive updates soon.');
+                this.reset();
+            }
+        });
+    }
+</script> -->

@@ -1,0 +1,246 @@
+{% load static %}
+<header class="header" id="header">
+    <div class="nav-container" id="navContainer">
+        <!-- Logo will be injected by JS -->
+        <!-- Nav links will be injected by JS -->
+        <!-- Search will be injected by JS -->
+        <!-- User controls will be injected by JS -->
+    </div>
+    
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" id="mobileMenu">
+        <div class="mobile-menu-header">
+            <div class="mobile-user-info">
+                <div class="mobile-avatar" id="mobileAvatar"></div>
+                <div class="mobile-user-details" id="mobileUserDetails"></div>
+            </div>
+        </div>
+        <ul id="mobileNavLinks"></ul>
+        <div class="mobile-auth-buttons" id="mobileAuthButtons"></div>
+    </div>
+</header>
+
+<!-- Mobile Toggle Button -->
+<button class="mobile-toggle" id="mobileToggleBtn">
+    <span></span>
+    <span></span>
+    <span></span>
+</button>
+
+<script>
+    // ========== DYNAMIC HEADER RENDERER ==========
+    
+    // Get DOM elements
+    const navContainer = document.getElementById('navContainer');
+    const mobileMenu = document.getElementById('mobileMenu');
+    const mobileToggleBtn = document.getElementById('mobileToggleBtn');
+    
+    // Logo HTML
+    const logoHtml = `<a href="{% url 'home' %}" class="logo"><i class="fas fa-graduation-cap"></i><span>Campus</span>Connect</a>`;
+    
+    // Navigation URLs HTML
+    const navUrlsHtml = `
+        <ul class="nav-links">
+            <li><a href="{% url 'question_library' %}"><i class="fas fa-question-circle"></i> Ask Questions</a></li>
+            <li><a href="{% url 'market' %}"><i class="fas fa-store"></i> Market</a></li>
+            <li><a href="{% url 'notes' %}"><i class="fas fa-file-alt"></i> Notes</a></li>
+            <li><a href="{% url 'group_home' %}"><i class="fas fa-users"></i> Groups</a></li>
+        </ul>
+    `;
+    
+    // Search HTML
+    const searchHtml = `
+        <div class="search-container">
+            <input type="text" class="search-bar" id="search-bar" placeholder="Search..." data-url="{% url 'search' %}">
+            <button class="search-btn" onclick="Search()"><i class="fas fa-search"></i></button>
+        </div>
+    `;
+    
+    // Get user info
+    {% if user.is_authenticated %}
+        {% if user.image != None %}
+            const userAvatarHtml = '<img class="user-avatar" src="{{ user.image.file.url }}" alt="Avatar">';
+            const userName = "{{ user.first_name }} {{ user.last_name }}";
+            const userEmail = "{{ user.email }}";
+        {% else %}
+            const userAvatarHtml = '<div class="user-avatar">{{ user.first_name|upper|slice:":1" }}{{ user.last_name|upper|slice:":1" }}</div>';
+            const userName = "{{ user.first_name }} {{ user.last_name }}";
+            const userEmail = "{{ user.email }}";
+        {% endif %}
+        
+        // Quick post button
+        const quickPostHtml = `
+            <div class="quick-post-btn" onclick="showQuickPostMenu()">
+                <i class="fas fa-plus"></i> Post
+            </div>
+        `;
+        
+        // User dropdown HTML
+        const userDropdownHtml = `
+            <div class="user-dropdown">
+                ${userAvatarHtml}
+                <div class="dropdown-menu">
+                    <a href="{% url 'user' %}"><i class="fas fa-user"></i> Profile</a>
+                    <a href="{% url 'question' %}"><i class="fas fa-question-circle"></i> Ask Question</a>
+                    <a href="{% url 'upload_product' %}"><i class="fas fa-shopping-cart"></i> Sell Product</a>
+                    {% if user.is_verified %}
+                    <a href="{% url 'group_create' %}"><i class="fas fa-users"></i> Create Group</a>
+                    <a href="{% url 'note_upload' %}"><i class="fas fa-upload"></i> Upload Notes</a>
+                    {% endif %}
+                    <div class="dropdown-divider"></div>
+                    <a href="{% url 'logout' %}"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                </div>
+            </div>
+        `;
+        
+        const navActionsHtml = `
+            <div class="nav-actions">
+                ${quickPostHtml}
+                ${userDropdownHtml}
+            </div>
+        `;
+        
+        // Mobile menu content
+        const mobileAvatarHtml = `
+            {% if user.image != None %}
+            <img src="{{ user.image.file.url }}" alt="Avatar" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">
+            {% else %}
+            {{ user.first_name|upper|slice:":1" }}{{ user.last_name|upper|slice:":1" }}
+            {% endif %}
+        `;
+        
+        const mobileUserDetailsHtml = `
+            <h4>${userName}</h4>
+            <p>${userEmail}</p>
+        `;
+        
+        const mobileNavLinksHtml = `
+            <li><a href="{% url 'question_library' %}"><i class="fas fa-question-circle"></i> Ask Questions</a></li>
+            <li><a href="{% url 'market' %}"><i class="fas fa-store"></i> Market</a></li>
+            <li><a href="{% url 'notes' %}"><i class="fas fa-file-alt"></i> Notes</a></li>
+            <li><a href="{% url 'group_home' %}"><i class="fas fa-users"></i> Groups</a></li>
+            <li><a href="{% url 'user' %}"><i class="fas fa-user"></i> My Profile</a></li>
+            <li><a href="{% url 'question' %}"><i class="fas fa-plus-circle"></i> Ask Question</a></li>
+            <li><a href="{% url 'upload_product' %}"><i class="fas fa-shopping-cart"></i> Sell Product</a></li>
+            {% if user.is_verified %}
+            <li><a href="{% url 'group_create' %}"><i class="fas fa-users"></i> Create Group</a></li>
+            <li><a href="{% url 'note_upload' %}"><i class="fas fa-upload"></i> Upload Notes</a></li>
+            {% endif %}
+        `;
+        
+        const mobileAuthButtonsHtml = `
+            <a href="{% url 'logout' %}" class="btn-primary" style="width:100%;text-align:center;"><i class="fas fa-sign-out-alt"></i> Logout</a>
+        `;
+        
+    {% else %}
+        // Guest user
+        const navActionsHtml = `
+            <div class="nav-actions">
+                <a href="{% url 'login' %}" class="btn-primary">Login / Sign Up</a>
+            </div>
+        `;
+        
+        // Mobile menu for guest
+        const mobileAvatarHtml = `<i class="fas fa-user"></i>`;
+        const mobileUserDetailsHtml = `<h4>Guest User</h4><p>Login to access features</p>`;
+        
+        const mobileNavLinksHtml = `
+            <li><a href="{% url 'question_library' %}"><i class="fas fa-question-circle"></i> Ask Questions</a></li>
+            <li><a href="{% url 'market' %}"><i class="fas fa-store"></i> Market</a></li>
+            <li><a href="{% url 'notes' %}"><i class="fas fa-file-alt"></i> Notes</a></li>
+            <li><a href="{% url 'group_home' %}"><i class="fas fa-users"></i> Groups</a></li>
+        `;
+        
+        const mobileAuthButtonsHtml = `
+            <a href="{% url 'login' %}" class="btn-primary" style="width:100%;text-align:center;"><i class="fas fa-sign-in-alt"></i> Login</a>
+            <a href="{% url 'signup' %}" class="btn-primary" style="width:100%;text-align:center;background:transparent;border:1px solid #4f46e5;">Sign Up</a>
+        `;
+    {% endif %}
+    
+    // Build desktop navigation
+    function buildDesktopNav() {
+        navContainer.innerHTML = logoHtml + navUrlsHtml + searchHtml + navActionsHtml;
+    }
+    
+    // Build mobile menu
+    function buildMobileMenu() {
+        const mobileAvatar = document.getElementById('mobileAvatar');
+        const mobileUserDetails = document.getElementById('mobileUserDetails');
+        const mobileNavLinks = document.getElementById('mobileNavLinks');
+        const mobileAuthButtons = document.getElementById('mobileAuthButtons');
+        
+        if (mobileAvatar) mobileAvatar.innerHTML = mobileAvatarHtml;
+        if (mobileUserDetails) mobileUserDetails.innerHTML = mobileUserDetailsHtml;
+        if (mobileNavLinks) mobileNavLinks.innerHTML = mobileNavLinksHtml;
+        if (mobileAuthButtons) mobileAuthButtons.innerHTML = mobileAuthButtonsHtml;
+    }
+    
+    // Initialize
+    buildDesktopNav();
+    buildMobileMenu();
+    
+    // ========== MOBILE MENU TOGGLE ==========
+    if (mobileToggleBtn && mobileMenu) {
+        mobileToggleBtn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            this.classList.toggle('active');
+            mobileMenu.classList.toggle('active');
+            document.body.style.overflow = mobileMenu.classList.contains('active') ? 'hidden' : '';
+        });
+    }
+    
+    // Close mobile menu when clicking outside
+    document.addEventListener('click', function(event) {
+        if (mobileMenu && mobileMenu.classList.contains('active')) {
+            if (!mobileMenu.contains(event.target) && !mobileToggleBtn.contains(event.target)) {
+                mobileMenu.classList.remove('active');
+                if (mobileToggleBtn) mobileToggleBtn.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+        }
+    });
+    
+    // Close on window resize
+    window.addEventListener('resize', function() {
+        if (window.innerWidth > 768 && mobileMenu && mobileMenu.classList.contains('active')) {
+            mobileMenu.classList.remove('active');
+            if (mobileToggleBtn) mobileToggleBtn.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+    });
+    
+    // ========== HEADER SCROLL EFFECT ==========
+    window.addEventListener('scroll', function() {
+        const header = document.querySelector('.header');
+        if (window.scrollY > 50) {
+            header.classList.add('scrolled');
+        } else {
+            header.classList.remove('scrolled');
+        }
+    });
+    
+    // ========== SEARCH FUNCTION ==========
+    window.Search = function() {
+        const searchBar = document.getElementById('search-bar');
+        if (searchBar && searchBar.value.trim()) {
+            const searchUrl = searchBar.getAttribute('data-url') || "{% url 'search' %}";
+            window.location.href = searchUrl + '?result=' + encodeURIComponent(searchBar.value);
+        }
+    };
+    
+    // Enter key search
+    document.addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+            const searchBar = document.getElementById('search-bar');
+            if (searchBar && document.activeElement === searchBar) {
+                Search();
+            }
+        }
+    });
+    
+    // Quick post menu
+    window.showQuickPostMenu = function() {
+        // You can implement a quick post modal here if needed
+        alert('Quick post options:\n- Ask Question\n- Sell Product\n- Upload Notes\n- Create Group');
+    };
+</script>

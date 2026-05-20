@@ -1,218 +1,538 @@
 {% load static %}
 {% load partials %}
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Campus Connect - Your Campus Community Hub</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="{%static 'CSS/index.css'%}">
-    <link rel="stylesheet" href="{%static 'CSS/nav.css'%}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="{% static 'CSS/index.css' %}">
+    <link rel="stylesheet" href="{% static 'CSS/nav.css' %}">
 </head>
 <body>
-    <!-- Header -->
-    <header class="header" id="header">
-        <!--Generated dynamically by js-->
-    </header>
+    <!-- Premium Animated Background -->
+    <div class="animated-bg">
+        <div class="gradient-orb orb-1"></div>
+        <div class="gradient-orb orb-2"></div>
+        <div class="gradient-orb orb-3"></div>
+        <div class="grid-overlay"></div>
+    </div>
 
-    <!-- Hero Section -->
-    <section class="hero" id="home">
-        <div class="hero-content">
-            <h1>Connect. Learn. Share.</h1>
-            <p>Your Campus Community Hub – Ask questions, share notes, Market, and collaborate in groups.</p>
-            <a href="#features" class="btn-hero">Get Started</a>
+    <!-- Premium Theme Toggle -->
+    <button class="theme-toggle-premium" id="themeToggleBtn">
+        <div class="toggle-track">
+            <i class="fas fa-sun toggle-icon sun"></i>
+            <i class="fas fa-moon toggle-icon moon"></i>
+            <div class="toggle-thumb"></div>
         </div>
-    </section>
-    <section class="qa-section">
-        <div class="qa-container">
-            <h2>Campus Connect Q&A</h2>
-            <div class="qa-box">
-            <p id="qa-text"></p>
+    </button>
+
+    <!-- Header -->
+    <header class="header" id="header"></header>
+
+    <!-- ========== PREMIUM HERO SECTION ========== -->
+    <section class="hero-premium">
+        <div class="hero-bg-elements">
+            <div class="hero-bg-pattern"></div>
+            <div class="hero-glow-1"></div>
+            <div class="hero-glow-2"></div>
+        </div>
+        
+        <div class="hero-particles">
+            <div class="particle p1"><i class="fas fa-graduation-cap"></i></div>
+            <div class="particle p2"><i class="fas fa-book"></i></div>
+            <div class="particle p3"><i class="fas fa-users"></i></div>
+            <div class="particle p4"><i class="fas fa-comments"></i></div>
+            <div class="particle p5"><i class="fas fa-chart-line"></i></div>
+        </div>
+        
+        <div class="hero-container-premium">
+            <div class="hero-content-premium">
+                <div class="hero-badge">
+                    <div class="badge-icon">
+                        <i class="fas fa-graduation-cap"></i>
+                    </div>
+                    <span>Welcome to Campus Connect</span>
+                </div>
+                <h1 class="hero-title-premium">
+                    Connect.<br>
+                    <span class="gradient-text">Learn. Share.</span>
+                </h1>
+                <p class="hero-description-premium">
+                    Your Campus Community Hub – Ask questions, share notes, Market, and collaborate in groups.
+                </p>
+                <div class="hero-buttons">
+                    <a href="{% url 'signup' %}" class="btn-primary-premium">
+                        Get Started <i class="fas fa-arrow-right"></i>
+                    </a>
+                    <a href="#features" class="btn-secondary-premium">
+                        Learn More <i class="fas fa-play-circle"></i>
+                    </a>
+                </div>
+                <div class="hero-stats">
+                    <div class="stat-item">
+                        <div class="stat-number">50k+</div>
+                        <div class="stat-label">Active Students</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">10k+</div>
+                        <div class="stat-label">Notes Shared</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">500+</div>
+                        <div class="stat-label">Study Groups</div>
+                    </div>
+                </div>
+            </div>
+            <div class="hero-visual-premium">
+                <div class="hero-card-stack">
+                    <div class="stack-card card-1">
+                        <i class="fas fa-question-circle"></i>
+                        <span>Ask Questions</span>
+                        <div class="card-badge">New</div>
+                    </div>
+                    <div class="stack-card card-2">
+                        <i class="fas fa-book"></i>
+                        <span>Marketplace</span>
+                        <div class="card-trend">↑ 23%</div>
+                    </div>
+                    <div class="stack-card card-3">
+                        <i class="fas fa-file-alt"></i>
+                        <span>Notes Library</span>
+                        <div class="card-stats">1.2k</div>
+                    </div>
+                </div>
             </div>
         </div>
+        <div class="hero-scroll">
+            <span>Scroll to explore</span>
+            <div class="scroll-line">
+                <div class="scroll-dot"></div>
+            </div>
+        </div>
+        <div class="hero-wave-premium">
+            <svg viewBox="0 0 1200 120" preserveAspectRatio="none">
+                <path d="M0,0V46.29c47.79,22.2,103.59,32.17,158,28,70.36-5.37,136.33-33.31,206.8-37.5C438.64,32.43,512.34,53.67,583,72.05c69.27,18,138.3,24.88,209.4,13.08,36.15-6,69.85-17.84,104.45-29.34C989.49,25,1113-14.29,1200,52.47V0Z" opacity=".25" fill="currentColor"></path>
+                <path d="M0,0V15.81c13,21.11,27.64,41.05,47.69,56.24C99.41,111.27,165,111,224.58,91.58c31.15-10.15,60.09-26.07,89.67-39.8,40.92-19,84.73-46,130.83-49.67,36.26-2.85,70.9,9.42,98.6,31.56,31.77,25.39,62.32,62,103.63,73,40.44,10.79,81.35-6.69,119.13-24.28s75.16-39,116.92-43.05c59.73-5.85,113.28,22.88,168.9,38.84,30.2,8.66,59,6.17,87.09-7.5,22.43-10.89,48-26.93,60.65-49.24V0Z" opacity=".5" fill="currentColor"></path>
+                <path d="M0,0V5.63C149.93,59,314.09,71.32,475.83,42.57c43-7.64,84.23-20.12,127.61-26.46,59-8.63,112.48,12.24,165.56,35.4C827.93,77.22,886,95.24,951.2,90c86.53-7,172.46-45.71,248.8-84.81V0Z" fill="currentColor"></path>
+            </svg>
+        </div>
     </section>
 
-    <!-- Main Content -->
-    <main class="main-content">
-        <div class="container">
-            <h2 class="section-title" id="features">Explore Our Features</h2>
+    <!-- ========== TRUST BADGES SECTION ========== -->
+    <div class="trust-badges-premium">
+        <div class="trust-container">
+            <div class="trust-item">
+                <i class="fas fa-shield-alt"></i>
+                <span>100% Secure Platform</span>
+            </div>
+            <div class="trust-item">
+                <i class="fas fa-user-check"></i>
+                <span>Verified Students</span>
+            </div>
+            <div class="trust-item">
+                <i class="fas fa-headset"></i>
+                <span>24/7 Support</span>
+            </div>
+            <div class="trust-item">
+                <i class="fas fa-lock"></i>
+                <span>Privacy Protected</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========== FEATURES SECTION ========== -->
+    <section id="features" class="features-premium">
+        <div class="container-premium">
+            <div class="section-header-premium">
+                <div class="section-badge">
+                    <i class="fas fa-star"></i> What We Offer
+                </div>
+                <h2 class="section-title-premium">Explore Our Features</h2>
+                <p class="section-subtitle-premium">Everything you need to succeed academically, all in one place.</p>
+            </div>
             
-            <!-- Feature Cards -->
-            <div class="features-grid">
-                <div class="feature-card">
+            <div class="features-grid-premium">
+                <div class="feature-card-premium glass-card">
+                    <div class="gradient-border"></div>
                     <div class="feature-icon">
                         <i class="fas fa-question-circle"></i>
                     </div>
                     <h3>Ask Questions</h3>
                     <p>Get help from your peers and professors. Ask academic questions, seek study tips, or clarify doubts instantly.</p>
-                    <a href="{%url 'question_library'%}" class="btn-primary">Start Asking</a>
+                    <a href="{% url 'question_library' %}" class="feature-link">Start Asking <i class="fas fa-arrow-right"></i></a>
                 </div>
 
-                <div class="feature-card">
+                <div class="feature-card-premium glass-card">
+                    <div class="gradient-border"></div>
                     <div class="feature-icon">
-                        <i class="fas fa-book"></i>
+                        <i class="fas fa-store"></i>
                     </div>
-                    <h3>Market</h3>
+                    <h3>Marketplace</h3>
                     <p>Buy and sell textbooks, reference materials, and study guides. Connect with students on your campus for better deals.</p>
-                    <a href="#" class="btn-primary">Sell Now</a>
+                    <a href="{% url 'market' %}" class="feature-link">Start Selling <i class="fas fa-arrow-right"></i></a>
                 </div>
 
-                <div class="feature-card">
+                <div class="feature-card-premium glass-card">
+                    <div class="gradient-border"></div>
                     <div class="feature-icon">
-                        <i class="fas fa-sticky-note"></i>
+                        <i class="fas fa-file-alt"></i>
                     </div>
                     <h3>Notes Sharing</h3>
                     <p>Upload and download study notes, lecture slides, and assignments. Build a collaborative knowledge base.</p>
-                    <a href="{%url 'notes'%}" class="btn-primary">Explore Notes</a>
+                    <a href="{% url 'notes' %}" class="feature-link">Explore Notes <i class="fas fa-arrow-right"></i></a>
                 </div>
 
-                <div class="feature-card">
+                <div class="feature-card-premium glass-card">
+                    <div class="gradient-border"></div>
                     <div class="feature-icon">
                         <i class="fas fa-users"></i>
                     </div>
-                    <h3>Create Groups</h3>
+                    <h3>Study Groups</h3>
                     <p>Form study groups, project teams, or interest-based communities. Collaborate and learn together.</p>
-                    <a href="#" class="btn-primary">Create Group</a>
-                </div>
-            </div>
-        </div>
-    </main>
-
-    <!-- Latest Activity Section -->
-    <section class="activity-section">
-        <div class="container">
-            <h2 class="section-title">Latest Activity</h2>
-            
-            <div class="activity-grid">
-                <div class="activity-item">
-                    <h4><i class="fas fa-question-circle" style="color: #1E90FF; margin-right: 0.5rem;"></i>Question Posted</h4>
-                    <p>"Can someone explain the concept of Big O notation in algorithms?"</p>
-                    <div class="activity-time">Posted by Sarah M. • 2 hours ago</div>
-                </div>
-
-                <div class="activity-item">
-                    <h4><i class="fas fa-sticky-note" style="color: #1E90FF; margin-right: 0.5rem;"></i>Notes Uploaded</h4>
-                    <p>"Calculus II - Integration Techniques - Complete Study Guide"</p>
-                    <div class="activity-time">Uploaded by John D. • 4 hours ago</div>
-                </div>
-
-                <div class="activity-item">
-                    <h4><i class="fas fa-book" style="color: #1E90FF; margin-right: 0.5rem;"></i>Book Listed</h4>
-                    <p>"Introduction to Psychology (12th Edition) - Excellent condition"</p>
-                    <div class="activity-time">Listed by Mike R. • 6 hours ago</div>
-                </div>
-
-                <div class="activity-item">
-                    <h4><i class="fas fa-users" style="color: #1E90FF; margin-right: 0.5rem;"></i>Group Created</h4>
-                    <p>"Data Structures Study Group - Meeting every Tuesday"</p>
-                    <div class="activity-time">Created by Emma L. • 1 day ago</div>
+                    <a href="{% url 'group_home' %}" class="feature-link">Create Group <i class="fas fa-arrow-right"></i></a>
                 </div>
             </div>
         </div>
     </section>
-    
+
+    <!-- ========== TESTIMONIALS SECTION ========== -->
+    <section class="testimonials-premium">
+        <div class="container-premium">
+            <div class="section-header-premium">
+                <div class="section-badge">
+                    <i class="fas fa-heart"></i> What Students Say
+                </div>
+                <h2 class="section-title-premium">Loved by Students</h2>
+                <p class="section-subtitle-premium">Join thousands of students who have transformed their academic journey.</p>
+            </div>
+            
+            <div class="testimonials-grid">
+                <div class="testimonial-card glass-card">
+                    <div class="gradient-border"></div>
+                    <div class="testimonial-quote">
+                        <i class="fas fa-quote-left"></i>
+                    </div>
+                    <p class="testimonial-text">"Campus Connect has completely changed how I study. The notes sharing feature is a lifesaver!"</p>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">JD</div>
+                        <div class="author-info">
+                            <strong>John Doe</strong>
+                            <span>Computer Science Student</span>
+                        </div>
+                    </div>
+                    <div class="testimonial-rating">★★★★★</div>
+                </div>
+                <div class="testimonial-card glass-card">
+                    <div class="gradient-border"></div>
+                    <div class="testimonial-quote">
+                        <i class="fas fa-quote-left"></i>
+                    </div>
+                    <p class="testimonial-text">"The marketplace helped me save hundreds on textbooks. Best platform for students!"</p>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">JS</div>
+                        <div class="author-info">
+                            <strong>Jane Smith</strong>
+                            <span>Engineering Student</span>
+                        </div>
+                    </div>
+                    <div class="testimonial-rating">★★★★★</div>
+                </div>
+                <div class="testimonial-card glass-card">
+                    <div class="gradient-border"></div>
+                    <div class="testimonial-quote">
+                        <i class="fas fa-quote-left"></i>
+                    </div>
+                    <p class="testimonial-text">"Study groups have made collaboration so easy. I've met amazing study partners here."</p>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">MC</div>
+                        <div class="author-info">
+                            <strong>Maria Chen</strong>
+                            <span>Business Student</span>
+                        </div>
+                    </div>
+                    <div class="testimonial-rating">★★★★★</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== STATISTICS COUNTER SECTION ========== -->
+    <div class="stats-counter-premium">
+        <div class="stats-container">
+            <div class="counter-item">
+                <div class="counter-number" id="counter1">0</div>
+                <div class="counter-label">Active Students</div>
+            </div>
+            <div class="counter-divider"></div>
+            <div class="counter-item">
+                <div class="counter-number" id="counter2">0</div>
+                <div class="counter-label">Notes Shared</div>
+            </div>
+            <div class="counter-divider"></div>
+            <div class="counter-item">
+                <div class="counter-number" id="counter3">0</div>
+                <div class="counter-label">Study Groups</div>
+            </div>
+            <div class="counter-divider"></div>
+            <div class="counter-item">
+                <div class="counter-number" id="counter4">0</div>
+                <div class="counter-label">Happy Students</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========== LATEST ACTIVITY SECTION ========== -->
+<section class="activity-premium">
+    <div class="container-premium">
+        <div class="section-header-premium">
+            <div class="section-badge">
+                <i class="fas fa-clock"></i> Real-time Updates
+            </div>
+            <h2 class="section-title-premium">Latest Activity</h2>
+            <p class="section-subtitle-premium">See what's happening in the Campus Connect community.</p>
+        </div>
+        
+        <div class="activity-grid-premium">
+            <!-- Activity Card 1 -->
+            <div class="activity-card-premium glass-card">
+                <div class="gradient-border"></div>
+                <div class="activity-icon">
+                    <i class="fas fa-question-circle"></i>
+                </div>
+                <div class="activity-content">
+                    <h4>Question Posted</h4>
+                    <p>"Can someone explain the concept of Big O notation in algorithms?"</p>
+                    <div class="activity-meta">
+                        <div class="activity-user">
+                            <div class="user-avatar-sm">SM</div>
+                            <span>Sarah M.</span>
+                        </div>
+                        <span class="activity-time">2 hours ago</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Activity Card 2 -->
+            <div class="activity-card-premium glass-card">
+                <div class="gradient-border"></div>
+                <div class="activity-icon">
+                    <i class="fas fa-file-alt"></i>
+                </div>
+                <div class="activity-content">
+                    <h4>Notes Uploaded</h4>
+                    <p>"Calculus II - Integration Techniques - Complete Study Guide"</p>
+                    <div class="activity-meta">
+                        <div class="activity-user">
+                            <div class="user-avatar-sm">JD</div>
+                            <span>John D.</span>
+                        </div>
+                        <span class="activity-time">4 hours ago</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Activity Card 3 -->
+            <div class="activity-card-premium glass-card">
+                <div class="gradient-border"></div>
+                <div class="activity-icon">
+                    <i class="fas fa-book"></i>
+                </div>
+                <div class="activity-content">
+                    <h4>Book Listed</h4>
+                    <p>"Introduction to Psychology (12th Edition) - Excellent condition"</p>
+                    <div class="activity-meta">
+                        <div class="activity-user">
+                            <div class="user-avatar-sm">MR</div>
+                            <span>Mike R.</span>
+                        </div>
+                        <span class="activity-time">6 hours ago</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Activity Card 4 -->
+            <div class="activity-card-premium glass-card">
+                <div class="gradient-border"></div>
+                <div class="activity-icon">
+                    <i class="fas fa-users"></i>
+                </div>
+                <div class="activity-content">
+                    <h4>Group Created</h4>
+                    <p>"Data Structures Study Group - Meeting every Tuesday"</p>
+                    <div class="activity-meta">
+                        <div class="activity-user">
+                            <div class="user-avatar-sm">EL</div>
+                            <span>Emma L.</span>
+                        </div>
+                        <span class="activity-time">1 day ago</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+    <!-- ========== NEWSLETTER CTA SECTION ========== -->
+    <section class="newsletter-premium">
+        <div class="container-premium">
+            <div class="newsletter-card glass-card">
+                <div class="gradient-border"></div>
+                <div class="newsletter-content">
+                    <div class="newsletter-icon">
+                        <i class="fas fa-envelope-open-text"></i>
+                    </div>
+                    <h2>Stay Updated</h2>
+                    <p>Subscribe to our newsletter for the latest updates, study tips, and campus news.</p>
+                    <form class="newsletter-form" id="newsletterForm">
+                        <div class="input-group-news">
+                            <i class="fas fa-envelope"></i>
+                            <input type="email" placeholder="Enter your email address" required>
+                            <button type="submit">Subscribe <i class="fas fa-paper-plane"></i></button>
+                        </div>
+                    </form>
+                    <p class="newsletter-note">No spam, unsubscribe anytime.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- Footer -->
-    <footer class="footer" id="footer">
-        <!--Generated dynamically by js-->
-    </footer>
+    <footer class="footer" id="footer"></footer>
+
+    <!-- Toast Container -->
+    <div id="toastContainer"></div>
 
     {% include "Components/header.html#guestDynamicHeader" %}
     {% include "Components/footer.html#footer" %}
 
     <script>
-        function Search(){
-            const search_link = "{%url 'search'%}"
-            let search_data = document.getElementById('search-bar')
-            window.location.href = search_link + `?result=${search_data.value}`
-        }
-    </script>
-
-    <script>
-        // Sticky navbar on scroll
-        window.addEventListener('scroll', function() {
-            const header = document.getElementById('header');
-            if (window.scrollY > 100) {
-                header.classList.add('scrolled');
-            } else {
-                header.classList.remove('scrolled');
+        // ========== THEME TOGGLE ==========
+        (function() {
+            const savedTheme = localStorage.getItem('premiumTheme') || 'light';
+            const toggleBtn = document.getElementById('themeToggleBtn');
+            
+            function setTheme(theme) {
+                if (theme === 'dark') {
+                    document.body.classList.add('dark-theme-premium');
+                    if (toggleBtn) toggleBtn.classList.add('dark-active');
+                } else {
+                    document.body.classList.remove('dark-theme-premium');
+                    if (toggleBtn) toggleBtn.classList.remove('dark-active');
+                }
+                localStorage.setItem('premiumTheme', theme);
             }
-        });
+            
+            if (savedTheme === 'dark') setTheme('dark');
+            
+            if (toggleBtn) {
+                toggleBtn.addEventListener('click', function() {
+                    const isDark = document.body.classList.contains('dark-theme-premium');
+                    setTheme(isDark ? 'light' : 'dark');
+                    this.style.transform = 'scale(0.95)';
+                    setTimeout(() => { if(toggleBtn) toggleBtn.style.transform = ''; }, 200);
+                });
+            }
+        })();
 
-        // Mobile menu toggle
-        const mobileToggle = document.getElementById('mobileToggle');
-        const navLinks = document.getElementById('navLinks');
+        // ========== TOAST NOTIFICATION ==========
+        let lastToastTime = 0;
+        const TOAST_DEBOUNCE_MS = 2000;
+        
+        function showToast(message, type = 'success') {
+            const container = document.getElementById('toastContainer');
+            if (!container) return;
+            
+            const now = Date.now();
+            if (now - lastToastTime < TOAST_DEBOUNCE_MS) return;
+            lastToastTime = now;
+            
+            const toast = document.createElement('div');
+            toast.className = `toast toast-${type}`;
+            const icons = { success: 'fa-check-circle', error: 'fa-exclamation-circle', info: 'fa-info-circle', warning: 'fa-exclamation-triangle' };
+            toast.innerHTML = `<i class="fas ${icons[type]}"></i><span>${message}</span><button class="toast-close" onclick="this.parentElement.remove()">&times;</button>`;
+            container.appendChild(toast);
+            setTimeout(() => toast.remove(), 3000);
+        }
 
-        mobileToggle.addEventListener('click', function() {
-            navLinks.classList.toggle('active');
-        });
+        // ========== SEARCH FUNCTION ==========
+        function Search() {
+            const search_link = "{% url 'search' %}";
+            const search_data = document.getElementById('search-bar');
+            if (search_data && search_data.value.trim()) {
+                window.location.href = search_link + `?result=${encodeURIComponent(search_data.value)}`;
+            }
+        }
 
-        // Smooth scrolling for anchor links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
+        // ========== ANIMATE COUNTERS ==========
+        function animateCounter(elementId, targetValue) {
+            const element = document.getElementById(elementId);
+            if (!element) return;
+            let current = 0;
+            const increment = Math.ceil(targetValue / 60);
+            const timer = setInterval(() => {
+                current += increment;
+                if (current >= targetValue) {
+                    element.textContent = targetValue.toLocaleString() + '+';
+                    clearInterval(timer);
+                } else {
+                    element.textContent = current.toLocaleString() + '+';
+                }
+            }, 30);
+        }
+
+        // ========== NEWSLETTER SUBSCRIPTION ==========
+        const newsletterForm = document.getElementById('newsletterForm');
+        if (newsletterForm) {
+            newsletterForm.addEventListener('submit', function(e) {
                 e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
+                const email = this.querySelector('input[type="email"]').value;
+                if (email) {
+                    showToast('Thank you for subscribing! 🎉', 'success');
+                    this.reset();
                 }
             });
-        });
-
-        // Close mobile menu when clicking on a link
-        navLinks.addEventListener('click', function(e) {
-            if (e.target.tagName === 'A') {
-                navLinks.classList.remove('active');
-            }
-        });
-
-        // Search functionality (basic)
-        const searchBar = document.querySelector('.search-bar');
-        searchBar.addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                alert('Search functionality would be implemented here!');
-            }
-        });
-
-        const qaText = document.getElementById('qa-text');
-
-        const qaData = [
-        { type: 'Q', text: 'What is the best way to prepare for exams?' },
-        { type: 'A', text: 'Create a study schedule and stick to it!' },
-        { type: 'Q', text: 'Where can I find free lecture notes?' },
-        { type: 'A', text: 'Check out the Notes section on Campus Connect.' },
-        { type: 'Q', text: 'How can I sell my old textbooks?' },
-        { type: 'A', text: 'Use our Marketplace to list your books easily!' }
-        ];
-
-        let index = 0;
-        let charIndex = 0;
-        let currentText = '';
-        let isDeleting = false;
-
-        function typeEffect() {
-        if (index >= qaData.length) index = 0; // Loop back to first Q&A
-
-        if (!isDeleting && charIndex <= qaData[index].text.length) {
-            currentText = qaData[index].text.slice(0, charIndex++);
-            qaText.textContent = (qaData[index].type === 'Q' ? 'Q: ' : 'A: ') + currentText;
-            setTimeout(typeEffect, 80);
-        } else if (isDeleting && charIndex > 0) {
-            currentText = qaData[index].text.slice(0, charIndex--);
-            qaText.textContent = (qaData[index].type === 'Q' ? 'Q: ' : 'A: ') + currentText;
-            setTimeout(typeEffect, 50);
-        } else {
-            isDeleting = !isDeleting;
-            if (!isDeleting) index++;
-            setTimeout(typeEffect, isDeleting ? 1500 : 500);
-        }
         }
 
-        typeEffect();
+        // ========== SCROLL REVEAL ANIMATION ==========
+        const revealElements = document.querySelectorAll('.feature-card-premium, .testimonial-card, .activity-card-premium');
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('revealed');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+        
+        revealElements.forEach(el => observer.observe(el));
+
+        // ========== INITIALIZE COUNTERS ==========
+        setTimeout(() => {
+            animateCounter('counter1', 50000);
+            animateCounter('counter2', 12000);
+            animateCounter('counter3', 500);
+            animateCounter('counter4', 48000);
+        }, 500);
+
+        // Add CSS for reveal animation
+        const style = document.createElement('style');
+        style.textContent = `
+            .feature-card-premium, .testimonial-card, .activity-card-premium {
+                opacity: 0;
+                transform: translateY(30px);
+                transition: all 0.6s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+            }
+            .feature-card-premium.revealed, .testimonial-card.revealed, .activity-card-premium.revealed {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        `;
+        document.head.appendChild(style);
+        
+        window.Search = Search;
     </script>
 </body>
 </html>

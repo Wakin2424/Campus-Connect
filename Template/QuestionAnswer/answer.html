@@ -5,218 +5,408 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Answer Question - Campus Connect</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="{%static 'CSS/answer.css'%}">
-    <link rel="stylesheet" href="{%static 'CSS/nav.css'%}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="{% static 'CSS/answer.css' %}">
+    <link rel="stylesheet" href="{% static 'CSS/nav.css' %}">
 </head>
 <body>
+    <!-- Premium Animated Background -->
+    <div class="animated-bg">
+        <div class="gradient-orb orb-1"></div>
+        <div class="gradient-orb orb-2"></div>
+        <div class="gradient-orb orb-3"></div>
+        <div class="grid-overlay"></div>
+    </div>
+
+    <!-- Premium Theme Toggle -->
+    <button class="theme-toggle-premium" id="themeToggleBtn">
+        <div class="toggle-track">
+            <i class="fas fa-sun toggle-icon sun"></i>
+            <i class="fas fa-moon toggle-icon moon"></i>
+            <div class="toggle-thumb"></div>
+        </div>
+    </button>
+
     <!-- Header -->
-    <header class="header" id="header">
-        <!--Generated dynamically by js-->
-    </header>
+    <header class="header" id="header"></header>
 
     <!-- Main Container -->
     <div class="container">
-        <!-- Question Display -->
-        <div class="question-card">
-            <h1 class="question-title">{{question.question}}</h1>
-            <div class="question-description" id="question-description">
+        <!-- Breadcrumb -->
+        <nav class="breadcrumb-premium">
+            <a href="{% url 'home' %}"><i class="fas fa-home"></i> Home</a>
+            <i class="fas fa-chevron-right"></i>
+            <a href="{% url 'questions' %}">Q&A</a>
+            <i class="fas fa-chevron-right"></i>
+            <span>Post Answer</span>
+        </nav>
+
+        <!-- Question Display Card -->
+        <div class="question-card glass-card">
+            <div class="gradient-border"></div>
+            <div class="question-badge">
+                <span class="badge-premium"><i class="fas fa-question-circle"></i> Question</span>
+            </div>
+            <h1 class="question-title-premium">{{question.question}}</h1>
+            <div class="question-description-premium" id="question-description">
                 {{question.description|safe}}
             </div>
         </div>
 
         <!-- Success Message -->
-        <div class="success-message" id="successMessage">
-            ✓ Your answer has been posted successfully!
+        <div class="success-message-premium" id="successMessage">
+            <i class="fas fa-check-circle"></i>
+            <span>Your answer has been posted successfully!</span>
         </div>
 
-        <!-- Answer Form -->
-        <div class="answer-card">
-            <h2 class="form-title">Write Your Answer</h2>
+        <!-- Answer Form Card -->
+        <div class="answer-card glass-card">
+            <div class="gradient-border"></div>
+            <div class="form-header">
+                <div class="form-icon">
+                    <i class="fas fa-edit"></i>
+                </div>
+                <h2 class="form-title-premium">Write Your Answer</h2>
+                <p class="form-subtitle">Share your knowledge and help the community</p>
+            </div>
+            
             <form id="answerForm">
+                <!-- Rich Text Editor Toolbar -->
+                <div class="editor-toolbar" id="editorToolbar">
+                    <button type="button" class="toolbar-btn" data-command="bold" title="Bold"><i class="fas fa-bold"></i></button>
+                    <button type="button" class="toolbar-btn" data-command="italic" title="Italic"><i class="fas fa-italic"></i></button>
+                    <button type="button" class="toolbar-btn" data-command="underline" title="Underline"><i class="fas fa-underline"></i></button>
+                    <span class="toolbar-divider"></span>
+                    <button type="button" class="toolbar-btn" data-command="insertUnorderedList" title="Bullet List"><i class="fas fa-list-ul"></i></button>
+                    <button type="button" class="toolbar-btn" data-command="insertOrderedList" title="Numbered List"><i class="fas fa-list-ol"></i></button>
+                    <span class="toolbar-divider"></span>
+                    <button type="button" class="toolbar-btn" data-command="formatBlock" data-value="pre" title="Code Block"><i class="fas fa-code"></i></button>
+                    <button type="button" class="toolbar-btn" data-command="createLink" title="Insert Link"><i class="fas fa-link"></i></button>
+                    <span class="toolbar-divider"></span>
+                    <button type="button" class="toolbar-btn" id="clearFormatting" title="Clear Formatting"><i class="fas fa-eraser"></i></button>
+                </div>
+                
                 <div class="form-group">
-                    <label for="answer">Your Answer *</label>
-                    <div id="answer" contenteditable="true"  style="border:1px solid #ccc; padding:10px; min-height:150px; max-width: 100%; overflow-x: auto; border-radius: 10px;">
-                    </div>
-                    
-                </div>
-
-                <div class="form-group image-upload">
-                    <label>Add Image or drag and drop on text editor(Optional)</label>
-                    <div class="file-input-wrapper">
-                        <input type="file" id="imageInput" accept="image/*" style="display:none;">
-                        <button type="button" class="file-input-label" id="file-input-label">
-                            📎 Choose File
-                        </button>
-                        
+                    <label class="form-label-premium">Your Answer <span class="required">*</span></label>
+                    <div id="answer" class="rich-editor-premium" contenteditable="true" placeholder="Write your answer here..."></div>
+                    <div class="editor-footer">
+                        <div class="char-counter">
+                            <i class="fas fa-keyboard"></i>
+                            <span id="charCount">0</span> characters
+                            <span class="word-count"> • <span id="wordCount">0</span> words</span>
+                        </div>
+                        <div class="format-hint">
+                            <i class="fas fa-info-circle"></i> Tip: Use Ctrl+Shift+V to paste without formatting
+                        </div>
                     </div>
                 </div>
 
-                <button type="submit" class="submit-btn" id="submit-btn">Submit Answer</button>
+                <div class="form-group image-upload-group">
+                    <label class="form-label-premium">Add Images <span class="optional">(Optional)</span></label>
+                    <div class="file-upload-zone" id="fileUploadZone">
+                        <input type="file" id="imageInput" accept="image/*" multiple style="display:none;">
+                        <div class="upload-icon">
+                            <i class="fas fa-cloud-upload-alt"></i>
+                        </div>
+                        <p class="upload-text">Drag & drop images here or <span class="browse-link">browse</span></p>
+                        <p class="upload-hint">Supports: JPG, PNG, GIF (Max 5MB each)</p>
+                    </div>
+                    <div class="image-preview-grid" id="imagePreviewGrid"></div>
+                </div>
+
+                <button type="submit" class="submit-btn-premium" id="submit-btn">
+                    <span class="btn-text">Post Answer</span>
+                    <div class="btn-loader hidden">
+                        <div class="spinner"></div>
+                    </div>
+                    <i class="fas fa-paper-plane btn-icon"></i>
+                </button>
             </form>
         </div>
     </div>
 
     <!-- Footer -->
-    <footer class="footer" id="footer">
-        <!--Generated dynamically by js-->
-    </footer>
+    <footer class="footer" id="footer"></footer>
 
+    <!-- Toast Container -->
+    <div id="toastContainer"></div>
 
     {% include "Components/header.html#authDynamicHeaderPost" %}
     {% include "Components/footer.html#footer" %}
+
     <script>
-        function Search(){
-            const search_link = "{%url 'search'%}"
-            let search_data = document.getElementById('search-bar')
-            window.location.href = search_link + `?result=${search_data.value}`
+        // ========== THEME TOGGLE ==========
+        (function() {
+            const savedTheme = localStorage.getItem('premiumTheme') || 'light';
+            const toggleBtn = document.getElementById('themeToggleBtn');
+            
+            function setTheme(theme) {
+                if (theme === 'dark') {
+                    document.body.classList.add('dark-theme-premium');
+                    if (toggleBtn) toggleBtn.classList.add('dark-active');
+                } else {
+                    document.body.classList.remove('dark-theme-premium');
+                    if (toggleBtn) toggleBtn.classList.remove('dark-active');
+                }
+                localStorage.setItem('premiumTheme', theme);
+            }
+            
+            if (savedTheme === 'dark') setTheme('dark');
+            
+            if (toggleBtn) {
+                toggleBtn.addEventListener('click', function() {
+                    const isDark = document.body.classList.contains('dark-theme-premium');
+                    setTheme(isDark ? 'light' : 'dark');
+                    this.style.transform = 'scale(0.95)';
+                    setTimeout(() => { if(toggleBtn) toggleBtn.style.transform = ''; }, 200);
+                });
+            }
+        })();
+
+        // ========== TOAST NOTIFICATION ==========
+        function showToast(message, type = 'success') {
+            const container = document.getElementById('toastContainer');
+            if (!container) return;
+            const toast = document.createElement('div');
+            toast.className = `toast toast-${type}`;
+            const icons = { success: 'fa-check-circle', error: 'fa-exclamation-circle', info: 'fa-info-circle', warning: 'fa-exclamation-triangle' };
+            toast.innerHTML = `<i class="fas ${icons[type]}"></i><span>${message}</span><button class="toast-close" onclick="this.parentElement.remove()">&times;</button>`;
+            container.appendChild(toast);
+            setTimeout(() => toast.remove(), 4000);
         }
 
+        // ========== SEARCH FUNCTION ==========
+        function Search() {
+            const search_link = "{% url 'search' %}";
+            const search_data = document.getElementById('search-bar');
+            if (search_data && search_data.value.trim()) {
+                window.location.href = search_link + `?result=${encodeURIComponent(search_data.value)}`;
+            }
+        }
+
+        // ========== LOAD QUESTION IMAGES ==========
         const imageUrl = {{images|safe}};
-        const questionDescription = document.getElementById('question-description')
-        const imageset = questionDescription.querySelectorAll('img')
+        const questionDescription = document.getElementById('question-description');
+        const imageset = questionDescription?.querySelectorAll('img');
 
-        imageset.forEach((img, index) => {
-            img.src = imageUrl[index]
-            img.style.width = '400px';
-            img.style.height = '400px'; 
-        })
-    </script>
+        imageset?.forEach((img, index) => {
+            if (imageUrl && imageUrl[index]) {
+                img.src = imageUrl[index];
+                img.style.maxWidth = '100%';
+                img.style.borderRadius = '12px';
+                img.style.margin = '10px 0';
+            }
+        });
 
-    <script>
-    let uploadedFiles = [];   // store real File objects for submission
-    let savedSelection;
+        // ========== RICH TEXT EDITOR ==========
+        let uploadedFiles = [];
+        let savedSelection;
+        const editor = document.getElementById("answer");
+        const charCountSpan = document.getElementById('charCount');
+        const wordCountSpan = document.getElementById('wordCount');
 
-    const editor = document.getElementById("answer");
-    const fileInput = document.getElementById("imageInput");
-    const uploadBtn = document.getElementById("file-input-label");
-    const submitButton = document.getElementById("submit-btn");
+        // Placeholder text
+        if (editor && editor.innerText.trim() === '') {
+            editor.innerText = 'Write your answer here...';
+            editor.classList.add('has-placeholder');
+        }
 
-    // Track caret position inside editor
-    editor.addEventListener("keyup", saveSelection);
-    editor.addEventListener("mouseup", saveSelection);
+        editor?.addEventListener('focus', function() {
+            if (this.innerText === 'Write your answer here...') {
+                this.innerText = '';
+                this.classList.remove('has-placeholder');
+            }
+            this.classList.add('focused');
+        });
+        
+        editor?.addEventListener('blur', function() {
+            if (this.innerText.trim() === '') {
+                this.innerText = 'Write your answer here...';
+                this.classList.add('has-placeholder');
+            }
+            this.classList.remove('focused');
+        });
 
-    function saveSelection() {
-    const selection = window.getSelection();
-    if (selection.rangeCount > 0) {
-        savedSelection = selection.getRangeAt(0);
-    }
-    }
+        // Update character and word count
+        function updateCounts() {
+            const text = editor?.innerText || '';
+            const charCount = text.length;
+            const wordCount = text.trim().split(/\s+/).filter(w => w.length > 0 && w !== 'Write your answer here...').length;
+            if (charCountSpan) charCountSpan.textContent = charCount;
+            if (wordCountSpan) wordCountSpan.textContent = wordCount;
+        }
 
+        editor?.addEventListener('input', updateCounts);
+        editor?.addEventListener('keyup', updateCounts);
 
-    editor.addEventListener("drop", function(e) {
-        e.preventDefault();
-        for (const item of e.dataTransfer.items) {
-            if (item.kind === "file") {
-            // Dropped file (image)
-            const file = item.getAsFile();
-            if (file && file.type.startsWith("image/")) {
-                uploadedFiles.push(file); // save original File object
+        // Toolbar commands
+        function executeCommand(command, value = null) {
+            document.execCommand(command, false, value);
+            editor?.focus();
+            updateCounts();
+        }
 
-                // show preview in editor
-                const reader = new FileReader();
-                reader.onload = function(evt) {
+        document.querySelectorAll('.toolbar-btn').forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                e.preventDefault();
+                const command = this.dataset.command;
+                const value = this.dataset.value || null;
+                if (command === 'createLink') {
+                    const url = prompt('Enter URL:', 'https://');
+                    if (url) executeCommand(command, url);
+                } else if (command === 'formatBlock' && value === 'pre') {
+                    executeCommand('formatBlock', '<pre>');
+                } else {
+                    executeCommand(command, value);
+                }
+            });
+        });
+
+        document.getElementById('clearFormatting')?.addEventListener('click', function() {
+            executeCommand('removeFormat', false);
+        });
+
+        // Save cursor position
+        editor?.addEventListener("keyup", saveSelection);
+        editor?.addEventListener("mouseup", saveSelection);
+
+        function saveSelection() {
+            const selection = window.getSelection();
+            if (selection.rangeCount > 0) {
+                savedSelection = selection.getRangeAt(0);
+            }
+        }
+
+        function insertAtCursor(node) {
+            if (savedSelection) {
+                const range = savedSelection;
+                range.deleteContents();
+                range.insertNode(node);
+                range.setStartAfter(node);
+                range.setEndAfter(node);
+                const selection = window.getSelection();
+                selection.removeAllRanges();
+                selection.addRange(range);
+            } else {
+                editor?.appendChild(node);
+            }
+            updateCounts();
+        }
+
+        // ========== IMAGE UPLOAD ==========
+        const fileInput = document.getElementById("imageInput");
+        const uploadZone = document.getElementById("fileUploadZone");
+        const imagePreviewGrid = document.getElementById("imagePreviewGrid");
+
+        uploadZone?.addEventListener("click", () => fileInput?.click());
+
+        // Drag & drop
+        uploadZone?.addEventListener("dragover", (e) => {
+            e.preventDefault();
+            uploadZone.classList.add("drag-over");
+        });
+
+        uploadZone?.addEventListener("dragleave", () => {
+            uploadZone.classList.remove("drag-over");
+        });
+
+        uploadZone?.addEventListener("drop", (e) => {
+            e.preventDefault();
+            uploadZone.classList.remove("drag-over");
+            const files = Array.from(e.dataTransfer.items)
+                .filter(item => item.kind === "file")
+                .map(item => item.getAsFile())
+                .filter(f => f && f.type.startsWith("image/"));
+            files.forEach(file => handleImageFile(file));
+        });
+
+        fileInput?.addEventListener("change", function() {
+            const files = Array.from(this.files).filter(f => f.type.startsWith("image/"));
+            files.forEach(file => handleImageFile(file));
+            this.value = "";
+        });
+
+        function handleImageFile(file) {
+            if (file.size > 5 * 1024 * 1024) {
+                showToast('Image must be less than 5MB', 'error');
+                return;
+            }
+            
+            uploadedFiles.push(file);
+            
+            const reader = new FileReader();
+            reader.onload = function(evt) {
+                // Add to editor
                 const img = document.createElement("img");
                 img.src = evt.target.result;
-                img.style.width = '400px';
-                img.style.height = '400px'
-                editor.appendChild(img);
-                };
-                reader.readAsDataURL(file);
-            }
-            }
-        }
-        });
-
-        // Handle paste (force clean text/code with white background + black text)
-        editor.addEventListener("paste", function(e) {
-        e.preventDefault();
-
-        const text = (e.clipboardData || window.clipboardData).getData("text/plain");
-
-        // Detect if it's code (multi-line or contains { } ;)
-        if (text.includes("\n") || text.includes("{") || text.includes(";")) {
-            const pre = document.createElement("pre");
-            const code = document.createElement("code");
-            code.textContent = text;
-            pre.appendChild(code);
-
-            const sel = window.getSelection();
-            if (!sel.rangeCount) return;
-            const range = sel.getRangeAt(0);
-            range.deleteContents();
-            range.insertNode(pre);
-            const brDiv = document.createElement("div");
-            brDiv.innerHTML = "<br>";
-            pre.parentNode.insertBefore(brDiv, pre.nextSibling);
-
-            // ✅ Move caret into the new blank line
-            range.setStart(brDiv, 0);
-            range.setEnd(brDiv, 0);
-            sel.removeAllRanges();
-            sel.addRange(range);
-        } else {
-            // Otherwise insert plain black text
-            document.execCommand("insertText", false, text);
+                img.style.maxWidth = "100%";
+                img.style.borderRadius = "12px";
+                img.style.margin = "10px 0";
+                insertAtCursor(img);
+                
+                // Add to preview grid
+                const previewDiv = document.createElement('div');
+                previewDiv.className = 'image-preview-item';
+                previewDiv.innerHTML = `
+                    <img src="${evt.target.result}" alt="Preview">
+                    <button type="button" class="remove-image" onclick="this.parentElement.remove(); removeImageFromUploads('${file.name}')">
+                        <i class="fas fa-times"></i>
+                    </button>
+                `;
+                if (imagePreviewGrid) {
+                    imagePreviewGrid.appendChild(previewDiv);
+                    imagePreviewGrid.style.display = 'flex';
+                }
+                showToast('Image added successfully', 'success');
+            };
+            reader.readAsDataURL(file);
         }
 
+        function removeImageFromUploads(fileName) {
+            const index = uploadedFiles.findIndex(f => f.name === fileName);
+            if (index > -1) uploadedFiles.splice(index, 1);
+        }
+
+        // Handle paste
+        editor?.addEventListener("paste", function(e) {
+            e.preventDefault();
+            const text = (e.clipboardData || window.clipboardData).getData("text/plain");
+            
+            if (text.includes("\n") || text.includes("{") || text.includes(";")) {
+                const pre = document.createElement("pre");
+                const code = document.createElement("code");
+                code.textContent = text;
+                pre.appendChild(code);
+                
+                const sel = window.getSelection();
+                if (!sel.rangeCount) return;
+                const range = sel.getRangeAt(0);
+                range.deleteContents();
+                range.insertNode(pre);
+                const brDiv = document.createElement("div");
+                brDiv.innerHTML = "<br>";
+                pre.parentNode?.insertBefore(brDiv, pre.nextSibling);
+                
+                range.setStart(brDiv, 0);
+                range.setEnd(brDiv, 0);
+                sel.removeAllRanges();
+                sel.addRange(range);
+            } else {
+                document.execCommand("insertText", false, text);
+            }
+            updateCounts();
         });
-    // Open hidden file input when clicking upload
-    uploadBtn.addEventListener("click", () => fileInput.click());
 
-
-    // Handle chosen file
-    fileInput.addEventListener("change", function() {
-    const file = this.files[0];
-    if (file) {
-        uploadedFiles.push(file); // store real file
-
-        const reader = new FileReader();
-        reader.onload = function(evt) {
-        const img = document.createElement("img");
-        img.src = evt.target.result;  // preview image
-        img.style.width = "400px";
-        img.style.height = "400px";
-
-        insertAtCursor(img);
-        };
-        reader.readAsDataURL(file);
-    }
-    this.value = ""; // reset so same file can be uploaded again // reset so same file can be uploaded again// reset so same file can be uploaded again
-    });
-
-    // Insert image (or any node) at saved cursor position
-    function insertAtCursor(node) {
-    if (savedSelection) {
-        const range = savedSelection;
-        range.deleteContents();
-        range.insertNode(node);
-
-        // Move cursor after the inserted image
-        range.setStartAfter(node);
-        range.setEndAfter(node);
-
-        const selection = window.getSelection();
-        selection.removeAllRanges();
-        selection.addRange(range);
-    } else {
-        editor.appendChild(node);
-    }
-    }
-    </script>
-
-    <script>
-        const answerForm = document.getElementById('answerForm');
-
-        // Form submission
-        function getCookie(name){
+        // ========== FORM SUBMISSION ==========
+        function getCookie(name) {
             let cookieValue = null;
-            if(document.cookie && document.cookie !== ''){
+            if (document.cookie && document.cookie !== '') {
                 const cookies = document.cookie.split(';');
-                for(let i=0;i <cookies.length; i++){
+                for (let i = 0; i < cookies.length; i++) {
                     const cookie = cookies[i].trim();
-                    if (cookie.substring(0, name.length + 1) === name + '='){
-                        cookieValue = decodeURIComponent(cookie.substring(name.length+1));
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
                         break;
                     }
                 }
@@ -224,84 +414,69 @@
             return cookieValue;
         }
 
-        function FormSubmission(formData, submitButton){
-            url = document.URL
+        function FormSubmission(formData, submitButton) {
+            const url = window.location.href;
             
             fetch(url, {
                 method: 'POST',
-                headers: {
-                    'X-CSRFToken': getCookie('csrftoken')
-                },
-                body:formData
+                headers: { 'X-CSRFToken': getCookie('csrftoken') },
+                body: formData
             })
             .then(response => response.json())
             .then(data => {
-                if(data.status){
-                    submitButton.style.color = 'green'
-                    submitButton.textContent = "Successful"
+                if (data.status) {
+                    const successMsg = document.getElementById('successMessage');
+                    if (successMsg) successMsg.classList.add('show');
+                    showToast('Answer posted successfully!', 'success');
+                    submitButton.innerHTML = '<i class="fas fa-check-circle"></i> Successful!';
                     setTimeout(() => {
                         window.location.href = data.url;
                     }, 1500);
                 } else {
-                    submitButton.style.color = 'red'
-                    submitButton.textContent = "Failed! Try Again"
+                    showToast('Failed to post answer. Please try again.', 'error');
+                    submitButton.innerHTML = '<span class="btn-text">Post Answer</span><i class="fas fa-paper-plane btn-icon"></i>';
+                    submitButton.disabled = false;
                 }
             })
+            .catch(error => {
+                showToast('Network error. Please try again.', 'error');
+                submitButton.innerHTML = '<span class="btn-text">Post Answer</span><i class="fas fa-paper-plane btn-icon"></i>';
+                submitButton.disabled = false;
+            });
         }
 
+        const answerForm = document.getElementById('answerForm');
+        const submitButton = document.getElementById('submit-btn');
 
-
-        answerForm.addEventListener('submit', function(e) {
+        answerForm?.addEventListener('submit', function(e) {
             e.preventDefault();
-
+            
+            // Validate answer content
+            const answerContent = editor?.innerText || '';
+            if (!answerContent || answerContent === 'Write your answer here...' || answerContent.trim() === '') {
+                showToast('Please write your answer before submitting', 'warning');
+                return;
+            }
+            
             const formData = new FormData();
+            
             uploadedFiles.forEach((file, i) => {
                 formData.append(`image${i}`, file);
             });
-
-
-            let f = () => {
-                let temp = document.createElement('div')
-                temp.innerHTML = editor.innerHTML;
-                //temp.querySelectorAll('script').remove()
-                let imgs = temp.querySelectorAll('img');
-                imgs.forEach(imgsrc => {
-                    imgsrc.src = '';
-                });
-                formData.append('answer', temp.innerHTML);
-            };
-
-            f()
-
-            const submitButton = document.getElementById('submit-btn')
-            submitButton.style.color = 'white'
-            submitButton.textContent = "Processing Request"
             
-            FormSubmission(formData, submitButton)
+            // Clean and add answer content
+            const temp = document.createElement('div');
+            temp.innerHTML = editor?.innerHTML || '';
+            const imgs = temp.querySelectorAll('img');
+            imgs.forEach(img => img.src = '');
+            formData.append('answer', temp.innerHTML);
             
-        });
-
-        
-
-        // Form validation
-        document.querySelectorAll('.form-input, .form-textarea').forEach(input => {
-            input.addEventListener('blur', function() {
-                if (this.hasAttribute('required') && this.value.trim() === '') {
-                    this.style.borderColor = '#e74c3c';
-                } else {
-                    this.style.borderColor = '#27ae60';
-                }
-            });
+            // Disable button and show loading
+            submitButton.disabled = true;
+            submitButton.innerHTML = '<div class="spinner"></div> Processing...';
             
-            input.addEventListener('focus', function() {
-                this.style.borderColor = '#1E90FF';
-            });
-        });
-
-        // Mobile menu toggle
-        document.querySelector('.mobile-menu-btn').addEventListener('click', function() {
+            FormSubmission(formData, submitButton);
         });
     </script>
-    
 </body>
 </html>

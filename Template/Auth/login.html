@@ -5,11 +5,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - Campus Connect</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="{%static 'CSS/login.css'%}">
     <link rel="stylesheet" href="{%static 'CSS/nav.css'%}">
-
 </head>
 <body>
     <!-- Header -->
@@ -17,60 +16,131 @@
         <!--Generated dynamically by js-->
     </header>
 
+    <!-- Animated Background Particles -->
+    <div class="particles-container">
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+    </div>
+
+    <!-- Gradient Mesh Background -->
+    <div class="gradient-mesh"></div>
+
+    <!-- Theme Toggle Button -->
+    <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+        <i class="fas fa-moon"></i>
+    </button>
+
     <!-- Main Content -->
     <main class="main-content">
-        <div class="login-container">
-            <h1 class="login-title">Login to Your Account</h1>
+        <div class="login-container glass-card">
+            <div class="gradient-border"></div>
+            
+            <!-- Logo/Brand -->
+            <div class="brand-header">
+                <div class="brand-icon">
+                    <i class="fas fa-graduation-cap"></i>
+                </div>
+                <h2 class="brand-name">Campus<span>Connect</span></h2>
+            </div>
+
+            <h1 class="login-title">Welcome Back</h1>
+            <p class="login-subtitle">Sign in to continue your academic journey</p>
+            
+            <!-- Toast Notification Container -->
+            <div id="toastContainer" class="toast-container"></div>
+
             {% if msg_bool%}
-            <p style="align-self: center; color: rgb(167, 16, 16); align-items: center;justify-self: center;">{{error}}</p>
+            <div class="error-message" id="serverError">
+                <i class="fas fa-exclamation-circle"></i>
+                <span>{{error}}</span>
+                <button class="close-toast" onclick="this.parentElement.remove()">&times;</button>
+            </div>
             {% endif %}
             
             <form id="loginForm" method="POST">
                 {% csrf_token %}
+                
+                <!-- Email Field with Icon -->
                 <div class="form-group">
-                    <input 
-                        type="email" 
-                        name="email"
-                        class="form-input" 
-                        placeholder="Enter your email" 
-                        required
-                        id="email"
-                    >
+                    <div class="input-wrapper">
+                        <div class="input-icon">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <input 
+                            type="email" 
+                            name="email"
+                            class="form-input" 
+                            placeholder=" " 
+                            required
+                            id="email"
+                        >
+                        <label class="floating-label">Email Address</label>
+                        <div class="input-border"></div>
+                    </div>
                 </div>
                 
+                <!-- Password Field with Icon -->
                 <div class="form-group">
-                    <div class="password-container">
+                    <div class="input-wrapper">
+                        <div class="input-icon">
+                            <i class="fas fa-lock"></i>
+                        </div>
                         <input 
                             type="password" 
                             name="password"
                             class="form-input" 
-                            placeholder="Enter your password" 
+                            placeholder=" " 
                             required
                             id="password"
                         >
+                        <label class="floating-label">Password</label>
                         <button type="button" class="password-toggle" onclick="togglePassword()">
                             <i class="fas fa-eye" id="toggleIcon"></i>
                         </button>
-                    </div>
-                    <div class="forgot-password">
-                        <a href="{% url 'forgot_password' %}">Forgot Password?</a>
+                        <div class="input-border"></div>
                     </div>
                 </div>
                 
-                <button type="submit" class="login-btn">Login</button>
+                <!-- Remember Me & Forgot Password -->
+                <div class="form-options">
+                    <label class="remember-me">
+                        <input type="checkbox" id="rememberMe">
+                        <span class="checkmark"></span>
+                        <span class="remember-text">Remember me</span>
+                    </label>
+                    <a href="{% url 'forgot_password' %}" class="forgot-link">Forgot Password?</a>
+                </div>
+                
+                <!-- Login Button with Loading State -->
+                <button type="submit" class="login-btn gradient-btn" id="loginBtn">
+                    <span class="btn-text">Sign In</span>
+                    <div class="btn-loader hidden">
+                        <div class="spinner"></div>
+                    </div>
+                    <i class="fas fa-arrow-right btn-icon"></i>
+                </button>
             </form>
             
             <div class="divider">
                 <span>or continue with</span>
             </div>
             
-            <button class="google-btn" onclick="loginWithGoogle()">
+            <!-- Social Login Buttons -->
+            <button class="google-btn" onclick="loginWithGoogle()" id="googleBtn">
                 <div class="google-icon"></div>
-                Login with Google
+                <span>Sign in with Google</span>
             </button>
             
             <div class="register-link">
-                Don't have an account? <a href="{%url 'signup'%}">Register here</a>
+                New to Campus Connect? <a href="{%url 'signup'%}">Create an account</a>
             </div>
         </div>
     </main>
@@ -79,6 +149,7 @@
     <footer class="footer" id="footer">
         <!--Generated dynamically by js-->
     </footer>
+    
     {% if user.is_authenticated %}
         {% include "Components/header.html#authLoginDynamicHeader" %}
         {% include "Components/footer.html#footer" %}
@@ -96,6 +167,83 @@
     </script>
 
     <script>
+        // Theme Toggle Functionality
+        function initTheme() {
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            if (savedTheme === 'dark') {
+                document.body.classList.add('dark-theme');
+                document.getElementById('themeToggle').innerHTML = '<i class="fas fa-sun"></i>';
+            }
+        }
+
+        function toggleTheme() {
+            document.body.classList.toggle('dark-theme');
+            const isDark = document.body.classList.contains('dark-theme');
+            const themeBtn = document.getElementById('themeToggle');
+            themeBtn.innerHTML = isDark ? '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>';
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+            
+            // Show toast notification
+            showToast(isDark ? 'Dark mode activated' : 'Light mode activated', 'info');
+        }
+
+        // Toast Notification System
+        function showToast(message, type = 'success') {
+            const toastContainer = document.getElementById('toastContainer');
+            const toast = document.createElement('div');
+            toast.className = `toast toast-${type}`;
+            
+            const icons = {
+                success: 'fa-check-circle',
+                error: 'fa-exclamation-circle',
+                info: 'fa-info-circle'
+            };
+            
+            toast.innerHTML = `
+                <i class="fas ${icons[type]}"></i>
+                <span>${message}</span>
+                <button class="toast-close" onclick="this.parentElement.remove()">&times;</button>
+            `;
+            
+            toastContainer.appendChild(toast);
+            
+            // Auto remove after 3 seconds
+            setTimeout(() => {
+                if (toast.parentElement) toast.remove();
+            }, 3000);
+        }
+
+        // Form Submission with Loading State
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            const btn = document.getElementById('loginBtn');
+            const btnText = btn.querySelector('.btn-text');
+            const btnLoader = btn.querySelector('.btn-loader');
+            const btnIcon = btn.querySelector('.btn-icon');
+            
+            // Show loading state
+            btnText.classList.add('hidden');
+            btnLoader.classList.remove('hidden');
+            btnIcon.classList.add('hidden');
+            btn.disabled = true;
+            
+            // If validation passes, form submits normally
+            // If there's an error, reset button
+            setTimeout(() => {
+                // This timeout is just for demo - actual error handling would be in server response
+                // You can remove this in production
+                if (document.querySelector('.error-message')) {
+                    resetButton();
+                }
+            }, 500);
+            
+            function resetButton() {
+                btnText.classList.remove('hidden');
+                btnLoader.classList.add('hidden');
+                btnIcon.classList.remove('hidden');
+                btn.disabled = false;
+            }
+        });
+
         // Toggle password visibility
         function togglePassword() {
             const passwordInput = document.getElementById('password');
@@ -110,31 +258,58 @@
             }
         }
 
-        // Handle Google login
+        // Handle Google login with loading
         function loginWithGoogle() {
-            window.location.href = "{% url 'social:begin' 'google-oauth2' %}?next={{ request.path }}"
+            const googleBtn = document.getElementById('googleBtn');
+            const originalText = googleBtn.innerHTML;
+            googleBtn.innerHTML = '<div class="spinner-small"></div> Redirecting...';
+            googleBtn.disabled = true;
+            
+            setTimeout(() => {
+                window.location.href = "{% url 'social:begin' 'google-oauth2' %}?next={{ request.path }}";
+            }, 100);
         }
 
-        // Mobile menu toggle (basic implementation)
-        document.querySelector('.mobile-menu-btn').addEventListener('click', function() {
-            // This would toggle a mobile menu dropdown
-            console.log('Mobile menu clicked');
+        // Remember Me functionality
+        document.getElementById('rememberMe').addEventListener('change', function() {
+            if (this.checked) {
+                const email = document.getElementById('email').value;
+                if (email) {
+                    localStorage.setItem('rememberedEmail', email);
+                    showToast('Email saved for next time', 'success');
+                }
+            } else {
+                localStorage.removeItem('rememberedEmail');
+                showToast('Remember me disabled', 'info');
+            }
         });
 
-        // Add form validation styling
+        // Load remembered email
+        const rememberedEmail = localStorage.getItem('rememberedEmail');
+        if (rememberedEmail) {
+            document.getElementById('email').value = rememberedEmail;
+            document.getElementById('rememberMe').checked = true;
+        }
+
+        // Floating label animation on page load
         document.querySelectorAll('.form-input').forEach(input => {
-            input.addEventListener('blur', function() {
-                if (this.value.trim() === '') {
-                    this.style.borderColor = '#e74c3c';
-                } else {
-                    this.style.borderColor = '#27ae60';
-                }
-            });
-            
-            input.addEventListener('focus', function() {
-                this.style.borderColor = '#1E90FF';
-            });
+            if (input.value) {
+                input.classList.add('has-value');
+            }
         });
+
+        // Initialize theme
+        initTheme();
+        document.getElementById('themeToggle').addEventListener('click', toggleTheme);
+
+        // Remove server error message automatically
+        const serverError = document.getElementById('serverError');
+        if (serverError) {
+            setTimeout(() => {
+                serverError.style.animation = 'slideOut 0.3s ease forwards';
+                setTimeout(() => serverError.remove(), 300);
+            }, 4000);
+        }
     </script>
 </body>
 </html>

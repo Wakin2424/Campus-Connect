@@ -4,155 +4,283 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Profile</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <title>My Profile - Campus Connect</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="{%static 'CSS/profile.css'%}">
-    <link rel="stylesheet" href="{%static 'CSS/nav.css'%}">
-    <style>
-        
-    </style>
+    <link rel="stylesheet" href="{% static 'CSS/profile.css' %}">
+    <link rel="stylesheet" href="{% static 'CSS/nav.css' %}">
 </head>
 <body>
+    <!-- Premium Animated Background -->
+    <div class="animated-bg">
+        <div class="gradient-orb orb-1"></div>
+        <div class="gradient-orb orb-2"></div>
+        <div class="gradient-orb orb-3"></div>
+        <div class="grid-overlay"></div>
+    </div>
+
+    <!-- Premium Theme Toggle -->
+    <button class="theme-toggle-premium" id="themeToggleBtn">
+        <div class="toggle-track">
+            <i class="fas fa-sun toggle-icon sun"></i>
+            <i class="fasfa-moon toggle-icon moon"></i>
+            <div class="toggle-thumb"></div>
+        </div>
+    </button>
+
     <!-- Header -->
-    <header class="header" id="header">
-        
-    </header>
+    <header class="header" id="header"></header>
+
     <div class="container">
         <div class="main-content">
-            <!-- Profile Header -->
-            <div class="card">
-                <div class="profile-header">
-                    <div class="profile-picture">
-                        {% if user.image != None %}
-                        <img src="{{user.image.file.url}}" alt="Profile Picture">
-                        {% else %}
-                        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='50' fill='%231E90FF'/%3E%3Ctext x='50' y='60' font-family='Arial' font-size='30' fill='white' text-anchor='middle'%3EJS%3C/text%3E%3C/svg%3E" alt="Profile Picture">
-                        {% endif %}
-                    </div>
-                    <div class="profile-info">
-                        <h1>
-                            {{user.first_name}} {{user.last_name}}
-                            <i class="fas fa-check-circle verified-badge"></i>
-                        </h1>
-                        {%if user.is_verified %}
-                        <div class="verification-note">
-                            <i class="fas fa-shield-alt"></i> Verified Campus Member
-                        </div>
-                        {% endif %}
-                        <div class="contact-info">
-                            <p><i class="fas fa-envelope"></i> {{user.email}}</p>
-                            <p><i class="fas fa-phone"></i> {{user.contact}}</p>
-                        </div>
-                        <button class="edit-btn" onclick="Editpage()">
-                            <i class="fas fa-edit"></i> Edit Profile
-                        </button>
-                    </div>
+            <!-- Profile Header Card -->
+            <!-- Profile Header Card -->
+<div class="profile-card-premium glass-card">
+    <div class="gradient-border"></div>
+    
+    <!-- Cover Photo Area -->
+    <div class="profile-cover-premium">
+        <div class="cover-overlay"></div>
+        <div class="cover-pattern"></div>
+    </div>
+    
+    <div class="profile-header-premium">
+        <!-- Avatar Section -->
+        <div class="profile-avatar-wrapper-premium">
+            <div class="avatar-ring-premium">
+                <div class="profile-picture-premium">
+                    {% if user.image != None %}
+                    <img src="{{user.image.file.url}}" alt="Profile Picture">
+                    {% else %}
+                    <span>{{ user.first_name|first|upper }}{{ user.last_name|first|upper }}</span>
+                    {% endif %}
                 </div>
             </div>
+            {% if user.is_verified %}
+            <div class="verified-badge-premium">
+                <i class="fas fa-check-circle"></i>
+            </div>
+            {% endif %}
+        </div>
+        
+        <!-- Info Section -->
+        <div class="profile-info-premium">
+            <div class="profile-name-section-premium">
+                <h1 class="profile-name-premium">{{user.first_name}} {{user.last_name}}</h1>
+                {% if user.is_verified %}
+                <span class="verified-tag-premium">
+                    <i class="fas fa-shield-alt"></i> Verified Member
+                </span>
+                {% endif %}
+            </div>
+            
+            <div class="profile-username-premium">
+                <i class="fas fa-user-circle"></i>
+                <span>{{user.first_name|lower|slice:":1"}}{{user.last_name|lower}}_campus</span>
+            </div>
+            
+            <div class="profile-bio-premium">
+                <p>{{user.bio|default:"Campus Connect member since 2024"}}</p>
+            </div>
+            
+            <div class="profile-contact-premium">
+                <div class="contact-item-premium">
+                    <i class="fas fa-envelope"></i>
+                    <span>{{user.email}}</span>
+                </div>
+                <div class="contact-item-premium">
+                    <i class="fas fa-phone-alt"></i>
+                    <span>{{user.contact}}</span>
+                </div>
+                <div class="contact-item-premium">
+                    <i class="fas fa-calendar-alt"></i>
+                    <span>Joined {{user.date_joined|date:"M Y"}}</span>
+                </div>
+            </div>
+            
+            <button class="edit-profile-btn-premium" onclick="Editpage()">
+                <i class="fas fa-edit"></i> Edit Profile
+            </button>
+        </div>
+    </div>
+</div>
 
-            <!-- User Stats -->
-            <div class="stats-grid">
-                <div class="stat-card">
-                    <div class="stat-number">{{total_uploads}}</div>
+            <!-- Stats Cards -->
+            <div class="stats-grid-premium">
+                <div class="stat-card-premium glass-card">
+                    <div class="gradient-border"></div>
+                    <div class="stat-icon-wrapper">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                    </div>
+                    <div class="stat-number" id="totalUploadsCount">{{total_uploads}}</div>
                     <div class="stat-label">Total Uploads</div>
                 </div>
-                <div class="stat-card">
-                    <div class="stat-number">{{total_views}}</div>
+                <div class="stat-card-premium glass-card">
+                    <div class="gradient-border"></div>
+                    <div class="stat-icon-wrapper">
+                        <i class="fas fa-eye"></i>
+                    </div>
+                    <div class="stat-number" id="totalViewsCount">{{total_views}}</div>
                     <div class="stat-label">Total Views</div>
                 </div>
-                <div class="stat-card">
-                    <div class="stat-number">★ {{rating.0}}</div>
+                <div class="stat-card-premium glass-card">
+                    <div class="gradient-border"></div>
+                    <div class="stat-icon-wrapper">
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <div class="stat-number" id="ratingCount">{{rating.0}}</div>
                     <div class="stat-label">Average Rating</div>
                 </div>
-                <div class="stat-card">
-                    <div class="stat-number">5</div>
+                <div class="stat-card-premium glass-card">
+                    <div class="gradient-border"></div>
+                    <div class="stat-icon-wrapper">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div class="stat-number" id="groupsCount">{{groups_joined|default:"5"}}</div>
                     <div class="stat-label">Groups Joined</div>
                 </div>
             </div>
 
-            <!-- User Uploads -->
-            <div class="card">
-                <div class="tabs">
-                    <div class="tab-buttons">
-                        <button class="tab-btn active" onclick="showTab('notes')">Notes</button>
-                        <button class="tab-btn" onclick="showTab('questions')">Questions</button>
-                        <button class="tab-btn" onclick="showTab('books')">Books for Sale</button>
-                        <button class="tab-btn" onclick="showTab('other')">Other Uploads</button>
+            <!-- User Uploads Section -->
+            <div class="uploads-section-premium glass-card">
+                <div class="gradient-border"></div>
+                
+                <!-- Premium Tabs -->
+                <div class="tabs-premium">
+                    <div class="tab-buttons-premium">
+                        <button class="tab-btn-premium active" onclick="showTab('notes')">
+                            <i class="fas fa-file-alt"></i> Notes
+                        </button>
+                        <button class="tab-btn-premium" onclick="showTab('questions')">
+                            <i class="fas fa-question-circle"></i> Questions
+                        </button>
+                        <button class="tab-btn-premium" onclick="showTab('books')">
+                            <i class="fas fa-book"></i> Books for Sale
+                        </button>
+                        <button class="tab-btn-premium" onclick="showTab('other')">
+                            <i class="fas fa-folder"></i> Other Uploads
+                        </button>
                     </div>
+                    <div class="tab-underline"></div>
                 </div>
 
-                <div id="notes" class="tab-content active">
-                    <div class="uploads-grid">
+                <!-- Notes Tab -->
+                <div id="notes" class="tab-content-premium active">
+                    <div class="uploads-grid-premium">
                         {% for note in notes %}
-                        <div class="upload-card">
-                            <div class="upload-title">{{note.title}}</div>
-                            <div class="upload-description">{{note.description}}</div>
-                            <div class="upload-meta">
-                                <span><i class="fas fa-eye"></i> {{note.views}} views</span>
-                                <span class="rating"><i class="fas fa-star"></i> 4.9</span>
+                        <div class="upload-card-premium glass-card">
+                            <div class="gradient-border"></div>
+                            <div class="upload-icon">
+                                <i class="fas fa-file-pdf"></i>
                             </div>
-                            <div class="upload-meta">
-                                <span>Uploaded: March 15, 2025</span>
-                                <a href="{%url 'note_detail' id=note.code %}" class="view-link">View Details <i class="fas fa-arrow-right"></i></a>
+                            <div class="upload-info">
+                                <h4 class="upload-title">{{note.title|truncatechars:50}}</h4>
+                                <p class="upload-description">{{note.description|truncatechars:80}}</p>
+                                <div class="upload-meta-premium">
+                                    <span class="meta-item"><i class="fas fa-eye"></i> {{note.views}} views</span>
+                                    <span class="meta-item rating"><i class="fas fa-star"></i> 4.9</span>
+                                    <span class="meta-item"><i class="fas fa-calendar"></i> {{note.created_at|date:"M d, Y"}}</span>
+                                </div>
+                                <a href="{% url 'note_detail' id=note.code %}" class="view-link-premium">
+                                    View Details <i class="fas fa-arrow-right"></i>
+                                </a>
                             </div>
+                        </div>
+                        {% empty %}
+                        <div class="empty-uploads">
+                            <i class="fas fa-file-alt"></i>
+                            <p>No notes uploaded yet</p>
                         </div>
                         {% endfor %}
                     </div>
                 </div>
 
-                <div id="questions" class="tab-content">
-                    <div class="uploads-grid">
+                <!-- Questions Tab -->
+                <div id="questions" class="tab-content-premium">
+                    <div class="uploads-grid-premium">
                         {% for question in questions %}
-                            <div class="upload-card">
-                                <div class="upload-title">{{question.question}}</div>
-                                <div class="upload-meta">
-                                    <span><i class="fas fa-eye"></i> {{question.views}} views</span>
-                                    <span class="rating"><i class="fas fa-star"></i> {{question.likes}} likes</span>
-                                </div>
-                                <div class="upload-meta">
-                                    <span>Uploaded: March 15, 2025</span>
-                                    <a href="{%url 'question'%}/{{question.code}}/" class="view-link">View Details <i class="fas fa-arrow-right"></i></a>
-                                </div>
+                        <div class="upload-card-premium glass-card">
+                            <div class="gradient-border"></div>
+                            <div class="upload-icon">
+                                <i class="fas fa-question-circle"></i>
                             </div>
-                        {% endfor %}
-                    </div>
-                </div>
-
-                <div id="books" class="tab-content">
-                    <div class="uploads-grid">
-                        {% for product in products %}
-                        <div class="upload-card">
-                            <div class="upload-title">{{product.name}}</div>
-                            <div class="upload-description">{{product.description|slice:":10"}}</div>
-                            <div class="upload-meta">
-                                <span class="rating"><i class="fas fa-star"></i> 5.0</span>
-                            </div>
-                            <div class="upload-meta">
-                                <span>Listed: <span class="datetime">{{product.created_at}}</span></span>
-                                <a href="{%url 'product_detail' id=product.slug %}" class="view-link">View Details <i class="fas fa-arrow-right"></i></a>
+                            <div class="upload-info">
+                                <h4 class="upload-title">{{question.question|truncatechars:50}}</h4>
+                                <div class="upload-meta-premium">
+                                    <span class="meta-item"><i class="fas fa-eye"></i> {{question.views}} views</span>
+                                    <span class="meta-item"><i class="fas fa-heart"></i> {{question.likes}} likes</span>
+                                    <span class="meta-item"><i class="fas fa-comments"></i> {{question.answer_len}} answers</span>
+                                </div>
+                                <a href="{% url 'question' %}/{{question.code}}/" class="view-link-premium">
+                                    View Details <i class="fas fa-arrow-right"></i>
+                                </a>
                             </div>
                         </div>
-
+                        {% empty %}
+                        <div class="empty-uploads">
+                            <i class="fas fa-question-circle"></i>
+                            <p>No questions asked yet</p>
+                        </div>
                         {% endfor %}
-
                     </div>
                 </div>
 
-                <div id="other" class="tab-content">
-                    <div class="uploads-grid">
+                <!-- Books Tab -->
+                <div id="books" class="tab-content-premium">
+                    <div class="uploads-grid-premium">
+                        {% for product in products %}
+                        <div class="upload-card-premium glass-card">
+                            <div class="gradient-border"></div>
+                            <div class="upload-icon">
+                                <i class="fas fa-book"></i>
+                            </div>
+                            <div class="upload-info">
+                                <h4 class="upload-title">{{product.name|truncatechars:50}}</h4>
+                                <p class="upload-description">{{product.description|truncatechars:60}}</p>
+                                <div class="upload-meta-premium">
+                                    <span class="meta-item price"><i class="fas fa-tag"></i> KSh {{product.price}}</span>
+                                    <span class="meta-item"><i class="fas fa-calendar"></i> {{product.created_at|date:"M d, Y"}}</span>
+                                </div>
+                                <a href="{% url 'product_detail' id=product.slug %}" class="view-link-premium">
+                                    View Details <i class="fas fa-arrow-right"></i>
+                                </a>
+                            </div>
+                        </div>
+                        {% empty %}
+                        <div class="empty-uploads">
+                            <i class="fas fa-book"></i>
+                            <p>No products listed yet</p>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <!-- Other Uploads Tab -->
+                <div id="other" class="tab-content-premium">
+                    <div class="uploads-grid-premium">
                         {% for group in groups %}
-                        <div class="upload-card">
-                            <div class="upload-title">{{group.name}}</div>
-                            <div class="upload-description">{{group.description|slice:":20"}}...</div>
-                            <div class="upload-meta">
-                                <span><i class="fas fa-eye"></i> {{group.members_no}} members</span>
-                                <span class="rating"><i class="fas fa-star"></i> 4.5</span>
+                        <div class="upload-card-premium glass-card">
+                            <div class="gradient-border"></div>
+                            <div class="upload-icon">
+                                <i class="fas fa-users"></i>
                             </div>
-                            <div class="upload-meta">
-                                <span>Posted: {{group.created_at}}</span>
-                                <a href="{%url 'group_detail' group=group.group.slug %}" class="view-link">View Details <i class="fas fa-arrow-right"></i></a>
+                            <div class="upload-info">
+                                <h4 class="upload-title">{{group.name|truncatechars:50}}</h4>
+                                <p class="upload-description">{{group.description|truncatechars:60}}</p>
+                                <div class="upload-meta-premium">
+                                    <span class="meta-item"><i class="fas fa-users"></i> {{group.members_no}} members</span>
+                                    <span class="meta-item"><i class="fas fa-calendar"></i> {{group.created_at|date:"M d, Y"}}</span>
+                                </div>
+<a href="/Groups/{{group.slug}}/" class="view-link-premium">
+    View Details <i class="fas fa-arrow-right"></i>
+</a>                                    View Details <i class="fas fa-arrow-right"></i>
+                                </a>
                             </div>
+                        </div>
+                        {% empty %}
+                        <div class="empty-uploads">
+                            <i class="fas fa-folder-open"></i>
+                            <p>No other uploads yet</p>
                         </div>
                         {% endfor %}
                     </div>
@@ -161,57 +289,100 @@
         </div>
 
         <!-- Sidebar -->
-        <div class="sidebar">
-            <!-- Profile Completion -->
-            <div class="card progress-card">
-                <h3>Profile Completion</h3>
-                <div class="progress-bar">
-                    <div class="progress-fill" style="width: {{percentage}}%"></div>
+        <div class="sidebar-premium">
+            <!-- Profile Completion Card -->
+            <div class="sidebar-card-premium glass-card">
+                <div class="gradient-border"></div>
+                <div class="sidebar-header">
+                    <i class="fas fa-chart-line"></i>
+                    <h3>Profile Completion</h3>
                 </div>
-                <p style="color: #666; font-size: 0.9rem;">{{percentage}}% Complete</p>
+                <div class="progress-container-premium">
+                    <div class="progress-bar-premium">
+                        <div class="progress-fill-premium" style="width: {{percentage}}%">
+                            <span class="progress-glow"></span>
+                        </div>
+                    </div>
+                    <div class="progress-stats">
+                        <span class="progress-percentage">{{percentage}}%</span>
+                        <span class="progress-status">
+                            {% if percentage == 100 %}
+                            <i class="fas fa-check-circle"></i> Complete
+                            {% else %}
+                            <i class="fas fa-edit"></i> In Progress
+                            {% endif %}
+                        </span>
+                    </div>
+                </div>
                 {% if percentage == 100 %}
-                <p style="color: #666; font-size: 0.8rem; margin-top: 0.5rem;">You are a verified user</p>
+                <div class="verified-badge-sidebar">
+                    <i class="fas fa-shield-alt"></i> You are a verified user
+                </div>
                 {% else %}
-                <p style="color: #666; font-size: 0.8rem; margin-top: 0.5rem;">Edit profile to reach 100%</p>
+                <div class="completion-hint">
+                    <i class="fas fa-info-circle"></i> Complete your profile to get verified
+                </div>
                 {% endif %}
             </div>
 
-            <!-- Review Summary -->
-            <div class="card review-summary">
-                <h3>Overall Rating</h3>
-                <div class="big-rating">{{rating.0}}</div>
-                <div class="rating-stars">★★★★★</div>
-                <p style="color: #666;">Based on {{rating.1}} reviews</p>
+            <!-- Review Summary Card -->
+            <div class="sidebar-card-premium glass-card">
+                <div class="gradient-border"></div>
+                <div class="sidebar-header">
+                    <i class="fas fa-star"></i>
+                    <h3>Overall Rating</h3>
+                </div>
+                <div class="rating-summary-premium">
+                    <div class="big-rating-premium">{{rating.0}}</div>
+                    <div class="rating-stars-premium">
+                        {% with rating.0|floatformat:"0" as rating_int %}
+                        {% for i in "12345"|make_list %}
+                            {% if forloop.counter <= rating_int|add:"0" %}
+                            <i class="fas fa-star"></i>
+                            {% else %}
+                            <i class="far fa-star"></i>
+                            {% endif %}
+                        {% endfor %}
+                        {% endwith %}
+                    </div>
+                    <p class="rating-count">Based on {{rating.1}} reviews</p>
+                </div>
             </div>
 
-            <!-- Recent Activity -->
-            <div class="card">
-                <h3 style="color: #0D1B2A; margin-bottom: 1rem;">Recent Activity</h3>
-                <div class="activity-item">
-                    <div class="activity-icon">
-                        <i class="fas fa-file-upload"></i>
-                    </div>
-                    <div class="activity-text">
-                        <p>Uploaded new notes</p>
-                        <div class="activity-time">2 hours ago</div>
-                    </div>
+            <!-- Recent Activity Card -->
+            <div class="sidebar-card-premium glass-card">
+                <div class="gradient-border"></div>
+                <div class="sidebar-header">
+                    <i class="fas fa-history"></i>
+                    <h3>Recent Activity</h3>
                 </div>
-                <div class="activity-item">
-                    <div class="activity-icon">
-                        <i class="fas fa-users"></i>
+                <div class="activity-list-premium">
+                    <div class="activity-item-premium">
+                        <div class="activity-icon-premium">
+                            <i class="fas fa-file-upload"></i>
+                        </div>
+                        <div class="activity-details">
+                            <p class="activity-title">Uploaded new notes</p>
+                            <span class="activity-time">2 hours ago</span>
+                        </div>
                     </div>
-                    <div class="activity-text">
-                        <p>Joined CS Study Group</p>
-                        <div class="activity-time">1 day ago</div>
+                    <div class="activity-item-premium">
+                        <div class="activity-icon-premium">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <div class="activity-details">
+                            <p class="activity-title">Joined CS Study Group</p>
+                            <span class="activity-time">1 day ago</span>
+                        </div>
                     </div>
-                </div>
-                <div class="activity-item">
-                    <div class="activity-icon">
-                        <i class="fas fa-star"></i>
-                    </div>
-                    <div class="activity-text">
-                        <p>Received 5-star review</p>
-                        <div class="activity-time">3 days ago</div>
+                    <div class="activity-item-premium">
+                        <div class="activity-icon-premium">
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <div class="activity-details">
+                            <p class="activity-title">Received 5-star review</p>
+                            <span class="activity-time">3 days ago</span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -219,75 +390,132 @@
     </div>
 
     <!-- Footer -->
-    <footer class="footer" id="footer">
-        <!--Generated dynamically by js-->
-    </footer>
+    <footer class="footer" id="footer"></footer>
+
+    <!-- Toast Container -->
+    <div id="toastContainer"></div>
+
     {% include "Components/header.html#userProfilePage" %}
     {% include "Components/footer.html#footer" %}
-    <script>
-        function Search(){
-            const search_link = "{%url 'search'%}"
-            let search_data = document.getElementById('search-bar')
-            window.location.href = search_link + `?result=${search_data.value}`
-        }
-
-        function Editpage(){
-            window.location.href = '{%url "edit_profile"%}'
-        }
-    </script>
 
     <script>
+        // ========== THEME TOGGLE ==========
+        (function() {
+            const savedTheme = localStorage.getItem('premiumTheme') || 'light';
+            const toggleBtn = document.getElementById('themeToggleBtn');
+            
+            function setTheme(theme) {
+                if (theme === 'dark') {
+                    document.body.classList.add('dark-theme-premium');
+                    if (toggleBtn) toggleBtn.classList.add('dark-active');
+                } else {
+                    document.body.classList.remove('dark-theme-premium');
+                    if (toggleBtn) toggleBtn.classList.remove('dark-active');
+                }
+                localStorage.setItem('premiumTheme', theme);
+            }
+            
+            if (savedTheme === 'dark') setTheme('dark');
+            
+            if (toggleBtn) {
+                toggleBtn.addEventListener('click', function() {
+                    const isDark = document.body.classList.contains('dark-theme-premium');
+                    setTheme(isDark ? 'light' : 'dark');
+                    this.style.transform = 'scale(0.95)';
+                    setTimeout(() => { if(toggleBtn) toggleBtn.style.transform = ''; }, 200);
+                });
+            }
+        })();
+
+        // ========== TOAST NOTIFICATION ==========
+        function showToast(message, type = 'success') {
+            const container = document.getElementById('toastContainer');
+            if (!container) return;
+            const toast = document.createElement('div');
+            toast.className = `toast toast-${type}`;
+            const icons = { success: 'fa-check-circle', error: 'fa-exclamation-circle', info: 'fa-info-circle', warning: 'fa-exclamation-triangle' };
+            toast.innerHTML = `<i class="fas ${icons[type]}"></i><span>${message}</span><button class="toast-close" onclick="this.parentElement.remove()">&times;</button>`;
+            container.appendChild(toast);
+            setTimeout(() => toast.remove(), 3000);
+        }
+
+        // ========== EDIT PROFILE ==========
+        function Editpage() {
+            window.location.href = '{% url "edit_profile" %}';
+        }
+
+        // ========== SEARCH FUNCTION ==========
+        function Search() {
+            const search_link = "{% url 'search' %}";
+            const search_data = document.getElementById('search-bar');
+            if (search_data && search_data.value.trim()) {
+                window.location.href = search_link + `?result=${encodeURIComponent(search_data.value)}`;
+            }
+        }
+
+        // ========== TAB FUNCTIONALITY ==========
         function showTab(tabName) {
             // Hide all tab contents
-            const tabContents = document.querySelectorAll('.tab-content');
+            const tabContents = document.querySelectorAll('.tab-content-premium');
             tabContents.forEach(content => content.classList.remove('active'));
             
             // Remove active class from all buttons
-            const tabButtons = document.querySelectorAll('.tab-btn');
+            const tabButtons = document.querySelectorAll('.tab-btn-premium');
             tabButtons.forEach(btn => btn.classList.remove('active'));
             
             // Show selected tab content
-            document.getElementById(tabName).classList.add('active');
+            const selectedTab = document.getElementById(tabName);
+            if (selectedTab) selectedTab.classList.add('active');
             
             // Add active class to clicked button
-            event.target.classList.add('active');
+            const clickedBtn = Array.from(tabButtons).find(btn => btn.textContent.toLowerCase().includes(tabName) || btn.querySelector('i')?.className.includes(tabName === 'notes' ? 'file-alt' : tabName === 'questions' ? 'question' : tabName === 'books' ? 'book' : 'folder'));
+            if (clickedBtn) clickedBtn.classList.add('active');
+            
+            showToast(`Showing ${tabName}`, 'info');
         }
 
-        // Smooth scroll for anchor links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth'
-                    });
+        // ========== ANIMATE COUNTERS ==========
+        function animateCounter(elementId, targetValue) {
+            const element = document.getElementById(elementId);
+            if (!element) return;
+            let current = 0;
+            const increment = Math.ceil(targetValue / 50);
+            const timer = setInterval(() => {
+                current += increment;
+                if (current >= targetValue) {
+                    element.textContent = targetValue;
+                    clearInterval(timer);
+                } else {
+                    element.textContent = current;
                 }
+            }, 20);
+        }
+
+        // ========== INITIALIZE ==========
+        document.addEventListener('DOMContentLoaded', function() {
+            // Animate counters
+            const totalUploads = parseInt(document.getElementById('totalUploadsCount')?.textContent || '0');
+            const totalViews = parseInt(document.getElementById('totalViewsCount')?.textContent || '0');
+            const rating = parseFloat(document.getElementById('ratingCount')?.textContent || '0');
+            const groups = parseInt(document.getElementById('groupsCount')?.textContent || '0');
+            
+            animateCounter('totalUploadsCount', totalUploads);
+            animateCounter('totalViewsCount', totalViews);
+            animateCounter('ratingCount', rating);
+            animateCounter('groupsCount', groups);
+            
+            // Add fade-in animation to cards
+            const cards = document.querySelectorAll('.stat-card-premium, .upload-card-premium, .sidebar-card-premium');
+            cards.forEach((card, index) => {
+                card.style.animationDelay = `${index * 0.05}s`;
+                card.classList.add('fade-in');
             });
         });
-
-        // Add loading animation for upload cards
-        const uploadCards = document.querySelectorAll('.upload-card');
-        uploadCards.forEach((card, index) => {
-            card.style.animationDelay = `${index * 0.1}s`;
-            card.style.animation = 'fadeInUp 0.6s ease forwards';
-        });
-
-        // CSS for fade in animation
-        const style = document.createElement('style');
-        style.textContent = `
-            @keyframes fadeInUp {
-                from {
-                    opacity: 0;
-                    transform: translateY(20px);
-                }
-                to {
-                    opacity: 1;
-                    transform: translateY(0);
-                }
-            }
-        `;
-        document.head.appendChild(style);
+        
+        // Make functions global
+        window.showTab = showTab;
+        window.Search = Search;
+        window.Editpage = Editpage;
     </script>
 </body>
 </html>

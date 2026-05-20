@@ -18,6 +18,7 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf.urls.static import static
 from django.conf import settings
+from Groups import views as group_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -36,6 +37,10 @@ urlpatterns = [
     path('api/ai/modulo/', include('AI_model.urls')),
     path('Notifications/', include('Notifications.urls')),
     path('info/', include('miscellaneous.urls')),
+    # path('create/', group_views.createGroup, name='create_group'),  # Add this line
+    # path('<slug:group>/', group_views.groupDetail, name='group_detail'),
+
+
 ]
 
 

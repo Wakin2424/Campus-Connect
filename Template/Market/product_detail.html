@@ -5,125 +5,264 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{product.name}}</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="{%static 'CSS/product_detail.css'%}">
-    <link rel="stylesheet" href="{%static 'CSS/nav.css'%}">
+    <title>{{product.name}} - Campus Connect</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="{% static 'CSS/product_detail.css' %}">
+    <link rel="stylesheet" href="{% static 'CSS/nav.css' %}">
 </head>
 <body>
+    <!-- Premium Animated Background -->
+    <div class="animated-bg">
+        <div class="gradient-orb orb-1"></div>
+        <div class="gradient-orb orb-2"></div>
+        <div class="gradient-orb orb-3"></div>
+        <div class="grid-overlay"></div>
+    </div>
+
+    <!-- Premium Theme Toggle -->
+    <button class="theme-toggle-premium" id="themeToggleBtn">
+        <div class="toggle-track">
+            <i class="fas fa-sun toggle-icon sun"></i>
+            <i class="fas fa-moon toggle-icon moon"></i>
+            <div class="toggle-thumb"></div>
+        </div>
+    </button>
+
     <!-- Header -->
-    <header class="header" id="header">
-        <!--Generated dynamically by js-->
-    </header>
+    <header class="header" id="header"></header>
 
     <!-- Main Container -->
     <div class="container">
+        <!-- Breadcrumb Navigation -->
+        <nav class="breadcrumb-premium">
+            <a href="{% url 'home' %}"><i class="fas fa-home"></i> Home</a>
+            <i class="fas fa-chevron-right"></i>
+            <a href="{% url 'market' %}">Marketplace</a>
+            <i class="fas fa-chevron-right"></i>
+            <span>{{product.name|truncatechars:50}}</span>
+        </nav>
+
         <!-- Product Section -->
-        <div class="product-section">
-            <div>
-                <img src="{{product.image.file.url}}" alt="{{product.name}}" class="product-image">
+        <div class="product-section glass-card">
+            <div class="gradient-border"></div>
+            
+            <!-- Product Image with Badge -->
+            <div class="product-image-container">
+                {% if discount > 0 %}
+                <div class="discount-badge-premium">-{{discount}}% OFF</div>
+                {% endif %}
+                <img src="{{product.image.file.url}}" alt="{{product.name}}" class="product-image-premium" id="mainProductImage">
             </div>
-            <div class="product-info">
-                <h1 class="product-title">{{product.name}}</h1>
-                <div class="course-tags" style="display: flex;flex-wrap: wrap;gap: 0.5rem;margin-bottom: 1.5rem;">
+            
+            <div class="product-info-premium">
+                <div class="product-badge">
+                    <span class="badge-premium"><i class="fas fa-tag"></i> Available Now</span>
+                </div>
+                <h1 class="product-title-premium">{{product.name}}</h1>
+                
+                <!-- Course Tags -->
+                <div class="course-tags-premium">
                     {% for course in courses %}
-                    <span class="tag" style="background-color: #1E90FF;color: white;padding: 0.3rem 0.8rem;border-radius: 20px;font-size: 0.9rem;font-weight: 500;">{{course.course.course_name}}</span>
+                    <span class="tag-premium">
+                        <i class="fas fa-bookmark"></i> {{course.course.course_name}}
+                    </span>
                     {% endfor %}
                 </div>
                 
-                <div class="price-section">
-                    <span class="price">Ksh {{product.discount}}</span>
-                    <span class="discount-badge">-{{discount}}%</span>
+                <!-- Price Section -->
+                <div class="price-section-premium">
+                    <div class="price-wrapper">
+                        <span class="current-price">KSh {{product.discount}}</span>
+                        {% if product.price > product.discount %}
+                        <span class="original-price">KSh {{product.price}}</span>
+                        <span class="discount-badge-small">-{{discount}}%</span>
+                        {% endif %}
+                    </div>
                 </div>
 
-                <div class="seller-info-1" >
-                    <h3>Seller Information</h3>
-                    <div class="seller-detail-1">
-                        <strong>Name:</strong> {{seller.first_name}} {{seller.last_name}}
+                <!-- Quick Stats -->
+                <div class="product-stats">
+                    <div class="stat-item">
+                        <i class="fas fa-eye"></i>
+                        <span>{{product.views|default:"0"}} views</span>
                     </div>
-                    <div class="seller-detail-1">
-                        <strong>Email:</strong> {{seller.email}}
+                    <div class="stat-item">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span>{{product.orders|default:"0"}} sold</span>
                     </div>
-                    <div class="seller-detail-1">
-                        <strong>Phone:</strong> {{seller.contact}}
+                    <div class="stat-item">
+                        <i class="fas fa-star"></i>
+                        <span>4.8 rating</span>
                     </div>
                 </div>
-                <!--
-                <p style="color: #666; line-height: 1.6;">
-                    Comprehensive textbook covering fundamental algorithms and data structures. Perfect condition, 
-                    minimal highlighting. Includes all chapters and practice problems.
-                </p>
-                -->
-                <div class="button-group">
-                    <a href="{%url 'payment' id=product.slug %}" class="btn btn-primary-1">Buy Now</a>
-                    <button class="btn btn-outline" onclick="openModal()">Contact Seller</button>
-                    {% if product.user.id == user.id%}
-                    <a href="{%url 'edit_product' id=product.slug %}" class="btn btn-primary-1">Edit Details</a>
+
+                <!-- Seller Information Card -->
+                <div class="seller-card-premium glass-card">
+                    <div class="seller-header">
+                        <div class="seller-avatar">
+                            {% if seller.image != None %}
+                            <img src="{{seller.image.file.url}}" alt="{{seller.first_name}}">
+                            {% else %}
+                            <span>{{seller.first_name|upper|slice:":1"}}{{seller.last_name|upper|slice:":1"}}</span>
+                            {% endif %}
+                        </div>
+                        <div class="seller-info-summary">
+                            <div class="seller-name">
+                                {{seller.first_name}} {{seller.last_name}}
+                                {% if seller.is_verified %}
+                                <span class="verified-icon"><i class="fas fa-check-circle"></i> Verified</span>
+                                {% endif %}
+                            </div>
+                            <div class="seller-rating">
+                                <i class="fas fa-star"></i> 4.9 <span>(124 sales)</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="seller-contact-row">
+                        <div class="seller-detail">
+                            <i class="fas fa-envelope"></i>
+                            <span>{{seller.email}}</span>
+                        </div>
+                        <div class="seller-detail">
+                            <i class="fas fa-phone"></i>
+                            <span>{{seller.contact}}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="button-group-premium">
+                    <a href="{% url 'payment' id=product.slug %}" class="btn-buy-premium">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span>Buy Now</span>
+                    </a>
+                    <button class="btn-contact-premium" onclick="openModal()">
+                        <i class="fas fa-comment-dots"></i>
+                        <span>Contact Seller</span>
+                    </button>
+                    {% if product.user.id == user.id %}
+                    <a href="{% url 'edit_product' id=product.slug %}" class="btn-edit-premium">
+                        <i class="fas fa-edit"></i>
+                        <span>Edit Details</span>
+                    </a>
                     {% endif %}
                 </div>
             </div>
         </div>
 
         <!-- Description Section -->
-        <div class="description-card">
-            <h2>Product Description</h2>
+        <div class="description-card glass-card">
+            <div class="gradient-border"></div>
+            <div class="section-header">
+                <div class="section-icon">
+                    <i class="fas fa-file-alt"></i>
+                </div>
+                <h2 class="section-title-premium">Product Description</h2>
+            </div>
             <div class="description-text" id="description">
                 {{product.description|safe}}
             </div>
-            <button class="show-more-btn" onclick="toggleDescription()">Show more</button>
+            <button class="show-more-btn-premium" onclick="toggleDescription()">
+                <span class="btn-text">Show more</span>
+                <i class="fas fa-chevron-down"></i>
+            </button>
         </div>
 
-        <!-- Related Products -->
+        <!-- Related Products Section -->
         <div class="related-section">
-            <h2>Related Products</h2>
+            <div class="section-header">
+                <div class="section-icon">
+                    <i class="fas fa-layer-group"></i>
+                </div>
+                <h2 class="section-title-premium">You May Also Like</h2>
+            </div>
             <div class="related-grid">
                 {% for related_product in related_products %}
-                <div class="product-card" onclick="openRelatedProduct('{{related_product.slug}}')">
-                    <img src="{{related_product.image.file.url}}" alt="{{related_product.name}}">
-                    <div class="product-card-content">
-                        <div class="product-card-title">{{related_product.name}}</div>
-                        <div class="product-card-price">Ksh {{related_product.price}}</div>
+                <div class="related-card-premium glass-card" onclick="openRelatedProduct('{{related_product.slug}}')">
+                    <div class="gradient-border"></div>
+                    <div class="related-image">
+                        <img src="{{related_product.image.file.url}}" alt="{{related_product.name}}">
+                        {% if related_product.discount %}
+                        <span class="related-discount">-{{related_product.discount_percent}}%</span>
+                        {% endif %}
+                    </div>
+                    <div class="related-content">
+                        <h4 class="related-title">{{related_product.name|truncatechars:40}}</h4>
+                        <div class="related-price">
+                            <span class="current">KSh {{related_product.discount}}</span>
+                            {% if related_product.price > related_product.discount %}
+                            <span class="old">KSh {{related_product.price}}</span>
+                            {% endif %}
+                        </div>
+                        <div class="related-rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                        </div>
                     </div>
                 </div>
                 {% endfor %}
-                
             </div>
         </div>
     </div>
 
     <!-- Seller Contact Modal -->
-    <div class="modal-overlay" id="modalOverlay" onclick="closeModalOnOverlay(event)">
-        <div class="modal">
-            <div class="modal-header">
-                <h3>Contact Seller</h3>
-                <button class="close-btn" onclick="closeModal()">&times;</button>
+    <div class="modal-overlay-premium" id="modalOverlay" onclick="closeModalOnOverlay(event)">
+        <div class="modal-premium glass-card">
+            <div class="gradient-border"></div>
+            <div class="modal-header-premium">
+                <div class="modal-title">
+                    <i class="fas fa-user-circle"></i>
+                    <h3>Contact Seller</h3>
+                </div>
+                <button class="close-btn-premium" onclick="closeModal()">&times;</button>
             </div>
-            <div class="modal-content">
-                <div class="seller-image-section">
+            <div class="modal-content-premium">
+                <div class="seller-avatar-large">
                     {% if seller.image != None %}
-                    <img class="seller-profile-pic" src="{{seller.image.file.url}}" alt="Avatar">'
+                    <img src="{{seller.image.file.url}}" alt="{{seller.first_name}}">
                     {% else %}
-                    <div class="seller-profile-pic">{{ seller.first_name|upper|slice:":1" }}' + '{{ seller.last_name|upper|slice:":1" }}</div>'
+                    <span>{{ seller.first_name|upper|slice:":1" }}{{ seller.last_name|upper|slice:":1" }}</span>
                     {% endif %}
-                    {% if seller.is_verified%}
-                    <span class="verified-badge">✓ Verified</span>
+                    {% if seller.is_verified %}
+                    <span class="verified-badge-premium"><i class="fas fa-check-circle"></i> Verified Seller</span>
                     {% endif %}
                 </div>
-                <div class="seller-details">
-                    <div class="seller-info">
-                        <h4>{{seller.first_name}} {{seller.last_name}}</h4>
-                        <p>📧 {{seller.email}}</p>
-                        <p>📱 {{seller.contact}}</p>
+                <div class="seller-details-premium">
+                    <h4>{{seller.first_name}} {{seller.last_name}}</h4>
+                    <div class="seller-stats">
+                        <div class="stat">
+                            <i class="fas fa-store"></i>
+                            <span>{{seller.products_count|default:"0"}} Products</span>
+                        </div>
+                        <div class="stat">
+                            <i class="fas fa-star"></i>
+                            <span>4.9 Rating</span>
+                        </div>
+                        <div class="stat">
+                            <i class="fas fa-clock"></i>
+                            <span>Member since 2024</span>
+                        </div>
                     </div>
-                    <div class="contact-buttons">
-                        <a href="mailto:john.anderson@campus.edu" class="contact-btn contact-btn-email">
-                            📧 Email Seller
+                    <div class="seller-contact-info">
+                        <div class="contact-row">
+                            <i class="fas fa-envelope"></i>
+                            <span>{{seller.email}}</span>
+                        </div>
+                        <div class="contact-row">
+                            <i class="fas fa-phone"></i>
+                            <span>{{seller.contact}}</span>
+                        </div>
+                    </div>
+                    <div class="modal-contact-buttons">
+                        <a href="mailto:{{seller.email}}" class="contact-btn-email-premium">
+                            <i class="fas fa-envelope"></i> Email Seller
                         </a>
-                        <a href="https://wa.me/15551234567" target="_blank" class="contact-btn contact-btn-whatsapp">
-                            💬 WhatsApp
-                        </a>
-                        <a href="tel:+15551234567" class="contact-btn contact-btn-call">
-                            📞 Call
+                        <a href="https://wa.me/{{seller.contact}}" target="_blank" class="contact-btn-whatsapp-premium">
+                            <i class="fab fa-whatsapp"></i> WhatsApp
                         </a>
                     </div>
                 </div>
@@ -131,10 +270,11 @@
         </div>
     </div>
 
+    <!-- Toast Container -->
+    <div id="toastContainer"></div>
+
     <!-- Footer -->
-    <footer class="footer" id="footer">
-        <!--Generated dynamically by js-->
-    </footer>
+    <footer class="footer" id="footer"></footer>
 
     {% if user.is_authenticated %}
         {% include "Components/header.html#authDynamicHeader" %}
@@ -145,43 +285,67 @@
     {% endif %}
 
     <script>
-        // Modal Functions
+        // ========== THEME TOGGLE ==========
+        (function() {
+            const savedTheme = localStorage.getItem('premiumTheme') || 'light';
+            const toggleBtn = document.getElementById('themeToggleBtn');
+            
+            function setTheme(theme) {
+                if (theme === 'dark') {
+                    document.body.classList.add('dark-theme-premium');
+                    if (toggleBtn) toggleBtn.classList.add('dark-active');
+                } else {
+                    document.body.classList.remove('dark-theme-premium');
+                    if (toggleBtn) toggleBtn.classList.remove('dark-active');
+                }
+                localStorage.setItem('premiumTheme', theme);
+            }
+            
+            if (savedTheme === 'dark') setTheme('dark');
+            
+            if (toggleBtn) {
+                toggleBtn.addEventListener('click', function() {
+                    const isDark = document.body.classList.contains('dark-theme-premium');
+                    setTheme(isDark ? 'light' : 'dark');
+                    this.style.transform = 'scale(0.95)';
+                    setTimeout(() => { if(toggleBtn) toggleBtn.style.transform = ''; }, 200);
+                });
+            }
+        })();
+
+        // ========== TOAST NOTIFICATION ==========
+        function showToast(message, type = 'success') {
+            const container = document.getElementById('toastContainer');
+            if (!container) return;
+            const toast = document.createElement('div');
+            toast.className = `toast toast-${type}`;
+            const icons = { success: 'fa-check-circle', error: 'fa-exclamation-circle', info: 'fa-info-circle', warning: 'fa-exclamation-triangle' };
+            toast.innerHTML = `<i class="fas ${icons[type]}"></i><span>${message}</span><button class="toast-close" onclick="this.parentElement.remove()">&times;</button>`;
+            container.appendChild(toast);
+            setTimeout(() => toast.remove(), 4000);
+        }
+
+        // ========== MODAL FUNCTIONS ==========
         function openModal() {
-            document.getElementById('modalOverlay').classList.add('active');
-            document.body.style.overflow = 'hidden';
+            const modal = document.getElementById('modalOverlay');
+            if (modal) {
+                modal.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }
         }
 
         function closeModal() {
-            document.getElementById('modalOverlay').classList.remove('active');
-            document.body.style.overflow = 'auto';
+            const modal = document.getElementById('modalOverlay');
+            if (modal) {
+                modal.classList.remove('active');
+                document.body.style.overflow = 'auto';
+            }
         }
 
         function closeModalOnOverlay(event) {
             if (event.target.id === 'modalOverlay') {
                 closeModal();
             }
-        }
-
-        // Description Toggle
-        function toggleDescription() {
-            const desc = document.getElementById('description');
-            const btn = event.target;
-            
-            if (desc.classList.contains('expanded')) {
-                desc.classList.remove('expanded');
-                btn.textContent = 'Show more';
-            } else {
-                desc.classList.add('expanded');
-                btn.textContent = 'Show less';
-            }
-        }
-
-        // Buy Now Function
-        function handleBuyNow(event) {
-            event.preventDefault();
-            alert('Redirecting to payment page...');
-            // In a real application, this would redirect to the payment page
-            // window.location.href = 'payment.html';
         }
 
         // Close modal on ESC key
@@ -191,9 +355,42 @@
             }
         });
 
-        function openRelatedProduct(id){
-            window.location.href = `{%url 'market'%}product/${id}`
+        // ========== DESCRIPTION TOGGLE ==========
+        function toggleDescription() {
+            const desc = document.getElementById('description');
+            const btn = document.querySelector('.show-more-btn-premium');
+            
+            if (!desc || !btn) return;
+            
+            if (desc.classList.contains('expanded')) {
+                desc.classList.remove('expanded');
+                btn.querySelector('.btn-text').textContent = 'Show more';
+                btn.querySelector('i').className = 'fas fa-chevron-down';
+            } else {
+                desc.classList.add('expanded');
+                btn.querySelector('.btn-text').textContent = 'Show less';
+                btn.querySelector('i').className = 'fas fa-chevron-up';
+            }
         }
+
+        // ========== RELATED PRODUCT NAVIGATION ==========
+        function openRelatedProduct(id) {
+            window.location.href = `{% url 'market' %}product/${id}`;
+        }
+
+        // ========== IMAGE LOADING HANDLER ==========
+        document.addEventListener('DOMContentLoaded', function() {
+            const mainImage = document.getElementById('mainProductImage');
+            if (mainImage) {
+                mainImage.addEventListener('load', function() {
+                    this.style.opacity = '1';
+                });
+                mainImage.style.opacity = '0';
+                if (mainImage.complete) {
+                    mainImage.style.opacity = '1';
+                }
+            }
+        });
     </script>
 </body>
 </html>

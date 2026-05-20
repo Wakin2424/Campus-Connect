@@ -5,127 +5,236 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Upload Notes - Campus Connect</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="{%static 'CSS/upload_notes.css'%}">
-    <link rel="stylesheet" href="{%static 'CSS/nav.css'%}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="{% static 'CSS/upload_notes.css' %}">
+    <link rel="stylesheet" href="{% static 'CSS/nav.css' %}">
 </head>
 <body>
-    <!-- Header / Navigation -->
-    <header class="header" id="header">
-      <!--Generated dynamically by js-->  
-    </header>
+    <!-- Premium Animated Background -->
+    <div class="animated-bg">
+        <div class="gradient-orb orb-1"></div>
+        <div class="gradient-orb orb-2"></div>
+        <div class="gradient-orb orb-3"></div>
+        <div class="grid-overlay"></div>
+    </div>
 
+    <!-- Premium Theme Toggle -->
+    <button class="theme-toggle-premium" id="themeToggleBtn">
+        <div class="toggle-track">
+            <i class="fas fa-sun toggle-icon sun"></i>
+            <i class="fas fa-moon toggle-icon moon"></i>
+            <div class="toggle-thumb"></div>
+        </div>
+    </button>
+
+    <!-- Header -->
+    <header class="header" id="header"></header>
+
+    <!-- Main Content -->
     <main>
-        <h1 class="page-title">Upload Notes</h1>
+        <div class="page-header-premium">
+            <div class="header-badge">
+                <span class="badge-glow"><i class="fas fa-upload"></i> Share Knowledge</span>
+            </div>
+            <h1 class="page-title-premium">Upload Notes</h1>
+            <p class="page-subtitle-premium">Share your study materials with fellow students and earn recognition</p>
+        </div>
 
-        <div class="form-card">
+        <div class="form-card-premium glass-card">
+            <div class="gradient-border"></div>
+            
             <form id="uploadForm">
+                {% csrf_token %}
+                
                 <!-- Note Title -->
-                <div class="form-group">
-                    <label for="noteTitle">
-                        <span class="label-icon">🏷</span>Note Title
+                <div class="form-group-premium">
+                    <label class="form-label-premium">
+                        <i class="fas fa-heading"></i> Note Title <span class="required">*</span>
                     </label>
-                    <input type="text" id="noteTitle" name="title" placeholder="Enter note title" required>
+                    <div class="input-wrapper-premium">
+                        <i class="fas fa-file-alt input-icon"></i>
+                        <input type="text" id="noteTitle" name="title" placeholder=" " required>
+                        <label class="floating-label-premium">Enter a descriptive title</label>
+                        <div class="input-border-premium"></div>
+                    </div>
+                    <div class="input-hint">
+                        <i class="fas fa-lightbulb"></i> Use a clear, specific title that helps others find your notes
+                    </div>
                 </div>
 
                 <!-- Description -->
-                <div class="form-group">
-                    <label for="description">
-                        <span class="label-icon">📝</span>Description
+                <div class="form-group-premium">
+                    <label class="form-label-premium">
+                        <i class="fas fa-align-left"></i> Description <span class="required">*</span>
                     </label>
-                    <textarea id="description" name="description" placeholder="Describe your note..." rows="5" required></textarea>
+                    <div class="textarea-wrapper-premium">
+                        <i class="fas fa-paragraph textarea-icon"></i>
+                        <textarea id="description" name="description" placeholder=" " rows="5" required></textarea>
+                        <label class="floating-label-premium">Describe what this note covers</label>
+                        <div class="input-border-premium"></div>
+                    </div>
+                    <div class="char-counter" id="charCounter">0 / 500 characters</div>
                 </div>
 
                 <!-- Courses Related -->
-                <div class="form-group">
-                    <label for="courseSelect">
-                        <span class="label-icon">🎓</span>Courses Related
+                <div class="form-group-premium">
+                    <label class="form-label-premium">
+                        <i class="fas fa-graduation-cap"></i> Courses Related
                     </label>
-                    <select id="courseSelect" class="course-dropdown">
-                        <option value="">Select a course...</option>
-                        {% for course in courses %}
-                        <option value="{{course.course_name}}">{{course.course_name}}</option>
-                        {% endfor %}
-                    </select>
-                    <div class="selected-courses" id="selectedCourses"></div>
+                    <div class="select-wrapper-premium">
+                        <i class="fas fa-book select-icon"></i>
+                        <select id="courseSelect" class="course-dropdown-premium">
+                            <option value="" disabled selected>Select a course...</option>
+                            {% for course in courses %}
+                            <option value="{{course.course_name}}">{{course.course_name}}</option>
+                            {% endfor %}
+                        </select>
+                        <i class="fas fa-chevron-down select-arrow"></i>
+                    </div>
+                    <div class="selected-courses-premium" id="selectedCourses"></div>
+                    <div class="select-hint">
+                        <i class="fas fa-info-circle"></i> Add multiple courses to help students find your notes
+                    </div>
                 </div>
 
                 <!-- File Upload -->
-                <div class="form-group">
-                    <label>
-                        <span class="label-icon">📎</span>File Upload
+                <div class="form-group-premium">
+                    <label class="form-label-premium">
+                        <i class="fas fa-paperclip"></i> File Upload <span class="required">*</span>
                     </label>
-                    <div class="file-input-wrapper">
-                        <input type="file" name="file" id="fileInput" accept=".pdf,.doc,.docx,.ppt,.pptx,.txt,.zip" required>
-                        <label for="fileInput" class="file-input-label" id="fileLabel">
-                            <div style="font-size: 2rem; margin-bottom: 0.5rem;">📁</div>
-                            <div>Click to browse or drag and drop your file here</div>
-                            <div style="font-size: 0.85rem; color: #666; margin-top: 0.5rem;">
-                                Accepted formats: PDF, DOC, DOCX, PPT, PPTX, TXT, ZIP
-                            </div>
-                        </label>
-                    </div>
-                    <div class="file-preview" id="filePreview">
-                        <div class="file-info">
-                            <div>
-                                <div class="file-name" id="fileName"></div>
-                                <div class="file-size" id="fileSize"></div>
-                            </div>
-                            <button type="button" class="remove-file" id="removeFile">Remove</button>
+                    <div class="file-upload-zone-premium" id="fileUploadZone">
+                        <input type="file" name="file" id="fileInput" accept=".pdf,.doc,.docx,.ppt,.pptx,.txt,.zip">
+                        <div class="upload-icon-premium">
+                            <i class="fas fa-cloud-upload-alt"></i>
                         </div>
+                        <h3>Upload your study material</h3>
+                        <p>Click to browse or drag and drop your file here</p>
+                        <div class="upload-formats">
+                            <span class="format-badge"><i class="fas fa-file-pdf"></i> PDF</span>
+                            <span class="format-badge"><i class="fas fa-file-word"></i> DOC/DOCX</span>
+                            <span class="format-badge"><i class="fas fa-file-powerpoint"></i> PPT/PPTX</span>
+                            <span class="format-badge"><i class="fas fa-file-alt"></i> TXT</span>
+                            <span class="format-badge"><i class="fas fa-file-archive"></i> ZIP</span>
+                        </div>
+                    </div>
+                    
+                    <!-- File Preview -->
+                    <div class="file-preview-premium" id="filePreview">
+                        <div class="preview-icon">
+                            <i class="fas fa-file-alt"></i>
+                        </div>
+                        <div class="file-info-premium">
+                            <div class="file-name" id="fileName"></div>
+                            <div class="file-size" id="fileSize"></div>
+                        </div>
+                        <button type="button" class="remove-file-premium" id="removeFile">
+                            <i class="fas fa-times"></i> Remove
+                        </button>
                     </div>
                 </div>
 
                 <!-- Progress Bar -->
-                <div class="progress-container" id="progressContainer">
-                    <div class="progress-bar">
-                        <div class="progress-fill" id="progressFill"></div>
+                <div class="progress-container-premium" id="progressContainer">
+                    <div class="progress-label">
+                        <span><i class="fas fa-spinner fa-pulse"></i> Uploading...</span>
+                        <span id="progressPercent">0%</span>
+                    </div>
+                    <div class="progress-bar-premium">
+                        <div class="progress-fill-premium" id="progressFill"></div>
                     </div>
                 </div>
 
                 <!-- Submit Button -->
-                <button type="submit" class="submit-btn" id="submitBtn">
-                    🚀 Upload Note
+                <button type="submit" class="submit-btn-premium" id="submitBtn">
+                    <span class="btn-text"><i class="fas fa-cloud-upload-alt"></i> Upload Note</span>
+                    <div class="btn-loader hidden">
+                        <div class="spinner"></div>
+                    </div>
                 </button>
 
                 <!-- Success Message -->
-                <div class="success-message" id="successMessage">
-                    ✅ Your note has been uploaded successfully!
+                <div class="success-message-premium" id="successMessage">
+                    <i class="fas fa-check-circle"></i>
+                    <div>
+                        <strong>Upload Successful!</strong>
+                        <span>Your note has been shared with the community</span>
+                    </div>
                 </div>
             </form>
         </div>
     </main>
 
-    <footer class="footer" id="footer">
-        <!--Generated dynamically by js-->
-    </footer>
+    <!-- Footer -->
+    <footer class="footer" id="footer"></footer>
+
+    <!-- Toast Container -->
+    <div id="toastContainer"></div>
 
     {% include "Components/header.html#authDynamicHeaderPost" %}
     {% include "Components/footer.html#footer" %}
 
     <script>
+        // ========== THEME TOGGLE ==========
+        (function() {
+            const savedTheme = localStorage.getItem('premiumTheme') || 'light';
+            const toggleBtn = document.getElementById('themeToggleBtn');
+            
+            function setTheme(theme) {
+                if (theme === 'dark') {
+                    document.body.classList.add('dark-theme-premium');
+                    if (toggleBtn) toggleBtn.classList.add('dark-active');
+                } else {
+                    document.body.classList.remove('dark-theme-premium');
+                    if (toggleBtn) toggleBtn.classList.remove('dark-active');
+                }
+                localStorage.setItem('premiumTheme', theme);
+            }
+            
+            if (savedTheme === 'dark') setTheme('dark');
+            
+            if (toggleBtn) {
+                toggleBtn.addEventListener('click', function() {
+                    const isDark = document.body.classList.contains('dark-theme-premium');
+                    setTheme(isDark ? 'light' : 'dark');
+                    this.style.transform = 'scale(0.95)';
+                    setTimeout(() => { if(toggleBtn) toggleBtn.style.transform = ''; }, 200);
+                });
+            }
+        })();
+
+        // ========== TOAST NOTIFICATION ==========
+        let lastToastTime = 0;
+        const TOAST_DEBOUNCE_MS = 2000;
+        
+        function showToast(message, type = 'success') {
+            const container = document.getElementById('toastContainer');
+            if (!container) return;
+            
+            const now = Date.now();
+            if (now - lastToastTime < TOAST_DEBOUNCE_MS) return;
+            lastToastTime = now;
+            
+            const toast = document.createElement('div');
+            toast.className = `toast toast-${type}`;
+            const icons = { success: 'fa-check-circle', error: 'fa-exclamation-circle', info: 'fa-info-circle', warning: 'fa-exclamation-triangle' };
+            toast.innerHTML = `<i class="fas ${icons[type]}"></i><span>${message}</span><button class="toast-close" onclick="this.parentElement.remove()">&times;</button>`;
+            container.appendChild(toast);
+            setTimeout(() => toast.remove(), 3000);
+        }
+
+        // ========== COURSE SELECTION ==========
         const selectedCoursesArray = [];
         const courseSelect = document.getElementById('courseSelect');
         const selectedCoursesDiv = document.getElementById('selectedCourses');
-        const fileInput = document.getElementById('fileInput');
-        const fileLabel = document.getElementById('fileLabel');
-        const filePreview = document.getElementById('filePreview');
-        const fileName = document.getElementById('fileName');
-        const fileSize = document.getElementById('fileSize');
-        const removeFileBtn = document.getElementById('removeFile');
-        const uploadForm = document.getElementById('uploadForm');
-        const submitBtn = document.getElementById('submitBtn');
-        const progressContainer = document.getElementById('progressContainer');
-        const progressFill = document.getElementById('progressFill');
-        const successMessage = document.getElementById('successMessage');
 
-        // Multi-select courses
         courseSelect.addEventListener('change', function() {
             const selectedValue = this.value;
             if (selectedValue && !selectedCoursesArray.includes(selectedValue)) {
                 selectedCoursesArray.push(selectedValue);
                 renderCourseChips();
                 this.value = '';
+                showToast(`Added "${selectedValue}"`, 'info');
             }
         });
 
@@ -133,37 +242,120 @@
             selectedCoursesDiv.innerHTML = '';
             selectedCoursesArray.forEach((course, index) => {
                 const chip = document.createElement('div');
-                chip.className = 'course-chip';
+                chip.className = 'course-chip-premium';
                 chip.innerHTML = `
-                    ${course}
-                    <button type="button" class="remove-chip" data-index="${index}">&times;</button>
+                    <i class="fas fa-bookmark"></i>
+                    <span>${escapeHtml(course)}</span>
+                    <button type="button" class="remove-chip-premium" data-index="${index}">
+                        <i class="fas fa-times"></i>
+                    </button>
                 `;
                 selectedCoursesDiv.appendChild(chip);
             });
 
-            document.querySelectorAll('.remove-chip').forEach(btn => {
+            document.querySelectorAll('.remove-chip-premium').forEach(btn => {
                 btn.addEventListener('click', function() {
                     const index = parseInt(this.dataset.index);
                     selectedCoursesArray.splice(index, 1);
                     renderCourseChips();
+                    showToast('Course removed', 'info');
                 });
             });
         }
 
-        // File upload handling
-        fileInput.addEventListener('change', handleFileSelect);
-        
-        function handleFileSelect(e) {
-            const file = e.target.files[0];
-            if (file) {
-                displayFilePreview(file);
-            }
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
         }
 
-        function displayFilePreview(file) {
+        // ========== CHARACTER COUNTER ==========
+        const description = document.getElementById('description');
+        const charCounter = document.getElementById('charCounter');
+        const MAX_CHARS = 500;
+
+        description.addEventListener('input', function() {
+            const length = this.value.length;
+            charCounter.textContent = `${length} / ${MAX_CHARS} characters`;
+            if (length > MAX_CHARS * 0.9) {
+                charCounter.classList.add('warning');
+            } else {
+                charCounter.classList.remove('warning');
+            }
+            if (length >= MAX_CHARS) {
+                this.value = this.value.substring(0, MAX_CHARS);
+                charCounter.textContent = `${MAX_CHARS} / ${MAX_CHARS} characters`;
+                showToast('Maximum character limit reached', 'warning');
+            }
+        });
+
+        // ========== FILE UPLOAD HANDLING ==========
+        const fileInput = document.getElementById('fileInput');
+        const fileUploadZone = document.getElementById('fileUploadZone');
+        const filePreview = document.getElementById('filePreview');
+        const fileName = document.getElementById('fileName');
+        const fileSize = document.getElementById('fileSize');
+        const removeFileBtn = document.getElementById('removeFile');
+
+        // Click to upload
+        fileUploadZone.addEventListener('click', () => fileInput.click());
+
+        // Drag and drop
+        fileUploadZone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            fileUploadZone.classList.add('drag-over');
+        });
+
+        fileUploadZone.addEventListener('dragleave', () => {
+            fileUploadZone.classList.remove('drag-over');
+        });
+
+        fileUploadZone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            fileUploadZone.classList.remove('drag-over');
+            const files = e.dataTransfer.files;
+            if (files.length > 0) {
+                fileInput.files = files;
+                handleFileSelect(files[0]);
+            }
+        });
+
+        fileInput.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (file) handleFileSelect(file);
+        });
+
+        function handleFileSelect(file) {
+            // Validate file size (max 50MB)
+            if (file.size > 50 * 1024 * 1024) {
+                showToast('File size must be less than 50MB', 'error');
+                fileInput.value = '';
+                return;
+            }
+            
+            // Validate file type
+            const allowedTypes = ['.pdf', '.doc', '.docx', '.ppt', '.pptx', '.txt', '.zip'];
+            const fileExt = '.' + file.name.split('.').pop().toLowerCase();
+            if (!allowedTypes.includes(fileExt)) {
+                showToast('Invalid file type. Please upload PDF, DOC, PPT, TXT, or ZIP files.', 'error');
+                fileInput.value = '';
+                return;
+            }
+            
             fileName.textContent = file.name;
             fileSize.textContent = formatFileSize(file.size);
+            
+            // Update file icon based on type
+            const previewIcon = filePreview.querySelector('.preview-icon i');
+            if (fileExt === '.pdf') previewIcon.className = 'fas fa-file-pdf';
+            else if (fileExt === '.doc' || fileExt === '.docx') previewIcon.className = 'fas fa-file-word';
+            else if (fileExt === '.ppt' || fileExt === '.pptx') previewIcon.className = 'fas fa-file-powerpoint';
+            else if (fileExt === '.txt') previewIcon.className = 'fas fa-file-alt';
+            else previewIcon.className = 'fas fa-file-archive';
+            
             filePreview.classList.add('show');
+            fileUploadZone.classList.add('has-file');
+            showToast('File selected successfully', 'success');
         }
 
         function formatFileSize(bytes) {
@@ -171,43 +363,24 @@
             const k = 1024;
             const sizes = ['Bytes', 'KB', 'MB', 'GB'];
             const i = Math.floor(Math.log(bytes) / Math.log(k));
-            return Math.round(bytes / Math.pow(k, i) * 100) / 100 + ' ' + sizes[i];
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
         }
 
         removeFileBtn.addEventListener('click', function() {
             fileInput.value = '';
             filePreview.classList.remove('show');
+            fileUploadZone.classList.remove('has-file');
         });
 
-        // Drag and drop
-        fileLabel.addEventListener('dragover', function(e) {
-            e.preventDefault();
-            this.classList.add('dragging');
-        });
-
-        fileLabel.addEventListener('dragleave', function() {
-            this.classList.remove('dragging');
-        });
-
-        fileLabel.addEventListener('drop', function(e) {
-            e.preventDefault();
-            this.classList.remove('dragging');
-            const files = e.dataTransfer.files;
-            if (files.length > 0) {
-                fileInput.files = files;
-                displayFilePreview(files[0]);
-            }
-        });
-
-        // Form submission
-        function getCookie(name){
+        // ========== FORM SUBMISSION ==========
+        function getCookie(name) {
             let cookieValue = null;
-            if(document.cookie && document.cookie !== ''){
+            if (document.cookie && document.cookie !== '') {
                 const cookies = document.cookie.split(';');
-                for(let i=0;i <cookies.length; i++){
+                for (let i = 0; i < cookies.length; i++) {
                     const cookie = cookies[i].trim();
-                    if (cookie.substring(0, name.length + 1) === name + '='){
-                        cookieValue = decodeURIComponent(cookie.substring(name.length+1));
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
                         break;
                     }
                 }
@@ -215,62 +388,113 @@
             return cookieValue;
         }
 
-        function FormSubmission(formData, submitButton){
-            submitButton.style.color = 'white'
-            submitButton.textContent = "Processing Request"
-
-            fetch('{%url "note_upload"%}', {
+        function FormSubmission(formData, submitButton) {
+            const progressContainer = document.getElementById('progressContainer');
+            const progressFill = document.getElementById('progressFill');
+            const progressPercent = document.getElementById('progressPercent');
+            
+            progressContainer.classList.add('show');
+            
+            // Simulate progress (actual progress would come from fetch with upload progress)
+            let progress = 0;
+            const progressInterval = setInterval(() => {
+                progress += 10;
+                progressFill.style.width = progress + '%';
+                if (progressPercent) progressPercent.textContent = progress + '%';
+                if (progress >= 90) clearInterval(progressInterval);
+            }, 200);
+            
+            fetch('{% url "note_upload" %}', {
                 method: 'POST',
-                headers: {
-                    'X-CSRFToken': getCookie('csrftoken')
-                },
-                body:formData
+                headers: { 'X-CSRFToken': getCookie('csrftoken') },
+                body: formData
             })
             .then(response => response.json())
             .then(data => {
-                if(data.status){
-                    submitButton.style.color = 'green'
-                    submitButton.textContent = "Successful"
+                clearInterval(progressInterval);
+                progressFill.style.width = '100%';
+                if (progressPercent) progressPercent.textContent = '100%';
+                
+                if (data.status) {
+                    const successMessage = document.getElementById('successMessage');
+                    successMessage.classList.add('show');
+                    showToast('Note uploaded successfully!', 'success');
                     setTimeout(() => {
                         window.location.href = data.url;
-                    }, 1500);
+                    }, 2000);
                 } else {
+                    showToast(data.error || 'Failed to upload note', 'error');
+                    progressContainer.classList.remove('show');
                     submitButton.disabled = false;
-                    submitButton.style.color = 'red'
-                    submitButton.textContent = data.error
+                    submitButton.classList.remove('loading');
+                    submitButton.querySelector('.btn-text').style.display = 'inline-flex';
+                    submitButton.querySelector('.btn-loader').classList.add('hidden');
                 }
             })
+            .catch(error => {
+                clearInterval(progressInterval);
+                console.error('Error:', error);
+                showToast('Network error. Please try again.', 'error');
+                progressContainer.classList.remove('show');
+                submitButton.disabled = false;
+                submitButton.classList.remove('loading');
+                submitButton.querySelector('.btn-text').style.display = 'inline-flex';
+                submitButton.querySelector('.btn-loader').classList.add('hidden');
+            });
         }
 
+        const uploadForm = document.getElementById('uploadForm');
+        const submitBtn = document.getElementById('submitBtn');
 
         uploadForm.addEventListener('submit', function(e) {
             e.preventDefault();
-            const formData = new FormData(uploadForm);
-
-            //formData['title'] = document.getElementById('noteTitle').value
-            //formData['description'] = document.getElementById('description').value
-            formData.append('courses', selectedCoursesArray)
-            //formData['file'] = fileInput.files[0] ? fileInput.files[0].name : null
-
-            const formDatas = {
-                title: document.getElementById('noteTitle').value,
-                description: document.getElementById('description').value,
-                courses: selectedCoursesArray,
-                file: fileInput.files[0] ? fileInput.files[0].name : null
-            };
-
-            if (selectedCoursesArray.length === 0) {
-                alert('Please select at least one course.');
+            
+            // Validate title
+            const title = document.getElementById('noteTitle').value.trim();
+            if (!title) {
+                showToast('Please enter a note title', 'warning');
                 return;
             }
-
-            console.log('Form Data:', formData);
-
-            // Simulate upload progress
-            submitBtn.disabled = true;
-            FormSubmission(formData, submitBtn)
-
             
+            // Validate description
+            const description = document.getElementById('description').value.trim();
+            if (!description) {
+                showToast('Please enter a description', 'warning');
+                return;
+            }
+            
+            // Validate courses
+            if (selectedCoursesArray.length === 0) {
+                showToast('Please select at least one course', 'warning');
+                return;
+            }
+            
+            // Validate file
+            const file = fileInput.files[0];
+            if (!file) {
+                showToast('Please select a file to upload', 'warning');
+                return;
+            }
+            
+            const formData = new FormData(uploadForm);
+            selectedCoursesArray.forEach(course => {
+                formData.append('courses', course);
+            });
+            
+            // Show loading state
+            submitBtn.disabled = true;
+            submitBtn.classList.add('loading');
+            submitBtn.querySelector('.btn-text').style.display = 'none';
+            submitBtn.querySelector('.btn-loader').classList.remove('hidden');
+            
+            FormSubmission(formData, submitBtn);
+        });
+
+        // Initialize floating labels
+        document.querySelectorAll('.input-wrapper-premium input, .textarea-wrapper-premium textarea').forEach(input => {
+            if (input.value && input.value !== '') {
+                input.classList.add('has-value');
+            }
         });
     </script>
 </body>

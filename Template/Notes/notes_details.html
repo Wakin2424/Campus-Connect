@@ -1,17 +1,33 @@
 {% load static %}
-{% load partials%}
+{% load partials %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calculus II - Integration Techniques - Campus Connect</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <title>{{note.title}} - Campus Connect</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="{%static 'CSS/notes_details.css'%}">
-    <link rel="stylesheet" href="{%static 'CSS/nav.css'%}">
+    <link rel="stylesheet" href="{% static 'CSS/notes_details.css' %}">
+    <link rel="stylesheet" href="{% static 'CSS/nav.css' %}">
 </head>
 <body>
+    <!-- Premium Animated Background -->
+    <div class="animated-bg">
+        <div class="gradient-orb orb-1"></div>
+        <div class="gradient-orb orb-2"></div>
+        <div class="gradient-orb orb-3"></div>
+    </div>
+
+    <!-- Premium Theme Toggle -->
+    <button class="theme-toggle-premium" id="themeToggleBtn">
+        <div class="toggle-track">
+            <i class="fas fa-sun toggle-icon sun"></i>
+            <i class="fas fa-moon toggle-icon moon"></i>
+            <div class="toggle-thumb"></div>
+        </div>
+    </button>
+
     <!-- Header -->
     <header class="header" id="header">
         <!--Generated dynamically by js-->
@@ -20,154 +36,475 @@
     <!-- Main Content -->
     <main class="container">
         <!-- Breadcrumb -->
-        <nav class="breadcrumb">
-            <a href="{%url 'home'%}">Campus Connect</a>
+        <nav class="breadcrumb-premium">
+            <a href="{% url 'home' %}"><i class="fas fa-home"></i> Campus Connect</a>
             <i class="fas fa-chevron-right"></i>
-            <a href="{%url 'notes'%}">Notes</a>
+            <a href="{% url 'notes' %}">Notes</a>
             <i class="fas fa-chevron-right"></i>
-            <span>Calculus II - Integration Techniques</span>
+            <span>{{note.title|truncatechars:50}}</span>
         </nav>
 
-        <!-- Note Details Header -->
-        <div class="note-header">
-            <div class="note-header-content">
-                <div class="note-info">
-                    <h1>{{note.title}}</h1>
-                    <p class="note-description">
-                        {{note.description}}
-                    </p>
-                    
-                    <div class="note-meta">
-                        <div class="meta-item">
-                            <i class="fas fa-user"></i>
-                            {% if note.user.username == user.username %}
-                            <span>Uploaded by <a href="{%url 'user'%}" style="text-decoration: none;"><strong>{{note.user.first_name}} {{note.user.last_name}}</strong></a></span>
+        <!-- Hero Header with Gradient -->
+        <div class="hero-header">
+            <div class="hero-content">
+                <div class="hero-badge">
+                    <span class="badge-premium"><i class="fas fa-file-alt"></i> Academic Note</span>
+                </div>
+                <h1 class="hero-title">{{note.title}}</h1>
+                <p class="hero-description">{{note.description}}</p>
+                
+                <!-- User Info with Tooltip -->
+                <div class="user-tooltip-container">
+                    <div class="user-info-trigger">
+                        <div class="user-avatar-large">
+                            {% if note.user.profile_image %}
+                            <img src="{{note.user.profile_image.url}}" alt="{{note.user.first_name}}">
                             {% else %}
-                            <span>Uploaded by <a href="{%url 'user'%}{{note.user.username}}/" style="text-decoration: none;"><strong>{{note.user.first_name}} {{note.user.last_name}}</strong></a></span>
+                            <span>{{note.user.first_name|first}}{{note.user.last_name|first}}</span>
                             {% endif %}
                         </div>
-                        <div class="meta-item">
-                            <i class="fas fa-calendar"></i>
-                            <span><strong class="date-upload">{{note.uploaded_at}}</strong></span>
-                        </div>
-                        <div class="meta-item">
-                            <i class="fas fa-file-pdf"></i>
-                            <span>{{note.file_type|upper}} • <strong>{{size}} MB</strong></span>
-                        </div>
-                        <div class="meta-item">
-                            <i class="fas fa-clock"></i>
-                            <span><strong>{{note.pages}} pages</strong></span>
+                        <div class="user-info-summary">
+                            <strong>{% if note.user.username == user.username %}
+                                <a href="{% url 'user' %}">{{note.user.first_name}} {{note.user.last_name}}</a>
+                            {% else %}
+                                <a href="{% url 'user' note.user.username %}">{{note.user.first_name}} {{note.user.last_name}}</a>
+                            {% endif %}</strong>
+                            <span><i class="fas fa-graduation-cap"></i> {{note.user.course.course_name|default:"Student"}}</span>
                         </div>
                     </div>
-
-                    <div class="note-stats">
-                        <div class="stat-item">
-                            <i class="fas fa-download"></i>
-                            <span class="stat-number">{{note.downloads}}</span>
-                            <span>Downloads</span>
+                    <div class="user-tooltip">
+                        <div class="tooltip-header">
+                            <div class="tooltip-avatar">{{note.user.first_name|first}}{{note.user.last_name|first}}</div>
+                            <div class="tooltip-info">
+                                <strong>{{note.user.first_name}} {{note.user.last_name}}</strong>
+                                <span>@{{note.user.username}}</span>
+                            </div>
                         </div>
-                        <div class="stat-item">
-                            <i class="fas fa-eye"></i>
-                            <span class="stat-number">{{note.views}}</span>
-                            <span>Views</span>
+                        <div class="tooltip-stats">
+                            <div><i class="fas fa-file-alt"></i> {{note.user.notes_count|default:"0"}} Notes</div>
+                            <div><i class="fas fa-download"></i> {{note.user.total_downloads|default:"0"}} Downloads</div>
                         </div>
-                        <div class="stat-item">
-                            <i class="fas fa-star"></i>
-                            <span class="stat-number">4.8</span>
-                            <span>Rating</span>
-                        </div>
-                        <div class="stat-item">
-                            <i class="fas fa-heart"></i>
-                            <span class="stat-number">{{likes.0}}</span>
-                            <span>Likes</span>
-                        </div>
-                    </div>
-
-                    <div class="tags">
-                        {% for course in courses %}
-                            <span class="tag">{{course.course.course_name}}</span>
-                        {% endfor %}
+                        <div class="tooltip-bio">{{note.user.bio|default:"Campus Connect member"}}</div>
                     </div>
                 </div>
 
-                <div class="note-actions">
-                    <a href="{{note.file_url.url}}" style="text-decoration: none;">
-                        <button class="btn-download" id="downloadBtn">
+                <div class="hero-meta">
+                    <div class="meta-chip"><i class="fas fa-calendar"></i> {{note.uploaded_at|date:"M. d, Y, g:i a"}}</div>
+                    <div class="meta-chip"><i class="fas fa-file-pdf"></i> {{note.file_type|upper}} • {{size}} MB</div>
+                    <div class="meta-chip"><i class="fas fa-clock"></i> {{note.pages}} pages</div>
+                </div>
+
+                <!-- Stats Row with Counters -->
+                <div class="hero-stats">
+                    <div class="stat-card">
                         <i class="fas fa-download"></i>
-                        Download Note
-                    </button>
+                        <div class="stat-info">
+                            <span class="stat-number" id="downloadCount">{{note.downloads}}</span>
+                            <span class="stat-label">Downloads</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <i class="fas fa-eye"></i>
+                        <div class="stat-info">
+                            <span class="stat-number" id="viewCount">{{note.views}}</span>
+                            <span class="stat-label">Views</span>
+                        </div>
+                    </div>
+                    <div class="stat-card rating-stat" id="ratingContainer">
+                        <i class="fas fa-star"></i>
+                        <div class="stat-info">
+                            <div class="stars-display" id="starsDisplay" data-rating="4.8">
+                                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>
+                            </div>
+                            <span class="stat-label">Rating ({{likes.0}} votes)</span>
+
+                            <!-- # In your Django view
+context = {
+    'note': note,
+    'likes': [note.likes.count()] if note else [0],  # Ensure it's always a list
+    # ...
+} 
+    add this in the django view to ensure the likes are displayed eve nif they are not there -->
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <i class="fas fa-heart" id="likeIcon"></i>
+                        <div class="stat-info">
+                            <span class="stat-number" id="likeCount">{{likes.0}}</span>
+                            <span class="stat-label">Likes</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="hero-actions">
+                    <a href="{{ note.file_url.url }}" class="btn-download-premium" id="downloadBtn">
+                        <i class="fas fa-download"></i>
+                        <span>Download Note</span>
                     </a>
-                    
+                    <button class="btn-like-premium" id="likeBtn">
+                        <i class="far fa-heart"></i>
+                        <span>Like</span>
+                    </button>
+                    <button class="btn-bookmark-premium" id="bookmarkBtn">
+                        <i class="far fa-bookmark"></i>
+                        <span>Save</span>
+                    </button>
+                    <button class="btn-report-premium" id="reportBtn">
+                        <i class="far fa-flag"></i>
+                        <span>Report</span>
+                    </button>
+                </div>
+
+                <!-- Tags -->
+                <div class="hero-tags">
+                    {% for course in courses %}
+                        <span class="tag-premium">{{ course.course.course_name }}</span>
+                    {% endfor %}
                 </div>
             </div>
         </div>
 
-        <!-- Note Preview Section -->
-        <div class="note-preview">
+        <!-- PDF Thumbnail Preview Section -->
+        <div class="pdf-preview-section">
             <div class="preview-header">
-                <h2 class="preview-title">Note Preview {{note.file_type}}</h2>
-                <div class="preview-actions">
-                    <button class="btn-fullscreen" id="fullscreenBtn">
-                        <i class="fas fa-expand"></i>
-                        Full Screen
-                    </button>
-                </div>
+                <h2><i class="fas fa-file-pdf"></i> Document Preview</h2>
+                <button class="fullscreen-btn" id="fullscreenBtn">
+                    <i class="fas fa-expand"></i> Full Screen
+                </button>
             </div>
-            <div class="preview-content">
-                <!-- PDF Preview -->
-                <iframe
-                    class="pdf-viewer" 
-
-                    src="{{note.file_url.url}}" 
-                    
-                    title="Note Preview">
-                </iframe>
-                
-                <!-- Fallback for when PDF can't be displayed -->
-                <div class="preview-placeholder" style="display: none;">
-                    <i class="fas fa-file-pdf"></i>
-                    <h3>PDF Preview</h3>
-                    <p>Click "Download Note" to view the full document</p>
-                    <button class="btn-download" style="margin-top: 1rem;">
-                        <i class="fas fa-download"></i>
-                        Download to View
-                    </button>
-                </div>
+            
+            <!-- Loading Skeleton -->
+            <div class="pdf-loading" id="pdfLoading">
+                <div class="loading-spinner"></div>
+                <p>Loading document preview...</p>
             </div>
-        </div>
-
-        <!-- Related Notes -->
-        <div class="related-notes">
-            <h2 class="section-title">Related Notes</h2>
-            <div class="related-grid">
-                {% for related_note in related_notes %}
-                <div class="related-card">
-                    <h4>{{related_note.title}}</h4>
-                    <p>{{related_note.description}}</p>
-                    <div class="related-meta">
-                        <span>by {{related_note.user.first_name}} {{related_note.last_name}}</span>
-                        <span>Downloaded {{related_note.downloads}} times</span>
+            
+            <!-- Thumbnail Grid -->
+                <div class="thumbnail-grid" id="thumbnailGrid">
+                <!-- Thumbnails will be generated here -->
+                <div class="thumbnail-item">
+                    <div class="thumbnail-page">Page 1</div>
+                    <div class="thumbnail-placeholder">
+                        <i class="fas fa-file-pdf"></i>
+                        <span>Preview not available</span>
                     </div>
                 </div>
-                {% endfor %}
-                
+            </div>
+            
+            <!-- PDF Viewer (hidden initially) -->
+            <iframe id="pdfViewer" class="pdf-viewer-hidden" src="{{ note.file_url.url }}"></iframe>
+            
+            <!-- Fallback Message -->
+            <div class="preview-fallback" id="previewFallback" style="display: none;">
+                <i class="fas fa-file-pdf"></i>
+                <h3>PDF Preview Unavailable</h3>
+                <p>Click "Download Note" to view the full document</p>
+                <a href="{{note.file_url.url}}" class="btn-download-premium">Download to View</a>
+            </div>
+        </div>
+
+        <!-- Related Notes Carousel -->
+        <div class="related-section">
+            <div class="section-header">
+                <h2><i class="fas fa-layer-group"></i> Related Notes</h2>
+                <div class="carousel-controls">
+                    <button class="carousel-prev" id="carouselPrev"><i class="fas fa-chevron-left"></i></button>
+                    <button class="carousel-next" id="carouselNext"><i class="fas fa-chevron-right"></i></button>
+                </div>
+            </div>
+            <div class="related-carousel" id="relatedCarousel">
+                <div class="carousel-track" id="carouselTrack">
+                    {% for related_note in related_notes %}
+                    <div class="related-card-premium" onclick='location.href="{% url "notes" related_note.code %}"'>
+                        <div class="related-card-icon">
+                            <i class="fas fa-file-alt"></i>
+                        </div>
+                        <h4>{{related_note.title|truncatechars:50}}</h4>
+                        <p>{{related_note.description|truncatechars:80}}</p>
+                        <div class="related-card-footer">
+                            <div class="related-user">
+                                <div class="related-avatar">{{related_note.user.first_name|first}}{{related_note.user.last_name|first}}</div>
+                                <span>{{ related_note.user.first_name }} {{ related_note.user.last_name|first }}.</span>
+                            </div>
+                            <div class="related-stats">
+                                <span><i class="fas fa-download"></i> {{ related_note.downloads }}</span>
+                                <span><i class="fas fa-star"></i> {{ related_note.rating|default:"4.5" }}</span>
+                            </div>
+                        </div>
+                    </div>
+                    {% empty %}
+                    <div class="no-related">No related notes found</div>
+                    {% endfor %}
+                </div>
             </div>
         </div>
     </main>
 
     <!-- Fullscreen Modal -->
     <div class="fullscreen-modal" id="fullscreenModal">
-
+        <div class="fullscreen-header">
+            <h3>{{note.title}}</h3>
+            <button class="fullscreen-close" id="fullscreenClose"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="fullscreen-content">
+            <iframe id="fullscreenPdf" src="{{note.file_url.url}}"></iframe>
+        </div>
     </div>
+
+    <!-- Toast Notification Container -->
+    <div id="toastContainer"></div>
+
     <footer id="footer">
         <!--generated dynamically by css-->
     </footer>
+
     {% if user.is_authenticated %}
-        {% include "Components/header.html#authDynamicHeader" %}
-        {% include "Components/footer.html#footer" %}
+        {% include "Components/header.html" %}
+        {% include "Components/footer.html" %}
     {% else %}
-        {% include "Components/header.html#guestDynamicHeader" %}
-        {% include "Components/footer.html#footer" %}
+        {% include "Components/header.html" %}
+        {% include "Components/footer.html" %}
     {% endif %}
+
+    <script>
+        // ========== THEME TOGGLE ==========
+        (function() {
+            const savedTheme = localStorage.getItem('premiumTheme') || 'light';
+            const toggleBtn = document.getElementById('themeToggleBtn');
+            
+            function setTheme(theme) {
+                if (theme === 'dark') {
+                    document.body.classList.add('dark-theme-premium');
+                    if (toggleBtn) toggleBtn.classList.add('dark-active');
+                } else {
+                    document.body.classList.remove('dark-theme-premium');
+                    if (toggleBtn) toggleBtn.classList.remove('dark-active');
+                }
+                localStorage.setItem('premiumTheme', theme);
+            }
+            
+            if (savedTheme === 'dark') setTheme('dark');
+            
+            if (toggleBtn) {
+                toggleBtn.addEventListener('click', function() {
+                    const isDark = document.body.classList.contains('dark-theme-premium');
+                    setTheme(isDark ? 'light' : 'dark');
+                    this.style.transform = 'scale(0.95)';
+                    setTimeout(() => { if(toggleBtn) toggleBtn.style.transform = ''; }, 200);
+                });
+            }
+        })();
+
+        // ========== TOAST NOTIFICATION ==========
+        function showToast(message, type = 'success') {
+            const container = document.getElementById('toastContainer');
+            const toast = document.createElement('div');
+            toast.className = `toast toast-${type}`;
+            const icons = { success: 'fa-check-circle', error: 'fa-exclamation-circle', info: 'fa-info-circle', warning: 'fa-exclamation-triangle' };
+            toast.innerHTML = `<i class="fas ${icons[type]}"></i><span>${message}</span><button class="toast-close" onclick="this.parentElement.remove()">&times;</button>`;
+            container.appendChild(toast);
+            setTimeout(() => toast.remove(), 4000);
+        }
+
+        // ========== LIKE BUTTON ==========
+        const likeBtn = document.getElementById('likeBtn');
+         const likeCountSpan = document.getElementById('likeCount');
+        if (likeCountSpan) {
+    // safe to use - it prevents errors when they dont exist , DOM  elements 
+}        const likeIcon = document.getElementById('likeIcon');
+        let liked = false;
+        
+        if (likeBtn) {
+            likeBtn.addEventListener('click', function() {
+                liked = !liked;
+                if (liked) {
+                    likeBtn.classList.add('liked');
+                    likeBtn.innerHTML = '<i class="fas fa-heart"></i><span>Liked</span>';
+                    if (likeIcon) likeIcon.style.color = '#ef4444';
+                    let currentCount = parseInt(likeCountSpan.innerText);
+                    likeCountSpan.innerText = currentCount + 1;
+                    showToast('You liked this note!', 'success');
+                } else {
+                    likeBtn.classList.remove('liked');
+                    likeBtn.innerHTML = '<i class="far fa-heart"></i><span>Like</span>';
+                    if (likeIcon) likeIcon.style.color = '';
+                    let currentCount = parseInt(likeCountSpan.innerText);
+                    likeCountSpan.innerText = currentCount - 1;
+                }
+            });
+        }
+
+        // ========== BOOKMARK BUTTON ==========
+        const bookmarkBtn = document.getElementById('bookmarkBtn');
+        let bookmarked = false;
+        
+        if (bookmarkBtn) {
+            bookmarkBtn.addEventListener('click', function() {
+                bookmarked = !bookmarked;
+                if (bookmarked) {
+                    bookmarkBtn.classList.add('bookmarked');
+                    bookmarkBtn.innerHTML = '<i class="fas fa-bookmark"></i><span>Saved</span>';
+                    showToast('Note saved to your library', 'success');
+                } else {
+                    bookmarkBtn.classList.remove('bookmarked');
+                    bookmarkBtn.innerHTML = '<i class="far fa-bookmark"></i><span>Save</span>';
+                }
+            });
+        }
+
+        // ========== REPORT BUTTON ==========
+        const reportBtn = document.getElementById('reportBtn');
+        if (reportBtn) {
+            reportBtn.addEventListener('click', function() {
+                showToast('Report submitted. Our team will review it.', 'warning');
+            });
+        }
+
+        // ========== PDF LOADING & THUMBNAILS ==========
+        const pdfLoading = document.getElementById('pdfLoading');
+        const thumbnailGrid = document.getElementById('thumbnailGrid');
+        const pdfViewer = document.getElementById('pdfViewer');
+        const previewFallback = document.getElementById('previewFallback');
+        
+        // Simulate loading (actual PDF.js integration would be more complex)
+        setTimeout(() => {
+            if (pdfLoading) pdfLoading.style.display = 'none';
+            if (thumbnailGrid) thumbnailGrid.style.display = 'grid';
+        }, 1500);
+        
+        // Generate thumbnails (visual only)
+        function generateThumbnails() {
+            // // Option B: Parse as integer with fallback (more defensive)
+           const pageCount = parseInt('{{ note.pages|default:10 }}') || 10;            const grid = document.getElementById('thumbnailGrid');
+            if (!grid) return;
+            
+            grid.innerHTML = '';
+            const pagesToShow = Math.min(pageCount, 6);
+            for (let i = 1; i <= pagesToShow; i++) {
+                const thumb = document.createElement('div');
+                thumb.className = 'thumbnail-item';
+                thumb.innerHTML = `
+                    <div class="thumbnail-page">Page ${i}</div>
+                    <div class="thumbnail-preview">
+                        <i class="fas fa-file-pdf"></i>
+                        <span>Page ${i} preview</span>
+                    </div>
+                `;
+                thumb.onclick = () => {
+                    if (pdfViewer) {
+                        pdfViewer.classList.toggle('pdf-viewer-hidden');
+                        showToast('Opening PDF viewer...', 'info');
+                    }
+                    else {
+        showToast('PDF viewer not available', 'warning');
+    }
+                };
+                grid.appendChild(thumb);
+            }
+        }
+        
+        
+// Now safely call the function
+if (thumbnailGrid) {
+    generateThumbnails();
+}
+
+        // ========== FULLSCREEN MODAL ==========
+        const fullscreenBtn = document.getElementById('fullscreenBtn');
+        const fullscreenModal = document.getElementById('fullscreenModal');
+        const fullscreenClose = document.getElementById('fullscreenClose');
+        
+        if (fullscreenBtn) {
+            fullscreenBtn.addEventListener('click', function() {
+                if (fullscreenModal) fullscreenModal.classList.add('active');
+            });
+        }
+        
+        if (fullscreenClose) {
+            fullscreenClose.addEventListener('click', function() {
+                if (fullscreenModal) fullscreenModal.classList.remove('active');
+            });
+        }
+        
+        if (fullscreenModal) {
+            fullscreenModal.addEventListener('click', function(e) {
+                if (e.target === this) this.classList.remove('active');
+            });
+        }
+
+        // ========== RELATED NOTES CAROUSEL ==========
+        const carouselTrack = document.getElementById('carouselTrack');
+        const carouselPrev = document.getElementById('carouselPrev');
+        const carouselNext = document.getElementById('carouselNext');
+        let currentPosition = 0;
+        // making the cardwidth view to be dynamic so that it can allow for the diffrent screensizes 
+
+function getCardWidth() {
+    const card = document.querySelector('.related-card-premium');
+    return card ? card.offsetWidth + 20 : 320; // +20 for gap
+}
+
+// Then use:
+let cardWidth = getCardWidth();
+window.addEventListener('resize', () => {
+    cardWidth = getCardWidth();
+});        
+        if (carouselNext && carouselPrev && carouselTrack) {
+            carouselNext.addEventListener('click', function() {
+                const maxScroll = carouselTrack.scrollWidth - carouselTrack.parentElement.clientWidth;
+                currentPosition = Math.min(currentPosition + cardWidth, maxScroll);
+                carouselTrack.style.transform = `translateX(-${currentPosition}px)`;
+            });
+            
+            carouselPrev.addEventListener('click', function() {
+                currentPosition = Math.max(currentPosition - cardWidth, 0);
+                carouselTrack.style.transform = `translateX(-${currentPosition}px)`;
+            });
+        }
+
+        // ========== STAR RATING INTERACTION ==========
+        const starsDisplay = document.getElementById('starsDisplay');
+        if (starsDisplay) {
+            const rating = parseFloat(starsDisplay.dataset.rating) || 4.8;
+            starsDisplay.innerHTML = '';
+            const fullStars = Math.floor(rating);
+            const hasHalf = rating % 1 >= 0.5;
+            
+            for (let i = 0; i < fullStars; i++) {
+                starsDisplay.innerHTML += '<i class="fas fa-star"></i>';
+            }
+            if (hasHalf) {
+                starsDisplay.innerHTML += '<i class="fas fa-star-half-alt"></i>';
+            }
+            for (let i = starsDisplay.children.length; i < 5; i++) {
+                starsDisplay.innerHTML += '<i class="far fa-star"></i>';
+            }
+        }
+
+        // ========== DOWNLOAD TRACKING (Visual Only) ==========
+        const downloadBtn = document.getElementById('downloadBtn');
+        if (downloadBtn) {
+            downloadBtn.addEventListener('click', function() {
+                let currentDownloads = parseInt(document.getElementById('downloadCount')?.innerText || '0');
+                if (document.getElementById('downloadCount')) {
+                    document.getElementById('downloadCount').innerText = currentDownloads + 1;
+                }
+                showToast('Download started!', 'success');
+            });
+        }
+
+        // Add mouse tracking for thumbnail glow effect
+document.querySelectorAll('.thumbnail-item').forEach(item => {
+    item.addEventListener('mousemove', (e) => {
+        const rect = item.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        item.style.setProperty('--mouse-x', `${x}px`);
+        item.style.setProperty('--mouse-y', `${y}px`);
+    });
+});
+
+    </script>
 </body>
 </html>

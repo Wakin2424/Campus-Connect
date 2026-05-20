@@ -5,278 +5,449 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edit Profile - Campus Connect</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="{%static 'CSS/edit_profile.css'%}">
-    <link rel="stylesheet" href="{%static 'CSS/nav.css'%}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="{% static 'CSS/edit_profile.css' %}">
+    <link rel="stylesheet" href="{% static 'CSS/nav.css' %}">
 </head>
 <body>
+    <!-- Premium Animated Background -->
+    <div class="animated-bg">
+        <div class="gradient-orb orb-1"></div>
+        <div class="gradient-orb orb-2"></div>
+        <div class="gradient-orb orb-3"></div>
+        <div class="grid-overlay"></div>
+    </div>
+
+    <!-- Premium Theme Toggle -->
+    <button class="theme-toggle-premium" id="themeToggleBtn">
+        <div class="toggle-track">
+            <i class="fas fa-sun toggle-icon sun"></i>
+            <i class="fas fa-moon toggle-icon moon"></i>
+            <div class="toggle-thumb"></div>
+        </div>
+    </button>
+
     <!-- Header -->
-    <header class="header" id="header">
-        <!--Generated dynamically by js-->
-    </header>
+    <header class="header" id="header"></header>
+
     <!-- Main Container -->
     <div class="container">
         <div class="page-grid">
             <!-- Left Section -->
             <div class="left-section">
                 <!-- Profile Image Card -->
-                <div class="profile-card">
-                    <div class="profile-image-container">
+                <div class="profile-card-premium glass-card">
+                    <div class="gradient-border"></div>
+                    <div class="profile-image-container-premium">
                         {% if user.image != None %}
                         <img src="{{user.image.file.url}}"
                             alt="Profile Picture" 
-                            class="profile-image" 
+                            class="profile-image-premium" 
                             id="profileImage">
                         {% else %}
-                        <img src="https://ui-avatars.com/api/?name=John+Doe&size=200&background=1E90FF&color=fff&bold=true" 
+                        <img src="https://ui-avatars.com/api/?name={{user.first_name}}+{{user.last_name}}&size=200&background=4f46e5&color=fff&bold=true" 
                              alt="Profile Picture" 
-                             class="profile-image" 
+                             class="profile-image-premium" 
                              id="profileImage">
                         {% endif %}
                         
-                        <label for="fileInput" class="upload-overlay" title="Change profile picture">
-                            📷
+                        <label for="fileInput" class="upload-overlay-premium" title="Change profile picture">
+                            <i class="fas fa-camera"></i>
                         </label>
                         <input type="file" id="fileInput" name="pfp" accept="image/*">
                     </div>
-                    <p class="upload-text">Click the camera icon to upload a new photo</p>
+                    <p class="upload-text-premium">
+                        <i class="fas fa-info-circle"></i> Click the camera icon to upload a new photo
+                    </p>
                 </div>
 
                 <!-- Benefits Card -->
-                <div class="benefits-card">
-                    <h3>🌟 Why Get Verified?</h3>
-                    <ul class="benefits-list">
+                <div class="benefits-card-premium glass-card">
+                    <div class="gradient-border"></div>
+                    <h3 class="benefits-title-premium">
+                        <i class="fas fa-star"></i> Why Get Verified?
+                    </h3>
+                    <ul class="benefits-list-premium">
                         <li>
-                            <span class="check-icon">✓</span>
+                            <span class="check-icon-premium"><i class="fas fa-check"></i></span>
                             <span>Gain more trust from other users</span>
                         </li>
                         <li>
-                            <span class="check-icon">✓</span>
+                            <span class="check-icon-premium"><i class="fas fa-check"></i></span>
                             <span>Your questions and answers appear higher in results</span>
                         </li>
                         <li>
-                            <span class="check-icon">✓</span>
+                            <span class="check-icon-premium"><i class="fas fa-check"></i></span>
                             <span>Eligible for special groups and resources</span>
                         </li>
                         <li>
-                            <span class="check-icon">✓</span>
+                            <span class="check-icon-premium"><i class="fas fa-check"></i></span>
                             <span>Verified badge on your profile</span>
                         </li>
                     </ul>
-                    <div class="verified-badge-preview">
-                        ✓ Verified Member
+                    <div class="verified-badge-preview-premium">
+                        <i class="fas fa-shield-alt"></i> Verified Member
                     </div>
                 </div>
             </div>
 
             <!-- Right Section - Form -->
-            <div class="form-card">
-                <div class="form-header">
-                    <h2>Edit Your Profile</h2>
-                    <p>Update your information and complete your profile to become a verified member</p>
+            <div class="form-card-premium glass-card">
+                <div class="gradient-border"></div>
+                <div class="form-header-premium">
+                    <div class="form-icon-premium">
+                        <i class="fas fa-user-edit"></i>
+                    </div>
+                    <h2 class="form-title-premium">Edit Your Profile</h2>
+                    <p class="form-subtitle-premium">Update your information and complete your profile to become a verified member</p>
                 </div>
 
                 <!-- Progress Bar -->
-                <div class="progress-section">
-                    <div class="progress-label">
-                        <span>Profile Completion</span>
-                        <span id="progressText">60%</span>
+                <div class="progress-section-premium">
+                    <div class="progress-label-premium">
+                        <span><i class="fas fa-chart-line"></i> Profile Completion</span>
+                        <span id="progressText" class="progress-value-premium">60%</span>
                     </div>
-                    <div class="progress-container">
-                        <div class="progress-bar" id="progressBar" style="width: 60%"></div>
+                    <div class="progress-container-premium">
+                        <div class="progress-bar-premium" id="progressBar" style="width: 60%">
+                            <div class="progress-shine"></div>
+                        </div>
                     </div>
                 </div>
 
                 <!-- Form -->
                 <form id="profileForm" method="post" enctype="multipart/form-data">
                     {% csrf_token %}
+                    
                     <!-- Personal Information -->
-                    <div class="form-section">
-                        <h3 class="section-title">Personal Information</h3>
-                        <div class="form-row">
-                            <div class="form-group">
+                    <div class="form-section-premium">
+                        <h3 class="section-title-premium">
+                            <i class="fas fa-user-circle"></i> Personal Information
+                        </h3>
+                        <div class="form-row-premium">
+                            <div class="form-group-premium">
                                 <label for="firstName">First Name <span class="required">*</span></label>
-                                <input type="text" id="firstName" name="first_name" value="{{user.first_name}}" required>
+                                <div class="input-wrapper-premium">
+                                    <div class="input-icon-premium">
+                                        <i class="fas fa-user"></i>
+                                    </div>
+                                    <input type="text" id="firstName" name="first_name" placeholder=" " value="{{user.first_name}}" required>
+                                    <label class="floating-label-premium">First Name</label>
+                                    <div class="input-border-premium"></div>
+                                </div>
                             </div>
-                            <div class="form-group">
+                            <div class="form-group-premium">
                                 <label for="lastName">Last Name <span class="required">*</span></label>
-                                <input type="text" id="lastName" name="last_name" value="{{user.last_name}}" required>
+                                <div class="input-wrapper-premium">
+                                    <div class="input-icon-premium">
+                                        <i class="fas fa-user"></i>
+                                    </div>
+                                    <input type="text" id="lastName" name="last_name" placeholder=" " value="{{user.last_name}}" required>
+                                    <label class="floating-label-premium">Last Name</label>
+                                    <div class="input-border-premium"></div>
+                                </div>
                             </div>
                         </div>
-                        <div class="form-row">
-                            <div class="form-group">
+                        <div class="form-row-premium">
+                            <div class="form-group-premium">
                                 <label for="email">Email <span class="required">*</span></label>
-                                <input type="email" id="email" name="email" value="{{user.email}}" readonly required>
+                                <div class="input-wrapper-premium">
+                                    <div class="input-icon-premium">
+                                        <i class="fas fa-envelope"></i>
+                                    </div>
+                                    <input type="email" id="email" name="email" placeholder=" " value="{{user.email}}" readonly required>
+                                    <label class="floating-label-premium">Email Address</label>
+                                    <div class="input-border-premium"></div>
+                                </div>
+                                <div class="field-hint-premium">
+                                    <i class="fas fa-lock"></i> Email cannot be changed
+                                </div>
                             </div>
-                            <div class="form-group">
-                                <label for="contact">Contact Number <span class="required">*</span> +254..</label>
-                                <input type="tel" id="contact" name="contact" value="{{user.contact}}" required>
+                            <div class="form-group-premium">
+                                <label for="contact">Contact Number <span class="required">*</span></label>
+                                <div class="input-wrapper-premium">
+                                    <div class="input-icon-premium">
+                                        <i class="fas fa-phone"></i>
+                                    </div>
+                                    <input type="tel" id="contact" name="contact" placeholder=" " value="{{user.contact}}" required>
+                                    <label class="floating-label-premium">+254...</label>
+                                    <div class="input-border-premium"></div>
+                                </div>
                             </div>
                         </div>
                     </div>
 
                     <!-- Academic Information -->
-                    <div class="form-section">
-                        <h3 class="section-title">Academic Information</h3>
-                        <div class="form-row">
-                            <div class="form-group">
+                    <div class="form-section-premium">
+                        <h3 class="section-title-premium">
+                            <i class="fas fa-graduation-cap"></i> Academic Information
+                        </h3>
+                        <div class="form-row-premium">
+                            <div class="form-group-premium">
                                 <label for="course">Course <span class="optional">(Optional)</span></label>
-                                <select id="course" name="course" class="form-select">
-                                    <option value="">Select course</option>
-                                    {% for course in courses %}
-                                        <option value="{{ course.course_name}}" {% if user.course.course_name == course.course_name%}selected{% endif %}>{{ course.course_name }}</option>
-                                    {% endfor %}
-                                    <option value="Other">Other</option>
-                                    
-                                </select>
+                                <div class="select-wrapper-premium">
+                                    <i class="fas fa-book select-icon"></i>
+                                    <select id="course" name="course">
+                                        <option value="">Select course</option>
+                                        {% for course in courses %}
+                                        <option value="{{ course.course_name }}" {% if user.course.course_name == course.course_name %}selected{% endif %}>{{ course.course_name }}</option>
+                                        {% endfor %}
+                                        <option value="Other">Other</option>
+                                    </select>
+                                    <i class="fas fa-chevron-down select-arrow"></i>
+                                </div>
                             </div>
-                            <div class="form-group">
+                            <div class="form-group-premium">
                                 <label for="year">Year of Study <span class="optional">(Optional)</span></label>
-                                <select id="year" name="year_of_study">
-                                    <option value="">Select Year</option>
-                                    <option value="1" {%if user.year_of_study == 1 %}selected{% endif %}>1st Year</option>
-                                    <option value="2" {%if user.year_of_study == 2 %}selected{% endif %}>2nd Year</option>
-                                    <option value="3" {%if user.year_of_study == 3 %}selected{% endif %}>3rd Year</option>
-                                    <option value="4" {%if user.year_of_study == 4 %}selected{% endif %}>4th Year</option>
-                                    <option value="5" {%if user.year_of_study == 5 %}selected{% endif %}>5th Year</option>
-                                    <option value="6" {%if user.year_of_study == 6 %}selected{% endif %}>6th Year</option>
-                                    <option value="7" {%if user.year_of_study == 7 %}selected{% endif %}>7th Year</option>
-                                </select>
+                                <div class="select-wrapper-premium">
+                                    <i class="fas fa-calendar-alt select-icon"></i>
+                                    <select id="year" name="year_of_study">
+                                        <option value="">Select Year</option>
+                                        <option value="1" {%if user.year_of_study == 1 %}selected{% endif %}>1st Year</option>
+                                        <option value="2" {%if user.year_of_study == 2 %}selected{% endif %}>2nd Year</option>
+                                        <option value="3" {%if user.year_of_study == 3 %}selected{% endif %}>3rd Year</option>
+                                        <option value="4" {%if user.year_of_study == 4 %}selected{% endif %}>4th Year</option>
+                                        <option value="5" {%if user.year_of_study == 5 %}selected{% endif %}>5th Year</option>
+                                        <option value="6" {%if user.year_of_study == 6 %}selected{% endif %}>6th Year</option>
+                                        <option value="7" {%if user.year_of_study == 7 %}selected{% endif %}>7th Year</option>
+                                    </select>
+                                    <i class="fas fa-chevron-down select-arrow"></i>
+                                </div>
                             </div>
-                            <div class="form-group">
-                                <label for="career">career <span class="optional">(Optional)</span></label>
-                                <input list="career-list" type="text" id="career" name="career" placeholder="e.g., Computer Science" value="{% if user.career != None %}{{user.career.career_name}}{% endif %}">
+                        </div>
+                        <div class="form-row-premium">
+                            <div class="form-group-premium">
+                                <label for="career">Career <span class="optional">(Optional)</span></label>
+                                <div class="input-wrapper-premium">
+                                    <i class="fas fa-briefcase input-icon-premium"></i>
+                                    <input list="career-list" type="text" id="career" name="career" placeholder=" " value="{% if user.career != None %}{{user.career.career_name}}{% endif %}">
+                                    <label class="floating-label-premium">e.g., Computer Scientist</label>
+                                    <div class="input-border-premium"></div>
+                                </div>
                                 <datalist id="career-list">
                                     {% for career in careers %}
                                         <option value="{{ career.career_name }}">
                                     {% endfor %}
                                 </datalist>
                             </div>
-                            <div class="form-group">
-                                <label for="career">career description (Optional)</label>
-                                <input type="text" id="career-description" name="career_description" value="{% if user.career != None %}{{user.career.description}}{% endif %}">
+                            <div class="form-group-premium">
+                                <label for="career-description">Career Description <span class="optional">(Optional)</span></label>
+                                <div class="input-wrapper-premium">
+                                    <i class="fas fa-align-left input-icon-premium"></i>
+                                    <input type="text" id="career-description" name="career_description" placeholder=" " value="{% if user.career != None %}{{user.career.description}}{% endif %}">
+                                    <label class="floating-label-premium">Brief description</label>
+                                    <div class="input-border-premium"></div>
+                                </div>
                             </div>
-                            
                         </div>
-                        <div class="form-row">
-                            <div class="form-group">
+                        <div class="form-row-premium">
+                            <div class="form-group-premium">
                                 <label for="level">Graduation Level <span class="optional">(Optional)</span></label>
-                                <select id="level" name="graduation_level">
-                                    <option value="">Select Level</option>
-                                    <option value="certificate" {%if user.graduation_level == 'certificate' %}selected{% endif %}>Certificate</option>
-                                    <option value="diploma" {%if user.graduation_level == 'diploma' %}selected{% endif %}>Diploma</option>
-                                    <option value="degree" {%if user.graduation_level == 'degree' %}selected{% endif %}>Degree</option>
-                                    <option value="masters" {%if user.graduation_level == 'masters' %}selected{% endif %}>Masters</option>
-                                    <option value="phd" {%if user.graduation_level == 'phd' %}selected{% endif %}>PhD</option>
-                                </select>
+                                <div class="select-wrapper-premium">
+                                    <i class="fas fa-trophy select-icon"></i>
+                                    <select id="level" name="graduation_level">
+                                        <option value="">Select Level</option>
+                                        <option value="certificate" {%if user.graduation_level == 'certificate' %}selected{% endif %}>Certificate</option>
+                                        <option value="diploma" {%if user.graduation_level == 'diploma' %}selected{% endif %}>Diploma</option>
+                                        <option value="degree" {%if user.graduation_level == 'degree' %}selected{% endif %}>Degree</option>
+                                        <option value="masters" {%if user.graduation_level == 'masters' %}selected{% endif %}>Masters</option>
+                                        <option value="phd" {%if user.graduation_level == 'phd' %}selected{% endif %}>PhD</option>
+                                    </select>
+                                    <i class="fas fa-chevron-down select-arrow"></i>
+                                </div>
                             </div>
-                            <div class="form-group">
+                            <div class="form-group-premium">
                                 <label for="institution">Institution Name <span class="optional">(Optional)</span></label>
-                                <input type="text" id="institution" name="institution" placeholder="e.g., University of Nairobi" value="{{user.institution}}">
+                                <div class="input-wrapper-premium">
+                                    <i class="fas fa-university input-icon-premium"></i>
+                                    <input type="text" id="institution" name="institution" placeholder=" " value="{{user.institution}}">
+                                    <label class="floating-label-premium">e.g., University of Nairobi</label>
+                                    <div class="input-border-premium"></div>
+                                </div>
                             </div>
                         </div>
                     </div>
 
                     <!-- Buttons -->
-                    <div class="button-group">
-                        <button type="button" class="btn btn-secondary" onclick="window.history.back()">Cancel</button>
-                        <button type="submit" class="btn btn-primary" id="submitBtn">Submit & Verify</button>
+                    <div class="button-group-premium">
+                        <button type="button" class="btn-secondary-premium" onclick="window.history.back()">
+                            <i class="fas fa-times"></i> Cancel
+                        </button>
+                        <button type="submit" class="btn-primary-premium" id="submitBtn">
+                            <span class="btn-text">Submit & Verify</span>
+                            <div class="btn-loader hidden">
+                                <div class="spinner"></div>
+                            </div>
+                            <i class="fas fa-check-circle btn-icon"></i>
+                        </button>
                     </div>
                 </form>
             </div>
         </div>
     </div>
+
     <!-- Footer -->
-    <footer class="footer" id="footer">
-        <!--Generated dynamically by js-->
-    </footer>
+    <footer class="footer" id="footer"></footer>
 
     <!-- Success Modal -->
-    <div class="modal" id="successModal">
-        <div class="modal-content">
-            <div class="success-icon">✓</div>
+    <div class="modal-premium" id="successModal">
+        <div class="modal-content-premium glass-card">
+            <div class="gradient-border"></div>
+            <div class="success-icon-premium">
+                <i class="fas fa-check-circle"></i>
+            </div>
             <h3>You're Now Verified!</h3>
             <p>Congratulations! Your profile is complete and you are now a verified member of Campus Connect.</p>
-            <div class="badge-display">
-                ✓ Verified Member Badge
+            <div class="badge-display-premium">
+                <i class="fas fa-shield-alt"></i> Verified Member Badge
             </div>
-            <button class="btn btn-primary" onclick="closeModal()">Continue</button>
+            <button class="modal-btn-premium" onclick="closeModal()">Continue</button>
         </div>
     </div>
 
-    <!-- Notification -->
-    <div class="notification" id="notification"></div>
+    <!-- Toast Container -->
+    <div id="toastContainer"></div>
 
     {% include "Components/header.html#authDynamicHeader" %}
     {% include "Components/footer.html#footer" %}
 
-
     <script>
-        // Profile image upload preview
+        // ========== THEME TOGGLE ==========
+        (function() {
+            const savedTheme = localStorage.getItem('premiumTheme') || 'light';
+            const toggleBtn = document.getElementById('themeToggleBtn');
+            
+            function setTheme(theme) {
+                if (theme === 'dark') {
+                    document.body.classList.add('dark-theme-premium');
+                    if (toggleBtn) toggleBtn.classList.add('dark-active');
+                } else {
+                    document.body.classList.remove('dark-theme-premium');
+                    if (toggleBtn) toggleBtn.classList.remove('dark-active');
+                }
+                localStorage.setItem('premiumTheme', theme);
+            }
+            
+            if (savedTheme === 'dark') setTheme('dark');
+            
+            if (toggleBtn) {
+                toggleBtn.addEventListener('click', function() {
+                    const isDark = document.body.classList.contains('dark-theme-premium');
+                    setTheme(isDark ? 'light' : 'dark');
+                    this.style.transform = 'scale(0.95)';
+                    setTimeout(() => { if(toggleBtn) toggleBtn.style.transform = ''; }, 200);
+                });
+            }
+        })();
+
+        // ========== TOAST NOTIFICATION ==========
+        let lastToastTime = 0;
+        const TOAST_DEBOUNCE_MS = 2000;
+        
+        function showToast(message, type = 'success') {
+            const container = document.getElementById('toastContainer');
+            if (!container) return;
+            
+            const now = Date.now();
+            if (now - lastToastTime < TOAST_DEBOUNCE_MS) return;
+            lastToastTime = now;
+            
+            const toast = document.createElement('div');
+            toast.className = `toast toast-${type}`;
+            const icons = { success: 'fa-check-circle', error: 'fa-exclamation-circle', info: 'fa-info-circle', warning: 'fa-exclamation-triangle' };
+            toast.innerHTML = `<i class="fas ${icons[type]}"></i><span>${message}</span><button class="toast-close" onclick="this.parentElement.remove()">&times;</button>`;
+            container.appendChild(toast);
+            setTimeout(() => toast.remove(), 3000);
+        }
+
+        // ========== PROFILE IMAGE UPLOAD ==========
         const fileInput = document.getElementById('fileInput');
         const profileImage = document.getElementById('profileImage');
 
         fileInput.addEventListener('change', function(e) {
             const file = e.target.files[0];
             if (file) {
+                if (file.size > 5 * 1024 * 1024) {
+                    showToast('Image size should be less than 5MB', 'error');
+                    return;
+                }
                 const reader = new FileReader();
                 reader.onload = function(event) {
                     profileImage.src = event.target.result;
-                    showNotification('Profile picture updated successfully!');
+                    showToast('Profile picture updated successfully!', 'success');
                 };
                 reader.readAsDataURL(file);
             }
         });
 
-        // Track form completion
+        // ========== PROGRESS CALCULATION ==========
         function calculateProgress() {
-            const requiredFields = ['firstName', 'lastName', 'email', 'contact'];
-            const optionalFields = ['course', 'career', 'year', 'level', 'institution', 'career-description'];
+            const requiredFields = [
+                { id: 'firstName', weight: 15 },
+                { id: 'lastName', weight: 15 },
+                { id: 'email', weight: 15 },
+                { id: 'contact', weight: 15 }
+            ];
+            const optionalFields = [
+                { id: 'course', weight: 6 },
+                { id: 'career', weight: 6 },
+                { id: 'year', weight: 6 },
+                { id: 'level', weight: 6 },
+                { id: 'institution', weight: 6 },
+                { id: 'career-description', weight: 5 },
+                { id: 'fileInput', weight: 5 }
+            ];
             
             let requiredFilled = 0;
             let optionalFilled = 0;
             
-            // Check required fields
-            requiredFields.forEach(fieldId => {
-                const field = document.getElementById(fieldId);
-                if (field.value.trim() !== '') {
-                    requiredFilled++;
-                    field.classList.add('filled');
-                } else {
-                    field.classList.remove('filled');
+            requiredFields.forEach(field => {
+                const fieldElement = document.getElementById(field.id);
+                if (fieldElement && fieldElement.value.trim() !== '') {
+                    requiredFilled += field.weight;
+                    fieldElement.classList.add('filled');
+                } else if (fieldElement) {
+                    fieldElement.classList.remove('filled');
                 }
             });
             
-            // Check optional fields
-            optionalFields.forEach(fieldId => {
-                const field = document.getElementById(fieldId);
-                if (field.value.trim() !== '') {
-                    optionalFilled++;
-                    field.classList.add('filled');
-                } else {
-                    field.classList.remove('filled');
+            optionalFields.forEach(field => {
+                const fieldElement = document.getElementById(field.id);
+                if (fieldElement && fieldElement.value && fieldElement.value.trim() !== '') {
+                    optionalFilled += field.weight;
+                    fieldElement.classList.add('filled');
+                } else if (fieldElement && fieldElement.id !== 'fileInput') {
+                    fieldElement.classList.remove('filled');
                 }
             });
             
-            // Calculate percentage (required fields = 60%, optional = 40%)
-            const requiredPercentage = (requiredFilled / requiredFields.length) * 60;
-            const optionalPercentage = (optionalFilled / optionalFields.length) * 40;
-            const totalPercentage = Math.round(requiredPercentage + optionalPercentage);
+            if (fileInput.files.length > 0) {
+                optionalFilled += 5;
+            }
             
-            // Update progress bar
+            const totalPercentage = Math.min(100, requiredFilled + optionalFilled);
+            
             const progressBar = document.getElementById('progressBar');
             const progressText = document.getElementById('progressText');
             progressBar.style.width = totalPercentage + '%';
             progressText.textContent = totalPercentage + '%';
             
-            // Check if all required fields are filled
-            const allRequiredFilled = requiredFilled === requiredFields.length;
-            const allFieldsFilled = allRequiredFilled && optionalFilled === optionalFields.length;
+            if (totalPercentage >= 80) {
+                progressBar.style.background = 'linear-gradient(90deg, #10b981, #34d399)';
+            } else if (totalPercentage >= 50) {
+                progressBar.style.background = 'linear-gradient(90deg, #f59e0b, #fbbf24)';
+            } else {
+                progressBar.style.background = 'linear-gradient(90deg, #4f46e5, #818cf8)';
+            }
+            
+            const allRequiredFilled = requiredFilled === 60;
+            const allFieldsFilled = totalPercentage === 100;
             
             return { allRequiredFilled, allFieldsFilled, totalPercentage };
         }
 
-        // Add event listeners to all form inputs
+        // ========== EVENT LISTENERS ==========
         const formInputs = document.querySelectorAll('#profileForm input, #profileForm select');
         formInputs.forEach(input => {
             if (input.id !== 'fileInput') {
@@ -285,68 +456,94 @@
             }
         });
 
-        // Initial progress calculation
         calculateProgress();
 
-        // Form submission
+        // ========== FORM SUBMISSION ==========
         document.getElementById('profileForm').addEventListener('submit', function(e) {
             e.preventDefault();
-            const formData = document.getElementById('profileForm')
             
             const { allRequiredFilled, allFieldsFilled, totalPercentage } = calculateProgress();
+            const submitBtn = document.getElementById('submitBtn');
+            const btnText = submitBtn.querySelector('.btn-text');
+            const btnLoader = submitBtn.querySelector('.btn-loader');
+            const btnIcon = submitBtn.querySelector('.btn-icon');
             
             if (allFieldsFilled) {
-                // All fields completed - show verified modal
                 document.getElementById('successModal').classList.add('active');
             } else if (allRequiredFilled) {
-                // Required fields completed, but optional missing
+                btnText.classList.add('hidden');
+                btnLoader.classList.remove('hidden');
+                btnIcon.classList.add('hidden');
+                submitBtn.disabled = true;
                 
-    
+                const formData = new FormData(this);
                 if (fileInput.files[0]) {
-                    fileInput.hidden = true;
-                    formData.appendChild(fileInput);
+                    formData.append('pfp', fileInput.files[0]);
                 }
-                formData.submit()
-
-                showNotification('Profile saved! Complete all sections to become a verified member.', 'info');
+                
+                fetch(window.location.href, {
+                    method: 'POST',
+                    body: formData,
+                    headers: { 'X-Requested-With': 'XMLHttpRequest' }
+                }).then(response => {
+                    if (response.ok) {
+                        showToast('Profile saved successfully!', 'success');
+                        setTimeout(() => window.location.reload(), 1500);
+                    } else {
+                        showToast('Error saving profile', 'error');
+                        resetButton();
+                    }
+                }).catch(() => {
+                    showToast('Network error', 'error');
+                    resetButton();
+                });
+                
+                function resetButton() {
+                    btnText.classList.remove('hidden');
+                    btnLoader.classList.add('hidden');
+                    btnIcon.classList.remove('hidden');
+                    submitBtn.disabled = false;
+                }
             } else {
-                // Required fields missing
-                showNotification('Please fill in all required fields to save your profile.', 'warning');
+                showToast('Please fill in all required fields', 'warning');
+                const requiredFields = ['firstName', 'lastName', 'email', 'contact'];
+                requiredFields.forEach(fieldId => {
+                    const field = document.getElementById(fieldId);
+                    if (field.value.trim() === '') {
+                        field.classList.add('error');
+                        setTimeout(() => field.classList.remove('error'), 2000);
+                    }
+                });
             }
         });
 
-        // Show notification
-        function showNotification(message, type = 'success') {
-            const notification = document.getElementById('notification');
-            notification.textContent = message;
-            notification.style.backgroundColor = type === 'success' ? '#4CAF50' : 
-                                                  type === 'info' ? '#2196F3' : '#FF9800';
-            notification.classList.add('active');
-            
-            setTimeout(() => {
-                notification.classList.remove('active');
-            }, 3000);
-        }
-
-        // Close modal
+        // ========== MODAL FUNCTIONS ==========
         function closeModal() {
-            formData = document.getElementById('profileForm')
-            document.getElementById('successModal').classList.remove('active');
-            showNotification('Welcome to the verified community!');
-            setTimeout(()=>{
-                if (fileInput.files[0]) {
-                    fileInput.hidden = true;
-                    formData.appendChild(fileInput);
-                }
-                formData.submit()
-            }, 2000)
+            const modal = document.getElementById('successModal');
+            modal.classList.remove('active');
+            
+            const formData = new FormData(document.getElementById('profileForm'));
+            if (fileInput.files[0]) {
+                formData.append('pfp', fileInput.files[0]);
+            }
+            
+            fetch(window.location.href, {
+                method: 'POST',
+                body: formData,
+                headers: { 'X-Requested-With': 'XMLHttpRequest' }
+            }).then(() => {
+                showToast('Welcome to the verified community! 🎉', 'success');
+                setTimeout(() => window.location.href = '/user/', 2000);
+            });
         }
 
-        // Close modal on outside click
         document.getElementById('successModal').addEventListener('click', function(e) {
-            if (e.target === this) {
-                closeModal();
-            }
+            if (e.target === this) closeModal();
+        });
+
+        // Initialize floating labels
+        document.querySelectorAll('.input-wrapper-premium input, .input-wrapper-premium select').forEach(input => {
+            if (input.value && input.value !== '') input.classList.add('has-value');
         });
     </script>
 </body>

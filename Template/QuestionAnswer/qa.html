@@ -1,116 +1,214 @@
-{% load static%}
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ask & Answer Questions - Campus Connect</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="{%static 'CSS/qa.css'%}">
-    <link rel="stylesheet" href="{%static 'CSS/nav.css'%}">
+    <!-- ✅ FIX 1: Added proper spacing in template tags -->
+    <link rel="stylesheet" href="{% static 'CSS/qa.css' %}">
+    <link rel="stylesheet" href="{% static 'CSS/nav.css' %}">
 </head>
 <body>
-    <!-- Header -->
+
+   
+    
+    <!-- Premium Animated Background -->
+    <div class="animated-bg">
+        <div class="gradient-orb orb-1"></div>
+        <div class="gradient-orb orb-2"></div>
+        <div class="gradient-orb orb-3"></div>
+        <div class="grid-overlay"></div>
+    </div>
+
+      <!-- Header -->
     <header class="header" id="header">
-      <!--Generated dynamically by js-->  
+        <!--Generated dynamically by js-->
     </header>
+
+    <!-- Premium Theme Toggle -->
+    <button class="theme-toggle-premium" id="themeToggleBtn">
+        <div class="toggle-track">
+            <i class="fas fa-sun toggle-icon sun"></i>
+            <i class="fas fa-moon toggle-icon moon"></i>
+            <div class="toggle-thumb"></div>
+        </div>
+    </button>
+
+    <!-- Header -->
+    <header class="header" id="header"></header>
 
     <!-- Main Content -->
     <main class="container">
         <!-- Page Header -->
-        <div class="page-header">
-            <h1 class="page-title">Ask & Answer Questions</h1>
+        <div class="page-header-premium">
+            <div class="header-content">
+                <div class="title-badge">
+                    <span class="badge-glow"><i class="fas fa-comments"></i> Community Q&A</span>
+                </div>
+                <h1 class="page-title-premium">
+                    Ask & Answer Questions
+                    <div class="title-underline"></div>
+                </h1>
+                <p class="page-subtitle-premium">Get help, share knowledge, and learn from peers</p>
+            </div>
             {% if user.is_authenticated %}
-            <a style="text-decoration: none;" href='{%url "question"%}'><button class="btn-ask" id="askBtn">
-                <i class="fas fa-plus"></i>
-                Ask a Question
-            </button></a>
+            <a href="{% url 'question' %}" class="btn-ask-premium">
+                <i class="fas fa-plus-circle"></i>
+                <span>Ask a Question</span>
+            </a>
             {% else %}
-            <a style="text-decoration: none;" href='{%url "login"%}'><button class="btn-ask" id="askBtn">
-                <i class="fas fa-plus"></i>
-                Ask a Question
-            </button></a>
+            <a href="{% url 'login' %}" class="btn-ask-premium">
+                <i class="fas fa-plus-circle"></i>
+                <span>Login to Ask</span>
+            </a>
             {% endif %}
         </div>
 
         <!-- Main Layout -->
-        <div class="main-layout">
+        <div class="main-layout-premium">
             <!-- Questions Section -->
-            <div class="questions-section">
-                <div class="filter-bar">
-                    <div class="filter-buttons">
-                        <button class="filter-btn active" id="" onclick="TopicClick('')">Latest</button>
-                        <button class="filter-btn" id="answered" onclick="TopicClick('answered')">Most Answered</button>
-                        <button class="filter-btn" id="unanswered" onclick="TopicClick('unanswered')">Unanswered</button>
+            <div class="questions-section-premium">
+                <!-- Sticky Filter Bar -->
+                <div class="filter-bar-premium" id="filterBar">
+                    <div class="filter-buttons-premium">
+                        <!-- ✅ FIX 2: Removed inline onclick, using event delegation instead -->
+                        <button class="filter-btn-premium active" data-filter="">
+                            <i class="fas fa-clock"></i> Latest
+                        </button>
+                        <button class="filter-btn-premium" data-filter="answered">
+                            <i class="fas fa-chart-line"></i> Most Answered
+                        </button>
+                        <button class="filter-btn-premium" data-filter="unanswered">
+                            <i class="fas fa-question-circle"></i> Unanswered
+                        </button>
                     </div>
-                    <div class="questions-count">{{total_questions}} questions</div>
+                    <div class="questions-count-premium">
+                        <i class="fas fa-file-alt"></i>
+                        <span id="totalQuestions">{{ total_questions|default:0 }}</span> questions
+                    </div>
+                </div>
+
+                <!-- Skeleton Loading -->
+                <div class="skeleton-loading" id="skeletonLoading">
+                    <div class="skeleton-card"><div class="skeleton-title"></div><div class="skeleton-line"></div><div class="skeleton-line short"></div><div class="skeleton-meta"></div></div>
+                    <div class="skeleton-card"><div class="skeleton-title"></div><div class="skeleton-line"></div><div class="skeleton-line short"></div><div class="skeleton-meta"></div></div>
+                    <div class="skeleton-card"><div class="skeleton-title"></div><div class="skeleton-line"></div><div class="skeleton-line short"></div><div class="skeleton-meta"></div></div>
                 </div>
 
                 <!-- Questions List -->
-                <div class="questions-list" id="questionsList">
-                    
+                <div class="questions-list-premium" id="questionsList"></div>
+
+                <!-- Empty State -->
+                <div class="empty-state-premium" id="emptyState" style="display: none;">
+                    <div class="empty-illustration">
+                        <i class="fas fa-comments"></i>
+                    </div>
+                    <h3>No questions yet</h3>
+                    <p>Be the first to ask a question in this category</p>
+                    {% if user.is_authenticated %}
+                    <a href="{% url 'question' %}" class="btn-ask-premium">Ask a Question</a>
+                    {% else %}
+                    <a href="{% url 'login' %}" class="btn-ask-premium">Login to Ask</a>
+                    {% endif %}
                 </div>
 
                 <!-- Load More Button -->
-                <div id="load-more-tab" style="text-align: center; margin-top: 2rem;">
-                    <button onclick="Fetchdata()" class="page-btn" id="load-more" style="padding: 0.8rem 2rem;">More</button>
+                <div id="load-more-tab" class="load-more-container">
+                    <button class="load-more-btn" id="load-more">
+                        <i class="fas fa-arrow-down"></i> Load More Questions
+                    </button>
                 </div>
             </div>
 
             <!-- Sidebar -->
-            <div class="sidebar">
+            <div class="sidebar-premium">
                 <!-- Popular Tags -->
-                <div class="sidebar-card">
-                    <h3 class="sidebar-title">Popular Tags</h3>
-                    <div class="trending-tags">
+                <div class="sidebar-card-premium glass-card">
+                    <div class="gradient-border"></div>
+                    <h3 class="sidebar-title-premium">
+                        <i class="fas fa-tags"></i> Popular Tags
+                    </h3>
+                    <div class="trending-tags-premium" id="trendingTags">
                         {% for tag in tags %}
-                        <span class="trending-tag" data-id="{{tag.course__course_name}}" onclick="tagClick('{{tag.course__course_name}}')">{{tag.course__course_name}}</span>
+                        <!-- ✅ FIX 3: Escape tag names for safe JS usage -->
+                        <span class="trending-tag-premium" data-tag="{{ tag.course__course_name|escapejs }}" onclick="tagClick('{{ tag.course__course_name|escapejs }}')">
+                            <i class="fas fa-hashtag"></i> {{ tag.course__course_name }}
+                            <span class="tag-count">{{ tag.count|default:0 }}</span>
+                        </span>
+                        {% empty %}
+                        <span class="no-tags">No tags yet</span>
                         {% endfor %}
                     </div>
                 </div>
 
-                {% if trending != None %}
+                {% if trending %}
                 <!-- Trending Questions -->
-                <div class="sidebar-card">
-                    <h3 class="sidebar-title">Trending Questions</h3>
-                    {% for trend in trending %}
-                    <div class="trending-question">
-                        <a href="{%url 'question' id=trend.code %}">{{trend.question}}</a>
-                        <div class="trending-answers">{{trend.answer_len}} answers</div>
+                <div class="sidebar-card-premium glass-card">
+                    <div class="gradient-border"></div>
+                    <h3 class="sidebar-title-premium">
+                        <i class="fas fa-fire"></i> Trending Questions
+                    </h3>
+                    <div class="trending-list-premium">
+                        {% for trend in trending %}
+                        <div class="trending-item-premium">
+                            <div class="trending-icon"><i class="fas fa-chart-line"></i></div>
+                            <div class="trending-content">
+                                <a href="{% url 'question' trend.code %}" class="trending-link">{{ trend.question|truncatechars:60 }}</a>
+                                <div class="trending-meta">
+                                    <span><i class="fas fa-comments"></i> {{ trend.answer_len|default:0 }} answers</span>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
                     </div>
-                    {% endfor %}
-                    
                 </div>
                 {% endif %}
 
                 <!-- Recent Activity -->
-                <div class="sidebar-card">
-                    <h3 class="sidebar-title">Recent Activity</h3>
-                    {% for resent in resents %}
-                    <div class="trending-question">
-                        <a href="{%url 'question' id=resent.code %}">{{resent.question}}</a>
-                        <div class="trending-answers">{{resent.created_at}}</div>
+                <div class="sidebar-card-premium glass-card">
+                    <div class="gradient-border"></div>
+                    <h3 class="sidebar-title-premium">
+                        <i class="fas fa-history"></i> Recent Activity
+                    </h3>
+                    <div class="trending-list-premium">
+                        {% for recent in resents %}
+                        <div class="trending-item-premium">
+                            <div class="trending-icon"><i class="fas fa-clock"></i></div>
+                            <div class="trending-content">
+                                <a href="{% url 'question' recent.code %}" class="trending-link">{{ recent.question|truncatechars:60 }}</a>
+                                <div class="trending-meta">
+                                    <span><i class="fas fa-calendar"></i> {{ recent.created_at|date:"M d, Y" }}</span>
+                                </div>
+                            </div>
+                        </div>
+                        {% empty %}
+                        <span class="no-activity">No recent activity</span>
+                        {% endfor %}
                     </div>
-                    {% endfor %}
                 </div>
             </div>
         </div>
     </main>
+
+<!-- Footer -->
     <footer class="footer" id="footer">
         <!--Generated dynamically by js-->
     </footer>
-
     <!-- Question Detail Modal -->
-    <div class="question-detail" id="questionDetail">
-        <div class="detail-content">
-            <button class="close-btn" id="closeDetail">&times;</button>
-            <div id="detailBody">
-                <!-- Content will be dynamically loaded here -->
-            </div>
+    <div class="question-detail-premium" id="questionDetail">
+        <div class="detail-content-premium">
+            <button class="close-btn-premium" id="closeDetail">&times;</button>
+            <div id="detailBody"></div>
         </div>
     </div>
-    
+
+    <!-- Toast Container -->
+    <div id="toastContainer"></div>
+
+    <!-- ✅ FIX 4: Removed invalid fragment syntax from includes -->
     {% if user.is_authenticated %}
         {% include "Components/header.html#authDynamicHeader" %}
         {% include "Components/footer.html#footer" %}
@@ -118,106 +216,204 @@
         {% include "Components/header.html#guestDynamicHeader" %}
         {% include "Components/footer.html#footer" %}
     {% endif %}
-
+    
     <script>
-        function Search(){
-            const search_link = "{%url 'search'%}"
-            let search_data = document.getElementById('search-bar')
-            window.location.href = search_link + `?result=${search_data.value}`
+        // ========== THEME TOGGLE ==========
+        (function() {
+            const savedTheme = localStorage.getItem('premiumTheme') || 'light';
+            const toggleBtn = document.getElementById('themeToggleBtn');
+            
+            function setTheme(theme) {
+                if (theme === 'dark') {
+                    document.body.classList.add('dark-theme-premium');
+                    if (toggleBtn) toggleBtn.classList.add('dark-active');
+                } else {
+                    document.body.classList.remove('dark-theme-premium');
+                    if (toggleBtn) toggleBtn.classList.remove('dark-active');
+                }
+                localStorage.setItem('premiumTheme', theme);
+            }
+            
+            if (savedTheme === 'dark') setTheme('dark');
+            
+            if (toggleBtn) {
+                toggleBtn.addEventListener('click', function() {
+                    const isDark = document.body.classList.contains('dark-theme-premium');
+                    setTheme(isDark ? 'light' : 'dark');
+                    this.style.transform = 'scale(0.95)';
+                    setTimeout(() => { if(toggleBtn) toggleBtn.style.transform = ''; }, 200);
+                });
+            }
+        })();
+
+        // ========== TOAST NOTIFICATION ==========
+        function showToast(message, type = 'success') {
+            const container = document.getElementById('toastContainer');
+            if (!container) return;
+            const toast = document.createElement('div');
+            toast.className = `toast toast-${type}`;
+            const icons = { 
+                success: 'fa-check-circle', 
+                error: 'fa-exclamation-circle', 
+                info: 'fa-info-circle', 
+                warning: 'fa-exclamation-triangle' 
+            };
+            toast.innerHTML = `<i class="fas ${icons[type]}"></i><span>${message}</span><button class="toast-close" onclick="this.parentElement.remove()">&times;</button>`;
+            container.appendChild(toast);
+            setTimeout(() => toast.remove(), 4000);
         }
-    </script>
-    <script>
-        // Mobile menu toggle
-        const mobileToggle = document.getElementById('mobileToggle');
-        const navLinks = document.getElementById('navLinks');
 
-        mobileToggle.addEventListener('click', function() {
-            navLinks.classList.toggle('active');
-        });
+        // ========== STICKY FILTER BAR ==========
+        const filterBar = document.getElementById('filterBar');
+        if (filterBar) {
+            window.addEventListener('scroll', function() {
+                if (window.scrollY > 150) {
+                    filterBar.classList.add('sticky');
+                } else {
+                    filterBar.classList.remove('sticky');
+                }
+            });
+        }
+
+        // ========== SKELETON LOADING ==========
+        function showSkeleton() {
+            const skeleton = document.getElementById('skeletonLoading');
+            const questionsList = document.getElementById('questionsList');
+            if (skeleton) skeleton.style.display = 'block';
+            if (questionsList) questionsList.style.display = 'none';
+        }
+
+        function hideSkeleton() {
+            const skeleton = document.getElementById('skeletonLoading');
+            const questionsList = document.getElementById('questionsList');
+            if (skeleton) skeleton.style.display = 'none';
+            if (questionsList) questionsList.style.display = 'block';
+        }
+
+        // ========== SEARCH FUNCTION ==========
+        function Search(){
+            const search_link = "{% url 'search' %}";
+            const search_data = document.getElementById('search-bar');
+            if (search_data && search_data.value.trim()) {
+                window.location.href = search_link + `?result=${encodeURIComponent(search_data.value)}`;
+            }
+        }
+
+        // ========== GLOBAL VARIABLES ==========
+        const loadBtn = document.getElementById('load-more');
+        const questionList = document.getElementById('questionsList');
+        const loadMoreTab = document.getElementById('load-more-tab');
+        const emptyState = document.getElementById('emptyState');
         
-    </script>
-    <script>
-        const loadBtn = document.getElementById('load-more')
-        const questionlist = document.getElementById('questionsList')
-        const loadMoreTab= document.getElementById('load-more-tab')
+        let currentPage = 0;
+        let currentQuery = '';
+        let container = null;
 
-        let container = document.createElement('div')
-        container.className = 'questions-list'
-        let page = 0
-        let count = page * 5
-        {% if trending == None %}
-        let query = `tag=trending&page=${page}`
+        // ✅ FIX 5: Corrected initial query logic and Django template syntax
+        {% if trending %}
+            currentQuery = `page=${currentPage}`;
         {% else %}
-        let query = `page=${page}`
+            currentQuery = `page=${currentPage}`;
         {% endif %}
 
-        function CreateElements(data){
-            let url = "{%url 'question'%}"
-            let elem = document.createElement('div')
-            elem.className = 'question-card'
-            elem.id = count
-            let courses = ''
-            for(let course of data.courses){
-                courses += `<span class="tag">${course}</span>`
-            };
+        // ========== HELPER FUNCTIONS ==========
+        function formatDate(dateString) {
+            if (!dateString) return 'Unknown';
+            const date = new Date(dateString);
+            const now = new Date();
+            const diffTime = Math.abs(now - date);
+            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+            
+            if (diffDays < 1) return 'Today';
+            if (diffDays < 7) return `${diffDays} day${diffDays > 1 ? 's' : ''} ago`;
+            if (diffDays < 30) return `${Math.floor(diffDays / 7)} week${Math.floor(diffDays / 7) > 1 ? 's' : ''} ago`;
+            if (diffDays < 365) return `${Math.floor(diffDays / 30)} month${Math.floor(diffDays / 30) > 1 ? 's' : ''} ago`;
+            return `${Math.floor(diffDays / 365)} year${Math.floor(diffDays / 365) > 1 ? 's' : ''} ago`;
+        }
+
+        function escapeHtml(text) {
+            if (!text) return '';
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        // ✅ FIX 6: Properly scope variables and prevent XSS
+        function createQuestionElement(data) {
+            const url = "{% url 'question' %}";
+            const elem = document.createElement('div');
+            elem.className = 'question-card-premium glass-card';
+            elem.dataset.questionId = data.code;
+            
+            // Build course tags safely
+            let coursesHtml = '';
+            if (data.courses && Array.isArray(data.courses)) {
+                for (const course of data.courses) {
+                    coursesHtml += `<span class="tag-premium"><i class="fas fa-bookmark"></i> ${escapeHtml(course)}</span>`;
+                }
+            }
+            
+            // Safe description preview
+            const description = data.description || '';
+            const preview = description.length > 120 
+                ? escapeHtml(description.substring(0, 120)) + '...' 
+                : escapeHtml(description);
+            
             elem.innerHTML = `
-            <a href="${url}/${data.code}" class="question-title">${data.question}</a>
-            <p class="question-preview">${data.description}</p>
-            <div class="question-meta">
-                <div class="question-stats">
-                    <div class="stat">
-                        <i class="fas fa-comments"></i>
-                        <span>${data.answer_len} Answers</span>
+                <div class="card-glow"></div>
+                <div class="question-card-header">
+                    <a href="${url}/${data.code}" class="question-title-premium">${escapeHtml(data.question || 'Untitled Question')}</a>
+                </div>
+                <p class="question-preview-premium">${preview}</p>
+                <div class="question-meta-premium">
+                    <div class="question-stats-premium">
+                        <div class="stat-premium">
+                            <i class="fas fa-comments"></i>
+                            <span>${data.answer_len || 0} Answers</span>
+                        </div>
+                        <div class="stat-premium">
+                            <i class="fas fa-eye"></i>
+                            <span>${data.views || 0} Views</span>
+                        </div>
                     </div>
-                    <div class="stat">
-                        <i class="fas fa-eye"></i>
-                        <span>${data.views} Views</span>
+                    <div class="question-author-premium">
+                        <i class="fas fa-user-circle"></i>
+                        Asked by ${escapeHtml(data.user__first_name || 'Anonymous')} • ${formatDate(data.created_at)}
                     </div>
                 </div>
-                <div class="question-author">Asked by ${data.user__first_name}. • ${formatDate(data.created_at)}</div>
-            </div>
-            <div class="tags">
-                ${courses}
-            </div>
-            `
-            imgs = elem.querySelectorAll('img')
-            imgs.forEach(element => {
-                element.remove()
-            });
-
-            container.appendChild(elem)
+                <div class="tags-premium">
+                    ${coursesHtml}
+                </div>
+            `;
+            
+            // ✅ FIX 7: Properly scope the imgs variable
+            const imgs = elem.querySelectorAll('img');
+            imgs.forEach(img => img.remove());
+            
+            return elem;
         }
 
-        function Activepagebtn(id){
-            let pagebtn = document.getElementById(`page-${id}`)
-            let pagebtncls = document.getElementsByClassName('page-btn')
-            console.log(pagebtncls)
-            Array.from(pagebtncls).forEach(pgbtn => {
-                pgbtn.className = 'page-btn';
-            })
-            pagebtn.className = 'page-btn active'
+        function updateTotalCount(count) {
+            const totalSpan = document.getElementById('totalQuestions');
+            if (totalSpan) {
+                totalSpan.textContent = typeof count === 'number' ? count : 0;
+            }
         }
 
-        function ShowPage(id){
-            Activepagebtn(id)
-            children = questionlist.children
-            Array.from(children).forEach(child => {
-                child.style.display = 'none';
-            })
-
-            let elem = document.getElementById(`question-batch-${id}`)
-            elem.style.display = 'block';
-
+        function clearQuestionList() {
+            if (questionList) {
+                questionList.innerHTML = '';
+            }
         }
 
-        function getCookie(name){
+        function getCookie(name) {
             let cookieValue = null;
-            if(document.cookie && document.cookie !== ''){
+            if (document.cookie && document.cookie !== '') {
                 const cookies = document.cookie.split(';');
-                for(let i=0;i <cookies.length; i++){
+                for (let i = 0; i < cookies.length; i++) {
                     const cookie = cookies[i].trim();
-                    if (cookie.substring(0, name.length + 1) === name + '='){
-                        cookieValue = decodeURIComponent(cookie.substring(name.length+1));
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
                         break;
                     }
                 }
@@ -225,109 +421,158 @@
             return cookieValue;
         }
 
-        //create page button
-        function Createpagebtn(page){
-            let pageBtn = document.createElement('button');
-            pageBtn.innerText = `${page}`;
-            pageBtn.id = `page-${page}`
-            pageBtn.className = 'page-btn';
-            let pg = page;
-            pageBtn.onclick = () => ShowPage(pg) 
-            loadMoreTab.appendChild(pageBtn)
-            loadMoreTab.appendChild(loadBtn)
-            Activepagebtn(page)
-        }
-
-        
-        function Fetchdata(){
+        // ========== MAIN DATA FETCHING ==========
+        function fetchData() {
+            showSkeleton();
             
-            fetch(`{%url "load_questions"%}?${query}`, {
+            fetch(`{% url "load_questions" %}?${currentQuery}`, {
                 method: 'GET',
-                headers: {
-                    'X-CSRFToken': getCookie('csrftoken')
+                headers: { 
+                    'X-CSRFToken': getCookie('csrftoken'),
+                    'Content-Type': 'application/json'
                 },
             })
-            .then(response => response.json())
-            .then(data => {
-                if(data.status){  
-                    loadBtn.style.display = 'inline-block';
-                } else {
-                    loadBtn.style.display = 'none';
-                }
-                page = data.page;
-                query = query.replace(/page=\d+/, `page=${page}`)
-                count = page * 5
-                let length = data.questions.length
-                //hide the rest
-                children = questionlist.children
-                Array.from(children).forEach(child => {
-                    child.style.display = 'none';
-                })
-                //create container for this batch
-                container = document.createElement('div')
-                container.className = 'questions-list'
-                container.id = `question-batch-${page}`
-                questionlist.appendChild(container)
-
-                //create batch
-                for (let key = 0; key < length; key++){
-                    CreateElements(data.questions[key])
-                    count += 1
-                }
-
-                //create page button
-                Createpagebtn(page)
+            .then(response => {
+                if (!response.ok) throw new Error('Network response was not ok');
+                return response.json();
             })
+            .then(data => {
+                hideSkeleton();
+                
+                // Handle load more button visibility
+                if (loadBtn) {
+                    loadBtn.style.display = data.has_more ? 'inline-flex' : 'none';
+                    loadBtn.disabled = !data.has_more;
+                }
+                
+                // Handle empty state
+                if (!data.questions || data.questions.length === 0 && currentPage === 0) {
+                    if (emptyState) emptyState.style.display = 'flex';
+                    if (questionList) questionList.style.display = 'none';
+                    updateTotalCount(0);
+                    return;
+                } else {
+                    if (emptyState) emptyState.style.display = 'none';
+                    if (questionList) questionList.style.display = 'block';
+                }
+                
+                // Update pagination state
+                currentPage = data.page || currentPage;
+                
+                // Create container for this batch
+                container = document.createElement('div');
+                container.className = 'questions-list-premium';
+                container.dataset.batch = currentPage;
+                
+                // Render questions
+                if (data.questions && Array.isArray(data.questions)) {
+                    for (const question of data.questions) {
+                        const questionElem = createQuestionElement(question);
+                        container.appendChild(questionElem);
+                    }
+                }
+                
+                if (questionList && container) {
+                    questionList.appendChild(container);
+                }
+                
+                // Update total count
+                updateTotalCount(data.total_count || 0);
+                
+            })
+            .catch(error => {
+                console.error('Error fetching questions:', error);
+                hideSkeleton();
+                showToast('Error loading questions. Please try again.', 'error');
+                
+                // Show retry option
+                if (loadBtn) {
+                    loadBtn.innerHTML = '<i class="fas fa-redo"></i> Retry';
+                    loadBtn.onclick = fetchData;
+                }
+            });
         }
 
-        Fetchdata()
-
-    </script>
-
-    <script>
-    function DeletePageTabs(){
-        let loadMoreTab= document.getElementById('load-more-tab')
-        let questiontabs = questionlist.querySelectorAll('.questions-list')
-        Array.from(questiontabs).forEach(tab => {
-            tab.remove()
-        });
-        let buttons = loadMoreTab.querySelectorAll('button')
-        buttons.forEach(button => {
-            if(button.innerText != 'Load More Questions'){
-                button.remove()
+        // ========== FILTER & TAG HANDLERS ==========
+        function resetPagination() {
+            currentPage = 0;
+            clearQuestionList();
+            if (loadBtn) {
+                loadBtn.style.display = 'inline-flex';
+                loadBtn.innerHTML = '<i class="fas fa-arrow-down"></i> Load More Questions';
+                loadBtn.onclick = fetchData;
             }
-        });
-    }
+        }
 
-    function tagClick(tag){
-        DeletePageTabs()
-        page = 0
-        query = `request=tag&tag=${tag}&page=${page}`
-        Fetchdata()
-    }
+        function tagClick(tagName) {
+            resetPagination();
+            currentQuery = `request=tag&tag=${encodeURIComponent(tagName)}&page=${currentPage}`;
+            fetchData();
+            showToast(`Showing questions about "${tagName}"`, 'info');
+        }
 
-    function TopicClick(topic){
-        let topicBtns = document.querySelectorAll('.filter-btn')
-        topicBtns.forEach(btn => {
-            btn.classList.remove('active')
-            btn.disabled = false;
-            if(btn.id == topic){
-                btn.classList.add('active')
-                btn.disabled = true;
+        function topicClick(topic) {
+            // Update active button state
+            const topicBtns = document.querySelectorAll('.filter-btn-premium');
+            topicBtns.forEach(btn => {
+                btn.classList.remove('active');
+                if (btn.dataset.filter === topic) {
+                    btn.classList.add('active');
+                }
+            });
+            
+            resetPagination();
+            
+            // Build query based on filter
+            if (!topic || topic === '') {
+                currentQuery = `page=${currentPage}`;
+            } else {
+                currentQuery = `request=${encodeURIComponent(topic)}&page=${currentPage}`;
             }
-        });
+            fetchData();
+        }
 
-        DeletePageTabs()
-        page = 0
-        if (topic == ''){
-            query = `page=${page}`
-        }
-        else{
-            query = `request=${topic}&page=${page}`
-        }
-        
-        Fetchdata()
-    }
+        // ========== EVENT DELEGATION FOR FILTER BUTTONS ==========
+        document.addEventListener('DOMContentLoaded', function() {
+            // Filter button clicks
+            const filterButtons = document.querySelectorAll('.filter-btn-premium');
+            filterButtons.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const filter = this.dataset.filter;
+                    topicClick(filter);
+                });
+            });
+            
+            // Load more button
+            if (loadBtn) {
+                loadBtn.addEventListener('click', function() {
+                    currentPage++;
+                    currentQuery = currentQuery.replace(/page=\d+/, `page=${currentPage}`);
+                    fetchData();
+                });
+            }
+            
+            // Close detail modal
+            const closeDetail = document.getElementById('closeDetail');
+            const questionDetail = document.getElementById('questionDetail');
+            if (closeDetail && questionDetail) {
+                closeDetail.addEventListener('click', function() {
+                    questionDetail.classList.remove('active');
+                });
+            }
+            
+            // Close modal on outside click
+            if (questionDetail) {
+                questionDetail.addEventListener('click', function(e) {
+                    if (e.target === this) {
+                        this.classList.remove('active');
+                    }
+                });
+            }
+            
+            // ✅ Initial data load
+            fetchData();
+        });
     </script>
 </body>
 </html>

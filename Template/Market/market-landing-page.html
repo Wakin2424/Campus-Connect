@@ -4,154 +4,338 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Campus Connect - Sell Books & Reading Materials</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="{%static 'CSS/market-landing-page.css'%}">
-    <link rel="stylesheet" href="{%static 'CSS/nav.css'%}">
+    <title>Campus Connect - Buy & Sell Academic Resources</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="{% static 'CSS/market-landing-page.css' %}">
+    <link rel="stylesheet" href="{% static 'CSS/nav.css' %}">
 </head>
 <body>
-    <!-- Header -->
-    <header class="header" id="header">
-        <!--Generated dynamically by js-->
-    </header>
+    <!-- Premium Animated Background -->
+    <div class="animated-bg">
+        <div class="gradient-orb orb-1"></div>
+        <div class="gradient-orb orb-2"></div>
+        <div class="gradient-orb orb-3"></div>
+        <div class="grid-overlay"></div>
+    </div>
 
-    <!-- Hero Slider Section -->
-    <section class="hero">
-        <div class="carousel-container">
-            <!-- First set of items -->
-            <div class="carousel-item"><img src="https://images.unsplash.com/photo-1544947950-fa07a98d237f?w=400" alt="Book 1"></div>
-            <div class="carousel-item"><img src="https://images.unsplash.com/photo-1495446815901-a7297e633e8d?w=400" alt="Book 2"></div>
-            <div class="carousel-item"><img src="https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=400" alt="Book 3"></div>
-            <div class="carousel-item"><img src="https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?w=400" alt="Book 4"></div>
-            <div class="carousel-item"><img src="https://images.unsplash.com/photo-1512820790803-83ca734da794?w=400" alt="Book 5"></div>
-            <div class="carousel-item"><img src="https://images.unsplash.com/photo-1476275466078-4007374efbbe?w=400" alt="Book 6"></div>
-            <!-- Duplicate set for seamless loop -->
-            <div class="carousel-item"><img src="https://images.unsplash.com/photo-1544947950-fa07a98d237f?w=400" alt="Book 1"></div>
-            <div class="carousel-item"><img src="https://images.unsplash.com/photo-1495446815901-a7297e633e8d?w=400" alt="Book 2"></div>
-            <div class="carousel-item"><img src="https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=400" alt="Book 3"></div>
-            <div class="carousel-item"><img src="https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?w=400" alt="Book 4"></div>
-            <div class="carousel-item"><img src="https://images.unsplash.com/photo-1512820790803-83ca734da794?w=400" alt="Book 5"></div>
-            <div class="carousel-item"><img src="https://images.unsplash.com/photo-1476275466078-4007374efbbe?w=400" alt="Book 6"></div>
+    <!-- Premium Theme Toggle -->
+    <button class="theme-toggle-premium" id="themeToggleBtn">
+        <div class="toggle-track">
+            <i class="fas fa-sun toggle-icon sun"></i>
+            <i class="fas fa-moon toggle-icon moon"></i>
+            <div class="toggle-thumb"></div>
         </div>
-        <div class="hero-overlay">
-            <h1>Buy and Sell Academic Resources Easily</h1>
-            <p>Books, notes, past papers, guides, and more...</p>
+    </button>
+
+    <!-- Header -->
+    <header class="header" id="header"></header>
+
+    <!-- Premium Hero Section with Seamless Carousel -->
+<section class="hero-premium">
+    <!-- Seamless Infinite Carousel -->
+    <div class="carousel-wrapper">
+        <div class="carousel-track" id="carouselTrack">
+            <!-- First set -->
+            <div class="carousel-slide">
+                <img src="https://images.unsplash.com/photo-1544947950-fa07a98d237f?w=400" alt="Book">
+            </div>
+            <div class="carousel-slide">
+                <img src="https://images.unsplash.com/photo-1495446815901-a7297e633e8d?w=400" alt="Book">
+            </div>
+            <div class="carousel-slide">
+                <img src="https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=400" alt="Book">
+            </div>
+            <div class="carousel-slide">
+                <img src="https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?w=400" alt="Book">
+            </div>
+            <div class="carousel-slide">
+                <img src="https://images.unsplash.com/photo-1512820790803-83ca734da794?w=400" alt="Book">
+            </div>
+            <div class="carousel-slide">
+                <img src="https://images.unsplash.com/photo-1476275466078-4007374efbbe?w=400" alt="Book">
+            </div>
+            <!-- Duplicate for seamless loop -->
+            <div class="carousel-slide">
+                <img src="https://images.unsplash.com/photo-1544947950-fa07a98d237f?w=400" alt="Book">
+            </div>
+            <div class="carousel-slide">
+                <img src="https://images.unsplash.com/photo-1495446815901-a7297e633e8d?w=400" alt="Book">
+            </div>
+            <div class="carousel-slide">
+                <img src="https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=400" alt="Book">
+            </div>
+            <div class="carousel-slide">
+                <img src="https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?w=400" alt="Book">
+            </div>
+            <div class="carousel-slide">
+                <img src="https://images.unsplash.com/photo-1512820790803-83ca734da794?w=400" alt="Book">
+            </div>
+            <div class="carousel-slide">
+                <img src="https://images.unsplash.com/photo-1476275466078-4007374efbbe?w=400" alt="Book">
+            </div>
         </div>
-    </section>
+    </div>
+    
+    <!-- Dark Overlay for Text Readability -->
+    <div class="hero-overlay-dark"></div>
+    
+    <!-- Hero Content -->
+    <div class="hero-content">
+        <div class="hero-badge">
+            <span class="badge-glow"><i class="fas fa-store"></i> Campus Marketplace</span>
+        </div>
+        <h1 class="hero-title">Buy and Sell Academic <span class="gradient-text">Resources Easily</span></h1>
+        <p class="hero-subtitle">Books, notes, past papers, guides, and more...</p>
+        <div class="hero-buttons">
+            <a href="{% url 'product_library' %}" class="hero-btn-primary">
+                <i class="fas fa-shopping-bag"></i> Browse Marketplace
+            </a>
+            <a href="{% url 'product_library' %}" class="hero-btn-secondary">
+                <i class="fas fa-plus-circle"></i> Start Selling
+            </a>
+        </div>
+        <div class="hero-stats">
+            <div class="hero-stat">
+                <div class="stat-number">10k+</div>
+                <div class="stat-label">Resources</div>
+            </div>
+            <div class="hero-stat">
+                <div class="stat-number">5k+</div>
+                <div class="stat-label">Happy Students</div>
+            </div>
+            <div class="hero-stat">
+                <div class="stat-number">50+</div>
+                <div class="stat-label">Categories</div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Wave Divider -->
+    <div class="hero-wave">
+        <svg viewBox="0 0 1200 120" preserveAspectRatio="none">
+            <path d="M0,0V46.29c47.79,22.2,103.59,32.17,158,28,70.36-5.37,136.33-33.31,206.8-37.5C438.64,32.43,512.34,53.67,583,72.05c69.27,18,138.3,24.88,209.4,13.08,36.15-6,69.85-17.84,104.45-29.34C989.49,25,1113-14.29,1200,52.47V0Z" opacity=".25" fill="currentColor"></path>
+            <path d="M0,0V15.81c13,21.11,27.64,41.05,47.69,56.24C99.41,111.27,165,111,224.58,91.58c31.15-10.15,60.09-26.07,89.67-39.8,40.92-19,84.73-46,130.83-49.67,36.26-2.85,70.9,9.42,98.6,31.56,31.77,25.39,62.32,62,103.63,73,40.44,10.79,81.35-6.69,119.13-24.28s75.16-39,116.92-43.05c59.73-5.85,113.28,22.88,168.9,38.84,30.2,8.66,59,6.17,87.09-7.5,22.43-10.89,48-26.93,60.65-49.24V0Z" opacity=".5" fill="currentColor"></path>
+            <path d="M0,0V5.63C149.93,59,314.09,71.32,475.83,42.57c43-7.64,84.23-20.12,127.61-26.46,59-8.63,112.48,12.24,165.56,35.4C827.93,77.22,886,95.24,951.2,90c86.53-7,172.46-45.71,248.8-84.81V0Z" fill="currentColor"></path>
+        </svg>
+    </div>
+</section>
 
     <!-- Books Category -->
-    <section class="category-section">
-        <div class="category-header">
-            <h2 class="category-title">Books</h2>
-            <p class="category-subtitle">Popular picks for students</p>
+    <section class="category-section-premium">
+        <div class="category-header-premium" id="categoryHeader">
+            <div class="category-icon">
+                <i class="fas fa-book"></i>
+            </div>
+            <div>
+                <h2 class="category-title-premium">Books</h2>
+                <p class="category-subtitle-premium">Popular picks for students</p>
+            </div>
+            <div class="category-line">
+                <div class="line-animation"></div>
+            </div>
         </div>
-        <div class="product-grid">
+        <div class="product-grid-premium">
             {% for book in books %}
-            <div class="product-card">
-                <div class="product-card-image">
+            <div class="product-card-premium glass-card" data-product-id="{{book.id}}">
+                <div class="gradient-border"></div>
+                <div class="product-card-image-premium">
                     <img src="{{book.image.file.url}}" alt="{{book.name}}">
-
+                    {% if book.discount %}
+                    <span class="discount-badge-premium">-{{book.discount_percent}}%</span>
+                    {% endif %}
+                    <div class="quick-view-overlay">
+                        <button class="quick-view-btn" onclick="quickView('{{book.slug}}')">Quick View</button>
+                    </div>
                 </div>
-                <div class="product-card-content">
-                    <h3 class="product-card-title">{{book.name}}</h3>
-                    <div class="product-card-price">KSh {{book.price}}</div>
-                    <a style="text-decoration: none;" href="{%url 'product_detail' id=book.slug %}"><button class="view-details-btn">View Details</button></a>
+                <div class="product-card-content-premium">
+                    <h3 class="product-card-title-premium">{{book.name|truncatechars:40}}</h3>
+                    <div class="product-rating-premium">
+                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>
+                        <span>(24 reviews)</span>
+                    </div>
+                    <div class="product-card-price-premium">
+                        <span class="current-price">KSh {{book.discount_price|default:book.price}}</span>
+                        {% if book.discount_price %}
+                        <span class="old-price">KSh {{book.price}}</span>
+                        {% endif %}
+                    </div>
+                    <a href="{% url 'product_detail' id=book.slug %}" class="view-details-btn-premium">
+                        <span>View Details</span>
+                        <i class="fas fa-arrow-right"></i>
+                    </a>
                 </div>
             </div>
+            {% empty %}
+            <div class="empty-category">No books available</div>
             {% endfor %}
-
         </div>
-        <div class="view-more-container">
-            <a href="{%url 'product_library'%}?category=books"><button class="view-more-btn">View More Books</button></a>
+        <div class="view-more-container-premium">
+            <a href="{% url 'product_library' %}?category=books" class="view-more-btn-premium">
+                <span>View More Books</span>
+                <i class="fas fa-arrow-right"></i>
+            </a>
         </div>
     </section>
 
     <!-- Articles Category -->
-    <section class="category-section">
-        <div class="category-header">
-            <h2 class="category-title">Articles</h2>
-            <p class="category-subtitle">Expand your knowledge with well-written academic articles</p>
+    <section class="category-section-premium">
+        <div class="category-header-premium">
+            <div class="category-icon">
+                <i class="fas fa-newspaper"></i>
+            </div>
+            <div>
+                <h2 class="category-title-premium">Articles</h2>
+                <p class="category-subtitle-premium">Expand your knowledge with well-written academic articles</p>
+            </div>
+            <div class="category-line">
+                <div class="line-animation"></div>
+            </div>
         </div>
-        <div class="product-grid">
+        <div class="product-grid-premium">
             {% for paper in papers %}
-            <div class="product-card">
-                <div class="product-card-image">
-                    <img src="https://images.unsplash.com/photo-1586281380349-632531db7ed4?w=400" alt="Math Papers">
+            <div class="product-card-premium glass-card">
+                <div class="gradient-border"></div>
+                <div class="product-card-image-premium">
+                    <img src="{{paper.image.file.url}}" alt="{{paper.name}}">
+                    <div class="quick-view-overlay">
+                        <button class="quick-view-btn" onclick="quickView('{{paper.slug}}')">Quick View</button>
+                    </div>
                 </div>
-                <div class="product-card-content">
-                    <h3 class="product-card-title">MAT 301 Past Papers (2018-2023)</h3>
-                    <div class="product-card-price">KSh 500</div>
-                    <button class="view-details-btn">View Details</button>
+                <div class="product-card-content-premium">
+                    <h3 class="product-card-title-premium">{{paper.name|truncatechars:40}}</h3>
+                    <div class="product-rating-premium">
+                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i>
+                        <span>(18 reviews)</span>
+                    </div>
+                    <div class="product-card-price-premium">
+                        <span class="current-price">KSh {{paper.price}}</span>
+                    </div>
+                    <a href="{% url 'product_detail' id=paper.slug %}" class="view-details-btn-premium">
+                        <span>View Details</span>
+                        <i class="fas fa-arrow-right"></i>
+                    </a>
                 </div>
             </div>
+            {% empty %}
+            <div class="empty-category">No articles available</div>
             {% endfor %}
-
         </div>
-        <div class="view-more-container">
-            <a href="{%url 'product_library'%}?category=articles"><button class="view-more-btn">View More Articles</button></a>
+        <div class="view-more-container-premium">
+            <a href="{% url 'product_library' %}?category=articles" class="view-more-btn-premium">
+                <span>View More Articles</span>
+                <i class="fas fa-arrow-right"></i>
+            </a>
         </div>
     </section>
 
     <!-- Notes & Handouts Category -->
-    <section class="category-section">
-        <div class="category-header">
-            <h2 class="category-title">Notes & Handouts</h2>
-            <p class="category-subtitle">Comprehensive study notes from top students</p>
+    <section class="category-section-premium">
+        <div class="category-header-premium">
+            <div class="category-icon">
+                <i class="fas fa-file-alt"></i>
+            </div>
+            <div>
+                <h2 class="category-title-premium">Notes & Handouts</h2>
+                <p class="category-subtitle-premium">Comprehensive study notes from top students</p>
+            </div>
+            <div class="category-line">
+                <div class="line-animation"></div>
+            </div>
         </div>
-        <div class="product-grid">
+        <div class="product-grid-premium">
             {% for note in notes %}
-            <div class="product-card">
-                <div class="product-card-image">
-                    <img src="https://images.unsplash.com/photo-1434030216411-0b793f4b4173?w=400" alt="Engineering Notes">
-                    <div class="discount-badge">-25%</div>
+            <div class="product-card-premium glass-card">
+                <div class="gradient-border"></div>
+                <div class="product-card-image-premium">
+                    <img src="{{note.image.file.url}}" alt="{{note.name}}">
+                    <div class="quick-view-overlay">
+                        <button class="quick-view-btn" onclick="quickView('{{note.slug}}')">Quick View</button>
+                    </div>
                 </div>
-                <div class="product-card-content">
-                    <h3 class="product-card-title">Engineering Mathematics Complete Notes</h3>
-                    <div class="product-card-price">KSh 800</div>
-                    <button class="view-details-btn">View Details</button>
+                <div class="product-card-content-premium">
+                    <h3 class="product-card-title-premium">{{note.name|truncatechars:40}}</h3>
+                    <div class="product-rating-premium">
+                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                        <span>(42 reviews)</span>
+                    </div>
+                    <div class="product-card-price-premium">
+                        <span class="current-price">KSh {{note.price}}</span>
+                    </div>
+                    <a href="{% url 'product_detail' id=note.slug %}" class="view-details-btn-premium">
+                        <span>View Details</span>
+                        <i class="fas fa-arrow-right"></i>
+                    </a>
                 </div>
             </div>
+            {% empty %}
+            <div class="empty-category">No notes available</div>
             {% endfor %}
-
         </div>
-        <div class="view-more-container">
-            <a href="{%url 'product_library'%}?category=notes-and-handouts"><button class="view-more-btn">View More Notes</button></a>
+        <div class="view-more-container-premium">
+            <a href="{% url 'product_library' %}?category=notes-and-handouts" class="view-more-btn-premium">
+                <span>View More Notes</span>
+                <i class="fas fa-arrow-right"></i>
+            </a>
         </div>
     </section>
 
-    
-
     <!-- Study Guides Category -->
-    <section class="category-section">
-        <div class="category-header">
-            <h2 class="category-title">Study Guides</h2>
-            <p class="category-subtitle">Step-by-step guides for mastering concepts</p>
+    <section class="category-section-premium">
+        <div class="category-header-premium">
+            <div class="category-icon">
+                <i class="fas fa-graduation-cap"></i>
+            </div>
+            <div>
+                <h2 class="category-title-premium">Study Guides</h2>
+                <p class="category-subtitle-premium">Step-by-step guides for mastering concepts</p>
+            </div>
+            <div class="category-line">
+                <div class="line-animation"></div>
+            </div>
         </div>
-        <div class="product-grid">
+        <div class="product-grid-premium">
             {% for guide in study_guides %}
-            <div class="product-card">
-                <div class="product-card-image">
-                    <img src="https://images.unsplash.com/photo-1497633762265-9d179a990aa6?w=400" alt="Python Guide">
-                    <div class="discount-badge">-20%</div>
+            <div class="product-card-premium glass-card">
+                <div class="gradient-border"></div>
+                <div class="product-card-image-premium">
+                    <img src="{{guide.image.file.url}}" alt="{{guide.name}}">
+                    <div class="quick-view-overlay">
+                        <button class="quick-view-btn" onclick="quickView('{{guide.slug}}')">Quick View</button>
+                    </div>
                 </div>
-                <div class="product-card-content">
-                    <h3 class="product-card-title">Complete Python Programming Guide</h3>
-                    <div class="product-card-price">KSh 1,200</div>
-                    <button class="view-details-btn">View Details</button>
+                <div class="product-card-content-premium">
+                    <h3 class="product-card-title-premium">{{guide.name|truncatechars:40}}</h3>
+                    <div class="product-rating-premium">
+                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>
+                        <span>(31 reviews)</span>
+                    </div>
+                    <div class="product-card-price-premium">
+                        <span class="current-price">KSh {{guide.price}}</span>
+                    </div>
+                    <a href="{% url 'product_detail' id=guide.slug %}" class="view-details-btn-premium">
+                        <span>View Details</span>
+                        <i class="fas fa-arrow-right"></i>
+                    </a>
                 </div>
             </div>
+            {% empty %}
+            <div class="empty-category">No study guides available</div>
             {% endfor %}
-
         </div>
-        <div class="view-more-container">
-            <a href="{%url 'product_library'%}?category=study-guides"><button class="view-more-btn">View More Study Guides</button></a>
+        <div class="view-more-container-premium">
+            <a href="{% url 'product_library' %}?category=study-guides" class="view-more-btn-premium">
+                <span>View More Study Guides</span>
+                <i class="fas fa-arrow-right"></i>
+            </a>
         </div>
     </section>
 
     <!-- Footer -->
-    <footer class="footer" id="footer">
-        <!--Generated dynamically by js-->
-    </footer>
+    <footer class="footer" id="footer"></footer>
+
+    <!-- Toast Container -->
+    <div id="toastContainer"></div>
 
     {% if user.is_authenticated %}
         {% include "Components/header.html#authDynamicHeader" %}
@@ -160,5 +344,103 @@
         {% include "Components/header.html#guestDynamicHeader" %}
         {% include "Components/footer.html#footer" %}
     {% endif %}
+
+    <script>
+        // ========== THEME TOGGLE ==========
+        (function() {
+            const savedTheme = localStorage.getItem('premiumTheme') || 'light';
+            const toggleBtn = document.getElementById('themeToggleBtn');
+            
+            function setTheme(theme) {
+                if (theme === 'dark') {
+                    document.body.classList.add('dark-theme-premium');
+                    if (toggleBtn) toggleBtn.classList.add('dark-active');
+                } else {
+                    document.body.classList.remove('dark-theme-premium');
+                    if (toggleBtn) toggleBtn.classList.remove('dark-active');
+                }
+                localStorage.setItem('premiumTheme', theme);
+            }
+            
+            if (savedTheme === 'dark') setTheme('dark');
+            
+            if (toggleBtn) {
+                toggleBtn.addEventListener('click', function() {
+                    const isDark = document.body.classList.contains('dark-theme-premium');
+                    setTheme(isDark ? 'light' : 'dark');
+                    this.style.transform = 'scale(0.95)';
+                    setTimeout(() => { if(toggleBtn) toggleBtn.style.transform = ''; }, 200);
+                });
+            }
+        })();
+
+        // ========== TOAST NOTIFICATION ==========
+        function showToast(message, type = 'success') {
+            const container = document.getElementById('toastContainer');
+            if (!container) return;
+            const toast = document.createElement('div');
+            toast.className = `toast toast-${type}`;
+            const icons = { success: 'fa-check-circle', error: 'fa-exclamation-circle', info: 'fa-info-circle', warning: 'fa-exclamation-triangle' };
+            toast.innerHTML = `<i class="fas ${icons[type]}"></i><span>${message}</span><button class="toast-close" onclick="this.parentElement.remove()">&times;</button>`;
+            container.appendChild(toast);
+            setTimeout(() => toast.remove(), 4000);
+        }
+
+        // ========== SEAMLESS CAROUSEL FUNCTIONALITY ==========
+// The CSS animation handles the seamless infinite loop
+
+// Optional: Pause animation on hover
+const carouselWrapper = document.querySelector('.carousel-wrapper');
+if (carouselWrapper) {
+    carouselWrapper.addEventListener('mouseenter', function() {
+        const track = document.querySelector('.carousel-track');
+        if (track) {
+            track.style.animationPlayState = 'paused';
+        }
+    });
+    
+    carouselWrapper.addEventListener('mouseleave', function() {
+        const track = document.querySelector('.carousel-track');
+        if (track) {
+            track.style.animationPlayState = 'running';
+        }
+    });
+}
+        // ========== QUICK VIEW FUNCTION ==========
+        function quickView(productSlug) {
+    window.location.href = `/market/product/${productSlug}/`;
+        }
+
+        // ========== STICKY CATEGORY HEADERS ==========
+        const categoryHeaders = document.querySelectorAll('.category-header-premium');
+        function checkSticky() {
+            categoryHeaders.forEach(header => {
+                const rect = header.getBoundingClientRect();
+                if (rect.top < 80 && rect.bottom > 100) {
+                    header.classList.add('sticky-active');
+                } else {
+                    header.classList.remove('sticky-active');
+                }
+            });
+        }
+        
+        window.addEventListener('scroll', checkSticky);
+        
+        // ========== ANIMATED COUNTERS ON SCROLL ==========
+        const statsSection = document.querySelector('.hero-buttons');
+        function animateNumbers() {
+            // Optional: Add counter animation if needed
+        }
+        
+        // ========== INITIALIZE ==========
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add fade-in animation to cards
+            const cards = document.querySelectorAll('.product-card-premium');
+            cards.forEach((card, index) => {
+                card.style.animationDelay = `${index * 0.05}s`;
+                card.classList.add('fade-in');
+            });
+        });
+    </script>
 </body>
 </html>

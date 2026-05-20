@@ -233,3 +233,8 @@ def resetPasswordSuccess(request):
 
 def resetPasswordFailed(request):
     return render(request, 'Auth/password-reset-fail.html')
+
+
+def createGroup(request):
+    # Your create group logic here
+    return render(request, 'Groups/create-group.html')

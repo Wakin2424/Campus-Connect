@@ -1,546 +1,478 @@
 {% load static %}
-{% load partials%}
+{% load partials %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Terms & Conditions — Campus Connect</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="{%static 'CSS/terms-and-conditions.css'%}">
-  <link rel="stylesheet" href="{%static 'CSS/nav.css'%}">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Terms & Conditions - Campus Connect</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="{% static 'CSS/terms-and-conditions.css' %}">
+    <link rel="stylesheet" href="{% static 'CSS/nav.css' %}">
 </head>
 <body>
+    <!-- Premium Animated Background -->
+    <div class="animated-bg">
+        <div class="gradient-orb orb-1"></div>
+        <div class="gradient-orb orb-2"></div>
+        <div class="gradient-orb orb-3"></div>
+        <div class="grid-overlay"></div>
+    </div>
+
+    <!-- Premium Theme Toggle -->
+    <button class="theme-toggle-premium" id="themeToggleBtn">
+        <div class="toggle-track">
+            <i class="fas fa-sun toggle-icon sun"></i>
+            <i class="fas fa-moon toggle-icon moon"></i>
+            <div class="toggle-thumb"></div>
+        </div>
+    </button>
 
     <!-- Header -->
-    <header class="header" id="header">
-        <!--Generated dynamically by js-->
-    </header>
+    <header class="header" id="header"></header>
 
+    <!-- ========== PREMIUM HERO SECTION ========== -->
+    <section class="terms-hero-premium">
+        <!-- Animated Background Elements -->
+        <div class="hero-bg-elements">
+            <div class="hero-bg-pattern"></div>
+            <div class="hero-glow-1"></div>
+            <div class="hero-glow-2"></div>
+        </div>
+        
+        <!-- Floating Particles -->
+        <div class="hero-particles">
+            <div class="particle p1"><i class="fas fa-gavel"></i></div>
+            <div class="particle p2"><i class="fas fa-file-contract"></i></div>
+            <div class="particle p3"><i class="fas fa-balance-scale"></i></div>
+            <div class="particle p4"><i class="fas fa-shield-alt"></i></div>
+            <div class="particle p5"><i class="fas fa-handshake"></i></div>
+        </div>
+        
+        <div class="hero-content-premium">
+            <div class="hero-badge">
+                <div class="badge-icon">
+                    <i class="fas fa-gavel"></i>
+                </div>
+                <span>Legal Agreement</span>
+                <div class="badge-pulse"></div>
+            </div>
+            
+            <h1 class="hero-title-premium">
+                Terms &amp; 
+                <span class="gradient-text">Conditions</span>
+            </h1>
+            
+            <p class="hero-description-premium">
+                These terms govern your use of Campus Connect. By accessing our platform, 
+                you agree to be bound by these conditions and our commitment to a safe, 
+                fair, and transparent community.
+            </p>
+            
+            <div class="hero-meta-premium">
+                <div class="meta-card">
+                    <div class="meta-icon"><i class="fas fa-calendar-alt"></i></div>
+                    <div class="meta-info">
+                        <span class="meta-label">Effective Date</span>
+                        <strong>January 1, 2025</strong>
+                    </div>
+                </div>
+                <div class="meta-card">
+                    <div class="meta-icon"><i class="fas fa-clock"></i></div>
+                    <div class="meta-info">
+                        <span class="meta-label">Last Updated</span>
+                        <strong>June 15, 2025</strong>
+                    </div>
+                </div>
+                <div class="meta-card">
+                    <div class="meta-icon"><i class="fas fa-code-branch"></i></div>
+                    <div class="meta-info">
+                        <span class="meta-label">Version</span>
+                        <strong>v3.1</strong>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="hero-scroll">
+                <span>Scroll to explore</span>
+                <div class="scroll-line">
+                    <div class="scroll-dot"></div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="hero-wave-premium">
+            <svg viewBox="0 0 1200 120" preserveAspectRatio="none">
+                <path d="M0,0V46.29c47.79,22.2,103.59,32.17,158,28,70.36-5.37,136.33-33.31,206.8-37.5C438.64,32.43,512.34,53.67,583,72.05c69.27,18,138.3,24.88,209.4,13.08,36.15-6,69.85-17.84,104.45-29.34C989.49,25,1113-14.29,1200,52.47V0Z" opacity=".25" fill="currentColor"></path>
+                <path d="M0,0V15.81c13,21.11,27.64,41.05,47.69,56.24C99.41,111.27,165,111,224.58,91.58c31.15-10.15,60.09-26.07,89.67-39.8,40.92-19,84.73-46,130.83-49.67,36.26-2.85,70.9,9.42,98.6,31.56,31.77,25.39,62.32,62,103.63,73,40.44,10.79,81.35-6.69,119.13-24.28s75.16-39,116.92-43.05c59.73-5.85,113.28,22.88,168.9,38.84,30.2,8.66,59,6.17,87.09-7.5,22.43-10.89,48-26.93,60.65-49.24V0Z" opacity=".5" fill="currentColor"></path>
+                <path d="M0,0V5.63C149.93,59,314.09,71.32,475.83,42.57c43-7.64,84.23-20.12,127.61-26.46,59-8.63,112.48,12.24,165.56,35.4C827.93,77.22,886,95.24,951.2,90c86.53-7,172.46-45.71,248.8-84.81V0Z" fill="currentColor"></path>
+            </svg>
+        </div>
+    </section>
 
-<!-- ========================================
-     HERO
-======================================== -->
-<section class="page-hero">
-  <div class="hero-grid"></div>
+    <!-- Main Layout -->
+    <div class="terms-layout-premium">
+        <!-- Sidebar Table of Contents -->
+        <aside class="terms-sidebar-premium">
+            <div class="toc-card-premium glass-card">
+                <div class="gradient-border"></div>
+                <div class="toc-header-premium">
+                    <div class="toc-icon"><i class="fas fa-list-ul"></i></div>
+                    <h3>Contents</h3>
+                </div>
+                <nav class="toc-list-premium" id="tocList">
+                    <div class="toc-item"><a href="#s1" class="active"><span class="toc-num">01</span>Introduction</a></div>
+                    <div class="toc-item"><a href="#s2"><span class="toc-num">02</span>User Accounts</a></div>
+                    <div class="toc-item"><a href="#s3"><span class="toc-num">03</span>Marketplace Rules</a></div>
+                    <div class="toc-item"><a href="#s4"><span class="toc-num">04</span>Community Guidelines</a></div>
+                    <div class="toc-item"><a href="#s5"><span class="toc-num">05</span>Payments & Transactions</a></div>
+                    <div class="toc-item"><a href="#s6"><span class="toc-num">06</span>Intellectual Property</a></div>
+                    <div class="toc-item"><a href="#s7"><span class="toc-num">07</span>Prohibited Activities</a></div>
+                    <div class="toc-item"><a href="#s8"><span class="toc-num">08</span>Limitation of Liability</a></div>
+                    <div class="toc-item"><a href="#s9"><span class="toc-num">09</span>Termination</a></div>
+                    <div class="toc-item"><a href="#s10"><span class="toc-num">10</span>Changes to Terms</a></div>
+                    <div class="toc-item"><a href="#s11"><span class="toc-num">11</span>Contact Information</a></div>
+                </nav>
+                <div class="toc-footer-premium">
+                    <span class="version-badge"><i class="fas fa-check-circle"></i> Current Version</span>
+                </div>
+            </div>
+        </aside>
 
-  <div class="hero-inner">
-    <div class="hero-chip">
-      <span class="dot"></span>
-      Legal Agreement
+        <!-- Main Content -->
+        <main class="terms-main-premium">
+            <!-- Read Notice -->
+            <div class="read-notice-premium glass-card">
+                <div class="gradient-border"></div>
+                <div class="notice-icon"><i class="fas fa-info-circle"></i></div>
+                <div class="notice-text">
+                    <p><strong>Please read these terms carefully.</strong> By accessing or using Campus Connect, you confirm that you have read, understood, and agree to be bound by these Terms &amp; Conditions. If you disagree, please discontinue use immediately.</p>
+                </div>
+            </div>
+
+            <!-- Quick Navigation -->
+            <div class="quick-nav-premium glass-card">
+                <div class="gradient-border"></div>
+                <div class="quick-nav-title">
+                    <i class="fas fa-compass"></i> Quick Navigation
+                </div>
+                <div class="quick-nav-grid">
+                    <a href="#s1"><span class="nav-num">01.</span> Introduction</a>
+                    <a href="#s2"><span class="nav-num">02.</span> User Accounts</a>
+                    <a href="#s3"><span class="nav-num">03.</span> Marketplace Rules</a>
+                    <a href="#s4"><span class="nav-num">04.</span> Community Guidelines</a>
+                    <a href="#s5"><span class="nav-num">05.</span> Payments</a>
+                    <a href="#s6"><span class="nav-num">06.</span> Intellectual Property</a>
+                    <a href="#s7"><span class="nav-num">07.</span> Prohibited Activities</a>
+                    <a href="#s8"><span class="nav-num">08.</span> Liability</a>
+                    <a href="#s9"><span class="nav-num">09.</span> Termination</a>
+                    <a href="#s10"><span class="nav-num">10.</span> Changes</a>
+                    <a href="#s11"><span class="nav-num">11.</span> Contact</a>
+                </div>
+            </div>
+
+            <!-- Section 1 - Introduction -->
+            <article class="terms-section-premium glass-card" id="s1">
+                <div class="gradient-border"></div>
+                <div class="section-header-premium">
+                    <div class="section-number">01</div>
+                    <div class="section-title">
+                        <h2>Introduction</h2>
+                        <p>Who we are and what this agreement covers</p>
+                    </div>
+                </div>
+                <div class="section-body-premium">
+                    <p>Welcome to <strong>Campus Connect</strong> — a digital platform designed exclusively for students, educators, and campus communities to connect, collaborate, trade, and share academic resources. By accessing our website, mobile application, or any related service, you enter into a binding legal agreement with us.</p>
+                    <p>These Terms &amp; Conditions govern the relationship between you (<strong>"User"</strong>, <strong>"you"</strong>) and <strong>Campus Connect, Inc.</strong> (<strong>"we"</strong>, <strong>"us"</strong>, <strong>"the Platform"</strong>). They apply to all visitors, registered users, buyers, sellers, group members, and anyone who accesses or uses any part of our services.</p>
+                    <div class="callout-premium info">
+                        <i class="fas fa-info-circle"></i>
+                        <div>By creating an account or continuing to use Campus Connect in any capacity, you acknowledge that you have read, understood, and agree to be bound by these Terms, our Privacy Policy, and any additional guidelines or policies we publish.</div>
+                    </div>
+                    <p>These Terms are governed by applicable law and represent the complete agreement between you and Campus Connect with respect to your use of the platform, superseding any prior agreements.</p>
+                </div>
+            </article>
+
+            <!-- Section 2 - User Accounts -->
+            <article class="terms-section-premium glass-card" id="s2">
+                <div class="gradient-border"></div>
+                <div class="section-header-premium">
+                    <div class="section-number">02</div>
+                    <div class="section-title">
+                        <h2>User Accounts</h2>
+                        <p>Registration, eligibility, and account responsibilities</p>
+                    </div>
+                </div>
+                <div class="section-body-premium">
+                    <p>To access most features of Campus Connect, you must register and maintain an active user account. When creating your account, you agree to provide <strong>accurate, complete, and current</strong> registration information at all times.</p>
+                    <ul>
+                        <li>Use a valid email address that you own and have full access to.</li>
+                        <li>Maintain the confidentiality and security of your password — never share login credentials with others.</li>
+                        <li>Notify us immediately at security@campusconnect.edu upon discovering any unauthorized use of your account.</li>
+                        <li>Be solely and fully responsible for all activity that occurs under your account, authorized or not.</li>
+                    </ul>
+                    <h4>Eligibility</h4>
+                    <p>Campus Connect is intended for individuals aged <strong>16 and older</strong>. By creating an account, you confirm you meet this requirement. Users aged 16–17 must have verifiable parental or guardian consent where required by applicable local law.</p>
+                    <div class="callout-premium warning">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <div><strong>One Account Policy:</strong> Each individual may maintain only one active account. Creating multiple accounts to circumvent suspensions, bans, or platform restrictions is a serious violation and may result in permanent removal from the platform.</div>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Section 3 - Marketplace Rules -->
+            <article class="terms-section-premium glass-card" id="s3">
+                <div class="gradient-border"></div>
+                <div class="section-header-premium">
+                    <div class="section-number">03</div>
+                    <div class="section-title">
+                        <h2>Marketplace Rules</h2>
+                        <p>Buying, selling, and trading on Campus Connect</p>
+                    </div>
+                </div>
+                <div class="section-body-premium">
+                    <p>The Campus Connect Marketplace allows verified users to buy, sell, and trade items within the campus community. All participants must adhere to the following rules to ensure a safe and fair environment.</p>
+                    <h4>Permitted Listings</h4>
+                    <p>Users may list textbooks, study guides, electronics, tutoring services, and other lawful personal items.</p>
+                    <h4>Prohibited Listings</h4>
+                    <div class="tag-list-premium">
+                        <span class="tag-item">Counterfeit goods</span>
+                        <span class="tag-item">Stolen property</span>
+                        <span class="tag-item">Controlled substances</span>
+                        <span class="tag-item">Alcohol &amp; tobacco</span>
+                        <span class="tag-item">Weapons &amp; explosives</span>
+                        <span class="tag-item">Completed assignments</span>
+                        <span class="tag-item">Copyrighted pirated material</span>
+                        <span class="tag-item">Adult content</span>
+                    </div>
+                    <div class="callout-premium warning">
+                        <i class="fas fa-shield-alt"></i>
+                        <div>Campus Connect acts <strong>solely as a facilitating platform</strong> for peer-to-peer transactions. We are not a party to any sale agreement and hold no responsibility for the quality, safety, legality, delivery, or accuracy of any listed items.</div>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Section 4 - Community Guidelines -->
+            <article class="terms-section-premium glass-card" id="s4">
+                <div class="gradient-border"></div>
+                <div class="section-header-premium">
+                    <div class="section-number">04</div>
+                    <div class="section-title">
+                        <h2>Community Guidelines</h2>
+                        <p>How to participate respectfully in groups and communities</p>
+                    </div>
+                </div>
+                <div class="section-body-premium">
+                    <p>Campus Connect's community features are designed to foster meaningful connections and academic collaboration. All users must abide by the following community standards:</p>
+                    <ul>
+                        <li><strong>Respect &amp; Inclusion:</strong> Treat every member with dignity and respect.</li>
+                        <li><strong>Relevance:</strong> Keep all posts and discussions relevant to the group's stated purpose.</li>
+                        <li><strong>No Spam or Solicitation:</strong> Do not post repetitive, unsolicited, or commercially motivated content.</li>
+                        <li><strong>Zero Harassment:</strong> Bullying, threatening, stalking, or harassing any member is strictly forbidden.</li>
+                    </ul>
+                    <div class="callout-premium info">
+                        <i class="fas fa-lightbulb"></i>
+                        <div>Campus Connect reserves the right to remove posts, dissolve groups, warn users, or take disciplinary action against any user who violates these community standards.</div>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Section 5 - Payments -->
+            <article class="terms-section-premium glass-card" id="s5">
+                <div class="gradient-border"></div>
+                <div class="section-header-premium">
+                    <div class="section-number">05</div>
+                    <div class="section-title">
+                        <h2>Payments &amp; Transactions</h2>
+                        <p>Fees, payment processing, and refund policies</p>
+                    </div>
+                </div>
+                <div class="section-body-premium">
+                    <p>Where applicable, Campus Connect integrates with third-party payment processors to facilitate secure transactions between users. By using any payment feature, you agree to the following terms:</p>
+                    <ul>
+                        <li>All financial transactions are processed by trusted third-party providers.</li>
+                        <li>Campus Connect may charge a service fee on marketplace transactions.</li>
+                        <li>Refund eligibility is governed by each seller's individual policy.</li>
+                        <li>You are solely responsible for any applicable taxes, duties, or local levies.</li>
+                    </ul>
+                    <div class="callout-premium success">
+                        <i class="fas fa-check-circle"></i>
+                        <div>Campus Connect is not a financial institution. We do not offer banking, lending, investment, or financial advisory services.</div>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Section 6 - Intellectual Property -->
+            <article class="terms-section-premium glass-card" id="s6">
+                <div class="gradient-border"></div>
+                <div class="section-header-premium">
+                    <div class="section-number">06</div>
+                    <div class="section-title">
+                        <h2>Intellectual Property</h2>
+                        <p>Ownership rights for platform and user-generated content</p>
+                    </div>
+                </div>
+                <div class="section-body-premium">
+                    <p>All content, software, interfaces, design systems, branding, logos, and features present on Campus Connect are the exclusive property of <strong>Campus Connect, Inc.</strong> and are protected under applicable intellectual property and copyright laws.</p>
+                    <p>By submitting notes, listings, posts, comments, images, or any other content to the platform, you grant Campus Connect a <strong>non-exclusive, royalty-free, perpetual, worldwide license</strong> to store, display, distribute, and promote that content within the scope of our services.</p>
+                    <div class="callout-premium info">
+                        <i class="fas fa-copyright"></i>
+                        <div><strong>Copyright Complaints (DMCA):</strong> If you believe your intellectual property has been infringed on our platform, contact us at legal@campusconnect.edu with a full description.</div>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Section 7 - Prohibited Activities -->
+            <article class="terms-section-premium glass-card" id="s7">
+                <div class="gradient-border"></div>
+                <div class="section-header-premium">
+                    <div class="section-number">07</div>
+                    <div class="section-title">
+                        <h2>Prohibited Activities</h2>
+                        <p>Actions that are strictly forbidden on the platform</p>
+                    </div>
+                </div>
+                <div class="section-body-premium">
+                    <p>To protect our users and maintain the integrity of Campus Connect, the following activities are strictly prohibited:</p>
+                    <ul>
+                        <li>Hacking, attempting unauthorized access, or disrupting platform infrastructure.</li>
+                        <li>Using automated bots, scrapers, crawlers, or scripts to extract data.</li>
+                        <li>Impersonating any individual, organization, or Campus Connect staff.</li>
+                        <li>Posting defamatory, discriminatory, racist, sexist, violent, or otherwise offensive content.</li>
+                        <li>Facilitating, promoting, or enabling academic dishonesty or plagiarism.</li>
+                        <li>Manipulating platform ratings, reviews, search rankings, or trust and safety systems.</li>
+                        <li>Uploading malware, viruses, trojans, or any malicious code.</li>
+                    </ul>
+                    <div class="callout-premium warning">
+                        <i class="fas fa-gavel"></i>
+                        <div>Serious violations may be referred to law enforcement authorities, university disciplinary bodies, or other relevant institutions.</div>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Section 8 - Limitation of Liability -->
+            <article class="terms-section-premium glass-card" id="s8">
+                <div class="gradient-border"></div>
+                <div class="section-header-premium">
+                    <div class="section-number">08</div>
+                    <div class="section-title">
+                        <h2>Limitation of Liability</h2>
+                        <p>The extent of our legal responsibility to you</p>
+                    </div>
+                </div>
+                <div class="section-body-premium">
+                    <p>To the maximum extent permitted by applicable law, <strong>Campus Connect, Inc.</strong>, its officers, directors, employees, agents, licensors, and service providers shall not be liable for any indirect, incidental, special, consequential, exemplary, or punitive damages arising from or in connection with your use of the platform.</p>
+                    <h4>Disclaimer of Warranties</h4>
+                    <p>Campus Connect is provided strictly on an <strong>"as is"</strong> and <strong>"as available"</strong> basis. We make no warranties — express, implied, statutory, or otherwise — regarding fitness for a particular purpose, merchantability, accuracy, or non-infringement.</p>
+                    <div class="callout-premium info">
+                        <i class="fas fa-balance-scale"></i>
+                        <div>Our total aggregate liability for any claim arising under these Terms shall not exceed the greater of: (a) the total amount you paid Campus Connect in the 12 months preceding the claim, or (b) <strong>USD $100</strong>.</div>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Section 9 - Termination -->
+            <article class="terms-section-premium glass-card" id="s9">
+                <div class="gradient-border"></div>
+                <div class="section-header-premium">
+                    <div class="section-number">09</div>
+                    <div class="section-title">
+                        <h2>Termination</h2>
+                        <p>How and when accounts can be suspended or closed</p>
+                    </div>
+                </div>
+                <div class="section-body-premium">
+                    <p>You may delete your account at any time through the <strong>Account Settings</strong> page. We reserve the right to suspend or permanently terminate your account, with or without prior notice, if you have violated any provision of these Terms &amp; Conditions or our Community Guidelines.</p>
+                    <p>Upon termination, your license to access and use Campus Connect ceases immediately. All rights granted under these Terms are revoked.</p>
+                </div>
+            </article>
+
+            <!-- Section 10 - Changes to Terms -->
+            <article class="terms-section-premium glass-card" id="s10">
+                <div class="gradient-border"></div>
+                <div class="section-header-premium">
+                    <div class="section-number">10</div>
+                    <div class="section-title">
+                        <h2>Changes to Terms</h2>
+                        <p>How we notify you of updates to this agreement</p>
+                    </div>
+                </div>
+                <div class="section-body-premium">
+                    <p>Campus Connect reserves the right to modify, update, or replace any portion of these Terms &amp; Conditions at any time, at our sole discretion. For <strong>material changes</strong>, we will notify users through a prominent notice on the platform or via email.</p>
+                    <div class="callout-premium info">
+                        <i class="fas fa-bell"></i>
+                        <div>Your <strong>continued use</strong> of Campus Connect following the posting of revised Terms constitutes your acceptance of those changes. If you disagree with any updated terms, you must stop using the platform.</div>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Section 11 - Contact Information -->
+            <article class="terms-section-premium glass-card" id="s11">
+                <div class="gradient-border"></div>
+                <div class="section-header-premium">
+                    <div class="section-number">11</div>
+                    <div class="section-title">
+                        <h2>Contact Information</h2>
+                        <p>How to reach us with questions, concerns, or legal matters</p>
+                    </div>
+                </div>
+                <div class="section-body-premium">
+                    <p>If you have any questions, concerns, complaints, or requests regarding these Terms &amp; Conditions, our team is committed to providing timely and helpful responses.</p>
+                    <div class="contact-grid-premium">
+                        <div class="contact-card-premium">
+                            <div class="contact-icon"><i class="fas fa-envelope"></i></div>
+                            <div class="contact-info">
+                                <div class="contact-label">General Support</div>
+                                <div class="contact-value">hello@campusconnect.edu</div>
+                                <div class="contact-hint">Responds within 1–2 business days</div>
+                            </div>
+                        </div>
+                        <div class="contact-card-premium">
+                            <div class="contact-icon"><i class="fas fa-gavel"></i></div>
+                            <div class="contact-info">
+                                <div class="contact-label">Legal &amp; Compliance</div>
+                                <div class="contact-value">legal@campusconnect.edu</div>
+                                <div class="contact-hint">Mark urgent matters "LEGAL URGENT"</div>
+                            </div>
+                        </div>
+                        <div class="contact-card-premium">
+                            <div class="contact-icon"><i class="fas fa-shield-alt"></i></div>
+                            <div class="contact-info">
+                                <div class="contact-label">Trust &amp; Safety</div>
+                                <div class="contact-value">safety@campusconnect.edu</div>
+                                <div class="contact-hint">Report abuse, fraud, or violations</div>
+                            </div>
+                        </div>
+                        <div class="contact-card-premium">
+                            <div class="contact-icon"><i class="fas fa-map-marker-alt"></i></div>
+                            <div class="contact-info">
+                                <div class="contact-label">Mailing Address</div>
+                                <div class="contact-value">123 Campus Ave, Suite 400</div>
+                                <div class="contact-hint">University District, CA 90210, USA</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="callout-premium success">
+                        <i class="fas fa-graduation-cap"></i>
+                        <div>Thank you for being a part of the Campus Connect community. We are committed to building a safe, fair, and empowering platform for every student.</div>
+                    </div>
+                </div>
+            </article>
+        </main>
     </div>
 
-    <h1 class="hero-title">
-      Terms <span class="amp">&amp;</span> Conditions
-    </h1>
+    <!-- Back to Top Button -->
+    <button class="back-to-top-premium" id="backToTopBtn">
+        <i class="fas fa-arrow-up"></i>
+    </button>
 
-    <div class="hero-meta">
-      <div class="hero-meta-item">
-        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><rect x="1" y="2" width="12" height="11" rx="2" stroke="white" stroke-width="1.3"/><path d="M1 5.5h12" stroke="white" stroke-width="1.3"/><path d="M4.5 1v2M9.5 1v2" stroke="white" stroke-width="1.3" stroke-linecap="round"/></svg>
-        <span>Effective: <strong>January 1, 2025</strong></span>
-      </div>
-      <div class="hero-meta-item">
-        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="5.5" stroke="white" stroke-width="1.3"/><path d="M7 4.5v3l1.5 1.5" stroke="white" stroke-width="1.3" stroke-linecap="round"/></svg>
-        <span>Last Updated: <strong>June 15, 2025</strong></span>
-      </div>
-      <div class="hero-meta-item">
-        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 1.5C5 1.5 3 3 3 5.5c0 3.5 4 7 4 7s4-3.5 4-7c0-2.5-2-4-4-4Z" stroke="white" stroke-width="1.3"/><circle cx="7" cy="5.5" r="1.2" stroke="white" stroke-width="1.2"/></svg>
-        <span>Version: <strong>v3.1</strong></span>
-      </div>
-    </div>
-  </div>
+    <!-- Footer -->
+    <footer class="footer" id="footer"></footer>
 
-  <svg class="hero-wave" viewBox="0 0 1440 56" preserveAspectRatio="none" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M0 56C240 18 480 0 720 0C960 0 1200 18 1440 56H0Z" fill="#F8FAFC"/>
-  </svg>
-</section>
+    <!-- Toast Container -->
+    <div id="toastContainer"></div>
 
-
-<!-- ========================================
-     MAIN LAYOUT
-======================================== -->
-<div class="layout">
-
-  <!-- ── SIDEBAR ── -->
-  <aside class="sidebar">
-    <div class="toc-panel">
-
-      <div class="toc-header">
-        <div class="toc-header-icon">
-          <svg viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <rect x="1.5" y="2" width="11" height="1.5" rx=".75" fill="white"/>
-            <rect x="1.5" y="6.25" width="8" height="1.5" rx=".75" fill="white"/>
-            <rect x="1.5" y="10.5" width="9.5" height="1.5" rx=".75" fill="white"/>
-          </svg>
-        </div>
-        <h3>Contents</h3>
-      </div>
-
-      <nav class="toc-list" id="tocList">
-        <div class="toc-item"><a href="#s1" class="active"><span class="toc-num">1</span>Introduction</a></div>
-        <div class="toc-item"><a href="#s2"><span class="toc-num">2</span>User Accounts</a></div>
-        <div class="toc-divider"></div>
-        <div class="toc-item"><a href="#s3"><span class="toc-num">3</span>Marketplace Rules</a></div>
-        <div class="toc-item"><a href="#s4"><span class="toc-num">4</span>Community Guidelines</a></div>
-        <div class="toc-divider"></div>
-        <div class="toc-item"><a href="#s5"><span class="toc-num">5</span>Payments &amp; Transactions</a></div>
-        <div class="toc-item"><a href="#s6"><span class="toc-num">6</span>Intellectual Property</a></div>
-        <div class="toc-divider"></div>
-        <div class="toc-item"><a href="#s7"><span class="toc-num">7</span>Prohibited Activities</a></div>
-        <div class="toc-item"><a href="#s8"><span class="toc-num">8</span>Limitation of Liability</a></div>
-        <div class="toc-divider"></div>
-        <div class="toc-item"><a href="#s9"><span class="toc-num">9</span>Termination</a></div>
-        <div class="toc-item"><a href="#s10"><span class="toc-num">10</span>Changes to Terms</a></div>
-        <div class="toc-divider"></div>
-        <div class="toc-item"><a href="#s11"><span class="toc-num">11</span>Contact Information</a></div>
-      </nav>
-
-      <div class="toc-footer">
-        <span class="toc-badge">Current Version</span>
-      </div>
-
-    </div>
-  </aside>
-
-  <!-- ── MAIN ── -->
-  <main class="main">
-
-    <!-- Read notice -->
-    <div class="read-notice">
-      <div class="notice-icon">
-        <svg viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <circle cx="9" cy="9" r="7" stroke="white" stroke-width="1.6"/>
-          <path d="M9 8v5" stroke="white" stroke-width="1.8" stroke-linecap="round"/>
-          <circle cx="9" cy="5.5" r="1" fill="white"/>
-        </svg>
-      </div>
-      <div class="notice-text">
-        <p><strong>Please read these terms carefully.</strong> By accessing or using Campus Connect, you confirm that you have read, understood, and agree to be bound by these Terms &amp; Conditions and our <a href="#" style="color:var(--blue);text-decoration:underline;">Privacy Policy</a>. If you disagree, please discontinue use immediately.</p>
-      </div>
-    </div>
-
-    <!-- Quick TOC -->
-    <div class="quick-toc">
-      <div class="quick-toc-title">
-        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M2 4h12M2 8h8M2 12h10" stroke="#0D1B2A" stroke-width="1.6" stroke-linecap="round"/></svg>
-        Quick Navigation
-      </div>
-      <div class="qtoc-grid">
-        <a href="#s1"><span class="n">01.</span> Introduction</a>
-        <a href="#s7"><span class="n">07.</span> Prohibited Activities</a>
-        <a href="#s2"><span class="n">02.</span> User Accounts</a>
-        <a href="#s8"><span class="n">08.</span> Limitation of Liability</a>
-        <a href="#s3"><span class="n">03.</span> Marketplace Rules</a>
-        <a href="#s9"><span class="n">09.</span> Termination</a>
-        <a href="#s4"><span class="n">04.</span> Community Guidelines</a>
-        <a href="#s10"><span class="n">10.</span> Changes to Terms</a>
-        <a href="#s5"><span class="n">05.</span> Payments &amp; Transactions</a>
-        <a href="#s11"><span class="n">11.</span> Contact Information</a>
-        <a href="#s6"><span class="n">06.</span> Intellectual Property</a>
-      </div>
-    </div>
-
-    <!-- ─────────────────────────
-         SECTION 1 – Introduction
-    ───────────────────────────── -->
-    <article class="section-card" id="s1">
-      <div class="section-card-head">
-        <div class="section-badge"><span>01</span></div>
-        <div class="section-head-text">
-          <h2>Introduction</h2>
-          <p class="section-tagline">Who we are and what this agreement covers</p>
-        </div>
-      </div>
-      <div class="section-body">
-        <p>Welcome to <strong>Campus Connect</strong> — a digital platform designed exclusively for students, educators, and campus communities to connect, collaborate, trade, and share academic resources. By accessing our website, mobile application, or any related service, you enter into a binding legal agreement with us.</p>
-        <p>These Terms &amp; Conditions govern the relationship between you (<strong>"User"</strong>, <strong>"you"</strong>) and <strong>Campus Connect, Inc.</strong> (<strong>"we"</strong>, <strong>"us"</strong>, <strong>"the Platform"</strong>). They apply to all visitors, registered users, buyers, sellers, group members, and anyone who accesses or uses any part of our services.</p>
-        <div class="callout info">
-          <span class="callout-icon">📋</span>
-          <div>By creating an account or continuing to use Campus Connect in any capacity, you acknowledge that you have read, understood, and agree to be bound by these Terms, our Privacy Policy, and any additional guidelines or policies we publish. If you do not agree, you must discontinue use immediately.</div>
-        </div>
-        <p>These Terms are governed by applicable law and represent the complete agreement between you and Campus Connect with respect to your use of the platform, superseding any prior agreements.</p>
-      </div>
-    </article>
-
-    <!-- ─────────────────────────
-         SECTION 2 – User Accounts
-    ───────────────────────────── -->
-    <article class="section-card" id="s2">
-      <div class="section-card-head">
-        <div class="section-badge"><span>02</span></div>
-        <div class="section-head-text">
-          <h2>User Accounts</h2>
-          <p class="section-tagline">Registration, eligibility, and account responsibilities</p>
-        </div>
-      </div>
-      <div class="section-body">
-        <p>To access most features of Campus Connect, you must register and maintain an active user account. When creating your account, you agree to:</p>
-        <ul>
-          <li>Provide <strong>accurate, complete, and current</strong> registration information at all times.</li>
-          <li>Use a valid email address that you own and have full access to.</li>
-          <li>Maintain the confidentiality and security of your password — never share login credentials with others.</li>
-          <li>Notify us <strong>immediately</strong> at security@campusconnect.edu upon discovering any unauthorized use of your account.</li>
-          <li>Be solely and fully responsible for all activity that occurs under your account, authorized or not.</li>
-        </ul>
-
-        <h4>Eligibility</h4>
-        <p>Campus Connect is intended for individuals aged <strong>16 and older</strong>. By creating an account, you confirm you meet this requirement. Users aged 16–17 must have verifiable parental or guardian consent where required by applicable local law.</p>
-
-        <h4>Account Verification</h4>
-        <p>We may require verification of your student or faculty status via your institutional email or valid identification. Accounts using fraudulent information are subject to immediate and permanent suspension without notice.</p>
-
-        <div class="callout warning">
-          <span class="callout-icon">⚠️</span>
-          <div><strong>One Account Policy:</strong> Each individual may maintain only one active account. Creating multiple accounts to circumvent suspensions, bans, or platform restrictions is a serious violation and may result in permanent removal from the platform.</div>
-        </div>
-      </div>
-    </article>
-
-    <!-- ─────────────────────────
-         SECTION 3 – Marketplace
-    ───────────────────────────── -->
-    <article class="section-card" id="s3">
-      <div class="section-card-head">
-        <div class="section-badge"><span>03</span></div>
-        <div class="section-head-text">
-          <h2>Marketplace Rules</h2>
-          <p class="section-tagline">Buying, selling, and trading on Campus Connect</p>
-        </div>
-      </div>
-      <div class="section-body">
-        <p>The Campus Connect Marketplace allows verified users to buy, sell, and trade items within the campus community. All participants must adhere to the following rules to ensure a safe and fair environment.</p>
-
-        <h4>Permitted Listings</h4>
-        <p>Users may list the following types of items and services:</p>
-        <ul>
-          <li>Textbooks, study guides, and printed academic materials.</li>
-          <li>Electronics and campus accessories (laptops, calculators, headphones, etc.).</li>
-          <li>Tutoring, mentoring, and academic support services.</li>
-          <li>Handmade crafts, art, and other lawful personal items.</li>
-          <li>Event tickets for on-campus activities.</li>
-        </ul>
-
-        <h4>Prohibited Listings</h4>
-        <div class="tag-list">
-          <span class="tag-item">Counterfeit goods</span>
-          <span class="tag-item">Stolen property</span>
-          <span class="tag-item">Controlled substances</span>
-          <span class="tag-item">Alcohol &amp; tobacco</span>
-          <span class="tag-item">Weapons &amp; explosives</span>
-          <span class="tag-item">Completed assignments</span>
-          <span class="tag-item">Essay writing services</span>
-          <span class="tag-item">Copyrighted pirated material</span>
-          <span class="tag-item">Adult content or services</span>
-          <span class="tag-item">Hazardous materials</span>
-        </div>
-
-        <div class="callout warning">
-          <span class="callout-icon">⚠️</span>
-          <div>Campus Connect acts <strong>solely as a facilitating platform</strong> for peer-to-peer transactions. We are not a party to any sale agreement and hold no responsibility for the quality, safety, legality, delivery, or accuracy of any listed items.</div>
-        </div>
-
-        <p><strong>Listing Accuracy:</strong> Sellers must ensure all product descriptions, images, and pricing are truthful and not misleading. We reserve the right to remove non-compliant listings without prior notice.</p>
-
-        <p><strong>Dispute Resolution:</strong> Disputes between buyers and sellers should first be resolved directly between parties. Campus Connect may assist with mediation at its sole discretion but is under no obligation to intervene or guarantee outcomes.</p>
-      </div>
-    </article>
-
-    <!-- ─────────────────────────
-         SECTION 4 – Community
-    ───────────────────────────── -->
-    <article class="section-card" id="s4">
-      <div class="section-card-head">
-        <div class="section-badge"><span>04</span></div>
-        <div class="section-head-text">
-          <h2>Group &amp; Community Guidelines</h2>
-          <p class="section-tagline">How to participate respectfully in groups and communities</p>
-        </div>
-      </div>
-      <div class="section-body">
-        <p>Campus Connect's community features are designed to foster meaningful connections and academic collaboration. All users engaging in groups, forums, or public spaces must abide by the following community standards:</p>
-        <ul>
-          <li><strong>Respect &amp; Inclusion:</strong> Treat every member with dignity and respect, regardless of background, ethnicity, gender, religion, or viewpoint.</li>
-          <li><strong>Relevance:</strong> Keep all posts and discussions relevant to the group's stated purpose and academic focus.</li>
-          <li><strong>No Spam or Solicitation:</strong> Do not post repetitive, unsolicited, or commercially motivated content unrelated to the group.</li>
-          <li><strong>Zero Harassment:</strong> Bullying, threatening, stalking, or harassing any member in any form is strictly forbidden and may be reported to university authorities.</li>
-          <li><strong>Administrator Responsibility:</strong> Group owners and administrators are responsible for moderating their groups and enforcing these guidelines. Failure to do so may result in group dissolution.</li>
-          <li><strong>Privacy Protection:</strong> Never share personal information — including phone numbers, addresses, or private photos — about other members without their explicit, documented consent.</li>
-          <li><strong>Content Standards:</strong> Do not post hateful, discriminatory, sexually explicit, or otherwise harmful content in any community space.</li>
-        </ul>
-
-        <div class="callout info">
-          <span class="callout-icon">💡</span>
-          <div>Campus Connect reserves the right to remove posts, dissolve groups, warn users, or take disciplinary action against any user who violates these community standards. Repeated or severe violations will result in permanent account suspension.</div>
-        </div>
-      </div>
-    </article>
-
-    <!-- ─────────────────────────
-         SECTION 5 – Payments
-    ───────────────────────────── -->
-    <article class="section-card" id="s5">
-      <div class="section-card-head">
-        <div class="section-badge"><span>05</span></div>
-        <div class="section-head-text">
-          <h2>Payments &amp; Transactions</h2>
-          <p class="section-tagline">Fees, payment processing, and refund policies</p>
-        </div>
-      </div>
-      <div class="section-body">
-        <p>Where applicable, Campus Connect integrates with third-party payment processors to facilitate secure transactions between users. By using any payment feature, you agree to the following terms:</p>
-
-        <h4>Payment Processing</h4>
-        <p>All financial transactions are processed by trusted third-party providers (such as Stripe or PayPal). By completing a transaction, you also agree to their respective terms of service and privacy policies. Campus Connect does <strong>not</strong> store full payment card details on its servers.</p>
-
-        <h4>Platform Fees</h4>
-        <p>Campus Connect may charge a service fee on marketplace transactions. All applicable fees will be <strong>clearly disclosed</strong> prior to checkout — you will never be charged without prior notice and consent.</p>
-
-        <h4>Refunds</h4>
-        <p>Refund eligibility is governed by each seller's individual policy. Campus Connect does not guarantee refunds on peer-to-peer transactions. However, in verified cases of fraud or material misrepresentation, users may submit a formal dispute through our Trust &amp; Safety team.</p>
-
-        <ul>
-          <li>All prices are displayed in the applicable local currency unless otherwise stated.</li>
-          <li>You are solely responsible for any applicable taxes, duties, or local levies arising from your transactions.</li>
-          <li>Chargebacks or fraudulent payment claims may result in immediate account suspension.</li>
-          <li>Subscription fees (if applicable) are billed in advance and are non-refundable upon use.</li>
-        </ul>
-
-        <div class="callout success">
-          <span class="callout-icon">✅</span>
-          <div>Campus Connect is not a financial institution. We do not offer banking, lending, investment, or financial advisory services. For payment-related queries, contact your payment processor directly.</div>
-        </div>
-      </div>
-    </article>
-
-    <!-- ─────────────────────────
-         SECTION 6 – IP
-    ───────────────────────────── -->
-    <article class="section-card" id="s6">
-      <div class="section-card-head">
-        <div class="section-badge"><span>06</span></div>
-        <div class="section-head-text">
-          <h2>Intellectual Property</h2>
-          <p class="section-tagline">Ownership rights for platform and user-generated content</p>
-        </div>
-      </div>
-      <div class="section-body">
-        <p>All content, software, interfaces, design systems, branding, logos, and features present on Campus Connect are the exclusive property of <strong>Campus Connect, Inc.</strong> and are protected under applicable intellectual property and copyright laws.</p>
-
-        <h4>Platform Content</h4>
-        <p>You may not copy, reproduce, republish, upload, post, transmit, modify, distribute, or create derivative works from any Campus Connect proprietary content without obtaining explicit, written permission from us.</p>
-
-        <h4>User-Generated Content</h4>
-        <p>By submitting notes, listings, posts, comments, images, or any other content to the platform, you grant Campus Connect a <strong>non-exclusive, royalty-free, perpetual, worldwide license</strong> to store, display, distribute, and promote that content within the scope of our services.</p>
-
-        <ul>
-          <li>You retain full ownership of all original content you create and share.</li>
-          <li>You represent and warrant that you have the legal right to share any content you upload.</li>
-          <li>You confirm that your content does not infringe the intellectual property rights of any third party.</li>
-          <li>Campus Connect may remove content that is credibly reported to infringe third-party rights, without prior notice.</li>
-        </ul>
-
-        <div class="callout info">
-          <span class="callout-icon">⚖️</span>
-          <div><strong>Copyright Complaints (DMCA):</strong> If you believe your intellectual property has been infringed on our platform, contact us at <a href="mailto:legal@campusconnect.edu" style="color:var(--blue)">legal@campusconnect.edu</a> with a full description of the alleged infringement, your contact information, and supporting evidence.</div>
-        </div>
-      </div>
-    </article>
-
-    <!-- ─────────────────────────
-         SECTION 7 – Prohibited
-    ───────────────────────────── -->
-    <article class="section-card" id="s7">
-      <div class="section-card-head">
-        <div class="section-badge"><span>07</span></div>
-        <div class="section-head-text">
-          <h2>Prohibited Activities</h2>
-          <p class="section-tagline">Actions that are strictly forbidden on the platform</p>
-        </div>
-      </div>
-      <div class="section-body">
-        <p>To protect our users and maintain the integrity of Campus Connect, the following activities are strictly prohibited. Violations may result in immediate suspension and legal action:</p>
-        <ol>
-          <li>Hacking, attempting unauthorized access, or disrupting platform infrastructure, servers, or data.</li>
-          <li>Using automated bots, scrapers, crawlers, or scripts to extract, harvest, or aggregate data from the platform.</li>
-          <li>Impersonating any individual, organization, faculty member, or Campus Connect staff.</li>
-          <li>Posting defamatory, discriminatory, racist, sexist, violent, or otherwise offensive content.</li>
-          <li>Facilitating, promoting, or enabling academic dishonesty, plagiarism, or contract cheating in any form.</li>
-          <li>Manipulating platform ratings, reviews, search rankings, or trust and safety systems.</li>
-          <li>Distributing spam, chain messages, or any unsolicited mass communications.</li>
-          <li>Collecting or harvesting personal information from other users without explicit, informed consent.</li>
-          <li>Uploading malware, viruses, trojans, or any malicious code that could harm users or the platform.</li>
-          <li>Engaging in any unlawful activity or using the platform to facilitate illegal acts of any kind.</li>
-        </ol>
-
-        <div class="callout warning">
-          <span class="callout-icon">⚠️</span>
-          <div>Serious violations may be referred to law enforcement authorities, university disciplinary bodies, or other relevant institutions. Campus Connect cooperates fully with lawful investigations involving platform misuse.</div>
-        </div>
-      </div>
-    </article>
-
-    <!-- ─────────────────────────
-         SECTION 8 – Liability
-    ───────────────────────────── -->
-    <article class="section-card" id="s8">
-      <div class="section-card-head">
-        <div class="section-badge"><span>08</span></div>
-        <div class="section-head-text">
-          <h2>Limitation of Liability</h2>
-          <p class="section-tagline">The extent of our legal responsibility to you</p>
-        </div>
-      </div>
-      <div class="section-body">
-        <p>To the maximum extent permitted by applicable law, <strong>Campus Connect, Inc.</strong>, its officers, directors, employees, agents, licensors, and service providers shall not be liable for any indirect, incidental, special, consequential, exemplary, or punitive damages arising from or in connection with your use of the platform.</p>
-
-        <p>This includes, without limitation:</p>
-        <ul>
-          <li>Loss of data, revenue, profits, business, or goodwill arising from platform use.</li>
-          <li>Damages resulting from unauthorized access to, or alteration of, your account or transmissions.</li>
-          <li>Outcomes — financial or otherwise — of marketplace transactions between users.</li>
-          <li>Content posted, shared, or transmitted by other users on the platform.</li>
-          <li>Temporary or permanent unavailability, downtime, or loss of functionality of the platform.</li>
-          <li>Third-party actions or failures, including payment processors, hosting providers, or linked services.</li>
-        </ul>
-
-        <h4>Disclaimer of Warranties</h4>
-        <p>Campus Connect is provided strictly on an <strong>"as is"</strong> and <strong>"as available"</strong> basis. We make no warranties — express, implied, statutory, or otherwise — regarding fitness for a particular purpose, merchantability, accuracy, or non-infringement.</p>
-
-        <div class="callout info">
-          <span class="callout-icon">⚖️</span>
-          <div>Our total aggregate liability for any claim arising under these Terms shall not exceed the greater of: (a) the total amount you paid Campus Connect in the 12 months preceding the claim, or (b) <strong>USD $100</strong>. Some jurisdictions do not allow liability limitations — in such cases, the maximum extent permitted by local law applies.</div>
-        </div>
-      </div>
-    </article>
-
-    <!-- ─────────────────────────
-         SECTION 9 – Termination
-    ───────────────────────────── -->
-    <article class="section-card" id="s9">
-      <div class="section-card-head">
-        <div class="section-badge"><span>09</span></div>
-        <div class="section-head-text">
-          <h2>Termination</h2>
-          <p class="section-tagline">How and when accounts can be suspended or closed</p>
-        </div>
-      </div>
-      <div class="section-body">
-        <h4>Termination by You</h4>
-        <p>You may delete your account at any time through the <strong>Account Settings</strong> page. Upon deletion request, we will process the removal of your personal data in accordance with our Privacy Policy. Note that certain data may be retained as required by law or for legitimate business purposes.</p>
-
-        <h4>Termination by Campus Connect</h4>
-        <p>We reserve the right to suspend or permanently terminate your account, with or without prior notice, in the following circumstances:</p>
-        <ul>
-          <li>You have violated any provision of these Terms &amp; Conditions or our Community Guidelines.</li>
-          <li>We reasonably believe your actions pose a legal, reputational, or safety risk to users or the platform.</li>
-          <li>We are legally required to do so by a court order, regulatory authority, or law enforcement.</li>
-          <li>Your account has been identified as fraudulent, inactive, or abandoned per our policies.</li>
-          <li>We cease to operate the platform or a specific feature you rely upon.</li>
-        </ul>
-
-        <h4>Effect of Termination</h4>
-        <p>Upon termination — by either party — your license to access and use Campus Connect ceases immediately. All rights granted under these Terms are revoked. Sections covering intellectual property, limitations of liability, indemnification, and dispute resolution shall <strong>survive termination</strong> and remain in full force.</p>
-      </div>
-    </article>
-
-    <!-- ─────────────────────────
-         SECTION 10 – Changes
-    ───────────────────────────── -->
-    <article class="section-card" id="s10">
-      <div class="section-card-head">
-        <div class="section-badge"><span>10</span></div>
-        <div class="section-head-text">
-          <h2>Changes to Terms</h2>
-          <p class="section-tagline">How we notify you of updates to this agreement</p>
-        </div>
-      </div>
-      <div class="section-body">
-        <p>Campus Connect reserves the right to modify, update, or replace any portion of these Terms &amp; Conditions at any time, at our sole discretion. For <strong>material changes</strong>, we will notify users through one or more of the following channels:</p>
-        <ul>
-          <li>A prominent notice displayed on the Campus Connect homepage or dashboard.</li>
-          <li>An email notification sent to the primary address associated with your account.</li>
-          <li>An in-app banner or push notification.</li>
-          <li>An updated "Last Modified" date reflected at the top of this document.</li>
-        </ul>
-
-        <div class="callout info">
-          <span class="callout-icon">📢</span>
-          <div>Your <strong>continued use</strong> of Campus Connect following the posting of revised Terms constitutes your acceptance of those changes. If you disagree with any updated terms, you must stop using the platform and may delete your account.</div>
-        </div>
-
-        <p>Non-material changes — such as grammatical corrections, formatting updates, or minor clarifications that do not affect your rights — may be made without formal notification. It remains your responsibility to stay informed by reviewing these Terms periodically.</p>
-
-        <p>When changes are significant, we will provide at least <strong>14 days' advance notice</strong> before the new terms take effect, allowing you adequate time to review and decide whether to continue using the platform.</p>
-      </div>
-    </article>
-
-    <!-- ─────────────────────────
-         SECTION 11 – Contact
-    ───────────────────────────── -->
-    <article class="section-card" id="s11">
-      <div class="section-card-head">
-        <div class="section-badge"><span>11</span></div>
-        <div class="section-head-text">
-          <h2>Contact Information</h2>
-          <p class="section-tagline">How to reach us with questions, concerns, or legal matters</p>
-        </div>
-      </div>
-      <div class="section-body">
-        <p>If you have any questions, concerns, complaints, or requests regarding these Terms &amp; Conditions, our team is committed to providing timely and helpful responses. Please reach out using the most appropriate channel below:</p>
-
-        <div class="contact-grid">
-          <div class="contact-card">
-            <div class="cc-label">General Support</div>
-            <div class="cc-value">hello@campusconnect.edu</div>
-            <div class="cc-sub">Responds within 1–2 business days</div>
-          </div>
-          <div class="contact-card">
-            <div class="cc-label">Legal &amp; Compliance</div>
-            <div class="cc-value">legal@campusconnect.edu</div>
-            <div class="cc-sub">Mark urgent matters "LEGAL URGENT"</div>
-          </div>
-          <div class="contact-card">
-            <div class="cc-label">Trust &amp; Safety</div>
-            <div class="cc-value">safety@campusconnect.edu</div>
-            <div class="cc-sub">Report abuse, fraud, or violations</div>
-          </div>
-          <div class="contact-card">
-            <div class="cc-label">Mailing Address</div>
-            <div class="cc-value">123 Campus Ave, Suite 400</div>
-            <div class="cc-sub">University District, CA 90210, USA</div>
-          </div>
-        </div>
-
-        <p style="margin-top:22px;">These Terms &amp; Conditions are governed by and construed in accordance with the laws of the <strong>State of California, United States</strong>, without regard to conflict-of-law provisions. Any legal disputes shall be submitted to binding arbitration in accordance with the American Arbitration Association rules, or to the courts of California where arbitration is inapplicable.</p>
-
-        <div class="callout success">
-          <span class="callout-icon">🎓</span>
-          <div>Thank you for being a part of the Campus Connect community. We are committed to building a safe, fair, and empowering platform for every student. These terms exist to protect both you and the wider community — we appreciate your cooperation.</div>
-        </div>
-      </div>
-    </article>
-
-  </main>
-</div>
-
-
-<!-- ========================================
-     BACK TO TOP
-======================================== -->
-<button id="btt" title="Back to top" aria-label="Scroll back to top">
-  <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M10 15V5M5 10l5-5 5 5" stroke="white" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/>
-  </svg>
-</button>
-
-
-<!-- Footer -->
-  <footer class="footer" id="footer">
-      <!--Generated dynamically by js-->
-  </footer>
-  {% if user.is_authenticated %}
+    {% if user.is_authenticated %}
         {% include "Components/header.html#authDynamicHeader" %}
         {% include "Components/footer.html#footer" %}
     {% else %}
@@ -548,40 +480,106 @@
         {% include "Components/footer.html#footer" %}
     {% endif %}
 
+    <script>
+        // ========== THEME TOGGLE ==========
+        (function() {
+            const savedTheme = localStorage.getItem('premiumTheme') || 'light';
+            const toggleBtn = document.getElementById('themeToggleBtn');
+            
+            function setTheme(theme) {
+                if (theme === 'dark') {
+                    document.body.classList.add('dark-theme-premium');
+                    if (toggleBtn) toggleBtn.classList.add('dark-active');
+                } else {
+                    document.body.classList.remove('dark-theme-premium');
+                    if (toggleBtn) toggleBtn.classList.remove('dark-active');
+                }
+                localStorage.setItem('premiumTheme', theme);
+            }
+            
+            if (savedTheme === 'dark') setTheme('dark');
+            
+            if (toggleBtn) {
+                toggleBtn.addEventListener('click', function() {
+                    const isDark = document.body.classList.contains('dark-theme-premium');
+                    setTheme(isDark ? 'light' : 'dark');
+                    this.style.transform = 'scale(0.95)';
+                    setTimeout(() => { if(toggleBtn) toggleBtn.style.transform = ''; }, 200);
+                });
+            }
+        })();
 
-<!-- ========================================
-     SCRIPTS
-======================================== -->
-<script>
-  /* ── Hamburger ── */
-  const toggle = document.getElementById('navToggle');
-  const navLinks = document.getElementById('navLinks');
-  toggle.addEventListener('click', () => navLinks.classList.toggle('open'));
+        // ========== TOAST NOTIFICATION ==========
+        function showToast(message, type = 'success') {
+            const container = document.getElementById('toastContainer');
+            if (!container) return;
+            const toast = document.createElement('div');
+            toast.className = `toast toast-${type}`;
+            const icons = { success: 'fa-check-circle', error: 'fa-exclamation-circle', info: 'fa-info-circle', warning: 'fa-exclamation-triangle' };
+            toast.innerHTML = `<i class="fas ${icons[type]}"></i><span>${message}</span><button class="toast-close" onclick="this.parentElement.remove()">&times;</button>`;
+            container.appendChild(toast);
+            setTimeout(() => toast.remove(), 3000);
+        }
 
-  /* ── Back to Top ── */
-  const bttBtn = document.getElementById('btt');
-  window.addEventListener('scroll', () => {
-    bttBtn.classList.toggle('show', window.scrollY > 500);
-  }, { passive: true });
-  bttBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
-
-  /* ── Active TOC Highlight ── */
-  const sections = document.querySelectorAll('.section-card[id]');
-  const tocLinks = document.querySelectorAll('#tocList a');
-
-  const io = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        const id = entry.target.id;
-        tocLinks.forEach(a => {
-          a.classList.toggle('active', a.getAttribute('href') === `#${id}`);
+        // ========== BACK TO TOP ==========
+        const backToTopBtn = document.getElementById('backToTopBtn');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 500) {
+                backToTopBtn.classList.add('visible');
+            } else {
+                backToTopBtn.classList.remove('visible');
+            }
         });
-      }
-    });
-  }, { rootMargin: '-15% 0px -75% 0px' });
+        backToTopBtn.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
 
-  sections.forEach(s => io.observe(s));
-</script>
+        // ========== ACTIVE TOC HIGHLIGHT ==========
+        const sections = document.querySelectorAll('.terms-section-premium[id]');
+        const tocLinks = document.querySelectorAll('#tocList a');
 
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const id = entry.target.id;
+                    tocLinks.forEach(link => {
+                        link.classList.remove('active');
+                        if (link.getAttribute('href') === `#${id}`) {
+                            link.classList.add('active');
+                        }
+                    });
+                }
+            });
+        }, { rootMargin: '-15% 0px -75% 0px' });
+
+        sections.forEach(section => observer.observe(section));
+
+        // ========== SCROLL REVEAL ANIMATION ==========
+        const revealElements = document.querySelectorAll('.terms-section-premium');
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('revealed');
+                    revealObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+        revealElements.forEach(el => revealObserver.observe(el));
+
+        // Add CSS for reveal animation
+        const style = document.createElement('style');
+        style.textContent = `
+            .terms-section-premium {
+                opacity: 0;
+                transform: translateY(30px);
+                transition: all 0.6s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+            }
+            .terms-section-premium.revealed {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
 </body>
 </html>

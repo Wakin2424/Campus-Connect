@@ -5,121 +5,227 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Search Results - Campus Connect</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="{%static 'CSS/search.css'%}">
-    <link rel="stylesheet" href="{%static 'CSS/nav.css'%}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="{% static 'CSS/search.css' %}">
+    <link rel="stylesheet" href="{% static 'CSS/nav.css' %}">
 </head>
 <body>
+    <!-- Premium Animated Background -->
+    <div class="animated-bg">
+        <div class="gradient-orb orb-1"></div>
+        <div class="gradient-orb orb-2"></div>
+        <div class="gradient-orb orb-3"></div>
+        <div class="grid-overlay"></div>
+    </div>
+
+    <!-- Premium Theme Toggle -->
+    <button class="theme-toggle-premium" id="themeToggleBtn">
+        <div class="toggle-track">
+            <i class="fas fa-sun toggle-icon sun"></i>
+            <i class="fas fa-moon toggle-icon moon"></i>
+            <div class="toggle-thumb"></div>
+        </div>
+    </button>
+
     <!-- Header / Navigation -->
     <header class="header" id="header">
-      <!--Generated dynamically by js-->  
+        <!--Generated dynamically by js-->
     </header>
+
     <!-- Main Content -->
-    <div class="container">
-        <!-- Page Header -->
-        <div class="page-header">
-            <h1 class="page-title">Search Results for: "<span class="keyword-highlight" id="searchKeyword">{{result}}</span>"</h1>
-            <p class="search-summary">Showing results across Notes, Q&A, and Market</p>
-        </div>
-
-        <!-- Filter Tabs -->
-        <div class="filter-tabs">
-            <button class="filter-tab active" onclick="filterResults('all')">All</button>
-            <button class="filter-tab" onclick="filterResults('notes')">Notes</button>
-            <button class="filter-tab" onclick="filterResults('qa')">Q&A</button>
-            <button class="filter-tab" onclick="filterResults('products')">Products</button>
-        </div>
-
-        <!-- Results Section -->
-        <div class="results-section">
-            <!-- Notes Results -->
-            <div class="results-category" id="notes-category">
-                <h2 class="category-header">Notes</h2>
-                <div class="results-grid notes-grid">
-                    {% if notes != None %}
-                    {% for note in notes %}
-                    <div class="note-card">
-                        <a href="{%url 'notes'%}{{note.code}}" class="note-title">{{note.title}}</a>
-                        <p class="note-description">{{note.description}}</p>
-                        <div class="note-meta">
-                            {% if note.courses != None %}
-                            {% for course in note.courses %}
-                            <span class="course-tag">{{course.}}</span>
-                            {% endfor %}
-                            {% endif %}
-                        </div>
-                    </div>
-                    {% endfor %}
-                    {% else %}
-                    <div class="container">
-                        <h3>
-                            <strong>There are no results found!</strong>
-                        </h3>
-                    </div>
-                    {% endif %}
+    <main>
+        <div class="container-premium">
+            <!-- Page Header -->
+            <div class="page-header-premium">
+                <div class="search-badge">
+                    <i class="fas fa-search"></i>
+                    <span>Search Results</span>
                 </div>
+                <h1 class="page-title">Results for "<span class="keyword-highlight" id="searchKeyword">{{result}}</span>"</h1>
+                <p class="search-summary">Showing results across Notes, Q&A, and Marketplace</p>
             </div>
 
-            <!-- Q&A Results -->
-            <div class="results-category" id="qa-category">
-                <h2 class="category-header">Questions & Answers</h2>
-                <div class="results-grid qa-grid">
-                    {% if questions != None %}
-                    {%for question in questions %}
-                        <div class="qa-card">
-                            <a href="{%url 'question'%}/{{question.code}}" class="qa-title">{{question.question}}</a>
-                            <p class="qa-preview"></p>
-                            <div class="qa-meta">
-                                <span class="answers-count">{{question.answer_len}} answers</span>
-                                <span>Posted <span class="created_at">{{question.created_at}}</span> ago</span>
-                                <span>by {{question.user.first_name}} {{question.user.last_name}}</span>
+            <!-- Filter Tabs -->
+            <div class="filter-tabs-premium">
+                <button class="filter-tab active" onclick="filterResults('all')">
+                    <i class="fas fa-th-large"></i>
+                    <span>All Results</span>
+                </button>
+                <button class="filter-tab" onclick="filterResults('notes')">
+                    <i class="fas fa-file-alt"></i>
+                    <span>Notes</span>
+                </button>
+                <button class="filter-tab" onclick="filterResults('qa')">
+                    <i class="fas fa-question-circle"></i>
+                    <span>Q&A</span>
+                </button>
+                <button class="filter-tab" onclick="filterResults('products')">
+                    <i class="fas fa-store"></i>
+                    <span>Marketplace</span>
+                </button>
+            </div>
+
+            <!-- Results Section -->
+            <div class="results-section">
+                <!-- Notes Results -->
+                <div class="results-category" id="notes-category">
+                    <div class="category-header-premium">
+                        <div class="category-icon">
+                            <i class="fas fa-file-alt"></i>
+                        </div>
+                        <h2 class="category-title">Notes</h2>
+                        <span class="category-count">
+                            {% if notes != None %}{{ notes|length }}{% else %}0{% endif %} results
+                        </span>
+                    </div>
+                    <div class="results-grid notes-grid">
+                        {% if notes != None %}
+                        {% for note in notes %}
+                        <div class="result-card glass-card">
+                            <div class="gradient-border"></div>
+                            <div class="card-type-badge note-badge">
+                                <i class="fas fa-file-alt"></i> Note
+                            </div>
+                            <a href="{% url 'notes' %}{{note.code}}" class="result-title">{{note.title}}</a>
+                            <p class="result-description">{{note.description}}</p>
+                            <div class="result-meta">
+                                {% if note.courses != None %}
+                                <div class="course-tags">
+                                    {% for course in note.courses %}
+                                    <span class="course-tag">{{course}}</span>
+                                    {% endfor %}
+                                </div>
+                                {% endif %}
+                                <a href="{% url 'notes' %}{{note.code}}" class="result-link">
+                                    View Note <i class="fas fa-arrow-right"></i>
+                                </a>
                             </div>
                         </div>
-                    {%endfor %}
-                    {% else %}
-                    <div class="container">
-                        <h3>
-                            <strong>There are no results found!</strong>
-                        </h3>
+                        {% endfor %}
+                        {% else %}
+                        <div class="no-results glass-card">
+                            <div class="gradient-border"></div>
+                            <i class="fas fa-file-alt no-results-icon"></i>
+                            <h3>No notes found</h3>
+                            <p>Try adjusting your search terms</p>
+                        </div>
+                        {% endif %}
                     </div>
-                    {% endif %}
+                </div>
+
+                <!-- Q&A Results -->
+                <div class="results-category" id="qa-category">
+                    <div class="category-header-premium">
+                        <div class="category-icon">
+                            <i class="fas fa-question-circle"></i>
+                        </div>
+                        <h2 class="category-title">Questions & Answers</h2>
+                        <span class="category-count">
+                            {% if questions != None %}{{ questions|length }}{% else %}0{% endif %} results
+                        </span>
+                    </div>
+                    <div class="results-grid qa-grid">
+                        {% if questions != None %}
+                        {% for question in questions %}
+                        <div class="result-card glass-card">
+                            <div class="gradient-border"></div>
+                            <div class="card-type-badge qa-badge">
+                                <i class="fas fa-question-circle"></i> Question
+                            </div>
+                            <a href="{% url 'question' %}/{{question.code}}" class="result-title">{{question.question}}</a>
+                            <div class="qa-meta">
+                                <span class="answers-badge">
+                                    <i class="fas fa-comments"></i> {{question.answer_len}} answers
+                                </span>
+                                <span class="time-badge">
+                                    <i class="fas fa-clock"></i> {{question.created_at}}
+                                </span>
+                                <span class="author-badge">
+                                    <i class="fas fa-user"></i> {{question.user.first_name}} {{question.user.last_name}}
+                                </span>
+                            </div>
+                            <a href="{% url 'question' %}/{{question.code}}" class="result-link">
+                                View Question <i class="fas fa-arrow-right"></i>
+                            </a>
+                        </div>
+                        {% endfor %}
+                        {% else %}
+                        <div class="no-results glass-card">
+                            <div class="gradient-border"></div>
+                            <i class="fas fa-question-circle no-results-icon"></i>
+                            <h3>No questions found</h3>
+                            <p>Try adjusting your search terms</p>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <!-- Products Results -->
+                <div class="results-category" id="products-category">
+                    <div class="category-header-premium">
+                        <div class="category-icon">
+                            <i class="fas fa-store"></i>
+                        </div>
+                        <h2 class="category-title">Marketplace</h2>
+                        <span class="category-count">
+                            {% if products != None %}{{ products|length }}{% else %}0{% endif %} results
+                        </span>
+                    </div>
+                    <div class="results-grid products-grid">
+                        {% if products != None %}
+                        {% for product in products %}
+                        <div class="result-card glass-card product-result-card">
+                            <div class="gradient-border"></div>
+                            <div class="card-type-badge product-badge">
+                                <i class="fas fa-tag"></i> Product
+                            </div>
+                            <div class="product-image-wrapper">
+                                <img src="{{product.image.file.url}}" alt="{{product.name}}" class="product-image">
+                                {% if product.status %}
+                                <span class="stock-badge">In Stock</span>
+                                {% endif %}
+                            </div>
+                            <h3 class="product-name">{{product.name}}</h3>
+                            <div class="product-price-row">
+                                <span class="product-price">KSh {{product.price}}</span>
+                                {% if product.discount %}
+                                <span class="product-discount">KSh {{product.discount}}</span>
+                                {% endif %}
+                            </div>
+                            <a href="{% url 'product_detail' id=product.slug %}" class="view-product-btn">
+                                View Details <i class="fas fa-arrow-right"></i>
+                            </a>
+                        </div>
+                        {% endfor %}
+                        {% else %}
+                        <div class="no-results glass-card">
+                            <div class="gradient-border"></div>
+                            <i class="fas fa-store no-results-icon"></i>
+                            <h3>No products found</h3>
+                            <p>Try adjusting your search terms</p>
+                        </div>
+                        {% endif %}
+                    </div>
                 </div>
             </div>
 
-            <!-- Products Results -->
-            <div class="results-category" id="products-category">
-                <h2 class="category-header">Products</h2>
-                <div class="results-grid products-grid">
-                    {% if products != None %}
-                    {% for product in products %}
-                    <div class="product-card">
-                        <img src="{{product.image.file.url}}" alt="{{product.name}}" class="product-image">
-                        <h3 class="product-name">{{product.name}}</h3>
-                        <p class="product-price">KSh {{product.price}}</p>
-                        <a href="{%url 'product_detail' id=product.slug %}"><button class="view-details-btn">View Details</button></a>
-                    </div>
-                    {% endfor %}
-                    {% else %}
-                    <div class="container">
-                        <h3>
-                            <strong>There are no results found!</strong>
-                        </h3>
-                    </div>
-                    {% endif %}
-                </div>
+            <!-- Pagination -->
+            {% if notes or questions or products %}
+            <div class="pagination-premium">
+                <button class="load-more-btn" onclick="loadMoreResults()">
+                    <i class="fas fa-plus-circle"></i>
+                    <span>Load More Results</span>
+                </button>
             </div>
+            {% endif %}
         </div>
+    </main>
 
-        <!-- Pagination -->
-        <div class="pagination">
-            <button class="load-more-btn" onclick="loadMoreResults()">Load More Results</button>
-        </div>
-    </div>
-    
     <footer class="footer" id="footer">
         <!--Generated dynamically by js-->
     </footer>
-    
+
     {% if user.is_authenticated %}
         {% include "Components/header.html#authDynamicHeader" %}
         {% include "Components/footer.html#footer" %}
@@ -127,24 +233,52 @@
         {% include "Components/header.html#guestDynamicHeader" %}
         {% include "Components/footer.html#footer" %}
     {% endif %}
-    
+
     <script>
+        // ========== THEME TOGGLE ==========
+        (function() {
+            const savedTheme = localStorage.getItem('premiumTheme') || 'light';
+            const toggleBtn = document.getElementById('themeToggleBtn');
+            
+            function setTheme(theme) {
+                if (theme === 'dark') {
+                    document.body.classList.add('dark-theme-premium');
+                    if (toggleBtn) toggleBtn.classList.add('dark-active');
+                } else {
+                    document.body.classList.remove('dark-theme-premium');
+                    if (toggleBtn) toggleBtn.classList.remove('dark-active');
+                }
+                localStorage.setItem('premiumTheme', theme);
+            }
+            
+            if (savedTheme === 'dark') setTheme('dark');
+            
+            if (toggleBtn) {
+                toggleBtn.addEventListener('click', function() {
+                    const isDark = document.body.classList.contains('dark-theme-premium');
+                    setTheme(isDark ? 'light' : 'dark');
+                    this.style.transform = 'scale(0.95)';
+                    setTimeout(() => { if(toggleBtn) toggleBtn.style.transform = ''; }, 200);
+                });
+            }
+        })();
+
+        // ========== SEARCH FUNCTION ==========
         function Search(){
-            const search_link = "{%url 'search'%}"
-            let search_data = document.getElementById('search-bar')
-            window.location.href = search_link + `?result=${search_data.value}`
+            const search_link = "{% url 'search' %}";
+            let search_data = document.getElementById('search-bar');
+            window.location.href = search_link + `?result=${search_data.value}`;
         }
-    </script>
-    <script>
+
+        // ========== FILTER RESULTS ==========
         let currentFilter = 'all';
-        const searchKeyword = 'mathematics'; // This would be dynamic in a real app
 
         function filterResults(filter) {
             // Update active tab
             document.querySelectorAll('.filter-tab').forEach(tab => {
                 tab.classList.remove('active');
             });
-            event.target.classList.add('active');
+            event.target.closest('.filter-tab').classList.add('active');
 
             // Show/hide categories based on filter
             const categories = {
@@ -170,70 +304,19 @@
             currentFilter = filter;
         }
 
-        function performSearch() {
-            const searchInput = document.getElementById('searchInput');
-            const keyword = searchInput.value.trim();
-            
-            if (keyword) {
-                // Update the search keyword display
-                document.getElementById('searchKeyword').textContent = keyword;
-                
-                // In a real application, this would trigger a new search
-                alert(`Searching for: "${keyword}"`);
-                
-                // Simulate highlighting new keyword in results
-                highlightKeyword(keyword);
-            }
-        }
-
-        function highlightKeyword(keyword) {
-            // This is a simplified version - in a real app, you'd update the actual search results
-            const highlights = document.querySelectorAll('.keyword-highlight');
-            highlights.forEach(highlight => {
-                highlight.textContent = keyword;
-            });
-        }
-
+        // ========== LOAD MORE ==========
         function loadMoreResults() {
-            // Simulate loading more results
-            const button = event.target;
-            button.textContent = 'Loading...';
-            button.disabled = true;
+            const button = document.querySelector('.load-more-btn');
+            button.classList.add('loading');
+            button.querySelector('span').textContent = 'Loading...';
+            button.querySelector('i').className = 'fas fa-spinner fa-spin';
             
             setTimeout(() => {
-                button.textContent = 'Load More Results';
-                button.disabled = false;
-                alert('More results loaded!');
+                button.classList.remove('loading');
+                button.querySelector('span').textContent = 'Load More Results';
+                button.querySelector('i').className = 'fas fa-plus-circle';
             }, 2000);
         }
-
-        // Handle Enter key in search bar
-        document.getElementById('searchInput').addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                performSearch();
-            }
-        });
-
-        // Add click handlers for result items
-        document.querySelectorAll('.note-title, .qa-title').forEach(link => {
-            link.addEventListener('click', function(e) {
-                e.preventDefault();
-                alert(`Opening: ${this.textContent}`);
-            });
-        });
-
-        document.querySelectorAll('.download-btn').forEach(btn => {
-            btn.addEventListener('click', function() {
-                alert('Downloading file...');
-            });
-        });
-
-        document.querySelectorAll('.view-details-btn').forEach(btn => {
-            btn.addEventListener('click', function() {
-                const productName = this.parentElement.querySelector('.product-name').textContent;
-                alert(`Viewing details for: ${productName}`);
-            });
-        });
     </script>
 </body>
 </html>

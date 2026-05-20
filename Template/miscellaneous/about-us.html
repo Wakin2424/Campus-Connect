@@ -1,378 +1,373 @@
 {% load static %}
-{% load partials%}
+{% load partials %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>About Us — Campus Connect</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com"/>
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="{%static 'CSS/about.css'%}">
-    <link rel="stylesheet" href="{%static 'CSS/nav.css'%}">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - Campus Connect</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="{% static 'CSS/about.css' %}">
+    <link rel="stylesheet" href="{% static 'CSS/nav.css' %}">
 </head>
 <body>
-
-<!-- Header -->
-    <header class="header" id="header">
-        <!--Generated dynamically by js-->
-    </header>
-
-<!-- ═══════════ HERO ═══════════ -->
-<section class="hero">
-  <div class="hero-bg"></div>
-  <div class="hero-orb orb1"></div>
-  <div class="hero-orb orb2"></div>
-  <div class="hero-vline"></div>
-  <div class="container">
-    <div class="hero-grid">
-      <!-- Text -->
-      <div class="hero-text">
-        <div class="hero-eyebrow"><span class="eyebrow-dot"></span>About Campus Connect</div>
-        <h1 class="hero-h1">Connecting Students.<br/><span class="hl">Empowering</span> Growth.</h1>
-        <p class="hero-desc">Campus Connect is the all-in-one student platform — trade textbooks, join study groups, share notes, and build real connections across your campus. Everything student life needs, in one place.</p>
-        <div class="hero-btns">
-          <a href="#" class="btn-primary">
-            Get Started Free
-            <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M3.5 9h11M9.5 4.5l5 4.5-5 4.5" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          </a>
-          <a href="#story" class="btn-ghost">
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6.5" stroke="rgba(255,255,255,.6)" stroke-width="1.4"/><path d="M8 5v3.5l2 2" stroke="rgba(255,255,255,.6)" stroke-width="1.4" stroke-linecap="round"/></svg>
-            Our Story
-          </a>
-        </div>
-        <div class="hero-stats">
-          <div><span class="stat-num">50<span class="c">K+</span></span><span class="stat-lbl">Students</span></div>
-          <div><span class="stat-num">120<span class="c">+</span></span><span class="stat-lbl">Campuses</span></div>
-          <div><span class="stat-num">98<span class="c" style="font-size:1.2rem">%</span></span><span class="stat-lbl">Satisfaction</span></div>
-        </div>
-      </div>
-      <!-- Visual -->
-      <div class="hero-visual">
-        <div class="hero-illus">
-          <svg viewBox="0 0 480 420" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <rect x="40" y="60" width="400" height="300" rx="24" fill="rgba(255,255,255,.04)" stroke="rgba(255,255,255,.08)" stroke-width="1.5"/>
-            <circle cx="240" cy="210" r="72" fill="rgba(30,144,255,.1)" stroke="rgba(30,144,255,.25)" stroke-width="1.5"/>
-            <circle cx="240" cy="210" r="50" fill="rgba(30,144,255,.12)" stroke="rgba(30,144,255,.3)" stroke-width="1"/>
-            <circle cx="240" cy="210" r="30" fill="rgba(30,144,255,.2)"/>
-            <path d="M240 192l-18 9 18 9 18-9-18-9Z" fill="white" fill-opacity=".9"/>
-            <path d="M222 210l18 9 18-9" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            <path d="M222 218l18 9 18-9" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" stroke-opacity=".4"/>
-            <!-- spokes -->
-            <line x1="240" y1="140" x2="155" y2="105" stroke="rgba(30,144,255,.3)" stroke-width="1.5" stroke-dasharray="4 4"/>
-            <line x1="240" y1="140" x2="325" y2="105" stroke="rgba(30,144,255,.3)" stroke-width="1.5" stroke-dasharray="4 4"/>
-            <line x1="172" y1="215" x2="126" y2="232" stroke="rgba(30,144,255,.3)" stroke-width="1.5" stroke-dasharray="4 4"/>
-            <line x1="308" y1="215" x2="354" y2="232" stroke="rgba(30,144,255,.3)" stroke-width="1.5" stroke-dasharray="4 4"/>
-            <line x1="240" y1="282" x2="196" y2="328" stroke="rgba(30,144,255,.3)" stroke-width="1.5" stroke-dasharray="4 4"/>
-            <line x1="240" y1="282" x2="284" y2="328" stroke="rgba(30,144,255,.3)" stroke-width="1.5" stroke-dasharray="4 4"/>
-            <!-- nodes -->
-            <circle cx="240" cy="140" r="5" fill="#1E90FF" fill-opacity=".9"/>
-            <circle cx="172" cy="215" r="5" fill="#1E90FF" fill-opacity=".9"/>
-            <circle cx="308" cy="215" r="5" fill="#1E90FF" fill-opacity=".9"/>
-            <circle cx="240" cy="282" r="5" fill="#1E90FF" fill-opacity=".9"/>
-            <!-- node labels -->
-            <rect x="120" y="88" width="70" height="34" rx="8" fill="rgba(13,27,42,.6)" stroke="rgba(30,144,255,.45)" stroke-width="1.3"/>
-            <text x="155" y="110" text-anchor="middle" font-family="Syne,sans-serif" font-size="9" fill="rgba(255,255,255,.75)" font-weight="700">STUDENT</text>
-            <rect x="290" y="88" width="70" height="34" rx="8" fill="rgba(13,27,42,.6)" stroke="rgba(30,144,255,.45)" stroke-width="1.3"/>
-            <text x="325" y="110" text-anchor="middle" font-family="Syne,sans-serif" font-size="9" fill="rgba(255,255,255,.75)" font-weight="700">STUDENT</text>
-            <rect x="94" y="214" width="58" height="32" rx="8" fill="rgba(13,27,42,.6)" stroke="rgba(30,144,255,.45)" stroke-width="1.3"/>
-            <text x="123" y="234" text-anchor="middle" font-family="Syne,sans-serif" font-size="8.5" fill="rgba(255,255,255,.75)" font-weight="700">MARKET</text>
-            <rect x="328" y="214" width="58" height="32" rx="8" fill="rgba(13,27,42,.6)" stroke="rgba(30,144,255,.45)" stroke-width="1.3"/>
-            <text x="357" y="234" text-anchor="middle" font-family="Syne,sans-serif" font-size="8.5" fill="rgba(255,255,255,.75)" font-weight="700">GROUPS</text>
-            <rect x="165" y="316" width="52" height="32" rx="8" fill="rgba(13,27,42,.6)" stroke="rgba(30,144,255,.45)" stroke-width="1.3"/>
-            <text x="191" y="336" text-anchor="middle" font-family="Syne,sans-serif" font-size="8.5" fill="rgba(255,255,255,.75)" font-weight="700">NOTES</text>
-            <rect x="263" y="316" width="52" height="32" rx="8" fill="rgba(13,27,42,.6)" stroke="rgba(30,144,255,.45)" stroke-width="1.3"/>
-            <text x="289" y="336" text-anchor="middle" font-family="Syne,sans-serif" font-size="8.5" fill="rgba(255,255,255,.75)" font-weight="700">EVENTS</text>
-          </svg>
-          <!-- Floating cards -->
-          <div class="float-card fc1">
-            <div class="fc-ico"><svg viewBox="0 0 18 18" fill="none"><path d="M9 2L2 6l7 4 7-4L9 2Z" stroke="white" stroke-width="1.6" stroke-linecap="round"/><path d="M2 10l7 4 7-4" stroke="white" stroke-width="1.6" stroke-linecap="round"/></svg></div>
-            <div class="fc-body"><strong>50K+ Students</strong><span>Active this week</span></div>
-          </div>
-          <div class="float-card fc2">
-            <div class="fc-ico"><svg viewBox="0 0 18 18" fill="none"><rect x="2" y="3" width="14" height="12" rx="3" stroke="white" stroke-width="1.6"/><path d="M6 8h6M6 11h4" stroke="white" stroke-width="1.4" stroke-linecap="round"/></svg></div>
-            <div class="fc-body"><strong>12K Notes Shared</strong><span>This semester</span></div>
-          </div>
-          <div class="float-card fc3">
-            <div class="fc-ico"><svg viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="7" stroke="white" stroke-width="1.6"/><path d="M6 9l2 2 4-4" stroke="white" stroke-width="1.6" stroke-linecap="round"/></svg></div>
-            <div class="fc-body"><strong>Verified Platform</strong><span>Trusted by students</span></div>
-          </div>
-        </div>
-      </div>
+    <!-- Premium Animated Background -->
+    <div class="animated-bg">
+        <div class="gradient-orb orb-1"></div>
+        <div class="gradient-orb orb-2"></div>
+        <div class="gradient-orb orb-3"></div>
+        <div class="grid-overlay"></div>
     </div>
-  </div>
-  <svg class="hero-wave" viewBox="0 0 1440 60" preserveAspectRatio="none" fill="none">
-    <path d="M0 60C360 20 720 0 1080 0C1260 0 1380 12 1440 24V60H0Z" fill="#F8FAFC"/>
-  </svg>
-</section>
 
-<!-- ═══════════ IMPACT BAR ═══════════ -->
-<div class="impact-bar">
-  <div class="container">
-    <div class="impact-grid">
-      <div class="reveal"><span class="impact-num">50<span class="plus">K+</span></span><span class="impact-lbl">Active Students</span></div>
-      <div class="reveal d1"><span class="impact-num">120<span class="plus">+</span></span><span class="impact-lbl">Partner Campuses</span></div>
-      <div class="reveal d2"><span class="impact-num">35<span class="plus">K+</span></span><span class="impact-lbl">Marketplace Listings</span></div>
-      <div class="reveal d3"><span class="impact-num">4.9<span class="plus">★</span></span><span class="impact-lbl">Average Rating</span></div>
+    <!-- Premium Theme Toggle -->
+    <button class="theme-toggle-premium" id="themeToggleBtn">
+        <div class="toggle-track">
+            <i class="fas fa-sun toggle-icon sun"></i>
+            <i class="fas fa-moon toggle-icon moon"></i>
+            <div class="toggle-thumb"></div>
+        </div>
+    </button>
+
+    <!-- Header -->
+    <header class="header" id="header"></header>
+
+    <!-- ========== HERO SECTION - OPTION 1 (SPLIT LAYOUT WITH ABSTRACT SHAPES) ========== -->
+    <section class="hero-premium">
+        <div class="hero-bg-shapes">
+            <div class="shape shape-1"></div>
+            <div class="shape shape-2"></div>
+            <div class="shape shape-3"></div>
+            <div class="shape shape-4"></div>
+        </div>
+        <div class="hero-container-premium">
+            <div class="hero-content-left">
+                <div class="hero-badge-premium">
+                    <span class="badge-pulse"></span>
+                    <span>✨ Join 50,000+ Students</span>
+                </div>
+                <h1 class="hero-headline">
+                    Connect, Learn & 
+                    <span class="gradient-word">Grow Together</span>
+                </h1>
+                <p class="hero-description-premium">
+                    Campus Connect is the all-in-one student platform — trade textbooks, join study groups, 
+                    share notes, and build real connections across your campus.
+                </p>
+                <div class="hero-cta-group">
+                    <a href="#" class="btn-primary-glow">
+                        Get Started Free
+                        <i class="fas fa-arrow-right"></i>
+                    </a>
+                    <a href="#story" class="btn-play">
+                        <i class="fas fa-play"></i>
+                        Watch Demo
+                    </a>
+                </div>
+                <div class="hero-testimonials">
+                    <div class="testimonial-avatars">
+                        <img src="https://randomuser.me/api/portraits/women/1.jpg" alt="User">
+                        <img src="https://randomuser.me/api/portraits/men/2.jpg" alt="User">
+                        <img src="https://randomuser.me/api/portraits/women/3.jpg" alt="User">
+                        <img src="https://randomuser.me/api/portraits/men/4.jpg" alt="User">
+                        <div class="avatar-count">+50k</div>
+                    </div>
+                    <div class="testimonial-text">
+                        <div class="stars">★★★★★</div>
+                        <span>Trusted by students nationwide</span>
+                    </div>
+                </div>
+            </div>
+            <div class="hero-content-right">
+                <div class="hero-card-stack">
+                    <div class="card-stack card-1">
+                        <i class="fas fa-book"></i>
+                        <span>12,345 Books Listed</span>
+                        <div class="card-trend">↑ 23%</div>
+                    </div>
+                    <div class="card-stack card-2">
+                        <i class="fas fa-users"></i>
+                        <span>234 Active Groups</span>
+                        <div class="card-trend">↑ 15%</div>
+                    </div>
+                    <div class="card-stack card-3">
+                        <i class="fas fa-file-alt"></i>
+                        <span>8,432 Notes Shared</span>
+                        <div class="card-trend">↑ 42%</div>
+                    </div>
+                    <div class="floating-chart">
+                        <svg viewBox="0 0 200 60">
+                            <path d="M0,50 L20,45 L40,30 L60,35 L80,20 L100,25 L120,10 L140,15 L160,5 L180,8 L200,0" stroke="url(#gradient)" stroke-width="2" fill="none"/>
+                            <defs><linearGradient id="gradient"><stop offset="0%" stop-color="#4f46e5"/><stop offset="100%" stop-color="#818cf8"/></linearGradient></defs>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="hero-scroll-indicator">
+            <span>Scroll to explore</span>
+            <i class="fas fa-chevron-down"></i>
+        </div>
+        <div class="hero-wave-premium">
+            <svg viewBox="0 0 1200 120" preserveAspectRatio="none">
+                <path d="M0,0V46.29c47.79,22.2,103.59,32.17,158,28,70.36-5.37,136.33-33.31,206.8-37.5C438.64,32.43,512.34,53.67,583,72.05c69.27,18,138.3,24.88,209.4,13.08,36.15-6,69.85-17.84,104.45-29.34C989.49,25,1113-14.29,1200,52.47V0Z" opacity=".25" fill="currentColor"></path>
+                <path d="M0,0V15.81c13,21.11,27.64,41.05,47.69,56.24C99.41,111.27,165,111,224.58,91.58c31.15-10.15,60.09-26.07,89.67-39.8,40.92-19,84.73-46,130.83-49.67,36.26-2.85,70.9,9.42,98.6,31.56,31.77,25.39,62.32,62,103.63,73,40.44,10.79,81.35-6.69,119.13-24.28s75.16-39,116.92-43.05c59.73-5.85,113.28,22.88,168.9,38.84,30.2,8.66,59,6.17,87.09-7.5,22.43-10.89,48-26.93,60.65-49.24V0Z" opacity=".5" fill="currentColor"></path>
+                <path d="M0,0V5.63C149.93,59,314.09,71.32,475.83,42.57c43-7.64,84.23-20.12,127.61-26.46,59-8.63,112.48,12.24,165.56,35.4C827.93,77.22,886,95.24,951.2,90c86.53-7,172.46-45.71,248.8-84.81V0Z" fill="currentColor"></path>
+            </svg>
+        </div>
+    </section>
+
+    <!-- ========== IMPACT STATS BAR ========== -->
+    <div class="impact-stats-premium">
+        <div class="impact-container">
+            <div class="impact-item">
+                <div class="impact-number">50<span>K+</span></div>
+                <div class="impact-label">Active Students</div>
+            </div>
+            <div class="impact-divider"></div>
+            <div class="impact-item">
+                <div class="impact-number">120<span>+</span></div>
+                <div class="impact-label">Partner Campuses</div>
+            </div>
+            <div class="impact-divider"></div>
+            <div class="impact-item">
+                <div class="impact-number">35<span>K+</span></div>
+                <div class="impact-label">Marketplace Listings</div>
+            </div>
+            <div class="impact-divider"></div>
+            <div class="impact-item">
+                <div class="impact-number">4.9<span>★</span></div>
+                <div class="impact-label">Average Rating</div>
+            </div>
+        </div>
     </div>
-  </div>
-</div>
 
-<!-- ═══════════ OUR STORY ═══════════ -->
-<section class="story" id="story">
-  <div class="container">
-    <div class="story-inner">
-      <div class="story-text reveal">
-        <div class="eyebrow-tag">Our Story</div>
-        <h2 class="sec-title">Born in a dorm room.<br/>Built for every student.</h2>
-        <p class="sec-sub" style="margin-bottom:32px;">The story of how frustration became a platform.</p>
-        <p>Campus Connect was born out of a simple frustration. In 2022, a group of university students were tired of hunting through scattered group chats to sell old textbooks, missing study group announcements buried in email threads, and having no central place to access shared notes. So they built one.</p>
-        <p>What started as a small internal tool for three friends quickly spread across their campus. Within weeks, hundreds of students were signing up. The problem was universal — every student on every campus was dealing with the same fragmented, inefficient campus life experience.</p>
-        <p><strong>Campus Connect solves this</strong> by bringing everything together: a peer marketplace for textbooks and supplies, organized study groups, collaborative note-sharing, and a vibrant community — all under one roof. No more chaos. Just seamless student life.</p>
-        <p>Today, we serve over <strong>50,000 students</strong> across <strong>120+ campuses</strong> — and we're just getting started. Every feature we build starts with the same question: <em>What do students actually need?</em></p>
-      </div>
-      <div class="story-visual reveal d2">
-        <!-- Timeline -->
-        <div class="tl">
-          <div class="tl-item">
-            <div class="tl-left"><div class="tl-dot on"></div><div class="tl-line"></div></div>
-            <div class="tl-card"><div class="tl-yr">2022</div><div class="tl-desc">Founded at State University</div></div>
-          </div>
-          <div class="tl-item">
-            <div class="tl-left"><div class="tl-dot on"></div><div class="tl-line"></div></div>
-            <div class="tl-card"><div class="tl-yr">2023</div><div class="tl-desc">Reached 10,000 students</div></div>
-          </div>
-          <div class="tl-item">
-            <div class="tl-left"><div class="tl-dot on"></div><div class="tl-line"></div></div>
-            <div class="tl-card"><div class="tl-yr">2024</div><div class="tl-desc">Expanded to 80+ campuses</div></div>
-          </div>
-          <div class="tl-item">
-            <div class="tl-left"><div class="tl-dot"></div></div>
-            <div class="tl-card"><div class="tl-yr">2025</div><div class="tl-desc">50K+ students nationwide</div></div>
-          </div>
+    <!-- ========== OUR STORY SECTION ========== -->
+    <section id="story" class="story-section-premium">
+        <div class="container-premium">
+            <div class="story-grid">
+                <div class="story-content">
+                    <div class="section-badge">
+                        <i class="fas fa-book-open"></i> Our Story
+                    </div>
+                    <h2 class="section-title-premium">Born in a dorm room.<br>Built for every student.</h2>
+                    <p class="section-subtitle">The story of how frustration became a platform.</p>
+                    <div class="story-text">
+                        <p>Campus Connect was born out of a simple frustration. In 2022, a group of university students were tired of hunting through scattered group chats to sell old textbooks, missing study group announcements buried in email threads, and having no central place to access shared notes. So they built one.</p>
+                        <p>What started as a small internal tool for three friends quickly spread across their campus. Within weeks, hundreds of students were signing up. The problem was universal — every student on every campus was dealing with the same fragmented, inefficient campus life experience.</p>
+                        <p><strong>Campus Connect solves this</strong> by bringing everything together: a peer marketplace for textbooks and supplies, organized study groups, collaborative note-sharing, and a vibrant community — all under one roof. No more chaos. Just seamless student life.</p>
+                        <p>Today, we serve over <strong>50,000 students</strong> across <strong>120+ campuses</strong> — and we're just getting started.</p>
+                    </div>
+                </div>
+                <div class="story-timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-year">2022</div>
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-content">Founded at State University</div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-year">2023</div>
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-content">Reached 10,000 students</div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-year">2024</div>
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-content">Expanded to 80+ campuses</div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-year">2025</div>
+                        <div class="timeline-dot current"></div>
+                        <div class="timeline-content">50K+ students nationwide</div>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="story-img">
-          <svg viewBox="0 0 360 440" fill="none" style="width:100%;height:100%;padding:36px;">
-            <circle cx="180" cy="220" r="150" fill="rgba(30,144,255,.06)" stroke="rgba(30,144,255,.12)" stroke-width="1"/>
-            <rect x="80" y="160" width="90" height="120" rx="8" fill="rgba(30,144,255,.18)" stroke="rgba(30,144,255,.4)" stroke-width="1.5"/>
-            <rect x="88" y="168" width="90" height="120" rx="8" fill="rgba(30,144,255,.12)" stroke="rgba(30,144,255,.3)" stroke-width="1.5"/>
-            <rect x="96" y="176" width="90" height="120" rx="8" fill="rgba(255,255,255,.07)" stroke="rgba(255,255,255,.18)" stroke-width="1.5"/>
-            <text x="141" y="240" text-anchor="middle" font-family="Syne,sans-serif" font-size="10.5" fill="rgba(255,255,255,.7)" font-weight="700">TEXTBOOKS</text>
-            <path d="M116 252h50" stroke="rgba(255,255,255,.3)" stroke-width="1.5" stroke-linecap="round"/>
-            <path d="M122 260h38" stroke="rgba(255,255,255,.2)" stroke-width="1.5" stroke-linecap="round"/>
-            <rect x="190" y="118" width="112" height="82" rx="12" fill="rgba(30,144,255,.22)" stroke="rgba(30,144,255,.5)" stroke-width="1.5"/>
-            <text x="246" y="147" text-anchor="middle" font-family="Syne,sans-serif" font-size="10" fill="rgba(255,255,255,.8)" font-weight="700">GROUPS</text>
-            <path d="M204 162h88M204 172h64" stroke="rgba(255,255,255,.4)" stroke-width="1.5" stroke-linecap="round"/>
-            <path d="M202 202l12-8" stroke="rgba(30,144,255,.5)" stroke-width="1.5" stroke-linecap="round"/>
-            <rect x="118" y="304" width="144" height="88" rx="12" fill="rgba(255,255,255,.07)" stroke="rgba(255,255,255,.18)" stroke-width="1.5"/>
-            <text x="190" y="328" text-anchor="middle" font-family="Syne,sans-serif" font-size="10" fill="rgba(255,255,255,.8)" font-weight="700">SHARED NOTES</text>
-            <path d="M136 344h108M136 354h84M136 364h96" stroke="rgba(255,255,255,.25)" stroke-width="1.4" stroke-linecap="round"/>
-            <path d="M308 96 l3 7 7 3-7 3-3 7-3-7-7-3 7-3Z" fill="rgba(30,144,255,.65)"/>
-            <path d="M56 278 l2 5 5 2-5 2-2 5-2-5-5-2 5-2Z" fill="rgba(30,144,255,.5)"/>
-            <path d="M320 298 l2 4 4 2-4 2-2 4-2-4-4-2 4-2Z" fill="rgba(255,255,255,.3)"/>
-            <circle cx="66" cy="158" r="5" fill="rgba(30,144,255,.4)"/>
-            <circle cx="330" cy="198" r="4" fill="rgba(255,255,255,.2)"/>
-            <rect x="138" y="58" width="84" height="36" rx="18" fill="rgba(30,144,255,.3)" stroke="rgba(30,144,255,.5)" stroke-width="1.5"/>
-            <text x="180" y="81" text-anchor="middle" font-family="Syne,sans-serif" font-size="12" fill="white" font-weight="700">Est. 2022</text>
-          </svg>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
+    </section>
 
-<!-- ═══════════ MISSION & VISION ═══════════ -->
-<section class="mission">
-  <div class="container">
-    <div class="mv-head reveal">
-      <div class="eyebrow-tag">What Drives Us</div>
-      <h2 class="sec-title">Mission &amp; Vision</h2>
-      <p class="sec-sub" style="margin:16px auto 0;text-align:center;">Every decision we make is grounded in our mission and guided by our vision for the future of student life.</p>
-    </div>
-    <div class="mv-grid">
-      <div class="mv-card mv-mission reveal">
-        <div class="mv-tag">
-          <svg width="10" height="10" viewBox="0 0 10 10" fill="currentColor"><circle cx="5" cy="5" r="5"/></svg>
-          Our Mission
+    <!-- ========== MISSION & VISION SECTION ========== -->
+    <section class="mission-vision-premium">
+        <div class="container-premium">
+            <div class="section-header-center">
+                <div class="section-badge">
+                    <i class="fas fa-bullseye"></i> What Drives Us
+                </div>
+                <h2 class="section-title-premium">Mission & Vision</h2>
+                <p class="section-subtitle">Every decision we make is grounded in our mission and guided by our vision.</p>
+            </div>
+            <div class="mv-grid">
+                <div class="mv-card mission-card glass-card">
+                    <div class="gradient-border"></div>
+                    <div class="mv-icon">
+                        <i class="fas fa-rocket"></i>
+                    </div>
+                    <div class="mv-tag">Our Mission</div>
+                    <h3>Empower Every Student</h3>
+                    <p>To create an inclusive, safe, and empowering digital campus environment where every student has equal access to academic resources, community connections, and peer-to-peer opportunities that make campus life richer and more successful.</p>
+                </div>
+                <div class="mv-card vision-card glass-card">
+                    <div class="gradient-border"></div>
+                    <div class="mv-icon">
+                        <i class="fas fa-eye"></i>
+                    </div>
+                    <div class="mv-tag">Our Vision</div>
+                    <h3>The Future of Campus Life</h3>
+                    <p>To become the world's most trusted student super-platform — a single destination where every aspect of academic and campus life is simplified, connected, and supercharged.</p>
+                    <p class="vision-goal">By 2030: <strong>1 million students</strong> across <strong>500+ universities</strong> globally.</p>
+                </div>
+            </div>
         </div>
-        <div class="mv-icon">
-          <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
-            <circle cx="14" cy="14" r="10" stroke="rgba(30,144,255,.7)" stroke-width="1.8"/>
-            <circle cx="14" cy="14" r="5" stroke="rgba(30,144,255,.9)" stroke-width="1.8"/>
-            <circle cx="14" cy="14" r="2" fill="#1E90FF"/>
-            <path d="M14 2v4M14 22v4M2 14h4M22 14h4" stroke="rgba(30,144,255,.5)" stroke-width="1.6" stroke-linecap="round"/>
-          </svg>
-        </div>
-        <h3>Empower Every Student</h3>
-        <p>To create an inclusive, safe, and empowering digital campus environment where every student — regardless of background — has equal access to academic resources, community connections, and peer-to-peer opportunities that make campus life richer and more successful.</p>
-      </div>
-      <div class="mv-card mv-vision reveal d2">
-        <div class="mv-tag">
-          <svg width="10" height="10" viewBox="0 0 10 10" fill="currentColor"><circle cx="5" cy="5" r="5"/></svg>
-          Our Vision
-        </div>
-        <div class="mv-icon">
-          <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
-            <path d="M4 22L10 14l6 4 8-10" stroke="#1E90FF" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/>
-            <circle cx="22" cy="6" r="4" stroke="#0D1B2A" stroke-width="1.6" fill="rgba(30,144,255,.15)"/>
-          </svg>
-        </div>
-        <h3>The Future of Campus Life</h3>
-        <p>To become the world's most trusted student super-platform — a single destination where every aspect of academic and campus life is simplified, connected, and supercharged. We envision a future where no student feels isolated, uninformed, or unsupported.</p>
-        <p style="margin-top:14px;font-size:.88rem;">By 2030, we aim to serve <strong style="color:var(--navy)">1 million students</strong> across <strong style="color:var(--navy)">500+ universities</strong> globally, redefining what it means to belong to a campus community.</p>
-      </div>
-    </div>
-  </div>
-</section>
+    </section>
 
-<!-- ═══════════ CORE VALUES ═══════════ -->
-<section class="values">
-  <div class="container">
-    <div class="val-head reveal">
-      <div class="eyebrow-tag">What We Stand For</div>
-      <h2 class="sec-title">Our Core Values</h2>
-      <p class="sec-sub" style="margin:16px auto 0;text-align:center;">Four principles that guide every feature we build, every policy we write, and every decision we make.</p>
-    </div>
-    <div class="val-grid">
-      <div class="val-card reveal">
-        <div class="val-ico">
-          <svg width="26" height="26" viewBox="0 0 26 26" fill="none">
-            <circle cx="9" cy="9" r="4" stroke="#1E90FF" stroke-width="1.7"/>
-            <circle cx="19" cy="9" r="4" stroke="#1E90FF" stroke-width="1.7"/>
-            <path d="M3 22c0-4 2.7-7 6-7h8c3.3 0 6 3 6 7" stroke="#1E90FF" stroke-width="1.7" stroke-linecap="round"/>
-          </svg>
+    <!-- ========== CORE VALUES SECTION ========== -->
+    <section class="values-section-premium">
+        <div class="container-premium">
+            <div class="section-header-center">
+                <div class="section-badge">
+                    <i class="fas fa-heart"></i> What We Stand For
+                </div>
+                <h2 class="section-title-premium">Our Core Values</h2>
+                <p class="section-subtitle">Four principles that guide everything we do.</p>
+            </div>
+            <div class="values-grid">
+                <div class="value-card glass-card">
+                    <div class="gradient-border"></div>
+                    <div class="value-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <h3 class="value-title">Community</h3>
+                    <p class="value-description">Students thrive when they feel genuine belonging. Every feature we build strengthens bonds between students.</p>
+                </div>
+                <div class="value-card glass-card">
+                    <div class="gradient-border"></div>
+                    <div class="value-icon">
+                        <i class="fas fa-lightbulb"></i>
+                    </div>
+                    <h3 class="value-title">Innovation</h3>
+                    <p class="value-description">Student life evolves, and so do we. We continuously reinvent with fresh ideas and student-first thinking.</p>
+                </div>
+                <div class="value-card glass-card">
+                    <div class="gradient-border"></div>
+                    <div class="value-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3 class="value-title">Integrity</h3>
+                    <p class="value-description">Trust is the cornerstone. We operate with transparency, enforce fair policies, and hold ourselves accountable.</p>
+                </div>
+                <div class="value-card glass-card">
+                    <div class="gradient-border"></div>
+                    <div class="value-icon">
+                        <i class="fas fa-handshake"></i>
+                    </div>
+                    <h3 class="value-title">Collaboration</h3>
+                    <p class="value-description">Great things happen when students work together. We break down silos and make collaboration effortless.</p>
+                </div>
+            </div>
         </div>
-        <div class="val-title">Community</div>
-        <p class="val-desc">We believe students thrive when they feel a genuine sense of belonging. Every feature we build strengthens bonds between students, creating a campus community that extends beyond physical boundaries.</p>
-      </div>
-      <div class="val-card reveal d1">
-        <div class="val-ico">
-          <svg width="26" height="26" viewBox="0 0 26 26" fill="none">
-            <path d="M13 3L5 10l8 2 8-2-8-7Z" stroke="#1E90FF" stroke-width="1.7" stroke-linejoin="round"/>
-            <path d="M5 10v8l8 5 8-5v-8" stroke="#1E90FF" stroke-width="1.7" stroke-linejoin="round"/>
-            <path d="M13 12v11" stroke="#1E90FF" stroke-width="1.7" stroke-linecap="round"/>
-          </svg>
+    </section>
+
+    <!-- ========== TEAM SECTION ========== -->
+    <section class="team-section-premium">
+        <div class="container-premium">
+            <div class="section-header-center">
+                <div class="section-badge">
+                    <i class="fas fa-user-friends"></i> The People Behind It
+                </div>
+                <h2 class="section-title-premium">Meet the Team</h2>
+                <p class="section-subtitle">A passionate group united by one goal — making campus life better for everyone.</p>
+            </div>
+            <div class="team-grid">
+                <div class="team-card-premium glass-card">
+                    <div class="gradient-border"></div>
+                    <div class="team-avatar">
+                        <div class="avatar-initials">AO</div>
+                        <div class="avatar-ring"></div>
+                    </div>
+                    <h4 class="team-name">Alex Okonkwo</h4>
+                    <div class="team-role">Co-Founder & CEO</div>
+                    <p class="team-bio">Former CS grad who coded the first version between lectures. Passionate about edtech and student wellbeing.</p>
+                    <div class="team-social">
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                    </div>
+                </div>
+                <div class="team-card-premium glass-card">
+                    <div class="gradient-border"></div>
+                    <div class="team-avatar">
+                        <div class="avatar-initials">SM</div>
+                        <div class="avatar-ring"></div>
+                    </div>
+                    <h4 class="team-name">Sofia Martinez</h4>
+                    <div class="team-role">Co-Founder & CPO</div>
+                    <p class="team-bio">UX researcher turned product visionary. Designed the first interface based on 300+ student interviews.</p>
+                    <div class="team-social">
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                    </div>
+                </div>
+                <div class="team-card-premium glass-card">
+                    <div class="gradient-border"></div>
+                    <div class="team-avatar">
+                        <div class="avatar-initials">JP</div>
+                        <div class="avatar-ring"></div>
+                    </div>
+                    <h4 class="team-name">James Park</h4>
+                    <div class="team-role">Head of Engineering</div>
+                    <p class="team-bio">Full-stack engineer with a knack for building systems that scale. Keeps Campus Connect fast and reliable.</p>
+                    <div class="team-social">
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#"><i class="fab fa-github"></i></a>
+                    </div>
+                </div>
+                <div class="team-card-premium glass-card">
+                    <div class="gradient-border"></div>
+                    <div class="team-avatar">
+                        <div class="avatar-initials">LN</div>
+                        <div class="avatar-ring"></div>
+                    </div>
+                    <h4 class="team-name">Lena Nguyen</h4>
+                    <div class="team-role">Head of Community</div>
+                    <p class="team-bio">Former student council president turned community builder. Ensures every voice is heard and welcomed.</p>
+                    <div class="team-social">
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="val-title">Innovation</div>
-        <p class="val-desc">Student life is constantly evolving, and so are we. We continuously reinvent our platform with fresh ideas, cutting-edge technology, and student-first thinking to stay ahead of what campus life demands.</p>
-      </div>
-      <div class="val-card reveal d2">
-        <div class="val-ico">
-          <svg width="26" height="26" viewBox="0 0 26 26" fill="none">
-            <path d="M13 3l2.5 7h7.5l-6 4.5 2.5 7L13 17.5 7 21.5l2.5-7L3 10h7.5L13 3Z" stroke="#1E90FF" stroke-width="1.7" stroke-linejoin="round"/>
-          </svg>
+    </section>
+
+    <!-- ========== CTA SECTION ========== -->
+    <section class="cta-section-premium">
+        <div class="container-premium">
+            <div class="cta-card glass-card">
+                <div class="gradient-border"></div>
+                <div class="cta-content">
+                    <div class="cta-badge">
+                        <i class="fas fa-graduation-cap"></i> Join Today — It's Free
+                    </div>
+                    <h2 class="cta-title">Ready to Transform<br>Your Campus Life?</h2>
+                    <p class="cta-description">Join over 50,000 students already using Campus Connect to buy, sell, collaborate, and grow.</p>
+                    <div class="cta-buttons">
+                        <a href="#" class="btn-primary-premium">
+                            Get Started Free <i class="fas fa-arrow-right"></i>
+                        </a>
+                        <a href="#" class="btn-outline-premium">
+                            Learn More <i class="fas fa-play-circle"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="val-title">Integrity</div>
-        <p class="val-desc">Trust is the cornerstone of any student community. We operate with complete transparency, enforce fair policies, and hold ourselves accountable to the same standards we expect from our users.</p>
-      </div>
-      <div class="val-card reveal d3">
-        <div class="val-ico">
-          <svg width="26" height="26" viewBox="0 0 26 26" fill="none">
-            <rect x="3" y="10" width="8" height="13" rx="2" stroke="#1E90FF" stroke-width="1.7"/>
-            <rect x="15" y="6" width="8" height="17" rx="2" stroke="#1E90FF" stroke-width="1.7"/>
-            <path d="M11 15h4M11 19h4" stroke="#1E90FF" stroke-width="1.7" stroke-linecap="round"/>
-            <circle cx="7" cy="6" r="3" stroke="#1E90FF" stroke-width="1.7"/>
-            <circle cx="19" cy="3" r="2" stroke="#1E90FF" stroke-width="1.7"/>
-          </svg>
-        </div>
-        <div class="val-title">Collaboration</div>
-        <p class="val-desc">Great things happen when students work together. We break down silos, bridge gaps between departments, and create tools that make peer collaboration — in study groups or the marketplace — effortless.</p>
-      </div>
-    </div>
-  </div>
-</section>
+    </section>
 
-<!-- ═══════════ TEAM ═══════════ -->
-<section class="team">
-  <div class="container">
-    <div class="team-head reveal">
-      <div class="eyebrow-tag">The People Behind It</div>
-      <h2 class="sec-title">Meet the Team</h2>
-      <p class="sec-sub" style="margin:16px auto 0;text-align:center;max-width:500px;">A passionate group of former students, educators, and technologists united by one goal — making campus life better for everyone.</p>
-    </div>
-    <div class="team-grid">
+    <!-- Footer -->
+    <footer class="footer" id="footer"></footer>
 
-      <div class="team-card reveal">
-        <div class="avatar av1"><div class="av-ring"></div>AO</div>
-        <div class="t-name">Alex Okonkwo</div>
-        <div class="t-role">Co-Founder &amp; CEO</div>
-        <p class="t-desc">Former CS grad who coded the first version of Campus Connect between lectures. Passionate about edtech and student wellbeing.</p>
-        <div class="t-socials">
-          <a href="#" class="t-soc"><svg viewBox="0 0 16 16"><path d="M13 2H10.5L8 5.5 5.5 2H2L6.5 8 2 14H4.5L8 10l3.5 4H14L9.5 8 13 2Z"/></svg></a>
-          <a href="#" class="t-soc"><svg viewBox="0 0 16 16"><rect x="2" y="2" width="12" height="12" rx="2.5" stroke-width="1.4" fill="none" stroke="currentColor"/><path d="M5 7.5v4M5 5.5v.5M8.5 11.5v-3c0-1.5 3-2 3 0v3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg></a>
-        </div>
-      </div>
+    <!-- Toast Container -->
+    <div id="toastContainer"></div>
 
-      <div class="team-card reveal d1">
-        <div class="avatar av2"><div class="av-ring"></div>SM</div>
-        <div class="t-name">Sofia Martinez</div>
-        <div class="t-role">Co-Founder &amp; CPO</div>
-        <p class="t-desc">UX researcher turned product visionary. Sofia designed the first Campus Connect interface based on 300+ student interviews.</p>
-        <div class="t-socials">
-          <a href="#" class="t-soc"><svg viewBox="0 0 16 16"><path d="M13 2H10.5L8 5.5 5.5 2H2L6.5 8 2 14H4.5L8 10l3.5 4H14L9.5 8 13 2Z"/></svg></a>
-          <a href="#" class="t-soc"><svg viewBox="0 0 16 16"><rect x="2" y="2" width="12" height="12" rx="2.5" stroke-width="1.4" fill="none" stroke="currentColor"/><path d="M5 7.5v4M5 5.5v.5M8.5 11.5v-3c0-1.5 3-2 3 0v3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg></a>
-        </div>
-      </div>
-
-      <div class="team-card reveal d2">
-        <div class="avatar av3"><div class="av-ring"></div>JP</div>
-        <div class="t-name">James Park</div>
-        <div class="t-role">Head of Engineering</div>
-        <p class="t-desc">Full-stack engineer with a knack for building systems that scale. James ensures Campus Connect stays fast and reliable for every student.</p>
-        <div class="t-socials">
-          <a href="#" class="t-soc"><svg viewBox="0 0 16 16"><path d="M13 2H10.5L8 5.5 5.5 2H2L6.5 8 2 14H4.5L8 10l3.5 4H14L9.5 8 13 2Z"/></svg></a>
-          <a href="#" class="t-soc"><svg viewBox="0 0 16 16"><rect x="2" y="2" width="12" height="12" rx="2.5" stroke-width="1.4" fill="none" stroke="currentColor"/><path d="M5 7.5v4M5 5.5v.5M8.5 11.5v-3c0-1.5 3-2 3 0v3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg></a>
-        </div>
-      </div>
-
-      <div class="team-card reveal d3">
-        <div class="avatar av4"><div class="av-ring"></div>LN</div>
-        <div class="t-name">Lena Nguyen</div>
-        <div class="t-role">Head of Community</div>
-        <p class="t-desc">Former student council president turned community builder. Lena ensures every voice on Campus Connect is heard and every student feels welcome.</p>
-        <div class="t-socials">
-          <a href="#" class="t-soc"><svg viewBox="0 0 16 16"><path d="M13 2H10.5L8 5.5 5.5 2H2L6.5 8 2 14H4.5L8 10l3.5 4H14L9.5 8 13 2Z"/></svg></a>
-          <a href="#" class="t-soc"><svg viewBox="0 0 16 16"><rect x="2" y="2" width="12" height="12" rx="2.5" stroke-width="1.4" fill="none" stroke="currentColor"/><path d="M5 7.5v4M5 5.5v.5M8.5 11.5v-3c0-1.5 3-2 3 0v3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg></a>
-        </div>
-      </div>
-
-    </div>
-  </div>
-</section>
-
-<!-- ═══════════ CTA ═══════════ -->
-<section class="cta-sec">
-  <div class="container">
-    <div class="cta-card reveal">
-      <div class="cta-ring cr1"></div>
-      <div class="cta-ring cr2"></div>
-      <div class="cta-ring cr3"></div>
-      <div class="cta-chip">
-        <svg width="10" height="10" viewBox="0 0 10 10" fill="#1E90FF"><circle cx="5" cy="5" r="5"/></svg>
-        Join Today — It's Free
-      </div>
-      <h2 class="cta-h2">Ready to Transform<br/>Your Campus Life?</h2>
-      <p class="cta-desc">Join over 50,000 students already using Campus Connect to buy, sell, collaborate, and grow. Your entire campus experience — reimagined.</p>
-      <div class="cta-btns">
-        <a href="#" class="btn-cta-main">
-          Get Started Free
-          <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M3.5 9h11M9.5 4.5l5 4.5-5 4.5" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </a>
-        <a href="#" class="btn-cta-ghost">
-          Learn More
-          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4.5l4 3.5-4 3.5" stroke="rgba(255,255,255,.7)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </a>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- Footer -->
-  <footer class="footer" id="footer">
-      <!--Generated dynamically by js-->
-  </footer>
-{% if user.is_authenticated %}
+    {% if user.is_authenticated %}
         {% include "Components/header.html#authDynamicHeader" %}
         {% include "Components/footer.html#footer" %}
     {% else %}
@@ -380,63 +375,75 @@
         {% include "Components/footer.html#footer" %}
     {% endif %}
 
-<script>
-  /* Mobile nav */
-  const ham = document.getElementById('ham');
-  const navLinks = document.getElementById('navLinks');
-  ham.addEventListener('click', () => {
-    navLinks.classList.toggle('open');
-    const s = ham.querySelectorAll('span');
-    if (navLinks.classList.contains('open')) {
-      s[0].style.transform = 'rotate(45deg) translate(5px,5px)';
-      s[1].style.opacity = '0';
-      s[2].style.transform = 'rotate(-45deg) translate(5px,-5px)';
-    } else {
-      s.forEach(x => { x.style.transform=''; x.style.opacity=''; });
-    }
-  });
+    <script>
+        // ========== THEME TOGGLE ==========
+        (function() {
+            const savedTheme = localStorage.getItem('premiumTheme') || 'light';
+            const toggleBtn = document.getElementById('themeToggleBtn');
+            
+            function setTheme(theme) {
+                if (theme === 'dark') {
+                    document.body.classList.add('dark-theme-premium');
+                    if (toggleBtn) toggleBtn.classList.add('dark-active');
+                } else {
+                    document.body.classList.remove('dark-theme-premium');
+                    if (toggleBtn) toggleBtn.classList.remove('dark-active');
+                }
+                localStorage.setItem('premiumTheme', theme);
+            }
+            
+            if (savedTheme === 'dark') setTheme('dark');
+            
+            if (toggleBtn) {
+                toggleBtn.addEventListener('click', function() {
+                    const isDark = document.body.classList.contains('dark-theme-premium');
+                    setTheme(isDark ? 'light' : 'dark');
+                    this.style.transform = 'scale(0.95)';
+                    setTimeout(() => { if(toggleBtn) toggleBtn.style.transform = ''; }, 200);
+                });
+            }
+        })();
 
-  /* Sticky header shadow */
-  const hdr = document.getElementById('hdr');
-  window.addEventListener('scroll', () => {
-    hdr.classList.toggle('scrolled', window.scrollY > 10);
-  }, { passive: true });
+        // ========== TOAST NOTIFICATION ==========
+        function showToast(message, type = 'success') {
+            const container = document.getElementById('toastContainer');
+            if (!container) return;
+            const toast = document.createElement('div');
+            toast.className = `toast toast-${type}`;
+            const icons = { success: 'fa-check-circle', error: 'fa-exclamation-circle', info: 'fa-info-circle', warning: 'fa-exclamation-triangle' };
+            toast.innerHTML = `<i class="fas ${icons[type]}"></i><span>${message}</span><button class="toast-close" onclick="this.parentElement.remove()">&times;</button>`;
+            container.appendChild(toast);
+            setTimeout(() => toast.remove(), 3000);
+        }
 
-  /* Scroll reveal */
-  const revEls = document.querySelectorAll('.reveal');
-  const revObs = new IntersectionObserver((entries) => {
-    entries.forEach(e => {
-      if (e.isIntersecting) { e.target.classList.add('in'); revObs.unobserve(e.target); }
-    });
-  }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
-  revEls.forEach(el => revObs.observe(el));
-
-  /* Count-up for impact bar */
-  const countEls = document.querySelectorAll('.impact-num');
-  const countObs = new IntersectionObserver((entries) => {
-    entries.forEach(e => {
-      if (!e.isIntersecting) return;
-      const el = e.target;
-      const raw = el.textContent;
-      const match = raw.match(/[\d.]+/);
-      if (!match) return;
-      const target = parseFloat(match[0]);
-      const isFloat = raw.includes('.');
-      const suffix = raw.replace(/[\d.]+/, '');
-      let start = null;
-      const dur = 1800;
-      const step = (ts) => {
-        if (!start) start = ts;
-        const p = Math.min((ts - start) / dur, 1);
-        const ease = 1 - Math.pow(1 - p, 3);
-        el.textContent = (isFloat ? (ease * target).toFixed(1) : Math.floor(ease * target)) + suffix;
-        if (p < 1) requestAnimationFrame(step);
-      };
-      requestAnimationFrame(step);
-      countObs.unobserve(el);
-    });
-  }, { threshold: 0.5 });
-  countEls.forEach(el => countObs.observe(el));
-</script>
+        // ========== SCROLL REVEAL ANIMATION ==========
+        const revealElements = document.querySelectorAll('.story-content, .story-timeline, .mv-card, .value-card, .team-card-premium');
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('revealed');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+        
+        revealElements.forEach(el => observer.observe(el));
+        
+        // Add revealed class to elements
+        const style = document.createElement('style');
+        style.textContent = `
+            .story-content, .story-timeline, .mv-card, .value-card, .team-card-premium {
+                opacity: 0;
+                transform: translateY(30px);
+                transition: all 0.6s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+            }
+            .story-content.revealed, .story-timeline.revealed, .mv-card.revealed, .value-card.revealed, .team-card-premium.revealed {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
 </body>
 </html>

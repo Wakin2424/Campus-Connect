@@ -5,54 +5,117 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Payment Failed - Campus Connect</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="{%static 'CSS/payment_fail.css'%}">
-    <link rel="stylesheet" href="{%static 'CSS/nav.css'%}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="{% static 'CSS/payment_fail.css' %}">
+    <link rel="stylesheet" href="{% static 'CSS/nav.css' %}">
 </head>
 <body>
+    <!-- Premium Animated Background -->
+    <div class="animated-bg">
+        <div class="gradient-orb orb-1"></div>
+        <div class="gradient-orb orb-2"></div>
+        <div class="gradient-orb orb-3"></div>
+        <div class="grid-overlay"></div>
+    </div>
+
+    <!-- Premium Theme Toggle -->
+    <button class="theme-toggle-premium" id="themeToggleBtn">
+        <div class="toggle-track">
+            <i class="fas fa-sun toggle-icon sun"></i>
+            <i class="fas fa-moon toggle-icon moon"></i>
+            <div class="toggle-thumb"></div>
+        </div>
+    </button>
+
     <!-- Header -->
-    <header class="header" id="header">
-        <!--Generated dynamically by js-->
-    </header>
+    <header class="header" id="header"></header>
 
     <!-- Main Content -->
     <main>
-        <div class="payment-failed-container">
-            <div class="error-icon">
-                <div class="error-circle">
-                    <div class="error-cross"></div>
+        <div class="container-premium">
+            <div class="fail-card glass-card">
+                <div class="gradient-border"></div>
+                
+                <!-- Error Animation -->
+                <div class="error-animation">
+                    <div class="error-circle">
+                        <div class="error-ring ring-1"></div>
+                        <div class="error-ring ring-2"></div>
+                        <div class="error-cross">
+                            <div class="cross-line cross-line-1"></div>
+                            <div class="cross-line cross-line-2"></div>
+                        </div>
+                    </div>
                 </div>
+
+                <!-- Error Message -->
+                <div class="error-content">
+                    <div class="error-badge">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <span>Transaction Failed</span>
+                    </div>
+                    <h1>Payment Failed</h1>
+                    <p class="error-message">
+                        We couldn't process your payment. This might be due to insufficient funds, 
+                        incorrect card details, or a network issue.
+                    </p>
+                </div>
+
+                <!-- Common Reasons -->
+                <div class="reasons-card glass-card-inner">
+                    <div class="reasons-header">
+                        <i class="fas fa-info-circle"></i>
+                        <span>Common reasons for payment failure</span>
+                    </div>
+                    <ul class="reasons-list">
+                        <li>
+                            <i class="fas fa-times-circle"></i>
+                            <span>Insufficient funds in account</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-credit-card"></i>
+                            <span>Incorrect card details or expired card</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-university"></i>
+                            <span>Bank declined the transaction</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-wifi"></i>
+                            <span>Network connection issue during processing</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="button-group">
+                    <button class="action-btn btn-retry" onclick="tryAgain()">
+                        <i class="fas fa-redo-alt"></i>
+                        <span>Try Again</span>
+                    </button>
+                    <a href="{% url 'home' %}" class="action-btn btn-home">
+                        <i class="fas fa-home"></i>
+                        <span>Return Home</span>
+                    </a>
+                    <a href="{% url 'support' %}" class="action-btn btn-support">
+                        <i class="fas fa-headset"></i>
+                        <span>Get Help</span>
+                    </a>
+                </div>
+
+                <!-- Support Note -->
+                <p class="support-note">
+                    <i class="fas fa-life-ring"></i>
+                    Need immediate assistance? 
+                    <a href="/support">Contact our support team</a>
+                </p>
             </div>
-
-            <h1>Payment Failed</h1>
-            <p class="error-message">
-                We couldn't process your payment. This might be due to insufficient funds, 
-                incorrect card details, or a network issue. Please try again or choose another payment method.
-            </p>
-
-            <div class="error-details">
-                <p><strong>Common reasons for payment failure:</strong></p>
-                <p>• Insufficient funds in account</p>
-                <p>• Incorrect card details or expired card</p>
-                <p>• Bank declined the transaction</p>
-                <p>• Network connection issue</p>
-            </div>
-
-            <div class="button-group">
-                <button class="btn btn-primary" onclick="tryAgain()">Try Again</button>
-                <a href="{%url 'home'%}" class="btn btn-secondary">Return Home</a>
-            </div>
-
-            <p class="support-link">
-                Need help? <a href="/support">Contact Support</a>
-            </p>
         </div>
     </main>
 
     <!-- Footer -->
-    <footer class="footer" id="footer">
-        <!--Generated dynamically by js-->
-    </footer>
+    <footer class="footer" id="footer"></footer>
 
     {% if user.is_authenticated %}
         {% include "Components/header.html#authDynamicHeader" %}
@@ -63,50 +126,70 @@
     {% endif %}
 
     <script>
-        // Mobile menu toggle
-        const menuToggle = document.getElementById('menuToggle');
-        const navMenu = document.getElementById('navMenu');
+        // ========== THEME TOGGLE ==========
+        (function() {
+            const savedTheme = localStorage.getItem('premiumTheme') || 'light';
+            const toggleBtn = document.getElementById('themeToggleBtn');
+            
+            function setTheme(theme) {
+                if (theme === 'dark') {
+                    document.body.classList.add('dark-theme-premium');
+                    if (toggleBtn) toggleBtn.classList.add('dark-active');
+                } else {
+                    document.body.classList.remove('dark-theme-premium');
+                    if (toggleBtn) toggleBtn.classList.remove('dark-active');
+                }
+                localStorage.setItem('premiumTheme', theme);
+            }
+            
+            if (savedTheme === 'dark') setTheme('dark');
+            
+            if (toggleBtn) {
+                toggleBtn.addEventListener('click', function() {
+                    const isDark = document.body.classList.contains('dark-theme-premium');
+                    setTheme(isDark ? 'light' : 'dark');
+                    this.style.transform = 'scale(0.95)';
+                    setTimeout(() => { if(toggleBtn) toggleBtn.style.transform = ''; }, 200);
+                });
+            }
+        })();
 
-        menuToggle.addEventListener('click', () => {
-            navMenu.classList.toggle('active');
-        });
-
-        // Try Again function
+        // ========== TRY AGAIN FUNCTION ==========
         function tryAgain() {
-            // Redirect to payment page
-            window.location.href = "{%url 'payment' id=product.slug %}";
+            const btn = document.querySelector('.btn-retry');
+            btn.classList.add('loading');
+            btn.querySelector('span').textContent = 'Redirecting...';
+            btn.querySelector('i').className = 'fas fa-spinner fa-spin';
+            
+            setTimeout(() => {
+                window.location.href = "{% url 'payment' id=product.slug %}";
+            }, 500);
         }
 
-        // Optional: Add retry countdown
-        let countdown = 5;
-        const tryAgainBtn = document.querySelector('.btn-primary');
-        const originalText = tryAgainBtn.textContent;
-
-        // Uncomment to enable countdown
+        // ========== OPTIONAL: RETRY COOLDOWN ==========
+        // Uncomment to enable 5-second countdown before retry
         /*
+        const retryBtn = document.querySelector('.btn-retry');
+        let cooldown = 5;
+        const originalHTML = retryBtn.innerHTML;
+        
+        retryBtn.disabled = true;
+        retryBtn.style.opacity = '0.7';
+        retryBtn.style.cursor = 'not-allowed';
+        
         const countdownInterval = setInterval(() => {
-            if (countdown > 0) {
-                tryAgainBtn.textContent = `Try Again (${countdown})`;
-                tryAgainBtn.disabled = true;
-                tryAgainBtn.style.opacity = '0.6';
-                tryAgainBtn.style.cursor = 'not-allowed';
-                countdown--;
+            if (cooldown > 0) {
+                retryBtn.querySelector('span').textContent = `Try Again (${cooldown}s)`;
+                cooldown--;
             } else {
                 clearInterval(countdownInterval);
-                tryAgainBtn.textContent = originalText;
-                tryAgainBtn.disabled = false;
-                tryAgainBtn.style.opacity = '1';
-                tryAgainBtn.style.cursor = 'pointer';
+                retryBtn.disabled = false;
+                retryBtn.style.opacity = '1';
+                retryBtn.style.cursor = 'pointer';
+                retryBtn.innerHTML = originalHTML;
             }
         }, 1000);
         */
-
-        // Clear retry count when leaving page
-        window.addEventListener('beforeunload', () => {
-            if (window.location.pathname === '/') {
-                sessionStorage.removeItem('paymentRetryCount');
-            }
-        });
     </script>
 </body>
 </html>

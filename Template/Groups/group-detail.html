@@ -6,41 +6,82 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ group.name }}</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="{%static 'CSS/group-detail.css'%}">
-    <link rel="stylesheet" href="{%static 'CSS/nav.css'%}">
+    <title>{{ group.name }} - Campus Connect</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="{% static 'CSS/group-detail.css' %}">
+    <link rel="stylesheet" href="{% static 'CSS/nav.css' %}">
 </head>
 <body>
+    <!-- Premium Animated Background -->
+    <div class="animated-bg">
+        <div class="gradient-orb orb-1"></div>
+        <div class="gradient-orb orb-2"></div>
+        <div class="gradient-orb orb-3"></div>
+        <div class="grid-overlay"></div>
+    </div>
+
+    <!-- Premium Theme Toggle -->
+    <button class="theme-toggle-premium" id="themeToggleBtn">
+        <div class="toggle-track">
+            <i class="fas fa-sun toggle-icon sun"></i>
+            <i class="fas fa-moon toggle-icon moon"></i>
+            <div class="toggle-thumb"></div>
+        </div>
+    </button>
+
     <!-- Header -->
-    <header class="header" id="header">
-        <!--Generated dynamically by js-->
-    </header>
+    <header class="header" id="header"></header>
 
     <!-- Main Container -->
     <div class="main-container">
         <!-- Group Banner Section -->
-        <section class="group-banner">
-            <img src="{{group.image.file.url}}" 
-                 alt="Group Banner" 
-                 class="banner-image" 
-                 id="bannerImage">
+        <section class="group-banner-premium">
+            <div class="banner-wrapper">
+                <img src="{{group.image.file.url}}" 
+                     alt="Group Banner" 
+                     class="banner-image-premium" 
+                     id="bannerImage">
+                <!-- Dark Overlay for readability -->
+                <div class="banner-overlay"></div>
+                <!-- Gradient Border -->
+                <div class="banner-gradient-border"></div>
+            </div>
             
-            <!-- Admin Avatar Overlay -->
-            <div class="admin-avatar-overlay">
-                {% if group.admin.image != None %}
-                <img class="admin-avatar" id="adminAvatar" src="{{group.admin.image.file.url}}" alt="{{group.admin.first_name}}">
-                {% else %}
-                <div class="admin-avatar" id="adminAvatar">{{ group.admin.first_name|upper|slice:":1" }}' + '{{ group.admin.last_name|upper|slice:":1" }}</div>
+            <!-- Group Name Overlay on Banner -->
+            <div class="banner-title-overlay">
+                <h1 class="banner-group-name">{{ group.name }}</h1>
+            </div>
+            
+            <!-- Admin Avatar Overlay with Glowing Ring -->
+            <div class="admin-avatar-overlay-premium">
+                <div class="avatar-ring">
+                    {% if group.admin.image != None %}
+                    <img class="admin-avatar-premium" id="adminAvatar" src="{{group.admin.image.file.url}}" alt="{{group.admin.first_name}}">
+                    {% else %}
+                    <div class="admin-avatar-premium" id="adminAvatar">{{ group.admin.first_name|upper|slice:":1" }}{{ group.admin.last_name|upper|slice:":1" }}</div>
+                    {% endif %}
+                </div>
+                {% if group.admin.is_verified %}
+                <div class="verified-badge-premium">
+                    <i class="fas fa-check-circle"></i>
+                </div>
                 {% endif %}
             </div>
         </section>
 
         <!-- Group Information Section -->
-        <section class="group-info-section">
-            <div class="group-header">
-                <h1 class="group-name" id="groupName">{{ group.name }}</h1>
-                <div class="admin-label">
+        <section class="group-info-section-premium glass-card">
+            <div class="gradient-border"></div>
+            <div class="group-header-premium">
+                <div class="group-name-wrapper">
+                    <h1 class="group-name-premium" id="groupName">{{ group.name }}</h1>
+                    <button class="share-group-btn" id="shareGroupBtn" title="Share Group">
+                        <i class="fas fa-share-alt"></i>
+                    </button>
+                </div>
+                <div class="admin-label-premium">
+                    <i class="fas fa-crown"></i>
                     <span>Admin:</span>
                     {% if group.admin.username == user.username %}
                     <strong id="adminName">You</strong>
@@ -50,62 +91,123 @@
                 </div>
             </div>
             
-            <p class="group-description" id="groupDescription">
+            <p class="group-description-premium" id="groupDescription">
                 {{ group.description }}
             </p>
             
-            {% if user.is_authenticated %}
-                {% if is_member %}
-                <a href="{%url 'chat_room' group=group.slug %}" style="text-decoration: none;">
-                    <button class="join-btn" id="joinBtn">Chat</button>
-                </a>
+            <div class="group-stats-premium">
+                <div class="stat-item-premium">
+                    <i class="fas fa-users"></i>
+                    <span class="stat-number" id="memberCount">{{group.members_no}}</span>
+                    <span class="stat-label">Members</span>
+                </div>
+                <div class="stat-item-premium">
+                    <i class="fas fa-calendar-alt"></i>
+                    <span class="stat-number">{{ group.created_at|date:"M Y" }}</span>
+                    <span class="stat-label">Created</span>
+                </div>
+                <div class="stat-item-premium">
+                    <i class="fas fa-comments"></i>
+                    <span class="stat-number">0</span>
+                    <span class="stat-label">Discussions</span>
+                </div>
+            </div>
+            
+            <div class="group-actions-premium">
+                {% if user.is_authenticated %}
+                    {% if is_member %}
+                    <a href="{% url 'chat_room' group=group.slug %}" class="action-btn-premium chat-btn">
+                        <i class="fas fa-comments"></i>
+                        <span>Chat Room</span>
+                    </a>
+                    {% else %}
+                    <a href="{% url 'join_group' group=group.slug %}" class="action-btn-premium join-btn-premium">
+                        <i class="fas fa-user-plus"></i>
+                        <span>Join Group</span>
+                    </a>
+                    {% endif %}
                 {% else %}
-                <a href="{%url 'join_group' group=group.slug %}" style="text-decoration: none;">
-                    <button class="join-btn" id="joinBtn">Join Group</button>
+                <a href="{% url 'login' %}" class="action-btn-premium join-btn-premium">
+                    <i class="fas fa-sign-in-alt"></i>
+                    <span>Login to Join</span>
                 </a>
                 {% endif %}
-            {% else %}
-            <a href="{%url 'login'%}" style="text-decoration: none;">
-                <button class="join-btn" id="joinBtn">Login to Join Group</button>
-            </a>
-            {% endif %}
+                <button class="action-btn-premium report-btn-premium" id="reportGroupBtn">
+                    <i class="fas fa-flag"></i>
+                    <span>Report</span>
+                </button>
+            </div>
+        </section>
+
+        <!-- Group Rules Section -->
+        <section class="group-rules-section-premium glass-card">
+            <div class="gradient-border"></div>
+            <div class="rules-header">
+                <i class="fas fa-gavel"></i>
+                <h3 class="rules-title">Group Guidelines</h3>
+            </div>
+            <ul class="rules-list">
+                <li><i class="fas fa-check-circle"></i> Be respectful and professional</li>
+                <li><i class="fas fa-check-circle"></i> No spam or promotional content</li>
+                <li><i class="fas fa-check-circle"></i> Stay on topic with academic discussions</li>
+                <li><i class="fas fa-check-circle"></i> Help fellow members when possible</li>
+            </ul>
         </section>
 
         <!-- Group Members Section -->
-        <section class="group-members-section">
-            <div class="section-header">
-                <h2 class="section-title">Group Members</h2>
-                <p class="member-count" id="memberCount">{{group.members_no}} members</p>
+        <section class="group-members-section-premium">
+            <div class="section-header-premium">
+                <div class="header-left">
+                    <i class="fas fa-users"></i>
+                    <h2 class="section-title-premium">Group Members</h2>
+                </div>
+                <div class="member-count-premium">
+                    <span id="memberCountDisplay">{{group.members_no}}</span> members
+                </div>
             </div>
             
-            <div class="members-list" id="membersList">
+            <!-- Skeleton Loading -->
+            <div class="skeleton-loading" id="skeletonLoading" style="display: none;">
+                <div class="skeleton-member"><div class="skeleton-avatar"></div><div class="skeleton-line"></div></div>
+                <div class="skeleton-member"><div class="skeleton-avatar"></div><div class="skeleton-line"></div></div>
+                <div class="skeleton-member"><div class="skeleton-avatar"></div><div class="skeleton-line"></div></div>
+            </div>
+            
+            <div class="members-grid-premium" id="membersList">
                 {% for member in members %}
-                {% if member.user.username == user.username %}
-                <a href="{% url 'user' %}" style="text-decoration: none;"></a>
-                {% else %}
-                <a href="{% url 'user' account=member.user.username %}" style="text-decoration: none;">
-                {% endif %}
-                    <div class="member-row">
-                        <img src="{{member.user.image.file.url}}" alt="{{member.user.first_name}}" class="member-avatar">
-                        <div class="member-info">
-                            <span class="member-name">{{member.user.first_name}} {{member.user.last_name}}</span>
-
-                            {% if member.role == 'admin' %}
-                            <span class="admin-badge">Admin</span>
-                            {% endif %}
-
-                        </div>
+                <div class="member-card-premium glass-card">
+                    <div class="gradient-border"></div>
+                    <div class="member-avatar-wrapper">
+                        <img src="{{member.user.image.file.url}}" alt="{{member.user.first_name}}" class="member-avatar-premium">
+                        {% if member.user.is_online %}
+                        <span class="online-indicator"></span>
+                        {% endif %}
                     </div>
-                </a>
+                    <div class="member-info-premium">
+                        <span class="member-name-premium">{{member.user.first_name}} {{member.user.last_name}}</span>
+                        <span class="member-joined-premium">Joined {{ member.joined_at|date:"M Y" }}</span>
+                        {% if member.role == 'admin' %}
+                        <span class="admin-badge-premium">
+                            <i class="fas fa-crown"></i> Admin
+                        </span>
+                        {% endif %}
+                    </div>
+                    {% if user.is_authenticated and user != member.user %}
+                    <button class="message-member-btn" onclick="showToast('Chat feature coming soon!', 'info')">
+                        <i class="fas fa-envelope"></i>
+                    </button>
+                    {% endif %}
+                </div>
                 {% endfor %}
             </div>
         </section>
     </div>
 
     <!-- Footer -->
-    <footer class="footer" id="footer">
-        <!--Generated dynamically by js-->
-    </footer>
+    <footer class="footer" id="footer"></footer>
+
+    <!-- Toast Container -->
+    <div id="toastContainer"></div>
 
     {% if user.is_authenticated %}
         {% include "Components/header.html#authDynamicHeader" %}
@@ -115,5 +217,103 @@
         {% include "Components/footer.html#footer" %}
     {% endif %}
 
+    <script>
+        // ========== THEME TOGGLE ==========
+        (function() {
+            const savedTheme = localStorage.getItem('premiumTheme') || 'light';
+            const toggleBtn = document.getElementById('themeToggleBtn');
+            
+            function setTheme(theme) {
+                if (theme === 'dark') {
+                    document.body.classList.add('dark-theme-premium');
+                    if (toggleBtn) toggleBtn.classList.add('dark-active');
+                } else {
+                    document.body.classList.remove('dark-theme-premium');
+                    if (toggleBtn) toggleBtn.classList.remove('dark-active');
+                }
+                localStorage.setItem('premiumTheme', theme);
+            }
+            
+            if (savedTheme === 'dark') setTheme('dark');
+            
+            if (toggleBtn) {
+                toggleBtn.addEventListener('click', function() {
+                    const isDark = document.body.classList.contains('dark-theme-premium');
+                    setTheme(isDark ? 'light' : 'dark');
+                    this.style.transform = 'scale(0.95)';
+                    setTimeout(() => { if(toggleBtn) toggleBtn.style.transform = ''; }, 200);
+                });
+            }
+        })();
+
+        // ========== TOAST NOTIFICATION ==========
+        function showToast(message, type = 'success') {
+            const container = document.getElementById('toastContainer');
+            if (!container) return;
+            const toast = document.createElement('div');
+            toast.className = `toast toast-${type}`;
+            const icons = { success: 'fa-check-circle', error: 'fa-exclamation-circle', info: 'fa-info-circle', warning: 'fa-exclamation-triangle' };
+            toast.innerHTML = `<i class="fas ${icons[type]}"></i><span>${message}</span><button class="toast-close" onclick="this.parentElement.remove()">&times;</button>`;
+            container.appendChild(toast);
+            setTimeout(() => toast.remove(), 4000);
+        }
+
+        // ========== SHARE GROUP FUNCTION ==========
+        const shareBtn = document.getElementById('shareGroupBtn');
+        if (shareBtn) {
+            shareBtn.addEventListener('click', function() {
+                const url = window.location.href;
+                if (navigator.share) {
+                    navigator.share({
+                        title: '{{ group.name }}',
+                        text: 'Join this study group on Campus Connect!',
+                        url: url
+                    }).catch(() => showToast('Share cancelled', 'info'));
+                } else {
+                    navigator.clipboard.writeText(url);
+                    showToast('Group link copied to clipboard!', 'success');
+                }
+            });
+        }
+
+        // ========== REPORT GROUP FUNCTION ==========
+        const reportBtn = document.getElementById('reportGroupBtn');
+        if (reportBtn) {
+            reportBtn.addEventListener('click', function() {
+                showToast('Report submitted. Our team will review it.', 'warning');
+            });
+        }
+
+        // ========== ANIMATE STAT COUNTERS ==========
+        function animateCounter(elementId, targetValue) {
+            const element = document.getElementById(elementId);
+            if (!element) return;
+            let current = 0;
+            const increment = Math.ceil(targetValue / 50);
+            const timer = setInterval(() => {
+                current += increment;
+                if (current >= targetValue) {
+                    element.textContent = targetValue;
+                    clearInterval(timer);
+                } else {
+                    element.textContent = current;
+                }
+            }, 20);
+        }
+
+        // Animate member count on load
+        document.addEventListener('DOMContentLoaded', function() {
+            const memberCount = parseInt(document.getElementById('memberCount')?.textContent || '0');
+            animateCounter('memberCount', memberCount);
+            animateCounter('memberCountDisplay', memberCount);
+            
+            // Add fade-in animation to member cards
+            const cards = document.querySelectorAll('.member-card-premium');
+            cards.forEach((card, index) => {
+                card.style.animationDelay = `${index * 0.05}s`;
+                card.classList.add('fade-in');
+            });
+        });
+    </script>
 </body>
 </html>

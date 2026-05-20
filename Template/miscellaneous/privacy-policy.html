@@ -1,0 +1,698 @@
+{% load static %}
+{% load partials %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Privacy Policy - Campus Connect</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="{% static 'CSS/privacy-policy.css' %}">
+    <link rel="stylesheet" href="{% static 'CSS/nav.css' %}">
+</head>
+<body>
+    <!-- Premium Animated Background -->
+    <div class="animated-bg">
+        <div class="gradient-orb orb-1"></div>
+        <div class="gradient-orb orb-2"></div>
+        <div class="gradient-orb orb-3"></div>
+        <div class="grid-overlay"></div>
+    </div>
+
+    <!-- Premium Theme Toggle -->
+    <button class="theme-toggle-premium" id="themeToggleBtn">
+        <div class="toggle-track">
+            <i class="fas fa-sun toggle-icon sun"></i>
+            <i class="fas fa-moon toggle-icon moon"></i>
+            <div class="toggle-thumb"></div>
+        </div>
+    </button>
+
+    <!-- Header -->
+    <header class="header" id="header"></header>
+
+    <!-- ========== PREMIUM HERO SECTION ========== -->
+    <section class="privacy-hero-premium">
+        <div class="hero-bg-elements">
+            <div class="hero-bg-pattern"></div>
+            <div class="hero-glow-1"></div>
+            <div class="hero-glow-2"></div>
+        </div>
+        
+        <div class="hero-particles">
+            <div class="particle p1"><i class="fas fa-shield-alt"></i></div>
+            <div class="particle p2"><i class="fas fa-lock"></i></div>
+            <div class="particle p3"><i class="fas fa-user-secret"></i></div>
+            <div class="particle p4"><i class="fas fa-database"></i></div>
+            <div class="particle p5"><i class="fas fa-cookie-bite"></i></div>
+        </div>
+        
+        <div class="hero-content-premium">
+            <div class="hero-badge">
+                <div class="badge-icon">
+                    <i class="fas fa-shield-alt"></i>
+                </div>
+                <span>Your Privacy Matters</span>
+                <div class="badge-pulse"></div>
+            </div>
+            
+            <h1 class="hero-title-premium">
+                Privacy <span class="gradient-text">Policy</span>
+            </h1>
+            
+            <p class="hero-description-premium">
+                We are committed to protecting your personal information and being transparent about how we collect, use, and safeguard your data.
+            </p>
+            
+            <div class="hero-meta-premium">
+                <div class="meta-card">
+                    <div class="meta-icon"><i class="fas fa-calendar-alt"></i></div>
+                    <div class="meta-info">
+                        <span class="meta-label">Effective Date</span>
+                        <strong>January 1, 2025</strong>
+                    </div>
+                </div>
+                <div class="meta-card">
+                    <div class="meta-icon"><i class="fas fa-clock"></i></div>
+                    <div class="meta-info">
+                        <span class="meta-label">Last Updated</span>
+                        <strong>June 15, 2025</strong>
+                    </div>
+                </div>
+                <div class="meta-card">
+                    <div class="meta-icon"><i class="fas fa-code-branch"></i></div>
+                    <div class="meta-info">
+                        <span class="meta-label">Version</span>
+                        <strong>v2.4</strong>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="hero-scroll">
+                <span>Scroll to explore</span>
+                <div class="scroll-line">
+                    <div class="scroll-dot"></div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="hero-wave-premium">
+            <svg viewBox="0 0 1200 120" preserveAspectRatio="none">
+                <path d="M0,0V46.29c47.79,22.2,103.59,32.17,158,28,70.36-5.37,136.33-33.31,206.8-37.5C438.64,32.43,512.34,53.67,583,72.05c69.27,18,138.3,24.88,209.4,13.08,36.15-6,69.85-17.84,104.45-29.34C989.49,25,1113-14.29,1200,52.47V0Z" opacity=".25" fill="currentColor"></path>
+                <path d="M0,0V15.81c13,21.11,27.64,41.05,47.69,56.24C99.41,111.27,165,111,224.58,91.58c31.15-10.15,60.09-26.07,89.67-39.8,40.92-19,84.73-46,130.83-49.67,36.26-2.85,70.9,9.42,98.6,31.56,31.77,25.39,62.32,62,103.63,73,40.44,10.79,81.35-6.69,119.13-24.28s75.16-39,116.92-43.05c59.73-5.85,113.28,22.88,168.9,38.84,30.2,8.66,59,6.17,87.09-7.5,22.43-10.89,48-26.93,60.65-49.24V0Z" opacity=".5" fill="currentColor"></path>
+                <path d="M0,0V5.63C149.93,59,314.09,71.32,475.83,42.57c43-7.64,84.23-20.12,127.61-26.46,59-8.63,112.48,12.24,165.56,35.4C827.93,77.22,886,95.24,951.2,90c86.53-7,172.46-45.71,248.8-84.81V0Z" fill="currentColor"></path>
+            </svg>
+        </div>
+    </section>
+
+    <!-- Main Layout -->
+    <div class="privacy-layout-premium">
+        <!-- Sidebar Table of Contents -->
+        <aside class="privacy-sidebar-premium">
+            <div class="toc-card-premium glass-card">
+                <div class="gradient-border"></div>
+                <div class="toc-header-premium">
+                    <div class="toc-icon"><i class="fas fa-list-ul"></i></div>
+                    <h3>Contents</h3>
+                </div>
+                <nav class="toc-list-premium" id="tocList">
+                    <div class="toc-item"><a href="#s1" class="active"><span class="toc-num">01</span>Introduction</a></div>
+                    <div class="toc-item"><a href="#s2"><span class="toc-num">02</span>Information We Collect</a></div>
+                    <div class="toc-item"><a href="#s3"><span class="toc-num">03</span>How We Use Your Information</a></div>
+                    <div class="toc-item"><a href="#s4"><span class="toc-num">04</span>Cookies & Tracking</a></div>
+                    <div class="toc-item"><a href="#s5"><span class="toc-num">05</span>Data Sharing & Disclosure</a></div>
+                    <div class="toc-item"><a href="#s6"><span class="toc-num">06</span>Data Security</a></div>
+                    <div class="toc-item"><a href="#s7"><span class="toc-num">07</span>Your Rights</a></div>
+                    <div class="toc-item"><a href="#s8"><span class="toc-num">08</span>Data Retention</a></div>
+                    <div class="toc-item"><a href="#s9"><span class="toc-num">09</span>Children's Privacy</a></div>
+                    <div class="toc-item"><a href="#s10"><span class="toc-num">10</span>International Transfers</a></div>
+                    <div class="toc-item"><a href="#s11"><span class="toc-num">11</span>Changes to Policy</a></div>
+                    <div class="toc-item"><a href="#s12"><span class="toc-num">12</span>Contact Us</a></div>
+                </nav>
+                <div class="toc-footer-premium">
+                    <span class="version-badge"><i class="fas fa-check-circle"></i> GDPR Compliant</span>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="privacy-main-premium">
+            <!-- Read Notice -->
+            <div class="read-notice-premium glass-card">
+                <div class="gradient-border"></div>
+                <div class="notice-icon"><i class="fas fa-shield-alt"></i></div>
+                <div class="notice-text">
+                    <p><strong>Your privacy is our priority.</strong> This Privacy Policy explains how Campus Connect collects, uses, shares, and protects your personal information. By using our platform, you consent to the practices described in this policy.</p>
+                </div>
+            </div>
+
+            <!-- Quick Navigation -->
+            <div class="quick-nav-premium glass-card">
+                <div class="gradient-border"></div>
+                <div class="quick-nav-title">
+                    <i class="fas fa-compass"></i> Quick Navigation
+                </div>
+                <div class="quick-nav-grid">
+                    <a href="#s1"><span class="nav-num">01.</span> Introduction</a>
+                    <a href="#s2"><span class="nav-num">02.</span> Information Collection</a>
+                    <a href="#s3"><span class="nav-num">03.</span> Use of Information</a>
+                    <a href="#s4"><span class="nav-num">04.</span> Cookies & Tracking</a>
+                    <a href="#s5"><span class="nav-num">05.</span> Data Sharing</a>
+                    <a href="#s6"><span class="nav-num">06.</span> Data Security</a>
+                    <a href="#s7"><span class="nav-num">07.</span> Your Rights</a>
+                    <a href="#s8"><span class="nav-num">08.</span> Data Retention</a>
+                    <a href="#s9"><span class="nav-num">09.</span> Children's Privacy</a>
+                    <a href="#s10"><span class="nav-num">10.</span> International Transfers</a>
+                    <a href="#s11"><span class="nav-num">11.</span> Policy Changes</a>
+                    <a href="#s12"><span class="nav-num">12.</span> Contact Us</a>
+                </div>
+            </div>
+
+            <!-- Section 1 - Introduction -->
+            <article class="privacy-section-premium glass-card" id="s1">
+                <div class="gradient-border"></div>
+                <div class="section-header-premium">
+                    <div class="section-number">01</div>
+                    <div class="section-title">
+                        <h2>Introduction</h2>
+                        <p>Overview of our privacy commitment</p>
+                    </div>
+                </div>
+                <div class="section-body-premium">
+                    <p>Welcome to Campus Connect's Privacy Policy. This document explains how we collect, use, disclose, and safeguard your information when you use our website, mobile application, and services. We respect your privacy and are committed to protecting your personal data.</p>
+                    <p>This policy applies to all users of Campus Connect, including students, educators, administrators, and visitors. Please read this policy carefully to understand our views and practices regarding your personal data.</p>
+                    <div class="callout-premium info">
+                        <i class="fas fa-info-circle"></i>
+                        <div>By using Campus Connect, you acknowledge that you have read and understood this Privacy Policy. If you do not agree with any part of this policy, please discontinue use of our services immediately.</div>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Section 2 - Information We Collect -->
+            <article class="privacy-section-premium glass-card" id="s2">
+                <div class="gradient-border"></div>
+                <div class="section-header-premium">
+                    <div class="section-number">02</div>
+                    <div class="section-title">
+                        <h2>Information We Collect</h2>
+                        <p>Types of data we gather from you</p>
+                    </div>
+                </div>
+                <div class="section-body-premium">
+                    <p>We collect several types of information from and about users of our platform, including:</p>
+                    
+                    <h4>Personal Information You Provide</h4>
+                    <ul>
+                        <li><strong>Account Information:</strong> Name, email address, student ID, phone number, institution name, and graduation year.</li>
+                        <li><strong>Profile Information:</strong> Profile picture, bio, academic interests, courses, and study preferences.</li>
+                        <li><strong>Transaction Information:</strong> Payment details, purchase history, and marketplace listings.</li>
+                        <li><strong>Communication Data:</strong> Messages, comments, posts, and feedback you submit on the platform.</li>
+                        <li><strong>Verification Data:</strong> Student ID cards, institutional email, or other verification documents.</li>
+                    </ul>
+
+                    <h4>Information Automatically Collected</h4>
+                    <ul>
+                        <li><strong>Device Information:</strong> IP address, browser type, operating system, and device identifiers.</li>
+                        <li><strong>Usage Data:</strong> Pages visited, time spent, features used, search queries, and interaction patterns.</li>
+                        <li><strong>Location Data:</strong> Approximate geographic location based on IP address.</li>
+                        <li><strong>Cookies & Tracking Technologies:</strong> Information about your browsing behavior and preferences.</li>
+                    </ul>
+
+                    <div class="callout-premium warning">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <div><strong>Sensitive Information:</strong> We do not intentionally collect sensitive personal information such as government IDs, financial account numbers, or health data. Please do not share such information on public areas of the platform.</div>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Section 3 - How We Use Your Information -->
+            <article class="privacy-section-premium glass-card" id="s3">
+                <div class="gradient-border"></div>
+                <div class="section-header-premium">
+                    <div class="section-number">03</div>
+                    <div class="section-title">
+                        <h2>How We Use Your Information</h2>
+                        <p>Purposes for processing your data</p>
+                    </div>
+                </div>
+                <div class="section-body-premium">
+                    <p>We use your personal information for the following legitimate purposes:</p>
+                    <ul>
+                        <li><strong>To Provide and Maintain Services:</strong> Create and manage your account, facilitate marketplace transactions, enable group participation, and deliver requested features.</li>
+                        <li><strong>To Improve and Optimize:</strong> Analyze usage patterns to enhance user experience, develop new features, and improve platform performance.</li>
+                        <li><strong>To Communicate:</strong> Send important notifications, updates, security alerts, and respond to your inquiries.</li>
+                        <li><strong>To Ensure Safety and Security:</strong> Detect and prevent fraud, unauthorized access, and other security issues.</li>
+                        <li><strong>To Personalize Experience:</strong> Recommend relevant content, groups, and products based on your interests.</li>
+                        <li><strong>To Comply with Legal Obligations:</strong> Respond to lawful requests from authorities and fulfill regulatory requirements.</li>
+                    </ul>
+                    
+                    <div class="callout-premium success">
+                        <i class="fas fa-check-circle"></i>
+                        <div>We will never sell your personal information to third parties. Any data sharing is done solely for the purpose of providing and improving our services.</div>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Section 4 - Cookies & Tracking -->
+            <article class="privacy-section-premium glass-card" id="s4">
+                <div class="gradient-border"></div>
+                <div class="section-header-premium">
+                    <div class="section-number">04</div>
+                    <div class="section-title">
+                        <h2>Cookies & Tracking Technologies</h2>
+                        <p>How we use cookies and similar technologies</p>
+                    </div>
+                </div>
+                <div class="section-body-premium">
+                    <p>Campus Connect uses cookies and similar tracking technologies to enhance your browsing experience and analyze platform usage.</p>
+                    
+                    <h4>Types of Cookies We Use</h4>
+                    <div class="cookie-grid-premium">
+                        <div class="cookie-card">
+                            <div class="cookie-icon"><i class="fas fa-cookie"></i></div>
+                            <div class="cookie-info">
+                                <strong>Essential Cookies</strong>
+                                <p>Required for platform functionality, authentication, and security.</p>
+                            </div>
+                        </div>
+                        <div class="cookie-card">
+                            <div class="cookie-icon"><i class="fas fa-chart-line"></i></div>
+                            <div class="cookie-info">
+                                <strong>Analytics Cookies</strong>
+                                <p>Help us understand how users interact with our platform.</p>
+                            </div>
+                        </div>
+                        <div class="cookie-card">
+                            <div class="cookie-icon"><i class="fas fa-adjust"></i></div>
+                            <div class="cookie-info">
+                                <strong>Preference Cookies</strong>
+                                <p>Remember your settings and preferences.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h4>Your Cookie Choices</h4>
+                    <p>You can control cookies through your browser settings. However, disabling essential cookies may affect platform functionality. Most browsers allow you to refuse cookies or alert you when cookies are being sent.</p>
+                    
+                    <div class="callout-premium info">
+                        <i class="fas fa-cookie-bite"></i>
+                        <div>By continuing to use Campus Connect without changing your cookie settings, you consent to our use of cookies as described in this policy.</div>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Section 5 - Data Sharing -->
+            <article class="privacy-section-premium glass-card" id="s5">
+                <div class="gradient-border"></div>
+                <div class="section-header-premium">
+                    <div class="section-number">05</div>
+                    <div class="section-title">
+                        <h2>Data Sharing & Disclosure</h2>
+                        <p>When and why we share your information</p>
+                    </div>
+                </div>
+                <div class="section-body-premium">
+                    <p>We may share your personal information in the following circumstances:</p>
+                    <ul>
+                        <li><strong>With Your Consent:</strong> When you direct us to share your information with third parties.</li>
+                        <li><strong>Service Providers:</strong> With vendors who perform services on our behalf (payment processing, cloud hosting, analytics, customer support).</li>
+                        <li><strong>Within Your Institution:</strong> With your educational institution for verification and compliance purposes.</li>
+                        <li><strong>Legal Requirements:</strong> When required by law, court order, or governmental regulation.</li>
+                        <li><strong>Business Transfers:</strong> In connection with mergers, acquisitions, or asset sales.</li>
+                        <li><strong>Protection of Rights:</strong> To protect the safety, rights, or property of Campus Connect, our users, or the public.</li>
+                    </ul>
+                    
+                    <div class="callout-premium warning">
+                        <i class="fas fa-shield-alt"></i>
+                        <div>We require all third-party service providers to maintain appropriate security measures and use your information only for specified purposes consistent with this Privacy Policy.</div>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Section 6 - Data Security -->
+            <article class="privacy-section-premium glass-card" id="s6">
+                <div class="gradient-border"></div>
+                <div class="section-header-premium">
+                    <div class="section-number">06</div>
+                    <div class="section-title">
+                        <h2>Data Security</h2>
+                        <p>How we protect your information</p>
+                    </div>
+                </div>
+                <div class="section-body-premium">
+                    <p>We implement comprehensive security measures to protect your personal information from unauthorized access, alteration, disclosure, or destruction.</p>
+                    
+                    <h4>Security Measures Include</h4>
+                    <ul>
+                        <li>End-to-end encryption for sensitive data transmission</li>
+                        <li>Regular security assessments and penetration testing</li>
+                        <li>Access controls and authentication protocols</li>
+                        <li>Secure data storage with encryption at rest</li>
+                        <li>Employee security training and confidentiality agreements</li>
+                        <li>Regular backups and disaster recovery procedures</li>
+                    </ul>
+                    
+                    <div class="callout-premium success">
+                        <i class="fas fa-lock"></i>
+                        <div>While we strive to protect your information, no method of transmission over the internet is 100% secure. We encourage you to use strong passwords and enable two-factor authentication where available.</div>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Section 7 - Your Rights -->
+            <article class="privacy-section-premium glass-card" id="s7">
+                <div class="gradient-border"></div>
+                <div class="section-header-premium">
+                    <div class="section-number">07</div>
+                    <div class="section-title">
+                        <h2>Your Privacy Rights</h2>
+                        <p>Control over your personal information</p>
+                    </div>
+                </div>
+                <div class="section-body-premium">
+                    <p>Depending on your location, you may have the following rights regarding your personal information:</p>
+                    
+                    <div class="rights-grid-premium">
+                        <div class="right-card">
+                            <i class="fas fa-eye"></i>
+                            <strong>Right to Access</strong>
+                            <p>Request a copy of your personal data</p>
+                        </div>
+                        <div class="right-card">
+                            <i class="fas fa-edit"></i>
+                            <strong>Right to Rectification</strong>
+                            <p>Correct inaccurate or incomplete data</p>
+                        </div>
+                        <div class="right-card">
+                            <i class="fas fa-trash-alt"></i>
+                            <strong>Right to Deletion</strong>
+                            <p>Request deletion of your personal data</p>
+                        </div>
+                        <div class="right-card">
+                            <i class="fas fa-ban"></i>
+                            <strong>Right to Object</strong>
+                            <p>Object to certain data processing</p>
+                        </div>
+                        <div class="right-card">
+                            <i class="fas fa-download"></i>
+                            <strong>Right to Portability</strong>
+                            <p>Receive your data in a portable format</p>
+                        </div>
+                        <div class="right-card">
+                            <i class="fas fa-cog"></i>
+                            <strong>Right to Restrict</strong>
+                            <p>Limit how we use your data</p>
+                        </div>
+                    </div>
+                    
+                    <p>To exercise any of these rights, please contact us at privacy@campusconnect.edu. We will respond to your request within 30 days.</p>
+                    
+                    <div class="callout-premium info">
+                        <i class="fas fa-gavel"></i>
+                        <div>GDPR, CCPA, and other privacy regulations may provide additional rights depending on your jurisdiction. We are committed to honoring these rights to the fullest extent.</div>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Section 8 - Data Retention -->
+            <article class="privacy-section-premium glass-card" id="s8">
+                <div class="gradient-border"></div>
+                <div class="section-header-premium">
+                    <div class="section-number">08</div>
+                    <div class="section-title">
+                        <h2>Data Retention</h2>
+                        <p>How long we keep your information</p>
+                    </div>
+                </div>
+                <div class="section-body-premium">
+                    <p>We retain your personal information for as long as necessary to fulfill the purposes outlined in this Privacy Policy, unless a longer retention period is required or permitted by law.</p>
+                    
+                    <h4>Retention Periods</h4>
+                    <ul>
+                        <li><strong>Active Accounts:</strong> Data retained while your account is active and for a reasonable period thereafter.</li>
+                        <li><strong>Marketplace Listings:</strong> Transaction records retained for 7 years for tax and legal compliance.</li>
+                        <li><strong>Communication Logs:</strong> Messages and posts retained for up to 3 years after account deletion.</li>
+                        <li><strong>Analytics Data:</strong> Aggregated usage data retained indefinitely for platform improvement.</li>
+                    </ul>
+                    
+                    <p>After your account is deleted, we will anonymize or delete your personal information, except where we are required to retain data for legal, regulatory, or legitimate business purposes.</p>
+                </div>
+            </article>
+
+            <!-- Section 9 - Children's Privacy -->
+            <article class="privacy-section-premium glass-card" id="s9">
+                <div class="gradient-border"></div>
+                <div class="section-header-premium">
+                    <div class="section-number">09</div>
+                    <div class="section-title">
+                        <h2>Children's Privacy</h2>
+                        <p>Our commitment to protecting minors</p>
+                    </div>
+                </div>
+                <div class="section-body-premium">
+                    <p>Campus Connect is not intended for children under the age of 13. We do not knowingly collect personal information from children under 13. If you are a parent or guardian and believe your child has provided us with personal information, please contact us immediately.</p>
+                    
+                    <p>For users aged 13-18, we require parental or guardian consent where required by applicable law. We encourage parents to monitor their children's online activities and discuss the importance of protecting personal information.</p>
+                    
+                    <div class="callout-premium warning">
+                        <i class="fas fa-child"></i>
+                        <div>If we discover that we have inadvertently collected personal information from a child under 13, we will promptly delete that information and terminate the associated account.</div>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Section 10 - International Transfers -->
+            <article class="privacy-section-premium glass-card" id="s10">
+                <div class="gradient-border"></div>
+                <div class="section-header-premium">
+                    <div class="section-number">10</div>
+                    <div class="section-title">
+                        <h2>International Data Transfers</h2>
+                        <p>Cross-border data processing</p>
+                    </div>
+                </div>
+                <div class="section-body-premium">
+                    <p>Campus Connect operates globally, and your information may be transferred to and processed in countries other than your own. These countries may have data protection laws different from your jurisdiction.</p>
+                    
+                    <p>We ensure appropriate safeguards are in place for international data transfers, including:</p>
+                    <ul>
+                        <li>Standard Contractual Clauses approved by relevant authorities</li>
+                        <li>Binding Corporate Rules for intra-company transfers</li>
+                        <li>Data processing agreements with service providers</li>
+                        <li>Adequacy decisions where applicable</li>
+                    </ul>
+                    
+                    <div class="callout-premium info">
+                        <i class="fas fa-globe"></i>
+                        <div>By using Campus Connect, you consent to the transfer of your information to countries where our servers and service providers are located, including the United States.</div>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Section 11 - Changes to Policy -->
+            <article class="privacy-section-premium glass-card" id="s11">
+                <div class="gradient-border"></div>
+                <div class="section-header-premium">
+                    <div class="section-number">11</div>
+                    <div class="section-title">
+                        <h2>Changes to This Privacy Policy</h2>
+                        <p>How we notify you of updates</p>
+                    </div>
+                </div>
+                <div class="section-body-premium">
+                    <p>We may update this Privacy Policy from time to time to reflect changes in our practices, legal requirements, or operational needs. We will notify you of material changes through:</p>
+                    <ul>
+                        <li>A prominent notice on our website and mobile application</li>
+                        <li>Email notification to the address associated with your account</li>
+                        <li>In-app notifications and banners</li>
+                    </ul>
+                    
+                    <p>The "Last Updated" date at the top of this policy indicates when changes were made. Your continued use of Campus Connect after any changes constitutes acceptance of the revised Privacy Policy.</p>
+                    
+                    <div class="callout-premium success">
+                        <i class="fas fa-bell"></i>
+                        <div>We encourage you to review this Privacy Policy periodically to stay informed about how we protect your information.</div>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Section 12 - Contact Us -->
+            <article class="privacy-section-premium glass-card" id="s12">
+                <div class="gradient-border"></div>
+                <div class="section-header-premium">
+                    <div class="section-number">12</div>
+                    <div class="section-title">
+                        <h2>Contact Us</h2>
+                        <p>How to reach us with privacy concerns</p>
+                    </div>
+                </div>
+                <div class="section-body-premium">
+                    <p>If you have any questions, concerns, or requests regarding this Privacy Policy or our data practices, please contact our Data Protection Officer using the information below.</p>
+                    
+                    <div class="contact-grid-premium">
+                        <div class="contact-card-premium">
+                            <div class="contact-icon"><i class="fas fa-envelope"></i></div>
+                            <div class="contact-info">
+                                <div class="contact-label">Privacy Team</div>
+                                <div class="contact-value">privacy@campusconnect.edu</div>
+                                <div class="contact-hint">For data subject requests and privacy inquiries</div>
+                            </div>
+                        </div>
+                        <div class="contact-card-premium">
+                            <div class="contact-icon"><i class="fas fa-shield-alt"></i></div>
+                            <div class="contact-info">
+                                <div class="contact-label">Data Protection Officer</div>
+                                <div class="contact-value">dpo@campusconnect.edu</div>
+                                <div class="contact-hint">For formal privacy concerns</div>
+                            </div>
+                        </div>
+                        <div class="contact-card-premium">
+                            <div class="contact-icon"><i class="fas fa-map-marker-alt"></i></div>
+                            <div class="contact-info">
+                                <div class="contact-label">Mailing Address</div>
+                                <div class="contact-value">123 Campus Ave, Suite 400</div>
+                                <div class="contact-hint">University District, CA 90210, USA</div>
+                            </div>
+                        </div>
+                        <div class="contact-card-premium">
+                            <div class="contact-icon"><i class="fas fa-phone-alt"></i></div>
+                            <div class="contact-info">
+                                <div class="contact-label">Privacy Hotline</div>
+                                <div class="contact-value">+1 (800) 555-0123</div>
+                                <div class="contact-hint">Mon-Fri, 9am-5pm PST</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="callout-premium success">
+                        <i class="fas fa-heart"></i>
+                        <div>Thank you for trusting Campus Connect with your information. We are committed to protecting your privacy and providing a safe, secure platform for your academic journey.</div>
+                    </div>
+                </div>
+            </article>
+        </main>
+    </div>
+
+    <!-- Back to Top Button -->
+    <button class="back-to-top-premium" id="backToTopBtn">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <!-- Footer -->
+    <footer class="footer" id="footer"></footer>
+
+    <!-- Toast Container -->
+    <div id="toastContainer"></div>
+
+    {% if user.is_authenticated %}
+        {% include "Components/header.html#authDynamicHeader" %}
+        {% include "Components/footer.html#footer" %}
+    {% else %}
+        {% include "Components/header.html#guestDynamicHeader" %}
+        {% include "Components/footer.html#footer" %}
+    {% endif %}
+
+    <script>
+        // ========== THEME TOGGLE ==========
+        (function() {
+            const savedTheme = localStorage.getItem('premiumTheme') || 'light';
+            const toggleBtn = document.getElementById('themeToggleBtn');
+            
+            function setTheme(theme) {
+                if (theme === 'dark') {
+                    document.body.classList.add('dark-theme-premium');
+                    if (toggleBtn) toggleBtn.classList.add('dark-active');
+                } else {
+                    document.body.classList.remove('dark-theme-premium');
+                    if (toggleBtn) toggleBtn.classList.remove('dark-active');
+                }
+                localStorage.setItem('premiumTheme', theme);
+            }
+            
+            if (savedTheme === 'dark') setTheme('dark');
+            
+            if (toggleBtn) {
+                toggleBtn.addEventListener('click', function() {
+                    const isDark = document.body.classList.contains('dark-theme-premium');
+                    setTheme(isDark ? 'light' : 'dark');
+                    this.style.transform = 'scale(0.95)';
+                    setTimeout(() => { if(toggleBtn) toggleBtn.style.transform = ''; }, 200);
+                });
+            }
+        })();
+
+        // ========== TOAST NOTIFICATION ==========
+        function showToast(message, type = 'success') {
+            const container = document.getElementById('toastContainer');
+            if (!container) return;
+            const toast = document.createElement('div');
+            toast.className = `toast toast-${type}`;
+            const icons = { success: 'fa-check-circle', error: 'fa-exclamation-circle', info: 'fa-info-circle', warning: 'fa-exclamation-triangle' };
+            toast.innerHTML = `<i class="fas ${icons[type]}"></i><span>${message}</span><button class="toast-close" onclick="this.parentElement.remove()">&times;</button>`;
+            container.appendChild(toast);
+            setTimeout(() => toast.remove(), 3000);
+        }
+
+        // ========== BACK TO TOP ==========
+        const backToTopBtn = document.getElementById('backToTopBtn');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 500) {
+                backToTopBtn.classList.add('visible');
+            } else {
+                backToTopBtn.classList.remove('visible');
+            }
+        });
+        backToTopBtn.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        // ========== ACTIVE TOC HIGHLIGHT ==========
+        const sections = document.querySelectorAll('.privacy-section-premium[id]');
+        const tocLinks = document.querySelectorAll('#tocList a');
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const id = entry.target.id;
+                    tocLinks.forEach(link => {
+                        link.classList.remove('active');
+                        if (link.getAttribute('href') === `#${id}`) {
+                            link.classList.add('active');
+                        }
+                    });
+                }
+            });
+        }, { rootMargin: '-15% 0px -75% 0px' });
+
+        sections.forEach(section => observer.observe(section));
+
+        // ========== SCROLL REVEAL ANIMATION ==========
+        const revealElements = document.querySelectorAll('.privacy-section-premium');
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('revealed');
+                    revealObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+        revealElements.forEach(el => revealObserver.observe(el));
+
+        // Add CSS for reveal animation
+        const style = document.createElement('style');
+        style.textContent = `
+            .privacy-section-premium {
+                opacity: 0;
+                transform: translateY(30px);
+                transition: all 0.6s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+            }
+            .privacy-section-premium.revealed {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>
