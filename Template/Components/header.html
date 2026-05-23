@@ -102,7 +102,7 @@ const login= `
 <!-- Unauthenticated page -->
 {% partialdef guestDynamicHeader %}
 <script>
-    const home = `<a href="{%url 'home'%}" class="logo">Campus Connect</a>`
+    const home = `<a href="{%url 'home'%}" class="logo"><img src="{% static 'images/logo-transparent-light.png' %}" alt="Campus Connect" class="logo-image logo-light"><img src="{% static 'images/logo-transparent.png' %}" alt="Campus Connect" class="logo-image logo-dark">Campus Connect</a>`
     {% include "Components/header.html#navigationUrls" %}
     {% include "Components/header.html#authButton" %}
 </script>
@@ -111,7 +111,7 @@ const login= `
 <!-- authenticated page -->
 {% partialdef authDynamicHeader %}
 <script>
-    const home = `<a href="{%url 'home'%}" class="logo">Campus Connect</a>`
+    const home = `<a href="{%url 'home'%}" class="logo"><img src="{% static 'images/logo-transparent-light.png' %}" alt="Campus Connect" class="logo-image logo-light"><img src="{% static 'images/logo-transparent.png' %}" alt="Campus Connect" class="logo-image logo-dark">Campus Connect</a>`
     {% if user.image != None %}
     const user_name = '<img class="user-avatar" src="{{user.image.file.url}}" alt="Avatar">'
     {% else %}
@@ -125,7 +125,7 @@ const login= `
 <!--login page-->
 {% partialdef guestLoginDynamicHeader %}
 <script>
-    const home = `<a href="{%url 'home'%}" class="logo">Campus Connect</a>`
+    const home = `<a href="{%url 'home'%}" class="logo"><img src="{% static 'images/logo-transparent-light.png' %}" alt="Campus Connect" class="logo-image logo-light"><img src="{% static 'images/logo-transparent.png' %}" alt="Campus Connect" class="logo-image logo-dark">Campus Connect</a>`
     {% include "Components/header.html#navigationUrls" %}
     {% include "Components/header.html#signupButton" %}
 </script>
@@ -133,7 +133,7 @@ const login= `
 
 {% partialdef authLoginDynamicHeader %}
 <script>
-    const home = `<a href="{%url 'home'%}" class="logo">Campus Connect</a>`
+    const home = `<a href="{%url 'home'%}" class="logo"><img src="{% static 'images/logo-transparent-light.png' %}" alt="Campus Connect" class="logo-image logo-light"><img src="{% static 'images/logo-transparent.png' %}" alt="Campus Connect" class="logo-image logo-dark">Campus Connect</a>`
     {% if user.image != None %}
     const user_name = '<img class="user-avatar" src="{{user.image.file.url}}" alt="Avatar">'
     {% else %}
@@ -147,7 +147,7 @@ const login= `
 <!--signup page-->
 {% partialdef guestSignupDynamicHeader %}
 <script>
-    const home = `<a href="{%url 'home'%}" class="logo">Campus Connect</a>`
+    const home = `<a href="{%url 'home'%}" class="logo"><img src="{% static 'images/logo-transparent-light.png' %}" alt="Campus Connect" class="logo-image logo-light"><img src="{% static 'images/logo-transparent.png' %}" alt="Campus Connect" class="logo-image logo-dark">Campus Connect</a>`
     {% include "Components/header.html#navigationUrls" %}
     {% include "Components/header.html#loginButton" %}
 </script>
@@ -156,7 +156,7 @@ const login= `
 
 {% partialdef authSignupDynamicHeader %}
 <script>
-    const home = `<a href="{%url 'home'%}" class="logo">Campus Connect</a>`
+    const home = `<a href="{%url 'home'%}" class="logo"><img src="{% static 'images/logo-transparent-light.png' %}" alt="Campus Connect" class="logo-image logo-light"><img src="{% static 'images/logo-transparent.png' %}" alt="Campus Connect" class="logo-image logo-dark">Campus Connect</a>`
     {% if user.image != None %}
     const user_name = '<img class="user-avatar" src="{{user.image.file.url}}" alt="Avatar">'
     {% else %}
@@ -170,7 +170,7 @@ const login= `
 <!--post pages ie notes-upload, question-upload, answer-upload -->
 {% partialdef authDynamicHeaderPost %}
 <script>
-    const home = `<a href="{%url 'home'%}" class="logo">Campus Connect</a>`
+    const home = `<a href="{%url 'home'%}" class="logo"><img src="{% static 'images/logo-transparent-light.png' %}" alt="Campus Connect" class="logo-image logo-light"><img src="{% static 'images/logo-transparent.png' %}" alt="Campus Connect" class="logo-image logo-dark">Campus Connect</a>`
     {% if user.image != None %}
     const user_name = '<img class="user-avatar" src="{{user.image.file.url}}" alt="Avatar">'
     {% else %}
@@ -183,7 +183,7 @@ const login= `
 
 {% partialdef userProfilePage %}
 <script>
-    const home = `<a href="{%url 'home'%}" class="logo">Campus Connect</a>`
+    const home = `<a href="{%url 'home'%}" class="logo"><img src="{% static 'images/logo-transparent-light.png' %}" alt="Campus Connect" class="logo-image logo-light"><img src="{% static 'images/logo-transparent.png' %}" alt="Campus Connect" class="logo-image logo-dark">Campus Connect</a>`
     {% if user.image != None %}
     const user_name = '<img class="user-avatar" src="{{user.image.file.url}}" alt="Avatar">'
     {% else %}
@@ -193,5 +193,3 @@ const login= `
     {% include "Components/header.html#userProfile" %}
 </script>
 {% endpartialdef %}
-
-

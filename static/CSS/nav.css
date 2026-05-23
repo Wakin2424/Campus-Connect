@@ -56,7 +56,7 @@ body.dark-theme-premium .header.scrolled {
     gap: 1.5rem;
 }
 
-/* ========== LOGO ========== */
+/* ========== LOGO WITH DUAL IMAGES (Light/Dark Mode) ========== */
 .logo {
     font-family: 'Inter', sans-serif;
     font-size: 1.5rem;
@@ -66,32 +66,84 @@ body.dark-theme-premium .header.scrolled {
     letter-spacing: -0.02em;
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 10px;
     transition: color 0.3s ease;
     white-space: nowrap;
 }
 
+/* Remove the previous pseudo-element */
 .logo::before {
-    content: '';
-    width: 36px;
-    height: 36px;
-    background: linear-gradient(135deg, #4f46e5, #6366f1);
-    border-radius: 10px;
-    display: inline-block;
-    flex-shrink: 0;
-    box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
+    display: none;
 }
 
+/* Logo images */
+.logo-image {
+    width: 45px;
+    height: 45px;
+    object-fit: contain;
+    flex-shrink: 0;
+    transition: transform 0.3s ease;
+}
+
+/* Light mode: show light logo, hide dark logo */
+.logo-light {
+    display: inline-block;
+}
+
+.logo-dark {
+    display: none;
+}
+
+/* Dark mode: show dark logo, hide light logo */
+body.dark-theme-premium .logo-light {
+    display: none;
+}
+
+body.dark-theme-premium .logo-dark {
+    display: inline-block;
+}
+
+/* Hover effect */
 .logo:hover {
     color: #4f46e5;
 }
 
+.logo:hover .logo-image {
+    transform: scale(1.05);
+}
+
+/* Dark Mode Text */
 body.dark-theme-premium .logo {
     color: #ffffff;
 }
 
 body.dark-theme-premium .logo:hover {
     color: #a5b4fc;
+}
+
+/* ========== RESPONSIVE LOGO ========== */
+@media (max-width: 768px) {
+    .logo {
+        font-size: 1.3rem;
+        gap: 8px;
+    }
+
+    .logo-image {
+        width: 30px;
+        height: 30px;
+    }
+}
+
+@media (max-width: 480px) {
+    .logo {
+        font-size: 1.1rem;
+        gap: 6px;
+    }
+
+    .logo-image {
+        width: 26px;
+        height: 26px;
+    }
 }
 
 /* ========== NAV LINKS ========== */
