@@ -48,10 +48,10 @@ def Load_questions(request):
         questions = models.Qa.objects.filter(courses=course).values('qa_id','question', 'description', 'answer_len', 'views', 'user__first_name', 'code','created_at')
     
     elif Type == 'trending':
-        rating = models.Ratings.objects.filter(note=None, book=None).values('question').annotate(avg_rating=Count('rating')).order_by('-avg_rating')
+        rating = models.Ratings.objects.filter(note=None, product=None).values('question').annotate(avg_rating=Count('rating')).order_by('-avg_rating')
         question_ids = [item['question'] for item in rating]
         questions = models.Qa.objects.filter(qa_id__in=question_ids).order_by('likes').order_by('views').values('qa_id','question', 'description', 'answer_len', 'views', 'user__first_name', 'code','created_at')
-        questions = question | models.Qa.objects.exclude(qa_id__in=question_ids).order_by('-likes').values('qa_id','question', 'description', 'answer_len', 'views', 'user__first_name', 'code','created_at')
+        questions = questions | models.Qa.objects.exclude(qa_id__in=question_ids).order_by('-likes').values('qa_id','question', 'description', 'answer_len', 'views', 'user__first_name', 'code','created_at')
     
     elif Type == 'answered':
         questions = models.Qa.objects.all().order_by('-answer_len').values('qa_id','question', 'description', 'answer_len', 'views', 'user__first_name', 'code','created_at')
@@ -205,6 +205,139 @@ def questionDetail(request, id):
 
     }
     return render(request, 'QuestionAnswer/question_detail.html', context)
+
+from django.http import JsonResponse
+from django.shortcuts import get_object_or_404
+from django.contrib.auth import get_user_model
+import json
+
+def questionDetailApi(request, id):
+    question = get_object_or_404(models.Qa, code=id)
+    User = get_user_model()
+    user = User.objects.get(id=question.user.id)
+    courses = models.Question_subjects.objects.filter(question=question)
+    images_list = models.Image_reference.objects.filter(question=question)
+    images = []
+    ai = False
+
+    if len(images_list) > 0:
+        for img in images_list:
+            images.append(img.image.file.url)
+        
+    question.views += 1
+    question.save()
+    
+    user = models.AuthCustomuser.objects.get(id=question.user.id)
+    
+    # Handle rating
+    if request.user.is_authenticated:
+        me = models.AuthCustomuser.objects.get(id=request.user.id)
+        rating_obj = models.Ratings.objects.filter(user=me, question=question)
+        rating = rating_obj[0].rating if len(rating_obj) > 0 else 0
+    else:
+        rating = 0
+        ratings = models.Ratings.objects.filter(question=question)
+        for rate in ratings:
+            rating += rate.rating
+        rating = rating/(len(ratings) if len(ratings) != 0 else 1)
+
+    # Get answers
+    answers = models.Answers.objects.filter(question=question).order_by('-likes', '-created_at').values('answer', 'created_at', 'user__first_name', 'user__last_name', 'user__username', 'user__is_staff', 'ai', 'code', 'likes', 'user__image')
+
+    answers_list = []
+    for answer in answers:
+        if answer['ai']:
+            ai = True
+
+        like = models.Likes.objects.filter(question=question, answer__code=answer['code'])
+        
+        # Handle likes based on authentication
+        if request.user.is_authenticated:
+            user_like_exists = len(models.Likes.objects.filter(user=me, question=question, answer__code=answer['code'])) > 0
+            answer_likes = [len(like), user_like_exists]
+        else:
+            answer_likes = len(like)
+        
+        # Handle user image
+        user_image = None
+        if answer['user__image'] != None:
+            user_image_obj = models.Images.objects.get(image_id=answer['user__image'])
+            user_image = user_image_obj.file.url if user_image_obj else None
+        
+        # Handle answer images
+        answer_images = []
+        answer_images_list = models.Image_reference.objects.filter(answer__code=answer['code'])
+        if len(answer_images_list) > 0:
+            for img in answer_images_list:
+                answer_images.append(img.image.file.url)
+        
+        # Convert datetime to string for JSON serialization
+        created_at_str = answer['created_at'].isoformat() if answer['created_at'] else None
+        
+        answers_list.append({
+            'answer': answer['answer'],
+            'created_at': created_at_str,
+            'user_first_name': answer['user__first_name'],
+            'user_last_name': answer['user__last_name'],
+            'user_username': answer['user__username'],
+            'user_is_staff': answer['user__is_staff'],
+            'ai': answer['ai'],
+            'code': answer['code'],
+            'likes': answer['likes'],
+            'likes_data': answer_likes,
+            'user_image': user_image,
+            'images': answer_images
+        })
+    
+    # Handle question likes
+    if request.user.is_authenticated:
+        question_likes_count = len(models.Likes.objects.filter(question=question, answer=None))
+        user_liked_question = len(models.Likes.objects.filter(user=me, question=question, answer=None)) > 0
+        question_likes = [question_likes_count, user_liked_question]
+    else:
+        question_likes = len(models.Likes.objects.filter(question=question, answer=None))
+    
+    # Prepare courses data
+    courses_data = []
+    for course in courses:
+        courses_data.append({
+            'id': course.course.course_id,
+            'name': course.course.course_name,
+            # Add other course fields as needed
+            # Example: 'name': course.name,
+        })
+    
+    # Prepare user data
+    user_data = {
+        'id': user.id,
+        'first_name': user.first_name,
+        'last_name': user.last_name,
+        'username': user.username,
+        'email': user.email if hasattr(user, 'email') else None,
+        # Add other user fields as needed
+    }
+    
+    context = {
+        'seeker': user_data,
+        'id': id,
+        'ai': ai,
+        'question': {
+            'code': question.code,
+            'title': question.question if hasattr(question, 'question') else None,
+            'description': question.description if hasattr(question, 'description') else None,
+            'views': question.views,
+            'created_at': question.created_at.isoformat() if hasattr(question, 'created_at') and question.created_at else None,
+            # Add other question fields as needed
+        },
+        'courses': courses_data,
+        'images': images,
+        'answers': answers_list,
+        'rating': rating,
+        'likes': question_likes
+    }
+    print(context)
+    
+    return JsonResponse(context, safe=False)
 
 def Answerhome(requeest):
     return redirect('question_library')

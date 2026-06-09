@@ -8,5 +8,6 @@ urlpatterns = [
     path('answer/', views.Answerhome, name='answerRedirect'),
     path('answer/<str:id>/', views.Answer, name='answer'),
     path('api/load/questions', views.Load_questions, name='load_questions'),
+    path('api/load/question/details/<str:id>/', views.questionDetailApi, name='load_question_details'),
     path('api/load/votes', views.Vote, name='vote')
 ]
