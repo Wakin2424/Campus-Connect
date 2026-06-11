@@ -8,7 +8,7 @@ import datetime
 from django.core.paginator import Paginator
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
-from django.db.models import Count, Q
+from django.db.models import Count, Q, F
 
 # Create your views here.
 @login_required
@@ -134,9 +134,13 @@ def GetGroupsApi(request):
 
         page = int(request.GET.get('page')) if request.GET.get('page') != None else 1
 
-        groups = models.Group.objects.all()[:6].values('group_id', 'name', 'description', 'image__file__url', 'members_no')
+        groups = models.Group.objects.annotate(id=F('group_id'),group_image=F('image__file'),members_count=F('members_no')).values('id','name','description','group_image','members_count')[:6]
         groups = list(groups)
         
+        for group in groups:
+            if group['group_image']:
+                group['group_image'] = f"/media/{group['group_image']}"
+
         results['results'] = groups
         results['count'] = len(groups)
 
