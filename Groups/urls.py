@@ -9,4 +9,6 @@ urlpatterns = [
     path('group-detail/<str:group>/', views.groupDetailRender, name='group_detail'),
     path('join-group/<str:group>/', views.joinGroup, name='join_group'),
     path('api/', views.GetGroupsApi, name='get_groups_api'),
+    path('group-detail/api/<slug:group>/', views.groupDetailApi, name='group_detail_api'),
+    path('join-group/api/<str:group>/', views.joinGroupApi, name='join_group_api')
 ]

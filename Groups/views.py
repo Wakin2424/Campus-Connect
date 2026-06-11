@@ -9,6 +9,7 @@ from django.core.paginator import Paginator
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.db.models import Count, Q, F
+from rest_framework.decorators import api_view
 
 # Create your views here.
 @login_required
@@ -108,6 +109,10 @@ def joinGroup(request, group):
     group = get_object_or_404(models.Group, slug=group)
     user = models.AuthCustomuser.objects.get(id=request.user.id)
     models.GroupMember.objects.create(group=group, user=user, role='member')
+
+    group.members_no += 1
+    group.save()
+    
     url = request.build_absolute_uri(reverse('group_detail', kwargs={'group': group.slug}))
     return redirect(url)
 
@@ -134,7 +139,7 @@ def GetGroupsApi(request):
 
         page = int(request.GET.get('page')) if request.GET.get('page') != None else 1
 
-        groups = models.Group.objects.annotate(id=F('group_id'),group_image=F('image__file'),members_count=F('members_no')).values('id','name','description','group_image','members_count')[:6]
+        groups = models.Group.objects.annotate(id=F('slug'),group_image=F('image__file'),members_count=F('members_no')).values('id','name','description','group_image','members_count')[:6]
         groups = list(groups)
         
         for group in groups:
@@ -159,28 +164,85 @@ def GetGroupsApi(request):
     except Exception as e:
         print(e)
         return JsonResponse({'error': str(e)}, status=500)
-    
 
-"""
-{
-  "count": 120,
-  "next": "http://localhost:8000/api/groups/?page=2&page_size=6",
-  "previous": null,
-  "results": [
-    {
-      "group_id": 1,
-      "name": "Machine Learning Students",
-      "description": "Discussion and collaboration for ML students.",
-      "group_image": "/media/groups/ml.jpg",
-      "members_count": 145
-    },
-    {
-      "group_id": 2,
-      "name": "Web Development 2024",
-      "description": "Learn HTML, CSS, JavaScript, React",
-      "group_image": "/media/groups/webdev.jpg",
-      "members_count": 89
-    }
-  ]
-}
-"""
+@api_view  
+def joinGroupApi(request, group):
+    if not request.user.is_authenticated:
+        return JsonResponse({'status':False})
+    
+    try:
+        group = get_object_or_404(models.Group, slug=group)
+        user = models.AuthCustomuser.objects.get(id=request.user.id)
+        models.GroupMember.objects.create(group=group, user=user, role='member')
+
+        group.members_no += 1
+        group.save()
+        return JsonResponse({'status':True})
+    
+    except:
+        return JsonResponse({'status':False})
+
+
+@api_view(['GET'])
+def groupDetailApi(request, group):
+    """
+    API endpoint to get group details in JSON format.
+    Similar to groupDetailRender but returns JSON instead of HTML.
+    """
+    try:
+        # Get the group or return 404
+        group = get_object_or_404(models.Group, slug=group)
+        Dbmembers = models.GroupMember.objects.filter(group=group)
+        members = []
+        for Dbmember in Dbmembers:
+            members.append({
+                'user':{
+                    "first_name": Dbmember.user.first_name,
+                    "last_name": Dbmember.user.last_name,
+                    'email': Dbmember.user.email,
+                    "user_image": Dbmember.user.image.file.url
+                },
+                'role': Dbmember.role,
+                'joined_at':Dbmember.joined_at
+            })
+
+        is_member = None 
+
+        if request.user.is_authenticated:
+            is_member = Dbmembers.filter(user__email=request.user.email).exists()
+
+        # Build response data
+        context = {
+            'id': group.slug,  # Using slug as identifier
+            'group': {
+
+                'name': group.name,
+                'slug': group.slug,
+                'description': group.description,
+                'group_image': group.image.file.url,
+                'images': group.admin.image.file.url,
+                'members_count': group.members_no,
+                'is_private': group.is_private,
+                'created_at': group.created_at.isoformat() if group.created_at else None,
+                'course': group.course.course_name,
+                'admin':  {
+                    'id': group.admin.id,
+                    'first_name': group.admin.first_name,
+                    'last_name': group.admin.last_name,
+                    'username': group.admin.username,
+                    'email': group.admin.email if hasattr(group.admin, 'email') else None
+                }
+            },
+            'is_member': is_member,
+            'user_role': Dbmembers.get(user__email=request.user.email).role if is_member else None, # 'admin', 'member', or None
+            'members': members,
+            'members_count': len(Dbmembers),
+        }
+        
+        return JsonResponse(context)
+        
+    except Exception as e:
+        return JsonResponse({
+            'error': str(e),
+            'status': False
+        }, status=500)

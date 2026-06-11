@@ -69,6 +69,7 @@ class JWTLoginView(APIView):
             "user": {
                 "username": user.username,
                 "email": user.email,
+                'is_verified':user.is_verified,
                 "img": user.image.file.url,
             }
         })
