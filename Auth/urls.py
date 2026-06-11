@@ -15,5 +15,5 @@ urlpatterns = [
     ### JWT Authentication
     path("api/token/", TokenObtainPairView.as_view()),
     path("api/token/refresh/", TokenRefreshView.as_view()),
-    path('api/login', views.JWTLoginView)
+    path('api/login', views.JWTLoginView.as_view())
 ]

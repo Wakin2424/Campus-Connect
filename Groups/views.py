@@ -5,6 +5,10 @@ from Auth import models
 from django.http import HttpResponse, JsonResponse
 import uuid
 import datetime
+from django.core.paginator import Paginator
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+from django.db.models import Count, Q
 
 # Create your views here.
 @login_required
@@ -120,3 +124,59 @@ def chatRoomRender(request, group):
 
     return render(request, 'Groups/chat-room.html', context)
 
+def GetGroupsApi(request):
+    """
+    API endpoint to get paginated list of groups.
+    Returns groups with member counts and pagination metadata.
+    """
+    try:
+        results = {}
+
+        page = int(request.GET.get('page')) if request.GET.get('page') != None else 1
+
+        groups = models.Group.objects.all()[:6].values('group_id', 'name', 'description', 'image__file__url', 'members_no')
+        groups = list(groups)
+        
+        results['results'] = groups
+        results['count'] = len(groups)
+
+        if page <= 1:
+            results['previous'] = False
+        else:
+            results['previous'] = True
+
+        if results['count'] >= 6:
+            results['next'] = True
+        else:
+            results['next'] = False
+
+        return JsonResponse(results)
+    
+    except Exception as e:
+        print(e)
+        return JsonResponse({'error': str(e)}, status=500)
+    
+
+"""
+{
+  "count": 120,
+  "next": "http://localhost:8000/api/groups/?page=2&page_size=6",
+  "previous": null,
+  "results": [
+    {
+      "group_id": 1,
+      "name": "Machine Learning Students",
+      "description": "Discussion and collaboration for ML students.",
+      "group_image": "/media/groups/ml.jpg",
+      "members_count": 145
+    },
+    {
+      "group_id": 2,
+      "name": "Web Development 2024",
+      "description": "Learn HTML, CSS, JavaScript, React",
+      "group_image": "/media/groups/webdev.jpg",
+      "members_count": 89
+    }
+  ]
+}
+"""

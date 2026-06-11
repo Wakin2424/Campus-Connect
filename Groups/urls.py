@@ -7,5 +7,6 @@ urlpatterns = [
     path('create/', views.groupCreateRender, name='group_create'),
     path('chat-room/<str:group>/', views.chatRoomRender, name='chat_room'),
     path('group-detail/<str:group>/', views.groupDetailRender, name='group_detail'),
-    path('join-group/<str:group>/', views.joinGroup, name='join_group')
+    path('join-group/<str:group>/', views.joinGroup, name='join_group'),
+    path('api/', views.GetGroupsApi, name='get_groups_api'),
 ]
