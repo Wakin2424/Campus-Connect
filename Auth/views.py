@@ -68,6 +68,8 @@ class JWTLoginView(APIView):
             "refresh": str(refresh),
             "user": {
                 "username": user.username,
+                "first_name": user.first_name,
+                "last_name": user.last_name,
                 "email": user.email,
                 'is_verified':user.is_verified,
                 "img": user.image.file.url,

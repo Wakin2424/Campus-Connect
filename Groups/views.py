@@ -177,11 +177,10 @@ def joinGroupApi(request, group):
 
         group.members_no += 1
         group.save()
-        return JsonResponse({'status':True})
+        return JsonResponse({'status':True}, status=201)
     
     except:
-        return JsonResponse({'status':False})
-
+        return JsonResponse({'status':False}, status=403)
 
 @api_view(['GET'])
 def groupDetailApi(request, group):
@@ -189,60 +188,64 @@ def groupDetailApi(request, group):
     API endpoint to get group details in JSON format.
     Similar to groupDetailRender but returns JSON instead of HTML.
     """
-    try:
-        # Get the group or return 404
-        group = get_object_or_404(models.Group, slug=group)
-        Dbmembers = models.GroupMember.objects.filter(group=group)
-        members = []
-        for Dbmember in Dbmembers:
-            members.append({
-                'user':{
-                    "first_name": Dbmember.user.first_name,
-                    "last_name": Dbmember.user.last_name,
-                    'email': Dbmember.user.email,
-                    "user_image": Dbmember.user.image.file.url
-                },
-                'role': Dbmember.role,
-                'joined_at':Dbmember.joined_at
-            })
-
-        is_member = None 
-
-        if request.user.is_authenticated:
-            is_member = Dbmembers.filter(user__email=request.user.email).exists()
-
-        # Build response data
-        context = {
-            'id': group.slug,  # Using slug as identifier
-            'group': {
-
-                'name': group.name,
-                'slug': group.slug,
-                'description': group.description,
-                'group_image': group.image.file.url,
-                'images': group.admin.image.file.url,
-                'members_count': group.members_no,
-                'is_private': group.is_private,
-                'created_at': group.created_at.isoformat() if group.created_at else None,
-                'course': group.course.course_name,
-                'admin':  {
-                    'id': group.admin.id,
-                    'first_name': group.admin.first_name,
-                    'last_name': group.admin.last_name,
-                    'username': group.admin.username,
-                    'email': group.admin.email if hasattr(group.admin, 'email') else None
-                }
+    #try:
+    # Get the group or return 404
+    group = get_object_or_404(models.Group, slug=group)
+    Dbmembers = models.GroupMember.objects.filter(group=group)
+    members = []
+    for Dbmember in Dbmembers:
+        members.append({
+            'user':{
+                "first_name": Dbmember.user.first_name,
+                "last_name": Dbmember.user.last_name,
+                'email': Dbmember.user.email,
+                "user_image": Dbmember.user.image.file.url if Dbmember.user.image != None else None,
             },
-            'is_member': is_member,
-            'user_role': Dbmembers.get(user__email=request.user.email).role if is_member else None, # 'admin', 'member', or None
-            'members': members,
-            'members_count': len(Dbmembers),
-        }
+            'role': Dbmember.role,
+            'joined_at':Dbmember.joined_at
+        })
+
+    is_member = None 
+    print("############",request.user, '#############')
+
+    if request.user.is_authenticated:
+        is_member = Dbmembers.filter(user__email=request.user.email).exists()
+
+    # Build response data
+    context = {
+        'id': group.slug,  # Using slug as identifier
+        'group': {
+
+            'name': group.name,
+            'slug': group.slug,
+            'description': group.description,
+            'group_image': group.admin.image.file.url,
+            'images': group.image.file.url,
+            'members_count': group.members_no,
+            'is_private': group.is_private,
+            'created_at': group.created_at.isoformat() if group.created_at else None,
+            'course': group.course.course_name,
+            'admin':  {
+                'id': group.admin.id,
+                'first_name': group.admin.first_name,
+                'last_name': group.admin.last_name,
+                'username': group.admin.username,
+                'email': group.admin.email if hasattr(group.admin, 'email') else None
+            }
+        },
+        'is_member': is_member,
+        'user_role': Dbmembers.get(user__email=request.user.email).role if is_member else None, # 'admin', 'member', or None
+        'members': members,
+        'members_count': len(Dbmembers),
+    }
+    print(context)
+    
+    return JsonResponse(context)
         
-        return JsonResponse(context)
-        
-    except Exception as e:
+    """except Exception as e:
+        print(e)
         return JsonResponse({
             'error': str(e),
             'status': False
-        }, status=500)
+        }, status=500)"""
+
