@@ -149,6 +149,7 @@
 
             chatSocket.onmessage = function(e) {
                 const data = JSON.parse(e.data);
+                
                 console.log('Received message:', data);
                 if(data.username !== '{{user.first_name}}'){
                     if (data.username === 'moduloAI' && data.ai_typing) {

@@ -9,6 +9,7 @@ def websocketTest(request):
 
 @api_view(['GET'])
 def loadDataApi(request, slug):
+    print(request.user)
     if not request.user.is_authenticated:
         return JsonResponse({'status':False}, status=403)
     

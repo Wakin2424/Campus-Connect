@@ -206,7 +206,6 @@ def groupDetailApi(request, group):
         })
 
     is_member = None 
-    print("############",request.user, '#############')
 
     if request.user.is_authenticated:
         is_member = Dbmembers.filter(user__email=request.user.email).exists()
@@ -238,7 +237,6 @@ def groupDetailApi(request, group):
         'members': members,
         'members_count': len(Dbmembers),
     }
-    print(context)
     
     return JsonResponse(context)
         
