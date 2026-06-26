@@ -1,0 +1,328 @@
+{% load static %}
+{% load partials %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Group Chat - Campus Connect</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{%static 'CSS/chat-room.css'%}">
+    <link rel="stylesheet" href="{%static 'CSS/nav.css'%}">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header" id="header">
+        <!--Generated dynamically by js-->
+    </header>
+
+    <!-- Group Info Bar -->
+    <div class="group-info-bar">
+        <div class="group-info-content">
+            <div class="group-left">
+                {% if group.image != None %}
+                <img src="{{group.image.file.url}}" alt="{{group.name}}" class="group-avatar">
+                {% else %}
+                <div class="group-avatar">{{group.name|upper|slice:":1"}}</div>
+                {% endif %}
+                <div class="group-details">
+                    <h2>{{group.name}}</h2>
+                    <div class="group-meta">
+                        {% if group.admin.username == user.username %}
+                        <span><strong>Admin:</strong> You</span>
+                        {% else %}
+                        <span><strong>Admin:</strong> {{group.admin.first_name}} {{group.admin.last_name}}</span>
+                        {% endif %}
+                        <span><strong>Members:</strong> {{members}}</span>
+                    </div>
+                </div>
+            </div>
+            <div class="connection-status">
+                <span class="status-dot" id="statusDot"></span>
+                <span class="status-text" id="statusText">Connecting...</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Chat Messages -->
+    <div class="chat-container" id="chatContainer">
+        <!-- Messages will be inserted here -->
+        {% for message in messages.messages %}
+        {% if message.ai%}
+            <div class="message ai">
+                <div class="message-avatar">AI</div>
+
+                <div class="message-content">
+                    <div class="message-header">ModuloAI</div>
+                    <div class="message-bubble">
+                        {{message.message}}
+                    </div>
+                    <div class="message-time"><span class="datetime">{{message.timestamp}}</span></div>
+                </div>
+            </div>
+        {% else %}
+            {% if message.username == user.username %}
+                <div class="message own">
+                    {% if user.image != None %}
+                    <img class="message-avatar" src="{{ user.image.file.url }}">
+                    {% else %}
+                    <div class="message-avatar">{{user.first_name|upper|slice:":1"}}{{user.last_name|upper|slice:":1"}}</div>
+                    {% endif %}
+                    <div class="message-content">
+                        <div class="message-header">You</div>
+                        <div class="message-bubble">{{message.message}}</div>
+                        <div class="message-time"><span class="datetime" >{{message.timestamp}}</span></div>
+                    </div>
+                </div>
+
+            {% else %}
+                <div class="message">
+                    {% if message.image_url != None %}
+                    <img class="message-avatar" src="{{ message.image_url }}">
+                    {% else %}
+                    <div class="message-avatar">{{message.user_first_name|upper|slice:":1"}}</div>
+                    {% endif %}
+                    <div class="message-content">
+                        <div class="message-header">{{message.user_first_name}}</div>
+                        <div class="message-bubble">{{message.message}}</div>
+                        <div class="message-time"><span class="datetime">{{message.timestamp}}</span></div>
+                    </div>
+                </div>
+
+            {% endif %}
+        {% endif %}
+        {% endfor%}
+
+
+    </div>
+
+    <!-- Input Area -->
+    <div class="input-container">
+        <div class="input-wrapper">
+            <textarea 
+                id="messageInput" 
+                placeholder="Type a message..." 
+                rows="1"
+                disabled
+            ></textarea>
+            <button id="sendButton" disabled>
+                <svg class="send-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/>
+                </svg>
+            </button>
+        </div>
+    </div>
+
+    {% include "Components/header.html#authDynamicHeader" %}
+    {% include "Components/footer.html#loadJs" %}
+
+    <script>
+        const chatContainer = document.getElementById('chatContainer');
+        const messageInput = document.getElementById('messageInput');
+        const sendButton = document.getElementById('sendButton');
+        const statusDot = document.getElementById('statusDot');
+        const statusText = document.getElementById('statusText');
+
+        let chatSocket;
+        let currentUser = 'You'; // Will be set from Django context: {{ request.user.username }}
+
+        // Auto-resize textarea upwards
+        messageInput.addEventListener('input', function() {
+            this.style.height = 'auto';
+            this.style.height = Math.min(this.scrollHeight, 150) + 'px';
+        });
+
+        // WebSocket Connection
+        function connectWebSocket() {
+            const protocol  = window.location.protocol === "https:" ? "wss" : "ws";
+            chatSocket = new WebSocket(protocol + "://" + window.location.host + "/ws/chat/{{group.slug}}/");
+
+            chatSocket.onopen = function(e) {
+                console.log('WebSocket connection established');
+                statusDot.classList.add('connected');
+                statusText.textContent = 'Connected';
+                messageInput.disabled = false;
+                sendButton.disabled = false;
+                addSystemMessage('Connected to chat room');
+            };
+
+            chatSocket.onmessage = function(e) {
+                const data = JSON.parse(e.data);
+                
+                console.log('Received message:', data);
+                if(data.username !== '{{user.first_name}}'){
+                    if (data.username === 'moduloAI' && data.ai_typing) {
+                        console.log('typing...')
+                        addAITypingMessage();
+                    } else if (data.username === 'moduloAI' && !data.ai_typing) {
+                        console.log('answer')
+                        addAIMessage(data.message, data.timestamp);
+                    } else {
+                    addMessage(data.username, data.message, data.timestamp, false, data.image_url);
+                    }
+                };
+            };
+
+            chatSocket.onclose = function(e) {
+                console.log('WebSocket connection closed');
+                statusDot.classList.remove('connected');
+                statusText.textContent = 'Disconnected';
+                messageInput.disabled = true;
+                sendButton.disabled = true;
+                addSystemMessage('Disconnected from chat room');
+                
+                // Attempt to reconnect after 3 seconds
+                setTimeout(connectWebSocket, 3000);
+            };
+
+            chatSocket.onerror = function(e) {
+                console.error('WebSocket error:', e);
+                addSystemMessage('Connection error occurred');
+            };
+        }
+
+        // Display Message
+        function addMessage(username, message, timestamp, isOwn, image_url=null) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = 'message';
+            
+            if (isOwn || username === currentUser) {
+                messageDiv.classList.add('own');
+            }
+
+            const time = timestamp ? new Date(timestamp).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) : new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+            
+            let initials = ''
+            if (image_url !== null){
+                initials = `<image class="message-avatar" src=${image_url}>`
+            }
+            else{
+                initials = `<div class="message-avatar">${username.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase()}</div>`
+            }
+            
+            const displayName = isOwn || username === currentUser ? 'You' : username;
+
+            message = escapeHtml(message).replace(/@modulo/g, '<span style="color: #29a33e;">@modulo</span>');
+
+            messageDiv.innerHTML = `
+                ${initials}
+                <div class="message-content">
+                    <div class="message-header">${displayName}</div>
+                    <div class="message-bubble">${message}</div>
+                    <div class="message-time">${time}</div>
+                </div>
+            `;
+
+            chatContainer.appendChild(messageDiv);
+            scrollToBottom();
+        }
+
+        // Display AI loading Message
+        function addAITypingMessage(){
+            const messageDiv = document.createElement('div');
+            messageDiv.className = 'message ai active';
+
+            messageDiv.innerHTML = `
+            <!-- AI TYPING INDICATOR -->
+            <div class="message ai ai-typing">
+                <div class="message-avatar">AI</div>
+                <div class="message-bubble">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+            `
+            chatContainer.appendChild(messageDiv);
+            scrollToBottom();
+        }
+
+        // Display AI Message
+        function addAIMessage(message, timestamp) {
+            const messageDiv = document.getElementsByClassName('message ai active')[0];
+            messageDiv.className = 'message ai';
+
+            const time = timestamp ? new Date(timestamp).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) : new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+            messageDiv.innerHTML = `
+
+                <div class="message ai">
+                    <div class="message-avatar">AI</div>
+
+                    <div class="message-content">
+                        <div class="message-header">ModuloAI</div>
+                        <div class="message-bubble">
+                            ${escapeHtml(message)}
+                        </div>
+                        <div class="message-time">${time}</div>
+                    </div>
+                </div>
+            `;
+
+            chatContainer.appendChild(messageDiv);
+            scrollToBottom();
+        }
+
+        // Add System Message
+        function addSystemMessage(message) {
+            //const messageDiv = document.createElement('div');
+            //messageDiv.className = 'system-message';
+            //messageDiv.textContent = message;
+            //chatContainer.appendChild(messageDiv);
+            scrollToBottom();
+        }
+
+        // Escape HTML
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        // Scroll to Bottom
+        function scrollToBottom() {
+            setTimeout(() => {
+                window.scrollTo({
+                    top: document.body.scrollHeight,
+                    behavior: 'smooth'
+                });
+            }, 50);
+        }
+
+        // Send Message
+        function sendMessage() {
+            let message = messageInput.value.trim();
+            if (message && chatSocket.readyState === WebSocket.OPEN) {
+                chatSocket.send(JSON.stringify({
+                    'message': message
+                }));
+                
+                // Show message immediately for current user
+                {% if user.image != None %}
+                addMessage(currentUser, message, new Date().toISOString(), true, '{{user.image.file.url}}');
+                {% else %}
+                addMessage(currentUser, message, new Date().toISOString(), true);
+                {% endif %}
+                
+                
+                messageInput.value = '';
+                messageInput.style.height = 'auto';
+                messageInput.focus();
+            }
+        }
+
+        // Event Listeners
+        sendButton.addEventListener('click', sendMessage);
+
+        messageInput.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                sendMessage();
+            }
+        });
+
+        // Initialize
+        connectWebSocket();
+    </script>
+</body>
+</html>

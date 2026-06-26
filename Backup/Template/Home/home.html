@@ -1,0 +1,297 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home - Campus Connect</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{%static 'CSS/home.css'%}">
+    <link rel="stylesheet" href="{%static 'CSS/nav.css'%}">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header" id="header">
+        <!--Generated dynamically by js-->
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-container">
+        <div class="main-content">
+            <!-- Welcome Section -->
+            <div class="card welcome-card">
+                <div class="welcome-title">Welcome back, {{user.first_name}} {{user.last_name}}! 👋</div>
+                <div class="welcome-subtitle">Here's what's new on your campus network today.</div>
+            </div>
+
+            <!-- Latest Questions -->
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">Latest Questions</h2>
+                    <a href="{%url 'question_library'%}" class="view-all-btn">View All Questions →</a>
+                </div>
+                <div class="questions-list">
+                    {% for latest_question in latest_questions %}
+                    <div class="question-item">
+                        <a href="{%url 'question' id=latest_question.code %}" class="question-title">{{latest_question.question}}</a>
+                        <!--<div class="question-snippet">{{latest_question.description}}</div>-->
+                        <div class="question-meta">
+                            <span>Posted by {{latest_question.user.first_name}} {{latest_question.user.last_name}}• <span class="datetime">{{latest_question.created_at|date:"c"}}</span></span>
+                            <span>{{latest_question.answer_len}} answers</span>
+                        </div>
+                        
+                    </div>
+                    {% endfor %}
+                    
+                </div>
+            </div>
+
+            <!-- Trending Questions -->
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">🔥 Trending Questions</h2>
+                    <a href="{%url 'question_library'%}?tag=trending" class="view-all-btn">View All →</a>
+                </div>
+                <div class="questions-list">
+                    {% for trending_question in trending_questions %}
+                    <div class="question-item">
+                        <a href="{%url 'question' id=trending_question.code %}" class="question-title">{{trending_question.question}}</a>
+                        <!--<div class="question-snippet">{{trending_question.description}}</div>-->
+                        <div class="question-meta">
+                            <span>Posted by {{trending_question.user.first_name}} {{trending_question.user.last_name}} • <span class="datetime">{{trending_question.created_at|date:"c"}}</span></span>
+                            <span>{{trending_question.answer_len}} answers</span>
+                        </div>
+                        
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+        <div class="sidebar">
+            <!-- User Stats -->
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Your Stats</h3>
+                </div>
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <div class="stat-number">{{question_length}}</div>
+                        <div class="stat-label">Questions Asked</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">{{answer_length}}</div>
+                        <div class="stat-label">Answers Posted</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">{{notes_length}}</div>
+                        <div class="stat-label">Notes Uploaded</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">{{products_length}}</div>
+                        <div class="stat-label">Items Sold</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Your Activities -->
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Your Activities</h3>
+                </div>
+                <div class="activities-list">
+                    <div class="activity-item">
+                        <div class="activity-icon question">❓</div>
+                        <div class="activity-content">
+                            <div class="activity-text">You asked a question about Python</div>
+                            <div class="activity-time">2 hours ago</div>
+                        </div>
+                    </div>
+                    <div class="activity-item">
+                        <div class="activity-icon answer">✅</div>
+                        <div class="activity-content">
+                            <div class="activity-text">You answered a calculus question</div>
+                            <div class="activity-time">5 hours ago</div>
+                        </div>
+                    </div>
+                    <div class="activity-item">
+                        <div class="activity-icon note">📝</div>
+                        <div class="activity-content">
+                            <div class="activity-text">You uploaded CS notes</div>
+                            <div class="activity-time">1 day ago</div>
+                        </div>
+                    </div>
+                    <div class="activity-item">
+                        <div class="activity-icon market">🛒</div>
+                        <div class="activity-content">
+                            <div class="activity-text">You listed a textbook for sale</div>
+                            <div class="activity-time">2 days ago</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Latest Notes -->
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Latest Notes</h3>
+                    <a href="#" class="view-all-btn">View All Notes →</a>
+                </div>
+                <div class="notes-list">
+                    <div class="note-item">
+                        <div class="note-info">
+                            <div class="note-title">Data Structures Cheat Sheet</div>
+                            <div class="note-course">Computer Science</div>
+                            <div class="note-description">Comprehensive guide to arrays, linked lists, stacks...</div>
+                        </div>
+                        <button class="download-btn">Download</button>
+                    </div>
+                    <div class="note-item">
+                        <div class="note-info">
+                            <div class="note-title">Calculus Integration Formulas</div>
+                            <div class="note-course">Mathematics</div>
+                            <div class="note-description">All essential integration formulas and examples...</div>
+                        </div>
+                        <button class="download-btn">Download</button>
+                    </div>
+                    <div class="note-item">
+                        <div class="note-info">
+                            <div class="note-title">Database Design Principles</div>
+                            <div class="note-course">Computer Science</div>
+                            <div class="note-description">ER diagrams, normalization, and best practices...</div>
+                        </div>
+                        <button class="download-btn">Download</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recommended Products -->
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Latest in Market</h3>
+                    <a href="{%url 'market' %}" class="view-all-btn">Go to Market →</a>
+                </div>
+                <div class="products-grid">
+                    {% for product in products %}
+                    <div class="product-card">
+                        <div class="product-image"><img class="product-image" src="{{product.image.file.url}}" alt="{{product.name}}"></div>
+                        <div class="product-info">
+                            <div class="product-name">{{product.name}}</div>
+                            <div class="product-price">Ksh {{product.price}}</div>
+                            <a href="{%url 'product_detail' id=product.slug %}"><button class="view-product-btn">View Product</button></a>
+                        </div>
+                    </div>
+                    {% endfor %}
+                    
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer" id="footer">
+        <!--Generated dynamically by js-->
+    </footer>
+
+    {% include "Components/header.html#authDynamicHeader" %}
+    {% include "Components/footer.html#footer" %}
+
+    <script>
+        function Search(){
+            const search_link = "{%url 'search'%}"
+            let search_data = document.getElementById('search-bar')
+            window.location.href = search_link + `?result=${search_data.value}`
+        }
+    </script>
+
+    <script>
+        // User dropdown functionality
+        const userProfile = document.getElementById('userProfile');
+        const userDropdown = document.getElementById('userDropdown');
+
+        userProfile.addEventListener('click', function(e) {
+            e.stopPropagation();
+            userDropdown.classList.toggle('active');
+            const arrow = userProfile.querySelector('.dropdown-arrow');
+            arrow.style.transform = userDropdown.classList.contains('active') ? 'rotate(180deg)' : 'rotate(0deg)';
+        });
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', function() {
+            userDropdown.classList.remove('active');
+            const arrow = userProfile.querySelector('.dropdown-arrow');
+            arrow.style.transform = 'rotate(0deg)';
+        });
+
+        // Quick post button functionality
+        const quickPostBtn = document.querySelector('.quick-post-btn');
+        quickPostBtn.addEventListener('click', function() {
+            // In a real application, this would open a modal or redirect to question form
+            alert('Opening quick post dialog...');
+        });
+
+        // Search functionality
+        const searchInput = document.querySelector('.search-input');
+        searchInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                const query = this.value.trim();
+                if (query) {
+                    alert(`Searching for: "${query}"`);
+                    // In a real application, this would perform the search
+                }
+            }
+        });
+
+        // Add click handlers for interactive elements
+        document.querySelectorAll('.question-title').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                alert(`Opening question: ${this.textContent}`);
+            });
+        });
+
+        document.querySelectorAll('.download-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const noteTitle = this.closest('.note-item').querySelector('.note-title').textContent;
+                alert(`Downloading: ${noteTitle}`);
+                // In a real application, this would trigger the download
+            });
+        });
+
+        document.querySelectorAll('.view-product-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const productName = this.closest('.product-card').querySelector('.product-name').textContent;
+                alert(`Viewing product: ${productName}`);
+            });
+        });
+
+        // Add hover effects for cards
+        document.querySelectorAll('.card').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-2px)';
+                this.style.boxShadow = '0 5px 20px rgba(0, 0, 0, 0.1)';
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0)';
+                this.style.boxShadow = '0 2px 10px rgba(0, 0, 0, 0.05)';
+            });
+        });
+
+        // Simulate real-time updates (in a real app, this would be WebSocket or polling)
+        function updateNotificationBadge() {
+            const badge = document.querySelector('.notification-badge');
+            const currentCount = parseInt(badge.textContent);
+            // Randomly update notification count (demo purposes)
+            if (Math.random() > 0.7) {
+                badge.textContent = currentCount + 1;
+            }
+        }
+
+        // Update notifications every 30 seconds (demo)
+        setInterval(updateNotificationBadge, 30000);
+    </script>
+</body>
+</html>

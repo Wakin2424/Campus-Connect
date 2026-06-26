@@ -1,0 +1,25 @@
+{% load static %}
+{% load partials %}
+
+{% partialdef footer %}
+<script>
+const footer_urls = `
+                <a href="{%url 'about'%}">About Us</a>
+                <a href="#">Contact</a>
+                <a href="#">Privacy Policy</a>
+                <a href="{%url 'terms_and_conditions'%}">Terms of Service</a>
+                <a href="#">Help Center</a>`
+const footer_urls_2 = `
+            <a href="{%url 'question_library'%}">Ask Questions</a>
+            <a href="{%url 'market'%}">Market</a>
+            <a href="{%url 'notes'%}">Share Notes</a>
+            <a href="{%url 'group_home'%}">Create Groups</a>
+            <a href="{%url 'home'%}">Campus Events</a>`
+</script>
+<script src="{%static 'JS/footer.js'%}"></script>
+{% include "Components/footer.html#loadJs" %}
+{% endpartialdef %}
+
+{% partialdef loadJs %}
+<script src="{%static 'JS/index.js'%}"></script>
+{% endpartialdef %}

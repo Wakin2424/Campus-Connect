@@ -1,0 +1,79 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Processing Payment - Campus Connect</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{%static 'CSS/redirect.css'%}">
+</head>
+<body>
+    <div class="container">
+        <div class="content-card">
+            <div class="logo">Campus Connect</div>
+            <div class="logo-subtitle">Payment Processing</div>
+
+            <div class="spinner-container">
+                <div class="pulse-ring"></div>
+                <div class="spinner"></div>
+            </div>
+
+            <h1 id="heading">Processing Payment...</h1>
+            <p class="message" id="message">Please wait while we process your payment.</p>
+            <div class="status-badge" id="status">Initializing</div>
+
+            {% if Type == 'paypal'%}
+            <div style="display: none;">
+                {{paypal_form.render}}
+            </div>
+
+            <script>
+                document.forms[0].submit()
+            </script>
+            {% elif Type == 'mpesa' %}
+            <script>
+                function getCSRFToken() {
+                    let cookieValue = null;
+                    const cookies = document.cookie.split(';');
+
+                    cookies.forEach(cookie => {
+                        const trimmed = cookie.trim();
+                        if (trimmed.startsWith('csrftoken=')) {
+                            cookieValue = trimmed.substring('csrftoken='.length);
+                        }
+                    });
+
+                    return cookieValue;
+                }
+                let validationInterval = setInterval(() => {
+                    fetch("{% url 'transaction_status' id=transaction_id %}", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                            "X-CSRFToken": getCSRFToken()  // needed for Django
+                        },
+                        body: JSON.stringify({
+                            transaction_id: "{{ transaction_id }}"
+                        })
+                    })
+                    .then(res => res.json())
+                    .then(data => {
+                        if (data.status == 200) {
+                            window.location.href = "{% url 'payment_success' slug=slug %}";
+                            clearInterval(validationInterval);
+                        }
+                        else if (data.status == 400) {
+                            window.location.href = "{% url 'payment_fail' slug=slug %}";
+                            clearInterval(validationInterval);
+                        }
+                    })
+                    .catch(err => console.error("Error:", err));
+                                        }, 3000); // poll every 3 seconds
+            </script>
+            {% endif %}
+
+        </div>
+    </div>
+</body>
+</html>

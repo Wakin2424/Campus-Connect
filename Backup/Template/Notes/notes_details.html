@@ -1,0 +1,173 @@
+{% load static %}
+{% load partials%}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculus II - Integration Techniques - Campus Connect</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{%static 'CSS/notes_details.css'%}">
+    <link rel="stylesheet" href="{%static 'CSS/nav.css'%}">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header" id="header">
+        <!--Generated dynamically by js-->
+    </header>
+
+    <!-- Main Content -->
+    <main class="container">
+        <!-- Breadcrumb -->
+        <nav class="breadcrumb">
+            <a href="{%url 'home'%}">Campus Connect</a>
+            <i class="fas fa-chevron-right"></i>
+            <a href="{%url 'notes'%}">Notes</a>
+            <i class="fas fa-chevron-right"></i>
+            <span>Calculus II - Integration Techniques</span>
+        </nav>
+
+        <!-- Note Details Header -->
+        <div class="note-header">
+            <div class="note-header-content">
+                <div class="note-info">
+                    <h1>{{note.title}}</h1>
+                    <p class="note-description">
+                        {{note.description}}
+                    </p>
+                    
+                    <div class="note-meta">
+                        <div class="meta-item">
+                            <i class="fas fa-user"></i>
+                            {% if note.user.username == user.username %}
+                            <span>Uploaded by <a href="{%url 'user'%}" style="text-decoration: none;"><strong>{{note.user.first_name}} {{note.user.last_name}}</strong></a></span>
+                            {% else %}
+                            <span>Uploaded by <a href="{%url 'user'%}{{note.user.username}}/" style="text-decoration: none;"><strong>{{note.user.first_name}} {{note.user.last_name}}</strong></a></span>
+                            {% endif %}
+                        </div>
+                        <div class="meta-item">
+                            <i class="fas fa-calendar"></i>
+                            <span><strong class="date-upload">{{note.uploaded_at}}</strong></span>
+                        </div>
+                        <div class="meta-item">
+                            <i class="fas fa-file-pdf"></i>
+                            <span>{{note.file_type|upper}} • <strong>{{size}} MB</strong></span>
+                        </div>
+                        <div class="meta-item">
+                            <i class="fas fa-clock"></i>
+                            <span><strong>{{note.pages}} pages</strong></span>
+                        </div>
+                    </div>
+
+                    <div class="note-stats">
+                        <div class="stat-item">
+                            <i class="fas fa-download"></i>
+                            <span class="stat-number">{{note.downloads}}</span>
+                            <span>Downloads</span>
+                        </div>
+                        <div class="stat-item">
+                            <i class="fas fa-eye"></i>
+                            <span class="stat-number">{{note.views}}</span>
+                            <span>Views</span>
+                        </div>
+                        <div class="stat-item">
+                            <i class="fas fa-star"></i>
+                            <span class="stat-number">4.8</span>
+                            <span>Rating</span>
+                        </div>
+                        <div class="stat-item">
+                            <i class="fas fa-heart"></i>
+                            <span class="stat-number">{{likes.0}}</span>
+                            <span>Likes</span>
+                        </div>
+                    </div>
+
+                    <div class="tags">
+                        {% for course in courses %}
+                            <span class="tag">{{course.course.course_name}}</span>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <div class="note-actions">
+                    <a href="{{note.file_url.url}}" style="text-decoration: none;">
+                        <button class="btn-download" id="downloadBtn">
+                        <i class="fas fa-download"></i>
+                        Download Note
+                    </button>
+                    </a>
+                    
+                </div>
+            </div>
+        </div>
+
+        <!-- Note Preview Section -->
+        <div class="note-preview">
+            <div class="preview-header">
+                <h2 class="preview-title">Note Preview {{note.file_type}}</h2>
+                <div class="preview-actions">
+                    <button class="btn-fullscreen" id="fullscreenBtn">
+                        <i class="fas fa-expand"></i>
+                        Full Screen
+                    </button>
+                </div>
+            </div>
+            <div class="preview-content">
+                <!-- PDF Preview -->
+                <iframe
+                    class="pdf-viewer" 
+
+                    src="{{note.file_url.url}}" 
+                    
+                    title="Note Preview">
+                </iframe>
+                
+                <!-- Fallback for when PDF can't be displayed -->
+                <div class="preview-placeholder" style="display: none;">
+                    <i class="fas fa-file-pdf"></i>
+                    <h3>PDF Preview</h3>
+                    <p>Click "Download Note" to view the full document</p>
+                    <button class="btn-download" style="margin-top: 1rem;">
+                        <i class="fas fa-download"></i>
+                        Download to View
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Related Notes -->
+        <div class="related-notes">
+            <h2 class="section-title">Related Notes</h2>
+            <div class="related-grid">
+                {% for related_note in related_notes %}
+                <div class="related-card">
+                    <h4>{{related_note.title}}</h4>
+                    <p>{{related_note.description}}</p>
+                    <div class="related-meta">
+                        <span>by {{related_note.user.first_name}} {{related_note.last_name}}</span>
+                        <span>Downloaded {{related_note.downloads}} times</span>
+                    </div>
+                </div>
+                {% endfor %}
+                
+            </div>
+        </div>
+    </main>
+
+    <!-- Fullscreen Modal -->
+    <div class="fullscreen-modal" id="fullscreenModal">
+
+    </div>
+    <footer id="footer">
+        <!--generated dynamically by css-->
+    </footer>
+    {% if user.is_authenticated %}
+        {% include "Components/header.html#authDynamicHeader" %}
+        {% include "Components/footer.html#footer" %}
+    {% else %}
+        {% include "Components/header.html#guestDynamicHeader" %}
+        {% include "Components/footer.html#footer" %}
+    {% endif %}
+</body>
+</html>

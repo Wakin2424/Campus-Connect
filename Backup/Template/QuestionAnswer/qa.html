@@ -1,0 +1,333 @@
+{% load static%}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ask & Answer Questions - Campus Connect</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{%static 'CSS/qa.css'%}">
+    <link rel="stylesheet" href="{%static 'CSS/nav.css'%}">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header" id="header">
+      <!--Generated dynamically by js-->  
+    </header>
+
+    <!-- Main Content -->
+    <main class="container">
+        <!-- Page Header -->
+        <div class="page-header">
+            <h1 class="page-title">Ask & Answer Questions</h1>
+            {% if user.is_authenticated %}
+            <a style="text-decoration: none;" href='{%url "question"%}'><button class="btn-ask" id="askBtn">
+                <i class="fas fa-plus"></i>
+                Ask a Question
+            </button></a>
+            {% else %}
+            <a style="text-decoration: none;" href='{%url "login"%}'><button class="btn-ask" id="askBtn">
+                <i class="fas fa-plus"></i>
+                Ask a Question
+            </button></a>
+            {% endif %}
+        </div>
+
+        <!-- Main Layout -->
+        <div class="main-layout">
+            <!-- Questions Section -->
+            <div class="questions-section">
+                <div class="filter-bar">
+                    <div class="filter-buttons">
+                        <button class="filter-btn active" id="" onclick="TopicClick('')">Latest</button>
+                        <button class="filter-btn" id="answered" onclick="TopicClick('answered')">Most Answered</button>
+                        <button class="filter-btn" id="unanswered" onclick="TopicClick('unanswered')">Unanswered</button>
+                    </div>
+                    <div class="questions-count">{{total_questions}} questions</div>
+                </div>
+
+                <!-- Questions List -->
+                <div class="questions-list" id="questionsList">
+                    
+                </div>
+
+                <!-- Load More Button -->
+                <div id="load-more-tab" style="text-align: center; margin-top: 2rem;">
+                    <button onclick="Fetchdata()" class="page-btn" id="load-more" style="padding: 0.8rem 2rem;">More</button>
+                </div>
+            </div>
+
+            <!-- Sidebar -->
+            <div class="sidebar">
+                <!-- Popular Tags -->
+                <div class="sidebar-card">
+                    <h3 class="sidebar-title">Popular Tags</h3>
+                    <div class="trending-tags">
+                        {% for tag in tags %}
+                        <span class="trending-tag" data-id="{{tag.course__course_name}}" onclick="tagClick('{{tag.course__course_name}}')">{{tag.course__course_name}}</span>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                {% if trending != None %}
+                <!-- Trending Questions -->
+                <div class="sidebar-card">
+                    <h3 class="sidebar-title">Trending Questions</h3>
+                    {% for trend in trending %}
+                    <div class="trending-question">
+                        <a href="{%url 'question' id=trend.code %}">{{trend.question}}</a>
+                        <div class="trending-answers">{{trend.answer_len}} answers</div>
+                    </div>
+                    {% endfor %}
+                    
+                </div>
+                {% endif %}
+
+                <!-- Recent Activity -->
+                <div class="sidebar-card">
+                    <h3 class="sidebar-title">Recent Activity</h3>
+                    {% for resent in resents %}
+                    <div class="trending-question">
+                        <a href="{%url 'question' id=resent.code %}">{{resent.question}}</a>
+                        <div class="trending-answers">{{resent.created_at}}</div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </main>
+    <footer class="footer" id="footer">
+        <!--Generated dynamically by js-->
+    </footer>
+
+    <!-- Question Detail Modal -->
+    <div class="question-detail" id="questionDetail">
+        <div class="detail-content">
+            <button class="close-btn" id="closeDetail">&times;</button>
+            <div id="detailBody">
+                <!-- Content will be dynamically loaded here -->
+            </div>
+        </div>
+    </div>
+    
+    {% if user.is_authenticated %}
+        {% include "Components/header.html#authDynamicHeader" %}
+        {% include "Components/footer.html#footer" %}
+    {% else %}
+        {% include "Components/header.html#guestDynamicHeader" %}
+        {% include "Components/footer.html#footer" %}
+    {% endif %}
+
+    <script>
+        function Search(){
+            const search_link = "{%url 'search'%}"
+            let search_data = document.getElementById('search-bar')
+            window.location.href = search_link + `?result=${search_data.value}`
+        }
+    </script>
+    <script>
+        // Mobile menu toggle
+        const mobileToggle = document.getElementById('mobileToggle');
+        const navLinks = document.getElementById('navLinks');
+
+        mobileToggle.addEventListener('click', function() {
+            navLinks.classList.toggle('active');
+        });
+        
+    </script>
+    <script>
+        const loadBtn = document.getElementById('load-more')
+        const questionlist = document.getElementById('questionsList')
+        const loadMoreTab= document.getElementById('load-more-tab')
+
+        let container = document.createElement('div')
+        container.className = 'questions-list'
+        let page = 0
+        let count = page * 5
+        {% if trending == None %}
+        let query = `tag=trending&page=${page}`
+        {% else %}
+        let query = `page=${page}`
+        {% endif %}
+
+        function CreateElements(data){
+            let url = "{%url 'question'%}"
+            let elem = document.createElement('div')
+            elem.className = 'question-card'
+            elem.id = count
+            let courses = ''
+            for(let course of data.courses){
+                courses += `<span class="tag">${course}</span>`
+            };
+            elem.innerHTML = `
+            <a href="${url}/${data.code}" class="question-title">${data.question}</a>
+            <p class="question-preview">${data.description}</p>
+            <div class="question-meta">
+                <div class="question-stats">
+                    <div class="stat">
+                        <i class="fas fa-comments"></i>
+                        <span>${data.answer_len} Answers</span>
+                    </div>
+                    <div class="stat">
+                        <i class="fas fa-eye"></i>
+                        <span>${data.views} Views</span>
+                    </div>
+                </div>
+                <div class="question-author">Asked by ${data.user__first_name}. • ${formatDate(data.created_at)}</div>
+            </div>
+            <div class="tags">
+                ${courses}
+            </div>
+            `
+            imgs = elem.querySelectorAll('img')
+            imgs.forEach(element => {
+                element.remove()
+            });
+
+            container.appendChild(elem)
+        }
+
+        function Activepagebtn(id){
+            let pagebtn = document.getElementById(`page-${id}`)
+            let pagebtncls = document.getElementsByClassName('page-btn')
+            console.log(pagebtncls)
+            Array.from(pagebtncls).forEach(pgbtn => {
+                pgbtn.className = 'page-btn';
+            })
+            pagebtn.className = 'page-btn active'
+        }
+
+        function ShowPage(id){
+            Activepagebtn(id)
+            children = questionlist.children
+            Array.from(children).forEach(child => {
+                child.style.display = 'none';
+            })
+
+            let elem = document.getElementById(`question-batch-${id}`)
+            elem.style.display = 'block';
+
+        }
+
+        function getCookie(name){
+            let cookieValue = null;
+            if(document.cookie && document.cookie !== ''){
+                const cookies = document.cookie.split(';');
+                for(let i=0;i <cookies.length; i++){
+                    const cookie = cookies[i].trim();
+                    if (cookie.substring(0, name.length + 1) === name + '='){
+                        cookieValue = decodeURIComponent(cookie.substring(name.length+1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+
+        //create page button
+        function Createpagebtn(page){
+            let pageBtn = document.createElement('button');
+            pageBtn.innerText = `${page}`;
+            pageBtn.id = `page-${page}`
+            pageBtn.className = 'page-btn';
+            let pg = page;
+            pageBtn.onclick = () => ShowPage(pg) 
+            loadMoreTab.appendChild(pageBtn)
+            loadMoreTab.appendChild(loadBtn)
+            Activepagebtn(page)
+        }
+
+        
+        function Fetchdata(){
+            
+            fetch(`{%url "load_questions"%}?${query}`, {
+                method: 'GET',
+                headers: {
+                    'X-CSRFToken': getCookie('csrftoken')
+                },
+            })
+            .then(response => response.json())
+            .then(data => {
+                if(data.status){  
+                    loadBtn.style.display = 'inline-block';
+                } else {
+                    loadBtn.style.display = 'none';
+                }
+                page = data.page;
+                query = query.replace(/page=\d+/, `page=${page}`)
+                count = page * 5
+                let length = data.questions.length
+                //hide the rest
+                children = questionlist.children
+                Array.from(children).forEach(child => {
+                    child.style.display = 'none';
+                })
+                //create container for this batch
+                container = document.createElement('div')
+                container.className = 'questions-list'
+                container.id = `question-batch-${page}`
+                questionlist.appendChild(container)
+
+                //create batch
+                for (let key = 0; key < length; key++){
+                    CreateElements(data.questions[key])
+                    count += 1
+                }
+
+                //create page button
+                Createpagebtn(page)
+            })
+        }
+
+        Fetchdata()
+
+    </script>
+
+    <script>
+    function DeletePageTabs(){
+        let loadMoreTab= document.getElementById('load-more-tab')
+        let questiontabs = questionlist.querySelectorAll('.questions-list')
+        Array.from(questiontabs).forEach(tab => {
+            tab.remove()
+        });
+        let buttons = loadMoreTab.querySelectorAll('button')
+        buttons.forEach(button => {
+            if(button.innerText != 'Load More Questions'){
+                button.remove()
+            }
+        });
+    }
+
+    function tagClick(tag){
+        DeletePageTabs()
+        page = 0
+        query = `request=tag&tag=${tag}&page=${page}`
+        Fetchdata()
+    }
+
+    function TopicClick(topic){
+        let topicBtns = document.querySelectorAll('.filter-btn')
+        topicBtns.forEach(btn => {
+            btn.classList.remove('active')
+            btn.disabled = false;
+            if(btn.id == topic){
+                btn.classList.add('active')
+                btn.disabled = true;
+            }
+        });
+
+        DeletePageTabs()
+        page = 0
+        if (topic == ''){
+            query = `page=${page}`
+        }
+        else{
+            query = `request=${topic}&page=${page}`
+        }
+        
+        Fetchdata()
+    }
+    </script>
+</body>
+</html>
