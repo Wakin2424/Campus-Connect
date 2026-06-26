@@ -30,6 +30,7 @@ def ai_respond_task(self, prompt, room_group_name, ai_is_active, chat_history=''
             "image_url": None,
             "timestamp": datetime.datetime.now().isoformat(),
             "ai_typing": False,
+            'email': '',
         }
     )
 

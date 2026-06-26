@@ -1,0 +1,297 @@
+{% load static %}
+{% load partials %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Product - Campus Connect</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{%static 'CSS/edit-product.css'%}">
+    <link rel="stylesheet" href="{%static 'CSS/nav.css'%}">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header" id="header">
+        <!--Generated dynamically by js-->
+    </header>
+
+    <!-- Main Content -->
+    <div class="container">
+        <h1 class="page-title">Edit Product</h1>
+
+        <!-- Edit Product Form -->
+        <div class="card">
+            <h2 class="section-title">Product Details</h2>
+            
+            <!-- Image Upload -->
+            <div class="image-upload-section">
+                <label style="display: block; margin-bottom: 1rem; font-weight: 600; color: #0D1B2A;">Product Picture</label>
+                <div class="image-preview-container">
+                    <img src="{{product.image.file.url}}" alt="{{product.name}}" class="image-preview" id="imagePreview">
+                    <div class="upload-controls">
+                        <div class="file-input-wrapper">
+                            <label class="file-input-label">
+                                📸 Choose New Image
+                                <input type="file" id="productImage" accept="image/*">
+                            </label>
+                        </div>
+                        <span class="file-name" id="fileName">No file chosen</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Product Form Fields -->
+            <form id="productForm">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="productName">Product Name</label>
+                        <input type="text" id="productName" name="image" value="{{product.name}}" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="productPrice">Product Price (KSh)</label>
+                        <input type="number" id="productPrice" name="price" value="{{product.price}}" min="0" required>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="productDiscount">Discount (%)</label>
+                        <input type="number" id="productDiscount" value="20" min="0" max="100">
+                    </div>
+                    <div class="form-group">
+                        <label>Discounted Price (Ksh)</label>
+                        <input type="text" id="discountedPrice" name="discount" value="{{product.discount}}" readonly style="background-color: #f0f0f0;">
+                    </div>
+                </div>
+
+                <div class="form-group full-width">
+                    <label for="productDescription">Product Description</label>
+                    <div class="description-editor" id="productDescription" contenteditable="true">
+                        {{product.description|safe}}
+                    </div>
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary">💾 Save Changes</button>
+                    <a href="{%url 'product_detail' id=product.slug %}" style="text-decoration: none;"><button type="button" class="btn btn-secondary">✖ Cancel</button></a>
+                </div>
+            </form>
+        </div>
+
+        <!-- Negotiation Requests -->
+        <div class="card">
+            <h2 class="section-title">Price Negotiation Requests</h2>
+            
+            <div class="table-container">
+                <table id="negotiationTable">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>User</th>
+                            <th>Product</th>
+                            <th>Current Price</th>
+                            <th>Negotiated Price</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="negotiationTableBody">
+                        {% for negotiation_request in negotiation_requests %}
+                        <tr id="request-{{negotiation_request.id}}">
+                            <td data-label="#" class="table-index">{{negotiation_request.index}}</td>
+                            <td data-label="User">{{negotiation_request.user_name}}</td>
+                            <td data-label="Product">{{negotiation_request.item}}</td>
+                            <td data-label="Requested Price">KSh {{negotiation_request.requestedPrice}}</td>
+                            <td data-label="Your Price">
+                                <input type="number" class="price-input" id="price-{{negotiation_request.id}}" placeholder="Enter price" min="0">
+                            </td>
+                            <td data-label="Actions">
+                                <div class="table-actions">
+                                    <button class="btn-accept" onclick="acceptNegotiation('{{negotiation_request.id}}')">✓ Accept</button>
+                                    <button class="btn-reject" onclick="rejectNegotiation('{{negotiation_request.id}}')">✗ Reject</button>
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer" id="footer">
+        <!--Generated dynamically by js-->
+    </footer>
+
+    {% if user.is_authenticated %}
+        {% include "Components/header.html#authDynamicHeader" %}
+        {% include "Components/footer.html#footer" %}
+    {% else %}
+        {% include "Components/header.html#guestDynamicHeader" %}
+        {% include "Components/footer.html#footer" %}
+    {% endif %}
+
+    <script>
+    const productForm = document.getElementById('productForm');
+        productForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        const formData = new FormData();
+
+        // Get values
+        const name = document.getElementById("productName").value.trim();
+        const price = document.getElementById("productPrice").value;
+        const discount = document.getElementById("discountedPrice").value || 0;
+        const description = document.getElementById("productDescription").innerHTML;
+        const imageInput = document.getElementById("productImage");
+
+        // Append required fields
+        formData.append("id", '{{product.code}}')
+        formData.append("name", name);
+        formData.append("price", price);
+        formData.append("discount", discount);
+        formData.append("description", description);
+
+        // Append image ONLY if user selected a new one
+        if (imageInput.files.length > 0) {
+            formData.append("image", imageInput.files[0]);
+        }
+
+        else{
+            formData.append("image", null);
+        }
+
+        function getCookie(name){
+            let cookieValue = null;
+            if(document.cookie && document.cookie !== ''){
+                const cookies = document.cookie.split(';');
+                for(let i=0;i <cookies.length; i++){
+                    const cookie = cookies[i].trim();
+                    if (cookie.substring(0, name.length + 1) === name + '='){
+                        cookieValue = decodeURIComponent(cookie.substring(name.length+1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+
+        fetch("{% url 'update_product' %}", {
+            method: "POST",
+            headers: {
+                "X-CSRFToken": getCookie("csrftoken")
+            },
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.status) {
+                // Success
+                alert("Product updated successfully");
+                //successModal.classList.add("show");
+            } else {
+                alert("Product not updated!")
+            }
+        })
+        .catch(err => console.error("Fetch error:", err));
+    });
+    </script>
+
+
+
+    <script>
+        
+        // Image preview functionality
+        const productImageInput = document.getElementById('productImage');
+        const imagePreview = document.getElementById('imagePreview');
+        const fileName = document.getElementById('fileName');
+
+        productImageInput.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                fileName.textContent = file.name;
+                
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    imagePreview.src = e.target.result;
+                };
+                reader.readAsDataURL(file);
+            } else {
+                fileName.textContent = 'No file chosen';
+            }
+        });
+
+        // Calculate discounted price
+        const priceInput = document.getElementById('productPrice');
+        const discountInput = document.getElementById('productDiscount');
+        const discountedPriceInput = document.getElementById('discountedPrice');
+
+        function calculateDiscountedPrice() {
+            const price = parseFloat(priceInput.value) || 0;
+            const discount = parseFloat(discountInput.value) || 0;
+            const discounted = price - (price * discount / 100);
+            discountedPriceInput.value = `${discounted.toLocaleString()}`;
+        }
+
+        priceInput.addEventListener('input', calculateDiscountedPrice);
+        discountInput.addEventListener('input', calculateDiscountedPrice);
+
+        function sendData(status, id){
+            function getCookie(name){
+                let cookieValue = null;
+                if(document.cookie && document.cookie !== ''){
+                    const cookies = document.cookie.split(';');
+                    for(let i=0;i <cookies.length; i++){
+                        const cookie = cookies[i].trim();
+                        if (cookie.substring(0, name.length + 1) === name + '='){
+                            cookieValue = decodeURIComponent(cookie.substring(name.length+1));
+                            break;
+                        }
+                    }
+                }
+                return cookieValue;
+            }
+
+            fetch("{%url 'payment_negotiation_request'%}", {
+                    method: "POST",
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': getCookie('csrftoken')
+                    },
+                    body: JSON.stringify({
+                        'status':status,
+                        'id':id
+                    }),
+                })
+                .then(response => response.json())
+                .then(data =>{
+                    if(data.status){
+                        alert('Request accepted successfully')    
+                        document.getElementById(`request-${id}`).remove()                    
+                    }
+                    else{
+                        alert('Request Rejected successfully')   
+                        document.getElementById(`request-${id}`).remove()
+                    }
+                })
+                .catch(err => console.error(err));
+        }
+
+        // Accept negotiation
+        function acceptNegotiation(id) {
+            const priceInput = document.getElementById(`price-${id}`);
+            const price = priceInput.value;
+            
+            sendData(true, id)
+        }
+
+        // Reject negotiation
+        function rejectNegotiation(id) {
+            sendData(false, id)
+        }
+
+    </script>
+</body>
+</html>

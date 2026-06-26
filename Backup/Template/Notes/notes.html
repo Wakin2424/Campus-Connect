@@ -1,0 +1,373 @@
+{% load static%}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notes Library - Campus Connect</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{%static 'CSS/notes.css'%}">
+    <link rel="stylesheet" href="{%static 'CSS/nav.css'%}">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header" id="header">
+        <!--Generated dynamically by js-->
+    </header>
+
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Page Header -->
+        <div class="page-header">
+            <h1 class="page-title">Notes Library</h1>
+        </div>
+
+        <!-- Filter Bar -->
+        <div class="filter-bar">
+            <div class="filter-group">
+                <label for="sortBy">Sort By</label>
+                <select id="sortBy">
+                    <option value="latest">Latest</option>
+                    <option value="downloads">Most Downloads</option>
+                </select>
+            </div>
+
+            <div class="filter-group">
+                <label for="courseFilter">Course</label>
+                <select id="courseFilter">
+                    <option value="all">All Courses</option>
+                    {% for course in courses %}
+                    <option value="{{course.course_name}}">{{course.course_name}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            
+        </div>
+
+        <!-- Loading Spinner -->
+        <div class="loading" id="loading">
+            <div class="spinner"></div>
+            <p>Loading notes...</p>
+        </div>
+
+        <!-- No Results Message -->
+        <div class="no-results" id="noResults">
+            <h3>No notes found</h3>
+            <p>Try adjusting your filters or search terms.</p>
+        </div>
+
+        <!-- Notes Grid -->
+        <div class="notes-grid" id="notesGrid"></div>
+            
+        <!-- Pagination -->
+        <div class="pagination" id="pagination"></div>
+    </div>
+    <!-- Footer -->
+    <footer class="footer" id="footer">
+        <!--Generated dynamically by js-->
+    </footer>
+
+    {% if user.is_authenticated %}
+        {% include "Components/header.html#authDynamicHeader" %}
+        {% include "Components/footer.html#footer" %}
+    {% else %}
+        {% include "Components/header.html#guestDynamicHeader" %}
+        {% include "Components/footer.html#footer" %}
+    {% endif %}
+
+    <script>
+        // Sample notes data
+        const notesData = [
+            
+        ];
+
+        // State variables
+        let currentPage = 1;
+        const notesPerPage = 6;
+        let filteredNotes = [...notesData];
+
+        // Get DOM elements
+        const notesGrid = document.getElementById('notesGrid');
+        const pagination = document.getElementById('pagination');
+        const sortBy = document.getElementById('sortBy');
+        const courseFilter = document.getElementById('courseFilter');
+        const loading = document.getElementById('loading');
+        const noResults = document.getElementById('noResults');
+        let courseQuery = '';
+        let typeQuery = '';
+
+
+        // Create note card
+        function createNoteCard(note) {
+            let course = ""
+            if(note.courses.length > 0){
+                course = `
+                <div class="course-tags">
+                    <span class="tag">${note.courses[0]}</span>
+                </div>
+                `
+            }
+            return `
+                <div class="note-card" onclick="openNoteDetails('${note.id}')">
+                    <div class="note-icon">📄</div>
+                    <h3 class="note-title">${note.title}</h3>
+                    <p class="note-description">${note.description}</p>
+                        ${course}
+                    <div class="uploader-info">
+                        Uploaded by <strong>${note.uploader}</strong> • ${formatDate(note.date)}
+                    </div>
+                    <div class="stats-row">
+                        <div class="stat-item">⬇ ${note.downloads}</div>
+                        <div class="stat-item">👁 ${note.views}</div>
+                        <div class="stat-item">⭐ ${note.rating}</div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Render notes
+        function renderNotes() {
+            const startIndex = (currentPage - 1) * notesPerPage;
+            const endIndex = startIndex + notesPerPage;
+            const notesToShow = filteredNotes.slice(startIndex, endIndex);
+
+            if (filteredNotes.length === 0) {
+                notesGrid.style.display = 'none';
+                //noResults.style.display = 'block';
+                pagination.style.display = 'none';
+            } else {
+                notesGrid.style.display = 'grid';
+                noResults.style.display = 'none';
+                pagination.style.display = 'flex';
+                notesGrid.innerHTML = notesToShow.map(createNoteCard).join('');
+            }
+
+            renderPagination();
+        }
+
+        // Render pagination
+        function renderPagination(morepages=false) {
+            const totalPages = Math.ceil(filteredNotes.length / notesPerPage);
+            let paginationHTML = '';
+
+            // Page numbers
+            for (let i = 1; i <= Math.min(totalPages, 5); i++) {
+                paginationHTML += `<button class="page-btn ${i === currentPage ? 'active' : ''}" onclick="changePage(${i})">${i}</button>`;
+            }
+
+            // More button
+            if (totalPages > 5) {
+                paginationHTML += `<button class="page-btn">More...</button>`;
+            }
+
+            // Next button
+            paginationHTML += currentPage !== totalPages || morepages ? `<button class="page-btn" onclick="changePage(${currentPage + 1})">more ›</button> `  : '';
+            pagination.innerHTML = paginationHTML;
+        }
+
+        // Change page
+        function changePage(page) {
+            const totalPages = Math.ceil(filteredNotes.length / notesPerPage);
+            if (page < 1 || page > totalPages) return;
+            
+            currentPage = page;
+            showLoading();
+            setTimeout(() => {
+                hideLoading();
+                renderNotes();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }, 300);
+        }
+
+        // Show loading
+        function showLoading() {
+            loading.style.display = 'block';
+            notesGrid.style.display = 'none';
+        }
+
+        // Hide loading
+        function hideLoading() {
+            loading.style.display = 'none';
+        }
+
+        // Apply filters and sorting
+        function applyFiltersAndSort() {
+            let result = [...notesData];
+
+            // Apply course filter
+            const selectedCourse = courseFilter.value;
+            let request = 'latest'
+
+            // Apply sorting
+            const sortOption = sortBy.value;
+            switch (sortOption) {
+                case 'latest':
+                    request = 'latest';
+                    break;
+                case 'downloads':
+                    request = 'downloads';
+                    break;
+            }
+
+            sortFetch(request, selectedCourse)
+
+            filteredNotes = result;
+            currentPage = 1;
+            renderNotes();
+        }
+
+        // Event listeners
+        sortBy.addEventListener('change', () => {
+            applyFiltersAndSort();
+        });
+
+        courseFilter.addEventListener('change', () => {
+            applyFiltersAndSort();
+
+        });
+
+        // Open note details
+        function openNoteDetails(noteId) {
+            window.location.href = `{%url 'notes'%}${noteId}`
+        }
+
+        // Initialize
+        renderNotes();
+    </script>
+
+    <script>
+        page=0
+        let query = `page=${page}`
+
+        function Activepagebtn(id){
+            let pagebtn = document.getElementById(`page-${id}`)
+            let pagebtncls = document.getElementsByClassName('page-btn')
+            Array.from(pagebtncls).forEach(pgbtn => {
+                pgbtn.className = 'page-btn';
+            })
+            pagebtn.className = 'page-btn active'
+        }
+
+        function ShowPage(id){
+            Activepagebtn(id)
+            children = questionlist.children
+            Array.from(children).forEach(child => {
+                child.style.display = 'none';
+            })
+
+            let elem = document.getElementById(`question-batch-${id}`)
+            elem.style.display = 'block';
+
+        }
+
+        function getCookie(name){
+            let cookieValue = null;
+            if(document.cookie && document.cookie !== ''){
+                const cookies = document.cookie.split(';');
+                for(let i=0;i <cookies.length; i++){
+                    const cookie = cookies[i].trim();
+                    if (cookie.substring(0, name.length + 1) === name + '='){
+                        cookieValue = decodeURIComponent(cookie.substring(name.length+1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+
+        //create page button
+        function Createpagebtn(page){
+            let pageBtn = document.createElement('button');
+            pageBtn.innerText = `${page}`;
+            pageBtn.id = `page-${page}`
+            pageBtn.className = 'page-btn';
+            let pg = page;
+            pageBtn.onclick = () => ShowPage(pg) 
+            loadMoreTab.appendChild(pageBtn)
+            loadMoreTab.appendChild(loadBtn)
+            Activepagebtn(page)
+        }
+
+        
+        function Fetchdata(){
+            showLoading()
+            noResults.style.display = 'none';
+            fetch(`{%url "load_notes"%}?${query}`, {
+                method: 'GET',
+                headers: {
+                    'X-CSRFToken': getCookie('csrftoken')
+                },
+            })
+            .then(response => response.json())
+            .then(data => {
+                hideLoading()
+                if(data.status){  
+                    //loadBtn.style.display = 'inline-block';
+                } else {
+                    if(data.notes === null){
+                        noResults.style.display = 'block';;
+                        return
+                    }
+
+                }
+                page = data.page;
+                query = query.replace(/page=\d+/, `page=${page}`)
+                let notesDataLength = notesData.length + 1
+                
+                Array.from(data.notes).forEach(note =>{
+                    let array_data = {
+                        id: note.code,
+                        title: note.title,
+                        description: note.description,
+                        courses: note.courses,
+                        uploader: `${note.user__first_name} ${note.user__last_name}`,
+                        username:note.user__username,
+                        date: note.uploaded_at,
+                        downloads: note.downloads,
+                        views:note.views,
+                        rating:1
+                    }
+
+                    filteredNotes.push(array_data)
+                    
+                })
+                renderNotes()
+            })
+        }
+
+        function sortFetch(request ,selectedCourse){
+            //sort request
+            if(request === 'latest'){
+                typeQuery = ''
+            }
+            else{
+                typeQuery = `type=${request}`
+            }
+            
+            //sort course
+            if(selectedCourse === 'all'){
+                courseQuery = ''
+            }
+            else{
+                courseQuery = `course=${selectedCourse}`
+            }
+            
+
+            let cards = notesGrid.getElementsByClassName('note-card')
+
+            for(let i=0; i < cards.length; i++){
+                notesGrid.removeChild(cards[0])
+            }
+            
+            filteredNotes.length = 0
+            page=0
+            query = `page=${page}&${typeQuery}&${courseQuery}`
+            Fetchdata()
+        }
+
+        Fetchdata()
+
+    </script>
+</body>
+</html>

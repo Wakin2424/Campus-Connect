@@ -1,0 +1,119 @@
+{% load static %}
+{% load partials %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ group.name }}</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{%static 'CSS/group-detail.css'%}">
+    <link rel="stylesheet" href="{%static 'CSS/nav.css'%}">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header" id="header">
+        <!--Generated dynamically by js-->
+    </header>
+
+    <!-- Main Container -->
+    <div class="main-container">
+        <!-- Group Banner Section -->
+        <section class="group-banner">
+            <img src="{{group.image.file.url}}" 
+                 alt="Group Banner" 
+                 class="banner-image" 
+                 id="bannerImage">
+            
+            <!-- Admin Avatar Overlay -->
+            <div class="admin-avatar-overlay">
+                {% if group.admin.image != None %}
+                <img class="admin-avatar" id="adminAvatar" src="{{group.admin.image.file.url}}" alt="{{group.admin.first_name}}">
+                {% else %}
+                <div class="admin-avatar" id="adminAvatar">{{ group.admin.first_name|upper|slice:":1" }}' + '{{ group.admin.last_name|upper|slice:":1" }}</div>
+                {% endif %}
+            </div>
+        </section>
+
+        <!-- Group Information Section -->
+        <section class="group-info-section">
+            <div class="group-header">
+                <h1 class="group-name" id="groupName">{{ group.name }}</h1>
+                <div class="admin-label">
+                    <span>Admin:</span>
+                    {% if group.admin.username == user.username %}
+                    <strong id="adminName">You</strong>
+                    {% else %}
+                    <strong id="adminName">{{ group.admin.first_name }} {{ group.admin.last_name }}</strong>
+                    {% endif %}
+                </div>
+            </div>
+            
+            <p class="group-description" id="groupDescription">
+                {{ group.description }}
+            </p>
+            
+            {% if user.is_authenticated %}
+                {% if is_member %}
+                <a href="{%url 'chat_room' group=group.slug %}" style="text-decoration: none;">
+                    <button class="join-btn" id="joinBtn">Chat</button>
+                </a>
+                {% else %}
+                <a href="{%url 'join_group' group=group.slug %}" style="text-decoration: none;">
+                    <button class="join-btn" id="joinBtn">Join Group</button>
+                </a>
+                {% endif %}
+            {% else %}
+            <a href="{%url 'login'%}" style="text-decoration: none;">
+                <button class="join-btn" id="joinBtn">Login to Join Group</button>
+            </a>
+            {% endif %}
+        </section>
+
+        <!-- Group Members Section -->
+        <section class="group-members-section">
+            <div class="section-header">
+                <h2 class="section-title">Group Members</h2>
+                <p class="member-count" id="memberCount">{{group.members_no}} members</p>
+            </div>
+            
+            <div class="members-list" id="membersList">
+                {% for member in members %}
+                {% if member.user.username == user.username %}
+                <a href="{% url 'user' %}" style="text-decoration: none;"></a>
+                {% else %}
+                <a href="{% url 'user' account=member.user.username %}" style="text-decoration: none;">
+                {% endif %}
+                    <div class="member-row">
+                        <img src="{{member.user.image.file.url}}" alt="{{member.user.first_name}}" class="member-avatar">
+                        <div class="member-info">
+                            <span class="member-name">{{member.user.first_name}} {{member.user.last_name}}</span>
+
+                            {% if member.role == 'admin' %}
+                            <span class="admin-badge">Admin</span>
+                            {% endif %}
+
+                        </div>
+                    </div>
+                </a>
+                {% endfor %}
+            </div>
+        </section>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer" id="footer">
+        <!--Generated dynamically by js-->
+    </footer>
+
+    {% if user.is_authenticated %}
+        {% include "Components/header.html#authDynamicHeader" %}
+        {% include "Components/footer.html#footer" %}
+    {% else %}
+        {% include "Components/header.html#guestDynamicHeader" %}
+        {% include "Components/footer.html#footer" %}
+    {% endif %}
+
+</body>
+</html>

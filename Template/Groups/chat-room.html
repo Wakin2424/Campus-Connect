@@ -292,11 +292,58 @@
         let currentUser = 'You';
 
         // Auto-resize textarea upwards
-        if (messageInput) {
-            messageInput.addEventListener('input', function() {
-                this.style.height = 'auto';
-                this.style.height = Math.min(this.scrollHeight, 150) + 'px';
-            });
+        messageInput.addEventListener('input', function() {
+            this.style.height = 'auto';
+            this.style.height = Math.min(this.scrollHeight, 150) + 'px';
+        });
+
+        // WebSocket Connection
+        function connectWebSocket() {
+            const protocol  = window.location.protocol === "https:" ? "wss" : "ws";
+            chatSocket = new WebSocket(protocol + "://" + window.location.host + "/ws/chat/{{group.slug}}/");
+
+            chatSocket.onopen = function(e) {
+                console.log('WebSocket connection established');
+                statusDot.classList.add('connected');
+                statusText.textContent = 'Connected';
+                messageInput.disabled = false;
+                sendButton.disabled = false;
+                addSystemMessage('Connected to chat room');
+            };
+
+            chatSocket.onmessage = function(e) {
+                const data = JSON.parse(e.data);
+                
+                console.log('Received message:', data);
+                if(data.username !== '{{user.first_name}}'){
+                    if (data.username === 'moduloAI' && data.ai_typing) {
+                        console.log('typing...')
+                        addAITypingMessage();
+                    } else if (data.username === 'moduloAI' && !data.ai_typing) {
+                        console.log('answer')
+                        addAIMessage(data.message, data.timestamp);
+                    } else {
+                    addMessage(data.username, data.message, data.timestamp, false, data.image_url);
+                    }
+                };
+            };
+
+            chatSocket.onclose = function(e) {
+                console.log('WebSocket connection closed');
+                statusDot.classList.remove('connected');
+                statusText.textContent = 'Disconnected';
+                messageInput.disabled = true;
+                sendButton.disabled = true;
+                addSystemMessage('Disconnected from chat room');
+                
+                // Attempt to reconnect after 3 seconds
+                setTimeout(connectWebSocket, 3000);
+            };
+
+            chatSocket.onerror = function(e) {
+                console.error('WebSocket error:', e);
+                addSystemMessage('Connection error occurred');
+            };
         }
 
         // WebSocket Connection

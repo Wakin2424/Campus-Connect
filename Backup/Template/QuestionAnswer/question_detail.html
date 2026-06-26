@@ -1,0 +1,637 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Campus Connect - Question Details</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{%static 'CSS/question_detail.css'%}">
+    <link rel="stylesheet" href="{%static 'CSS/nav.css'%}">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header" id="header">
+        <!--Generated dynamically by js-->
+    </header>
+    <!-- Main Container -->
+    <div class="container" id="container">
+        <!-- Question Details Card -->
+        <div class="question-card">
+            <h1 class="question-title">{{question.question}}</h1>
+            <div class="question-description" id="question-description">
+                {{question.description|safe}}
+            </div>
+            <div class="course-tags">
+                {% for course in courses%}
+                <span class="tag">{{course.course.course_name}}</span>
+                {% endfor %}
+            </div>
+            
+            <div class="stats-row">
+                <div class="stat-item">
+                    <i class="fas fa-thumbs-up"></i>
+                    {%if user.is_authenticated %}
+                        {% if likes.1 %}
+                        <button class="control-btn btn-secondary"  id="like-valuebtn" style="background-color: #0D1B2A; color: white;" disabled><span id="likes-value">{{likes.0}} likes</span></button>
+                        {% else %}
+                        <button class="control-btn btn-secondary" onclick="Likessubmission('{{question.code}}')" id="like-valuebtn"><span id="likes-value">{{likes.0}} likes</span></button>
+                        {% endif %}
+                    {% else %}
+                    <span id="likes-value">{{likes}} likes</span>
+                    {% endif %}
+                </div>
+                <div class="stat-item">
+                    <i class="fas fa-eye"></i>
+                    <span>{{question.views}} views</span>
+                </div>
+                <div id="rating"></div>
+                <p id="result"></p>
+                </div>
+
+            <a href="{%url 'user'%}{{seeker.username}}/" style="text-decoration: none;">
+                <div class="user-info">
+                    {% if seeker.image != None %}
+                    <img class="avatar" src="{{seeker.image.file.url}}" alt="Avatar">
+                    {% else %}
+                    <div class="avatar">{{seeker.first_name|upper|slice:":1"}}{{seeker.last_name|upper|slice:":1"}}</div>
+                    {% endif %}
+                    <span>Asked by <strong>{{seeker.first_name}} {{seeker.last_name}}</strong> • 2 hours ago</span>
+                </div>
+            </a>
+        </div>
+
+        <!-- Answer Controls -->
+        <div class="answer-controls">
+            <button class="control-btn btn-primary" onClick = 'postAnswer()'>
+                <i class="fas fa-edit"></i> Post Answer
+            </button>
+            {% if ai %}
+            <button class="control-btn btn-secondary" id="Modulo-btn" onclick="askModulo()" style="background-color: #202a35; color: rgb(165, 165, 165);" disabled>
+                <i class="fas fa-robot"></i> Ask Modulo AI
+            </button>
+
+            {% else %}
+            <button class="control-btn btn-secondary" id="Modulo-btn" onclick="askModulo()">
+                <i class="fas fa-robot"></i> Ask Modulo AI
+            </button>
+            {% endif %}
+        </div>
+
+        <!-- Answers Section -->
+        <div class="answers-section" id="answers-section">
+            <h2 class="section-title">Answers ({{question.answer_len}})</h2>
+            {% for answer in answers %}
+            {% if answer.user__is_staff %}
+
+            <div style='height: 6rem;'></div>
+                <div class="answer-card ai-answer">
+                    <div class="ai-badge">
+                        <i class="fas fa-robot"></i> AI Answer
+                    </div>
+                    <div class="answer-text">
+                        {{answer.answer|safe}}
+                    </div>
+                </div>
+            </div>
+
+            {% else %}
+            <div class="answer-card">
+                <div class="answer-text" id='{{answer.code}}' data-Images = '{{answer.images}}'>
+                {{answer.answer|safe}}
+                </div>
+                <a href="{%url 'user'%}{{answer.user__username}}/" style="text-decoration: none;"><div class="user-info">
+                    {% if answer.user__image != None %}
+                    <img class="avatar" src="{{answer.user__image.file.url}}" alt="Avatar">
+                    {% else %}
+                    <div class="avatar">{{answer.user__first_name|upper|slice:":1" }}{{answer.user__last_name|upper|slice:":1" }}</div>
+                    {% endif %}
+                    <span>Answered by  <strong>{{answer.user__first_name}} {{answer.user__last_name}}</strong> • {{answer.created_at}} ago</span>
+                </div>
+                </a>
+                <div class="vote-buttons">
+                    {% if user.is_authenticated %}
+                        {% if answer.likes.1 %}
+                        <button class="active vote-btn" id='like-btn-{{answer.code}}' disabled>
+                            <i class="fas fa-chevron-up"></i> <span class='vote-value'>{{answer.like.0}}</span>
+                        </button>
+                        {% else %}
+                        <button class="vote-btn" onclick="Votesubmission('{{question.code}}', '{{answer.code}}')" id='like-btn-{{answer.code}}'>
+                            <i class="fas fa-chevron-up"></i> <span class='vote-value'>{{answer.like.0}}</span>
+                        </button>
+                        {% endif %}
+                    {% else %}
+                    <a href="{%url 'login'%}" style="text-decoration: none;">
+                        <button class="vote-btn">
+                            <i class="fas fa-chevron-up"></i> <span class='vote-value'>{{answer.like}}</span>
+                        </button>
+                    </a>
+                    {% endif %}
+                </div>
+            </div>
+            {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- AI Window -->
+    <div class="ai-window" id="aiWindow">
+        <div class="ai-window-header">
+            <div class="ai-window-title">
+                <i class="fas fa-robot"></i>
+                Codin AI
+            </div>
+            <button class="close-ai" onclick="closeAI()">×</button>
+        </div>
+        <div class="ai-window-content" id="aiContent">
+            <div class="ai-loading" id="aiLoading">
+                <span>Generating answer...</span>
+                <div class="loading-dots">
+                    <div class="dot"></div>
+                    <div class="dot"></div>
+                    <div class="dot"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer" id="footer">
+        <!--Generated dynamically by js-->
+    </footer>
+
+    {% if user.is_authenticated %}
+        {% include "Components/header.html#authDynamicHeader" %}
+        {% include "Components/footer.html#footer" %}
+    {% else %}
+        {% include "Components/header.html#guestDynamicHeader" %}
+        {% include "Components/footer.html#footer" %}
+    {% endif %}
+
+    {% if user.is_authenticated %}
+    <script>
+        // Form submission
+        function getCookie(name){
+            let cookieValue = null;
+            if(document.cookie && document.cookie !== ''){
+                const cookies = document.cookie.split(';');
+                for(let i=0;i <cookies.length; i++){
+                    const cookie = cookies[i].trim();
+                    if (cookie.substring(0, name.length + 1) === name + '='){
+                        cookieValue = decodeURIComponent(cookie.substring(name.length+1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+
+        function Votesubmission(question, answer){
+
+            fetch('{%url "vote"%}', {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-CSRFToken": getCookie("csrftoken")  // ✅ Include CSRF token
+                },
+                body:JSON.stringify({
+                    'id': question,
+                    'answer': answer,
+                    'Type': 'answer'
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if(data.status){
+                    let voteBtn = document.getElementById(`like-btn-${answer}`)
+                    
+                    voteBtn.className = "active vote-btn";
+                    voteBtn.disabled = true;
+
+                } 
+            })
+        }
+
+        function Likessubmission(question){
+            fetch('{%url "vote"%}', {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-CSRFToken": getCookie("csrftoken")  // ✅ Include CSRF token
+                },
+                body:JSON.stringify({
+                    'id': question,
+                    'Type': 'question'
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if(data.status){
+                    let elem = document.getElementById('likes-value')
+                    let likebtn = document.getElementById('like-valuebtn')
+                    likebtn.disabled = true;
+                    likebtn.style.backgroundColor = '#0D1B2A';
+                    likebtn.style.color = 'white';
+                    elem.textContent = `${data.vote} likes`
+
+                } 
+            })
+        }
+        {% if user.is_authenticated and user.is_verified %}
+        function Ratessubmission(question, rating){
+            fetch('{%url "vote"%}', {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-CSRFToken": getCookie("csrftoken")  // ✅ Include CSRF token
+                },
+                body:JSON.stringify({
+                    'id': question,
+                    'rating': rating,
+                    'Type': 'rating'
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if(data.status){
+       
+                } 
+            })
+        }
+
+        {% endif %}
+    </script>
+    {% endif %}
+    <script>
+        function Search(){
+            const search_link = "{%url 'search'%}"
+            let search_data = document.getElementById('search-bar')
+            window.location.href = search_link + `?result=${search_data.value}`
+        }
+
+        image_urls = {{images|safe}}
+        const question_imgs = document.getElementById('question-description').querySelectorAll('img')
+        question_imgs.forEach((img, index) => {
+            img.src = image_urls[index]
+            img.style.width = '400px';
+            img.style.height = '400px'; 
+        });
+        
+        const container = document.getElementById('answers-section')
+        function CreateAnswers(){
+            let answers = container.getElementsByClassName('answer-text')
+            for(let index=0; index < answers.length; index++){
+                answer = answers[index]
+
+                let images = JSON.parse(answer.dataset.images.replace(/'/g, '"'))
+                imgs = answer.getElementsByTagName('img')
+                for(let index=0; index < imgs.length; index++){
+                    img = imgs[index]
+                    img.src = images[index]
+                    img.style.width = '400px';
+                    img.style.height = '400px'; 
+                }
+                
+            }
+        };
+
+        CreateAnswers();
+
+    </script>
+
+    <script>
+        const questionDescription = document.getElementById('question-description')
+        const imageset = questionDescription.querySelectorAll('img')
+
+        function postAnswer(){
+            {% if user.is_authenticated %}
+            window.location.href = "{%url 'answerRedirect'%}{{id}}/"
+            {% else %}
+            window.location.href = "{%url 'login'%}"
+            {% endif %}
+        }
+
+        {% if not ai %}
+        function askModulo(){
+            // Open AI window and show loading
+            const aiWindow = document.getElementById('aiWindow');
+            const aiContent = document.getElementById('aiContent');
+            const aiLoading = document.getElementById('aiLoading');
+            const aiButton = document.getElementById('Modulo-btn');
+
+            aiButton.disabled = true;
+            aiButton.style.backgroundColor = '#202a35';
+            aiButton.style.color = 'rgb(165, 165, 165)';
+            
+            aiWindow.classList.add('active');
+            aiLoading.style.display = 'flex';
+
+            // Make API call to get AI answer
+
+            // Form submission
+            function getCookie(name){
+                let cookieValue = null;
+                if(document.cookie && document.cookie !== ''){
+                    const cookies = document.cookie.split(';');
+                    for(let i=0;i <cookies.length; i++){
+                        const cookie = cookies[i].trim();
+                        if (cookie.substring(0, name.length + 1) === name + '='){
+                            cookieValue = decodeURIComponent(cookie.substring(name.length+1));
+                            break;
+                        }
+                    }
+                }
+                return cookieValue;
+            }
+            fetch('{%url "AIanswer" id=question.code %}', {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-CSRFToken": getCookie("csrftoken")  // ✅ Include CSRF token
+                },
+                body:JSON.stringify({
+                    'id': '{{question.code}}',
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                // if successful, display AI answer
+                if(data.status){
+                    aiLoading.style.display = 'none';
+                    const aiAnswerHTML = `
+                    <div style='height: 6rem;'></div>
+                    <div class="answer-card ai-answer">
+                        <div class="ai-badge">
+                            <i class="fas fa-robot"></i> AI Answer
+                        </div>
+                        <div class="answer-text">
+                                ${data.answer}
+                        </div>
+                    </div>
+                    `;
+
+                    aiContent.innerHTML = `
+                        <div class="answer-text">
+                                ${data.answer}
+                        </div>
+                    `;
+
+
+                    
+                    setTimeout(() => {
+                        addAIAnswerToSection(aiAnswerHTML);
+                    }, 1000);
+
+                } 
+
+                else{
+                    aiButton.disabled = false;
+                    aiButton.style.backgroundColor = '#0D1B2A';
+                    aiButton.style.color = 'white';
+                    closeAI();
+                    showNotification('Failed to get AI answer. Please try again later.');
+                }
+            })
+        }
+        {% endif %}
+
+        function askAI() {
+            const aiWindow = document.getElementById('aiWindow');
+            const aiContent = document.getElementById('aiContent');
+            const aiLoading = document.getElementById('aiLoading');
+            
+            aiWindow.classList.add('active');
+            aiLoading.style.display = 'flex';
+            
+            // Simulate AI response after 3 seconds
+            setTimeout(() => {
+                aiLoading.style.display = 'none';
+                aiContent.innerHTML = `
+                    <div class="answer-text">
+                        <strong>Binary Search Implementation:</strong><br><br>
+                        
+                        Here's a comprehensive solution with both iterative and recursive approaches:
+                        
+                        <pre><code># Iterative Binary Search
+                        def binary_search_iterative(arr, target):
+                            left, right = 0, len(arr) - 1
+                            
+                            while left <= right:
+                                mid = left + (right - left) // 2  # Avoid overflow
+                                
+                                if arr[mid] == target:
+                                    return mid
+                                elif arr[mid] < target:
+                                    left = mid + 1
+                                else:
+                                    right = mid - 1
+                            
+                            return -1
+
+                        # Example usage:
+                        arr = [1, 3, 5, 7, 9, 11, 13, 15]
+                        result = binary_search_iterative(arr, 7)
+                        print(f"Element found at index: {result}")  # Output: 3</code></pre>
+
+                                                <strong>Key Points:</strong><br>
+                                                • Time Complexity: O(log n)<br>
+                                                • Space Complexity: O(1) for iterative, O(log n) for recursive<br>
+                                                • Array must be sorted<br>
+                                                • Use `;
+                
+                // Add AI answer to answers section after delay
+                setTimeout(() => {
+                    addAIAnswerToSection();
+                }, 1000);
+            }, 3000);
+        }
+
+        function closeAI() {
+            document.getElementById('aiWindow').classList.remove('active');
+        }
+
+        function addAIAnswerToSection(answer) {
+            const answersSection = document.querySelector('.answers-section');
+            const aiAnswerHTML = `${answer}`;
+            
+            answersSection.insertAdjacentHTML('beforeend', aiAnswerHTML);
+            
+            // Update answer count
+            const titleElement = document.querySelector('.section-title');
+            titleElement.textContent = 'Answers (4)';
+            
+            closeAI();
+        }
+
+        function previewImages(event) {
+            const preview = document.getElementById('imagePreview');
+            preview.innerHTML = '';
+            
+            Array.from(event.target.files).forEach(file => {
+                if (file.type.startsWith('image/')) {
+                    const img = document.createElement('img');
+                    img.src = URL.createObjectURL(file);
+                    img.className = 'preview-image';
+                    img.onload = () => URL.revokeObjectURL(img.src);
+                    preview.appendChild(img);
+                }
+            });
+        }
+
+        function submitAnswer(event) {
+            event.preventDefault();
+            const form = event.target;
+            const textarea = form.querySelector('.form-textarea');
+            const answerText = textarea.value.trim();
+            
+            if (!answerText) return;
+            
+            // Create new answer element
+            const newAnswer = document.createElement('div');
+            newAnswer.className = 'answer-card';
+            newAnswer.innerHTML = `
+                <div class="answer-text">${answerText}</div>
+                <div class="user-info">
+                    <div class="avatar">YU</div>
+                    <span>Answered by <strong>You</strong> • Just now</span>
+                </div>
+                <div class="vote-buttons">
+                    <button class="vote-btn" onclick="toggleVote(this, 'up')">
+                        <i class="fas fa-chevron-up"></i> <span>0</span>
+                    </button>
+                    <button class="vote-btn" onclick="toggleVote(this, 'down')">
+                        <i class="fas fa-chevron-down"></i> <span>0</span>
+                    </button>
+                </div>
+            `;
+            
+            // Add to answers section
+            const answersSection = document.querySelector('.answers-section');
+            answersSection.appendChild(newAnswer);
+            
+            // Update answer count
+            const currentCount = document.querySelectorAll('.answer-card').length;
+            const titleElement = document.querySelector('.section-title');
+            titleElement.textContent = `Answers (${currentCount})`;
+            
+            // Reset form and hide it
+            form.reset();
+            document.getElementById('imagePreview').innerHTML = '';
+            document.getElementById('answerForm').style.display = 'none';
+            
+            // Scroll to new answer
+            newAnswer.scrollIntoView({ behavior: 'smooth' });
+            
+            // Show success feedback
+            showNotification('Answer posted successfully!');
+        }
+
+        function toggleVote(button, type) {
+            const isActive = button.classList.contains('active');
+            const span = button.querySelector('span');
+            let count = parseInt(span.textContent);
+            
+            // Remove active class from both buttons in this answer
+            const voteButtons = button.parentNode.querySelectorAll('.vote-btn');
+            voteButtons.forEach(btn => btn.classList.remove('active'));
+            
+            if (!isActive) {
+                button.classList.add('active');
+                if (type === 'up') {
+                    span.textContent = count + 1;
+                } else {
+                    span.textContent = Math.max(0, count + 1);
+                }
+            } else {
+                if (type === 'up') {
+                    span.textContent = Math.max(0, count - 1);
+                } else {
+                    span.textContent = Math.max(0, count - 1);
+                }
+            }
+        }
+
+        function showNotification(message) {
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: #4CAF50;
+                color: white;
+                padding: 1rem 2rem;
+                border-radius: 8px;
+                box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+                z-index: 10000;
+                transform: translateX(100%);
+                transition: transform 0.3s ease;
+            `;
+            notification.textContent = message;
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.style.transform = 'translateX(0)';
+            }, 100);
+            
+            setTimeout(() => {
+                notification.style.transform = 'translateX(100%)';
+                setTimeout(() => notification.remove(), 300);
+            })
+        }
+        
+        //rating
+        const ratingDiv = document.getElementById("rating");
+        const result = document.getElementById("result");
+        let currentRating = {{rating}}; // Initial rating from backend or 0
+
+        // Create 5 stars
+        for (let i = 1; i <= 5; i++) {
+            const star = document.createElement("span");
+            star.textContent = "★"; // Unicode star
+            star.dataset.value = i;
+            star.style.fontSize = "2rem";
+            star.style.cursor = "pointer";
+            star.style.color = "#ccc";
+            ratingDiv.appendChild(star);
+
+            {% if user.is_authenticated and user.is_verified %}
+            // Highlight stars on hover
+            star.addEventListener("mouseover", () => highlightStars(i));
+            star.addEventListener("mouseout", () => highlightStars(currentRating));
+
+            
+            // Click = set rating
+            star.addEventListener("click", () => setRating(i));
+            {% endif %}
+        }
+
+        function highlightStars(rating) {
+            
+            const stars = ratingDiv.querySelectorAll("span");
+            stars.forEach(star => {
+                console.log(rating)
+                star.style.color = star.dataset.value <= rating ? "gold" : "#ccc";
+            });
+        }
+        {% if user.is_authenticated and user.is_verified %}
+        function setRating(value) {
+            currentRating = value;
+            highlightStars(value);
+            handleRatingChange(value); // call change handler
+        }
+        
+        // Function to capture when user changes rating
+        function handleRatingChange(value) {
+            result.textContent = `You rated: ${value} star${value > 1 ? "s" : ""}`;
+            Ratessubmission('{{question.code}}', value)
+        }
+
+        {% endif %}
+        highlightStars(currentRating); // Initial highlight
+
+    </script>
+</body>
+</html>

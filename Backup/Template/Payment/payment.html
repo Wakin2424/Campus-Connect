@@ -1,0 +1,364 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment - Campus Connect</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{%static 'CSS/payment.css'%}">
+    <link rel="stylesheet" href="{%static 'CSS/nav.css'%}">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header" id="header">
+        <!--Generated dynamically by js-->
+    </header>
+
+    <!-- Main Content -->
+    <div class="container">
+        <div class="payment-grid">
+            <!-- Left Column -->
+            <div class="left-column">
+                <!-- Product Details -->
+                <div class="card">
+                    <h2 class="section-title">Product Details</h2>
+                    <div class="product-section">
+                        <img src="{{product.image.file.url}}" alt="{{product.name}}" class="product-image">
+                        <div class="product-info">
+                            <h3 class="product-name">{{product.name}}</h3>
+                            <div class="price-container">
+                                <span class="product-price">KSh {{product.discount}}</span>
+                                <span class="product-discount">KSh {{product.price}}</span>
+                                <span class="discount-badge">20% OFF</span>
+                            </div>
+                            {% if product.status %}
+                            <span class="availability-badge">✓ Available</span>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Address Details -->
+                <div class="card">
+                    <h2 class="section-title">Delivery Address</h2>
+                    <form id="addressForm">
+                        <div class="form-group">
+                            <label>Full Name <span class="required">*</span></label>
+                            <input type="text" id="fullName" value="{{user.first_name}} {{user.last_name}}" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Contact / Phone <span class="required">*</span></label>
+                            <input type="tel" name="phone" id="phone" value="{{user.contact}}" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Address Line 1 <span class="required">*</span></label>
+                            <input type="text" name="address1" id="address1" required placeholder="Street address or P.O. Box">
+                        </div>
+                        <div class="form-group">
+                            <label>Address Line 2</label>
+                            <input type="text" name="address2" id="address2" placeholder="Apartment, suite, building (optional)">
+                        </div>
+                        <div class="form-group">
+                            <label>City / Town <span class="required">*</span></label>
+                            <input type="text" name="city" id="city" required placeholder="Enter city or town">
+                        </div>
+                        <div class="form-group">
+                            <label>Postal Code <span class="required">*</span></label>
+                            <input type="text" name="postalCode" id="postal" required placeholder="Enter postal code">
+                        </div>
+                        <div class="form-group">
+                            <label>Country <span class="required">*</span></label>
+                            <select id="country" name="country" required>
+                                <option value="">Select country</option>
+                                <option value="KE" selected>Kenya</option>
+                                <option value="UG">Uganda</option>
+                                <option value="TZ">Tanzania</option>
+                                <option value="RW">Rwanda</option>
+                            </select>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Right Column -->
+            <div class="right-column">
+                <!-- Payment Methods -->
+                <div class="card">
+                    <h2 class="section-title">Payment Method</h2>
+                    
+                    <div class="payment-option" data-method="paypal">
+                        <input type="radio" name="payment" id="paypal" value="paypal">
+                        <label for="paypal">PayPal</label>
+                        <span class="payment-icon">💳</span>
+                    </div>
+
+                    <div class="payment-option" data-method="mpesa">
+                        <input type="radio" name="payment" id="mpesa" value="mpesa">
+                        <label for="mpesa">M-Pesa</label>
+                        <span class="payment-icon">📱</span>
+                    </div>
+
+                    <div class="payment-option" data-method="seller">
+                        <input type="radio" name="payment" id="seller" value="seller">
+                        <label for="seller">Contact Seller</label>
+                        <span class="payment-icon">💬</span>
+                    </div>
+                </div>
+
+                <!-- Payment Summary -->
+                <div class="card">
+                    <h2 class="section-title">Payment Summary</h2>
+                    
+                    <div class="summary-row">
+                        <span class="summary-label">Subtotal</span>
+                        <span class="summary-value">KSh <span id="summary-subtotal">{{product.price}}</span></span>
+                    </div>
+                    
+                    <div class="summary-row">
+                        <span class="summary-label">Discount (<span id="summary-discount-percent"></span>%)</span>
+                        <span class="summary-value" style="color: #ff6b6b;">- KSh <span id="summary-discount">{{product.discount}}</span></span>
+                    </div>
+                    
+                    <div class="summary-row">
+                        <span class="summary-label">Delivery Fee</span>
+                        <span class="summary-value">KSh <span id="fee">{{fee}}</span></span>
+                    </div>
+                    
+                    <div class="summary-row total-row">
+                        <span class="summary-label">Total Amount</span>
+                        <span class="summary-value">KSh <span id="summary-total"></span></span>
+                    </div>
+                    
+                    <button class="confirm-btn" id="confirmBtn">Confirm Payment</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Contact Seller Modal -->
+    <div class="modal-overlay" id="modalOverlay">
+        <div class="modal">
+            <button class="modal-close" id="modalClose">&times;</button>
+            <div class="modal-left">
+                <img src="{{seller.image.file.url}}" alt="{{seller.first_name}}" class="seller-avatar">
+                {% if seller.is_verified %}
+                <span class="verified-badge">✓ Verified Seller</span>
+                {% endif %}
+            </div>
+            <div class="modal-right">
+                <h2 class="seller-name">{{seller.first_name}} {{seller.last_name}}</h2>
+                <div class="seller-details">
+                    <div class="detail-row">
+                        <strong>Email:</strong> <span>{{seller.email}}</span>
+                    </div>
+                    <div class="detail-row">
+                        <strong>Phone:</strong> <span>{{seller.contact}}</span>
+                    </div>
+                </div>
+                <div class="contact-buttons">
+                    <a href="mailto:{{seller.email}}" class="contact-btn btn-email">
+                        📧 Email Seller
+                    </a>
+                    <a href="https://wa.me/{{seller.contact}}" target="_blank" class="contact-btn btn-whatsapp">
+                        💬 WhatsApp
+                    </a>
+                    <a href="tel:{{seller.contact}}" class="contact-btn btn-call">
+                        📞 Call Seller
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer" id="footer">
+        <!--Generated dynamically by js-->
+    </footer>
+
+    <!-- Footer -->
+    <footer class="footer" id="footer">
+        <!--Generated dynamically by js-->
+    </footer>
+
+    {% include "Components/header.html#authDynamicHeaderPost" %}
+    {% include "Components/footer.html#footer" %}
+
+    <script>
+        // Payment method selection
+        const paymentOptions = document.querySelectorAll('.payment-option');
+        const modalOverlay = document.getElementById('modalOverlay');
+        const modalClose = document.getElementById('modalClose');
+        const confirmBtn = document.getElementById('confirmBtn');
+        const addressForm = document.getElementById('addressForm');
+        let totalPriceAmount = 0.0
+
+        let selectedPaymentMethod = null;
+
+        function calculateTotal(){
+            let subtotalElement = parseFloat(document.getElementById('summary-subtotal').textContent)
+            let discountElement = parseFloat(document.getElementById('summary-discount').textContent)
+            let fee = parseFloat(document.getElementById('fee').textContent)
+            let discountPercentElement = document.getElementById('summary-discount-percent')
+            let TotalElement = document.getElementById('summary-total')
+
+            totalPriceAmount =  discountElement + fee
+            TotalElement.textContent = totalPriceAmount
+            discountPercentElement.textContent = Math.ceil((subtotalElement - discountElement)/subtotalElement * 100)
+        }
+
+        calculateTotal()
+
+        // Handle payment method selection
+        paymentOptions.forEach(option => {
+            option.addEventListener('click', function() {
+                const radio = this.querySelector('input[type="radio"]');
+                const methodType = this.dataset.method;
+                
+                // Update radio selection
+                radio.checked = true;
+                selectedPaymentMethod = methodType;
+                
+                // Remove active class from all options
+                paymentOptions.forEach(opt => opt.classList.remove('active'));
+                
+                // Add active class to selected option
+                this.classList.add('active');
+                
+                // Open modal if contact seller is selected
+                if (methodType === 'seller') {
+                    setTimeout(() => {
+                        modalOverlay.classList.add('active');
+                    }, 200);
+                }
+            });
+        });
+
+        // Modal close functionality
+        modalClose.addEventListener('click', () => {
+            modalOverlay.classList.remove('active');
+        });
+
+        modalOverlay.addEventListener('click', (e) => {
+            if (e.target === modalOverlay) {
+                modalOverlay.classList.remove('active');
+            }
+        });
+
+        // ESC key to close modal
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && modalOverlay.classList.contains('active')) {
+                modalOverlay.classList.remove('active');
+            }
+        });
+
+        // Confirm payment button
+        confirmBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+
+            // Validate payment method selection
+            if (!selectedPaymentMethod) {
+                alert('Please select a payment method');
+                return;
+            }
+
+            // If contact seller is selected and modal hasn't been opened
+            if (selectedPaymentMethod === 'seller') {
+                modalOverlay.classList.add('active');
+                return;
+            }
+
+
+            // Validate form fields
+            const fullName = document.getElementById('fullName').value.trim();
+            const contact = document.getElementById('phone').value.trim();
+            const address1 = document.getElementById('address1').value.trim();
+            const city = document.getElementById('city').value.trim();
+            const postalCode = document.getElementById('postal').value.trim();
+            const country = document.getElementById('country').value;
+            
+
+            if (!fullName || !contact || !address1 || !city || !postalCode || !country) {
+                alert('Please fill in all required fields');
+                return;
+            }
+
+            // Form validation passed
+            if (addressForm.checkValidity()) {
+                const formDataObj = {
+                    fullName,
+                    contact,
+                    address1,
+                    address2: document.getElementById('address2').value.trim(),
+                    city,
+                    postalCode,
+                    country,
+                    paymentMethod: selectedPaymentMethod,
+                    totalAmount: totalPriceAmount
+                };
+
+                const formData = new FormData();
+
+                for (const key in formDataObj) {
+                    formData.append(key, formDataObj[key]);
+                }
+
+                function getCookie(name){
+                    let cookieValue = null;
+                    if(document.cookie && document.cookie !== ''){
+                        const cookies = document.cookie.split(';');
+                        for(let i=0;i <cookies.length; i++){
+                            const cookie = cookies[i].trim();
+                            if (cookie.substring(0, name.length + 1) === name + '='){
+                                cookieValue = decodeURIComponent(cookie.substring(name.length+1));
+                                break;
+                            }
+                        }
+                    }
+                    return cookieValue;
+                }
+
+                confirmBtn.textContent = 'Waiting Confirmation'
+                confirmBtn.disabled = true
+
+                fetch("{% url 'inter_payment_processing' id=product.code %}", {
+                    method: "POST",
+                    headers: {
+                        "X-CSRFToken": getCookie("csrftoken")
+                    },
+                    body: formData
+                })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.status){
+                        //if the process is successful redirect to the specified url
+                        confirmBtn.textContent = 'Redirecting'
+                        confirmBtn.style.color = 'green'
+                        window.location.href = "{%url 'redirect'%}"
+                        
+                    }
+                    else{
+                        confirmBtn.disabled = false
+                        confirmBtn.textContent = 'Failed! Try Again';
+                        confirmBtn.style.color = '#c51e1e';
+                        setTimeout(()=>{
+                            confirmBtn.textContent = 'Confirm Payment';
+                            confirmBtn.style.color = 'White';
+                        }, 1500)
+                    }
+                })
+                .catch(err => console.error(err));
+
+            } else {
+                addressForm.reportValidity();
+            }
+        });
+
+        // Auto-select first payment method for better UX
+        window.addEventListener('load', () => {
+            // Optional: uncomment to auto-select first option
+            // paymentOptions[0].click();
+        });
+    </script>
+</body>
+</html>

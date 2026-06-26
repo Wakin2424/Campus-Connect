@@ -1,16 +1,21 @@
 from channels.generic.websocket import AsyncWebsocketConsumer
 from channels.db import database_sync_to_async
 from .tasks import ai_respond_task
+from channels.db import database_sync_to_async
 import json
 import datetime
 
 class ChatConsumer(AsyncWebsocketConsumer):
     chat_history = ""
     ai_is_active = [False]
+    user_email = ""
 
     async def connect(self):
         try:
             self.user = self.scope['user']
+
+            if str(self.user) == 'AnonymousUser':
+                self.user = await self.get_authenticated_user()
 
             await self.loadImage()
 
@@ -21,6 +26,8 @@ class ChatConsumer(AsyncWebsocketConsumer):
             self.room_name = self.scope['url_route']["kwargs"]['room_name']
             self.room_group_name = f"chat_{self.room_name}"
 
+            self.user_email = str(self.user)
+            print(self.user_email)
             await self.getChatHistory()
 
             is_member = await self.user_GroupValidation(self.room_name, self.user)
@@ -36,7 +43,8 @@ class ChatConsumer(AsyncWebsocketConsumer):
 
             await self.accept()
 
-        except:
+        except Exception as e:
+            print("Connect: ", e)
             await self.close()
 
     async def disconnect(self, close_code):
@@ -69,9 +77,11 @@ class ChatConsumer(AsyncWebsocketConsumer):
                         'image_url': self.image_url,
                         "timestamp": datetime.datetime.now().isoformat(),
                         "ai_typing": False,
+                        'email': f"{self.user_email}",
                     }
                 )
                 # Sending AI loading message
+                print('Sending AI loading message')
                 await self.channel_layer.group_send(
                     self.room_group_name,
                     {
@@ -81,9 +91,10 @@ class ChatConsumer(AsyncWebsocketConsumer):
                         "image_url": None,
                         "timestamp": datetime.datetime.now().isoformat(),
                         "ai_typing": True,
+                        'email': ''
                     }
                 )
-
+                print('Sent AI loading message')
                 # 3️⃣ Send task to background worker
                 self.ai_is_active = True
              
@@ -108,10 +119,11 @@ class ChatConsumer(AsyncWebsocketConsumer):
                         'image_url': self.image_url,
                         "timestamp": datetime.datetime.now().isoformat(),
                         "ai_typing": False,
+                        'email':f"{self.user_email}",
                     }
                 )
         except Exception as e:
-            print('group send failed: ', e)
+            print('receive: ', e)
 
     async def chatMessage(self, event):
         try:
@@ -129,15 +141,55 @@ class ChatConsumer(AsyncWebsocketConsumer):
                 'image_url': event['image_url'],
                 "timestamp": event["timestamp"],
                 'ai_typing': event["ai_typing"],
+                'email': event['email'],
             }))
         
         except Exception as e:
+            print('chatMessage:', e)
             await self.close()
     
     def generateAIresponse(self, new_message):
         from AI_model import views
         response = views.aiGroupChat(self.chat_history, new_message)
         return response
+
+    async def get_authenticated_user(self):
+        from django.contrib.auth.models import AnonymousUser
+        try:
+            query_string = self.scope['query_string'].decode()
+
+            params = dict(
+                item.split('=')
+                for item in query_string.split('&')
+                if '=' in item
+            )
+
+            token = params.get('token')
+            print('This is Token: ',token)
+
+            if not token:
+                return AnonymousUser()
+
+            return await self.get_user_from_token(token)
+
+        except Exception as e:
+            print("get Authenticated User: ", e)
+            return AnonymousUser()
+
+    @database_sync_to_async
+    def get_user_from_token(self, token):
+        from django.contrib.auth import get_user_model
+        from django.contrib.auth.models import AnonymousUser
+        from rest_framework_simplejwt.tokens import AccessToken
+        try:
+            access_token = AccessToken(token)
+
+            user_id = access_token['user_id']
+
+            return get_user_model().objects.get(id=user_id)
+
+        except Exception:
+            return AnonymousUser()
     
     @database_sync_to_async
     def saveMessage(self, text):

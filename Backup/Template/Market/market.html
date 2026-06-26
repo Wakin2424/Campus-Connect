@@ -1,0 +1,260 @@
+{% load static %}
+{% load partials %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Campus Marketplace - Campus Connect</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{%static 'CSS/market.css'%}">
+    <link rel="stylesheet" href="{%static 'CSS/nav.css'%}">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header" id="header">
+        <!--Generated dynamically by js-->
+    </header>
+
+    <!-- Main Content -->
+    <div class="container">
+        <!-- Sorting Section -->
+        <div class="sorting-section">
+            <div class="sort-group">
+                <label for="sortPrice">Sort by Price:</label>
+                <select id="sortPrice">
+                    <option value="">Default</option>
+                    <option value="low">Low to High</option>
+                    <option value="high">High to Low</option>
+                </select>
+            </div>
+            <div class="sort-group">
+                <label for="sortCategory">Category:</label>
+                <select id="sortCategory">
+                    <option value="">All Categories</option>
+                    {% for category in categories %}
+                    <option value="{{category.slug}}">{{category.name}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+
+        <!-- Products Grid -->
+        <div id="productsContainer" class="products-grid"></div>
+
+        <!-- Pagination -->
+        <div id="pagination" class="pagination"></div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer" id="footer">
+        <!--Generated dynamically by js-->
+    </footer>
+
+    {% if user.is_authenticated %}
+        {% include "Components/header.html#authDynamicHeader" %}
+        {% include "Components/footer.html#footer" %}
+    {% else %}
+        {% include "Components/header.html#guestDynamicHeader" %}
+        {% include "Components/footer.html#footer" %}
+    {% endif %}
+
+    <script>
+        let currentPage = 1;
+        const itemsPerPage = 6;
+        let products = [];
+        let filteredProducts = [];
+        let isLoading = false;
+
+        const API_URL = "{%url 'product_library_content'%}";
+
+        function showLoading() {
+            isLoading = true;
+            const container = document.getElementById("productsContainer");
+
+            container.innerHTML = `
+                <div class="loading-container" style="grid-column: 1 / -1;">
+                    <div class="spinner"></div>
+                    <div class="loading-text">Loading products...</div>
+                </div>
+            `;
+        }
+
+        function showEmptyState() {
+            const container = document.getElementById("productsContainer");
+
+            container.innerHTML = `
+                <div class="empty-state" style="grid-column: 1 / -1;">
+                    <div class="empty-icon">📚</div>
+                    <div class="empty-message">Nothing found</div>
+                </div>
+            `;
+        }
+
+        async function fetchProducts(category = "") {
+
+            showLoading();
+
+            try {
+
+                let url = API_URL;
+
+                if (category) {
+                    url += `?category=${encodeURIComponent(category)}`;
+                }
+
+                const response = await fetch(url);
+                const data = await response.json();
+
+                products = data;
+                filteredProducts = [...products];
+
+                applySorting();
+
+            } catch (error) {
+
+                console.error("Error fetching products:", error);
+
+                document.getElementById("productsContainer").innerHTML =
+                    "<p style='grid-column:1/-1;'>Failed to load products</p>";
+
+            } finally {
+                isLoading = false;
+            }
+        }
+
+        function applySorting() {
+
+            const priceSort = document.getElementById("sortPrice").value;
+
+            if (priceSort === "low") {
+                filteredProducts.sort((a, b) => a.price - b.price);
+            }
+
+            if (priceSort === "high") {
+                filteredProducts.sort((a, b) => b.price - a.price);
+            }
+
+            currentPage = 1;
+            displayProducts();
+        }
+
+        function displayProducts() {
+
+            const container = document.getElementById("productsContainer");
+
+            if (filteredProducts.length === 0) {
+                showEmptyState();
+                document.getElementById("pagination").innerHTML = "";
+                return;
+            }
+
+            const startIndex = (currentPage - 1) * itemsPerPage;
+            const endIndex = startIndex + itemsPerPage;
+
+            const pageProducts = filteredProducts.slice(startIndex, endIndex);
+
+            container.innerHTML = pageProducts.map(product => `
+                <a href="{%url 'product_detail'%}${product.id}/" style="text-decoration:none;">
+                    <div class="product-card" >
+                        <img src="${product.image}" alt="${product.name}" class="product-image">
+                        <div class="product-info">
+                            <div class="product-category">${product.category}</div>
+                            <div class="product-name">${product.name}</div>
+                            <div class="product-price">KSH ${product.price.toFixed(2)}</div>
+                        </div>
+                    </div>
+                    </a>
+                `).join('');
+
+            renderPagination();
+        }
+
+        function renderPagination() {
+
+            const totalPages = Math.ceil(filteredProducts.length / itemsPerPage);
+
+            const paginationContainer = document.getElementById("pagination");
+
+            if (totalPages <= 1) {
+                paginationContainer.innerHTML = "";
+                return;
+            }
+
+            let html = "";
+
+            html += `
+                <button class="page-btn"
+                    onclick="changePage(${currentPage - 1})"
+                    ${currentPage === 1 ? "disabled" : ""}>
+                    ‹ Prev
+                </button>
+            `;
+
+            for (let i = 1; i <= totalPages; i++) {
+
+                html += `
+                    <button class="page-btn ${i === currentPage ? "active" : ""}"
+                        onclick="changePage(${i})">
+                        ${i}
+                    </button>
+                `;
+            }
+
+            html += `
+                <button class="page-btn"
+                    onclick="changePage(${currentPage + 1})"
+                    ${currentPage === totalPages ? "disabled" : ""}>
+                    Next ›
+                </button>
+            `;
+
+            paginationContainer.innerHTML = html;
+        }
+
+        function changePage(page) {
+
+            const totalPages = Math.ceil(filteredProducts.length / itemsPerPage);
+
+            if (page < 1 || page > totalPages || isLoading) return;
+
+            currentPage = page;
+
+            window.scrollTo({
+                top: 0,
+                behavior: "smooth"
+            });
+
+            displayProducts();
+        }
+
+        function viewProduct(id) {
+
+            window.location.href = `{%url 'product_detail'%}${id}/`;
+        }
+
+        document.getElementById("sortCategory")
+        .addEventListener("change", function () {
+
+            const category = "" + this.value;
+
+            fetchProducts(category);
+
+        });
+
+        document.getElementById("sortPrice")
+        .addEventListener("change", function () {
+
+            applySorting();
+
+        });
+
+
+        document.addEventListener("DOMContentLoaded", () => {
+
+            fetchProducts('{{query}}');
+
+        });
+    </script>
+</body>
+</html>

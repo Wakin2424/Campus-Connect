@@ -1,0 +1,439 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up - Campus Connect</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{%static 'CSS/signup.css'%}">
+    <link rel="stylesheet" href="{%static 'CSS/nav.css'%}">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header" id="header">
+        <!--Generated dynamically by js-->
+    </header>
+    <div class="signup-container">
+        <div class="header1">
+            <div class="logo">Campus Connect</div>
+            <h1 class="signup-title">Create Your Account</h1>
+            <p class="signup-subtitle">Join our campus community today</p>
+        </div>
+
+        {{error}}
+
+        <form id="signupForm" method="POST" onsubmit="handleSignup(event)">
+            {% csrf_token %}
+            <div class="form-container">
+                <!-- Required Information Fieldset -->
+                <fieldset>
+                    <legend>Required Information <span class="required-indicator">*</span></legend>
+                    
+                    <div class="form-group">
+                        <label class="form-label" for="firstName">
+                            First Name <span class="required">*</span>
+                        </label>
+                        <input 
+                            type="text" 
+                            id="firstName"
+                            name="first_name"
+                            class="form-input" 
+                            placeholder="Enter your first name"
+                            required
+                        >
+                        <div class="error-message" id="firstNameError"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="lastName">
+                            Last Name <span class="required">*</span>
+                        </label>
+                        <input 
+                            type="text" 
+                            id="lastName"
+                            name="last_name"
+                            class="form-input" 
+                            placeholder="Enter your last name"
+                            required
+                        >
+                        <div class="error-message" id="lastNameError"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="email">
+                            Email <span class="required">*</span>
+                        </label>
+                        <input 
+                            type="email" 
+                            id="email"
+                            name="email"
+                            class="form-input" 
+                            placeholder="Enter your email address"
+                            required
+                        >
+                        <div class="help-text">We'll use this for important notifications</div>
+                        <div class="error-message" id="emailError"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="phone">
+                            Contact Number <span class="required">*</span>
+                        </label>
+                        <input 
+                            type="tel" 
+                            id="phone"
+                            name="contact"
+                            class="form-input" 
+                            placeholder="Enter your phone number"
+                            required
+                        >
+                        <div class="help-text">Include country code (e.g., +254)</div>
+                        <div class="error-message" id="phoneError"></div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="password">
+                            password <span class="required">*</span>
+                        </label>
+                        <input 
+                            type="password" 
+                            id="password"
+                            name="password1"
+                            class="form-input" 
+                            placeholder="Enter a strong password"
+                            oninput="passwordValidate()"
+                            required
+                        >
+                        <div class="help-text">have more than 8 characters, Include A-Z, a-z, 1-9, !#%#@%</div>
+                        <div class="error-message" id="phoneError"></div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="password2">
+                            Confirm password <span class="required">*</span>
+                        </label>
+                        <input 
+                            type="password" 
+                            id="password2"
+                            name="password2"
+                            class="form-input" 
+                            placeholder="Confirm password"
+                            oninput="password2validate()"
+                            required
+                        >
+                        <div class="error-message" id="phoneError"></div>
+                    </div>
+                </fieldset>
+
+                <!-- Optional Information Fieldset -->
+                <fieldset>
+                    <legend>Optional Information</legend>
+                    
+                    <div class="form-group">
+                        <label class="form-label" for="career">career</label>
+                        <input 
+                            type="text" 
+                            id="career"
+                            name="career"
+                            class="form-input" 
+                            placeholder="e.g., Computer Scientist"
+                            list="career-list"
+                        >
+                        <datalist id="career-list">
+                            {% for career in careers %}
+                                <option value="{{ career.career_name }}">
+                            {% endfor %}
+                        </datalist>
+                        <div class="help-text">Your field of study</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="course">course</label>
+                        <select id="course" name="course" class="form-select">
+                            <option value="">Select course</option>
+                            {% for course in courses %}
+                                <option value="{{ course.course_name}}">{{ course.course_name }}</option>
+                            {% endfor %}
+                            <option value="Other">Other</option>
+                           
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="year_of_study">Year of Study</label>
+                        <select id="year_of_study" name="year_of_study" class="form-select">
+                            <option value="">Select year</option>
+                            <option value="1">1st Year</option>
+                            <option value="2">2nd Year</option>
+                            <option value="3">3rd Year</option>
+                            <option value="4">4th Year</option>
+                            <option value="5">5th Year</option>
+                            <option value="6">6th Year</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="graduation_level">Graduation Level</label>
+                        <select id="graduation_level" name="graduation_level" class="form-select">
+                            <option value="">Select level</option>
+                            <option value="certificate">Certificate</option>
+                            <option value="diploma">Diploma</option>
+                            <option value="degree">Degree</option>
+                            <option value="masters">Masters</option>
+                            <option value="phd">PhD</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="institution">institution</label>
+                        <input 
+                            type="text" 
+                            id="campus"
+                            name="institution"
+                            class="form-input" 
+                            placeholder="Enter your institution name"
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <button type="button" class="more-fields-btn" onclick="toggleAdditionalFields()">
+                            <span>+ More</span>
+                        </button>
+                    </div>
+
+                    <div class="additional-fields" id="additionalFields">
+                        <div class="form-group">
+                            <label class="form-label" for="studentId">Student ID</label>
+                            <input 
+                                type="text" 
+                                id="studentId"
+                                name="studentId"
+                                class="form-input" 
+                                placeholder="Enter your student ID"
+                            >
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" for="career_description">Career description</label>
+                            <input 
+                                type="text" 
+                                id="career_description"
+                                name="career_description"
+                                class="form-input" 
+                                placeholder="Describe about your career"
+                            >
+                        </div>
+                    </div>
+                </fieldset>
+            </div>
+
+            <button type="submit" class="signup-btn" id="signupBtn">
+                Create Account
+            </button>
+        </form>
+
+        <div class="divider">
+            <span>or continue with</span>
+        </div>
+
+        <button class="google-btn" onclick="signupWithGoogle()">
+            <svg class="google-icon" viewBox="0 0 24 24">
+                <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+                <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+            </svg>
+            Sign up with Google
+        </button>
+
+        <div class="footer1">
+            <p>Already have an account? <a href="{%url 'login'%}">Login here</a></p>
+        </div>
+    </div>
+    <!-- Footer -->
+    <footer class="footer" id="footer">
+        <!--Generated dynamically by js-->
+    </footer>
+
+    {% if user.is_authenticated %}
+        {% include "Components/header.html#authSignupDynamicHeader" %}
+        {% include "Components/footer.html#footer" %}
+    {% else %}
+        {% include "Components/header.html#guestSignupDynamicHeader" %}
+        {% include "Components/footer.html#footer" %}
+    {% endif %}
+
+    <script>
+        function Search(){
+            const search_link = "{%url 'search'%}"
+            let search_data = document.getElementById('search-bar')
+            window.location.href = search_link + `?result=${search_data.value}`
+        }
+    </script>
+
+    <script>
+        const password1 = document.getElementById('password')
+        const password2 = document.getElementById('password2')
+
+        function passwordValidate(){
+            let value = password1.value
+            let valid = true
+            password.style.borderColor = "black"
+
+            strength = 0;
+
+             // Length check
+            if (value.length >= 8) strength++;
+            // Lowercase check
+            if (/[a-z]/.test(value)) strength++;
+            // Uppercase check
+            if (/[A-Z]/.test(value)) strength++;
+            // Number check
+            if (/\d/.test(value)) strength++;
+            // Special character check
+            if (/[@$!%*?&]/.test(value)) strength++;
+            if (strength === 5){
+                valid = true
+                password.style.borderColor = "#10b981"
+            }
+            else {
+                password.style.borderColor = "#ef4444"
+            }
+
+            return valid;
+        }
+
+        function password2validate(){
+
+            if (password2.value === password1.value){
+                password2.style.borderColor = "#10b981"
+                return true;
+            }
+            else{
+                password2.style.borderColor = "#ef4444"
+                return false;
+            }
+        }
+
+        function toggleAdditionalFields() {
+            const additionalFields = document.getElementById('additionalFields');
+            const moreBtn = document.querySelector('.more-fields-btn span');
+            
+            if (additionalFields.classList.contains('show')) {
+                additionalFields.classList.remove('show');
+                moreBtn.textContent = '+ More';
+            } else {
+                additionalFields.classList.add('show');
+                moreBtn.textContent = '- Less';
+            }
+        }
+
+        function handleSignup(event) {
+            event.preventDefault();
+            
+            const signupBtn = document.getElementById('signupBtn');
+            const formData = document.getElementById('signupForm');
+            
+            // Basic validation
+            if (!validateForm()) {
+                return;
+            }
+            
+            // Add loading state
+            signupBtn.classList.add('btn-loading');
+            signupBtn.disabled = true;
+            
+            // Simulate signup process
+            formData.submit()
+        }
+
+        function validateForm() {
+            let isValid = true;
+            
+            // Email validation
+            const email = document.getElementById('email');
+            const emailError = document.getElementById('emailError');
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            
+            if (!emailRegex.test(email.value)) {
+                email.classList.add('error');
+                emailError.textContent = 'Please enter a valid email address';
+                isValid = false;
+            } else {
+                email.classList.remove('error');
+                email.classList.add('success');
+                emailError.textContent = '';
+            }
+            
+            // Phone validation
+            const phone = document.getElementById('phone');
+            const phoneError = document.getElementById('phoneError');
+            const phoneRegex = /^\+?[\d\s\-\(\)]{10,}$/;
+            
+            if (!phoneRegex.test(phone.value)) {
+                phone.classList.add('error');
+                phoneError.textContent = 'Please enter a valid phone number';
+                isValid = false;
+            } else {
+                phone.classList.remove('error');
+                phone.classList.add('success');
+                phoneError.textContent = '';
+            }
+
+            if (passwordValidate() && password2validate()){
+                isValid = true
+            }
+
+            else{
+                isValid = false
+            }
+            return isValid;
+        }
+
+        function signupWithGoogle() {
+            // Here you would integrate with Google OAuth
+            window.location.href = "{% url 'social:begin' 'google-oauth2' %}?next={{ request.path }}"
+        }
+
+        // Real-time validation
+        document.getElementById('email').addEventListener('blur', function() {
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            const emailError = document.getElementById('emailError');
+            
+            if (this.value && emailRegex.test(this.value)) {
+                this.classList.add('success');
+                this.classList.remove('error');
+                emailError.textContent = '';
+            } else if (this.value) {
+                this.classList.add('error');
+                this.classList.remove('success');
+                emailError.textContent = 'Please enter a valid email address';
+            }
+        });
+
+        document.getElementById('phone').addEventListener('blur', function() {
+            const phoneRegex = /^\+?[\d\s\-\(\)]{10,}$/;
+            const phoneError = document.getElementById('phoneError');
+            
+            if (this.value && phoneRegex.test(this.value)) {
+                this.classList.add('success');
+                this.classList.remove('error');
+                phoneError.textContent = '';
+            } else if (this.value) {
+                this.classList.add('error');
+                this.classList.remove('success');
+                phoneError.textContent = 'Please enter a valid phone number';
+            }
+        });
+
+        // Add success styling for required text fields
+        ['firstName', 'lastName'].forEach(fieldId => {
+            document.getElementById(fieldId).addEventListener('input', function() {
+                if (this.value.trim().length >= 2) {
+                    this.classList.add('success');
+                    this.classList.remove('error');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
